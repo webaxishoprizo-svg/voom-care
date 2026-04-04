@@ -1,16 +1,34 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import Navbar from "@/components/Navbar";
+import HeroCarousel from "@/components/HeroCarousel";
+import MarqueeBanner from "@/components/MarqueeBanner";
+import TrustBadges from "@/components/TrustBadges";
+import ProductGrid from "@/components/ProductGrid";
+import FeaturedProducts from "@/components/FeaturedProducts";
+import CollectionsSection from "@/components/CollectionsSection";
+import ExperienceSection from "@/components/ExperienceSection";
+import TestimonialsSection from "@/components/TestimonialsSection";
+import CTASection from "@/components/CTASection";
+import Footer from "@/components/Footer";
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
-  return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
-    </div>
-  );
-};
-
-const Index = PlaceholderIndex;
+const Index = () => (
+  <main id="main-content" className="min-h-screen bg-background">
+    <Navbar />
+    <HeroCarousel />
+    <MarqueeBanner
+      items={["Luxury Car Fragrance", "Crafted in India", "Zero-Liquid Technology", "45 Days Lasting", "100% Natural Oils", "Worn Worldwide"]}
+    />
+    <TrustBadges />
+    <MarqueeBanner
+      items={["FREE SHIPPING ON ALL ORDERS ABOVE ₹999", "ALL INDIA DELIVERY AVAILABLE"]}
+    />
+    <ProductGrid />
+    <FeaturedProducts />
+    <CollectionsSection />
+    <ExperienceSection />
+    <TestimonialsSection />
+    <CTASection />
+    <Footer />
+  </main>
+);
 
 export default Index;
