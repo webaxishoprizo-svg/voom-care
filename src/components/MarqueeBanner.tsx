@@ -1,11 +1,11 @@
 const MarqueeBanner = ({ items, className = "" }: { items: string[]; className?: string }) => {
-  const text = items.join("✦");
-  const repeated = `${text}✦${text}✦`;
+  const text = items.join(" ✦ ");
+  const repeated = `${text} ✦ ${text} ✦ `;
 
   return (
-    <div className={`overflow-hidden py-4 border-y border-border ${className}`}>
+    <div className={`overflow-hidden py-4 bg-white ${className}`}>
       <div className="animate-marquee whitespace-nowrap flex">
-        <span className="text-sm tracking-[0.15em] uppercase text-muted-foreground">
+        <span className="text-sm font-semibold tracking-[0.2em] uppercase text-black">
           {repeated}
         </span>
       </div>
