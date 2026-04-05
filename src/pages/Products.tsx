@@ -6,7 +6,11 @@ import { motion } from "framer-motion";
 import { useCart } from "@/context/CartContext";
 import { useNavigate } from "react-router-dom";
 
-const Products = () => (
+const Products = () => {
+  const { addItem } = useCart();
+  const navigate = useNavigate();
+
+  return (
   <main className="min-h-screen bg-background">
     <Navbar />
     <section className="pt-28 pb-16 px-4">
