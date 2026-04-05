@@ -29,9 +29,9 @@ const Products = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
-              className="group bg-card rounded-2xl overflow-hidden border border-border hover:border-primary/30 transition-all"
+              className="group bg-card rounded-2xl overflow-hidden border border-border hover:border-primary/30 transition-all cursor-pointer"
             >
-              <div className="relative overflow-hidden aspect-square">
+              <div className="relative overflow-hidden aspect-square" onClick={() => navigate(`/product/${product.id}`)}>
                 <img
                   src={product.image}
                   alt={product.name}
@@ -44,7 +44,7 @@ const Products = () => {
                 )}
               </div>
               <div className="p-4">
-                <h3 className="font-display text-lg text-foreground mb-1">{product.name}</h3>
+                <h3 className="font-display text-lg text-foreground mb-1" onClick={() => navigate(`/product/${product.id}`)}>{product.name}</h3>
                 <p className="text-muted-foreground text-xs mb-3 line-clamp-2">{product.description}</p>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
@@ -53,7 +53,10 @@ const Products = () => {
                       <span className="text-muted-foreground text-xs line-through">₹{product.originalPrice}</span>
                     )}
                   </div>
-                  <button className="w-9 h-9 rounded-full bg-primary/10 hover:bg-primary text-primary hover:text-primary-foreground flex items-center justify-center transition-colors">
+                  <button
+                    onClick={(e) => { e.stopPropagation(); addItem(product); }}
+                    className="w-9 h-9 rounded-full bg-primary/10 hover:bg-primary text-primary hover:text-primary-foreground flex items-center justify-center transition-colors"
+                  >
                     <ShoppingBag className="w-4 h-4" />
                   </button>
                 </div>
@@ -65,6 +68,7 @@ const Products = () => {
     </section>
     <Footer />
   </main>
-);
+  );
+};
 
 export default Products;
