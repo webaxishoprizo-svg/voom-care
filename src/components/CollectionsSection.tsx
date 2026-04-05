@@ -3,6 +3,11 @@ import collectionBestseller from "@/assets/collection-bestseller.jpg";
 import collectionNew from "@/assets/collection-newarrival.jpg";
 import heroAqua from "@/assets/hero-aqua.jpg";
 
+const collections = [
+  { title: "Best Seller", image: collectionBestseller },
+  { title: "New Arrival", image: collectionNew },
+];
+
 const CollectionsSection = () => (
   <section className="py-16 px-4">
     <div className="max-w-6xl mx-auto">
@@ -13,10 +18,7 @@ const CollectionsSection = () => (
 
       {/* Top row — two cards */}
       <div className="grid grid-cols-2 gap-3 mb-3">
-        {[
-          { title: "Best Seller", image: collectionBestseller },
-          { title: "New Arrival", image: collectionNew, comingSoon: false },
-        ].map((col, i) => (
+        {collections.map((col, i) => (
           <motion.div
             key={col.title}
             initial={{ opacity: 0, y: 25 }}
@@ -32,13 +34,6 @@ const CollectionsSection = () => (
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
             />
             <div className="absolute inset-0 bg-background/30" />
-
-            {col.comingSoon && (
-              <span className="absolute top-3 right-3 z-10 bg-muted/60 backdrop-blur-sm text-foreground text-[9px] tracking-[0.15em] uppercase px-3 py-1 rounded-md font-medium">
-                Coming Soon
-              </span>
-            )}
-
             <div className="absolute inset-0 flex items-center justify-center">
               <span className="bg-primary/20 backdrop-blur-sm border border-primary/30 text-foreground font-display text-lg md:text-xl tracking-wider uppercase px-6 py-2.5 rounded-md">
                 {col.title}
@@ -58,19 +53,14 @@ const CollectionsSection = () => (
       >
         <img
           src={heroAqua}
-          alt="All Collections"
+          alt="All Collection"
           loading="lazy"
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
         />
         <div className="absolute inset-0 bg-background/30" />
-
-        <span className="absolute top-3 right-3 z-10 bg-muted/60 backdrop-blur-sm text-foreground text-[9px] tracking-[0.15em] uppercase px-3 py-1 rounded-md font-medium">
-          Coming Soon
-        </span>
-
         <div className="absolute inset-0 flex items-end justify-center pb-6">
           <span className="bg-primary/20 backdrop-blur-sm border border-primary/30 text-foreground font-display text-lg md:text-xl tracking-wider uppercase px-8 py-2.5 rounded-md">
-            Accessories
+            All Collection
           </span>
         </div>
       </motion.div>
