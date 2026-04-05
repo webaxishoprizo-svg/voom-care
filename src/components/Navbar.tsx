@@ -49,14 +49,19 @@ const Navbar = () => {
               <X className="w-8 h-8" />
             </button>
             <div className="flex flex-col items-center gap-8">
-              {["Home", "Products", "About Us", "Track My Order"].map((item) => (
+              {[
+                { label: "Home", href: "/" },
+                { label: "Products", href: "/products" },
+                { label: "About Us", href: "/about" },
+                { label: "Track My Order", href: "/track-order" },
+              ].map((item) => (
                 <a
-                  key={item}
-                  href="#"
+                  key={item.label}
+                  href={item.href}
                   onClick={() => setMenuOpen(false)}
                   className="font-display text-4xl md:text-5xl text-foreground hover:text-primary transition-colors"
                 >
-                  {item}
+                  {item.label}
                 </a>
               ))}
             </div>

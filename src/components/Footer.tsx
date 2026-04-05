@@ -19,27 +19,27 @@ const Footer = () => (
         <div>
           <h4 className="text-foreground font-semibold text-sm tracking-wider uppercase mb-4">Shop</h4>
           <ul className="space-y-2 text-muted-foreground text-sm">
-            <li><a href="#" className="hover:text-primary transition-colors">All Products</a></li>
-            <li><a href="#" className="hover:text-primary transition-colors">Best Sellers</a></li>
-            <li><a href="#" className="hover:text-primary transition-colors">New Arrivals</a></li>
+            <li><a href="/products" className="hover:text-primary transition-colors">All Products</a></li>
+            <li><a href="/products" className="hover:text-primary transition-colors">Best Sellers</a></li>
+            <li><a href="/products" className="hover:text-primary transition-colors">New Arrivals</a></li>
           </ul>
         </div>
 
         <div>
           <h4 className="text-foreground font-semibold text-sm tracking-wider uppercase mb-4">Company</h4>
           <ul className="space-y-2 text-muted-foreground text-sm">
-            <li><a href="#" className="hover:text-primary transition-colors">About Us</a></li>
-            <li><a href="#" className="hover:text-primary transition-colors">Contact</a></li>
-            <li><a href="#" className="hover:text-primary transition-colors">Track Order</a></li>
+            <li><a href="/about" className="hover:text-primary transition-colors">About Us</a></li>
+            <li><a href="/contact" className="hover:text-primary transition-colors">Contact</a></li>
+            <li><a href="/track-order" className="hover:text-primary transition-colors">Track Order</a></li>
           </ul>
         </div>
 
         <div>
           <h4 className="text-foreground font-semibold text-sm tracking-wider uppercase mb-4">Legal</h4>
           <ul className="space-y-2 text-muted-foreground text-sm">
-            <li><a href="#" className="hover:text-primary transition-colors">Privacy Policy</a></li>
-            <li><a href="#" className="hover:text-primary transition-colors">Terms of Service</a></li>
-            <li><a href="#" className="hover:text-primary transition-colors">Refund Policy</a></li>
+            <li><a href="/privacy-policy" className="hover:text-primary transition-colors">Privacy Policy</a></li>
+            <li><a href="/terms-of-service" className="hover:text-primary transition-colors">Terms of Service</a></li>
+            <li><a href="/refund-policy" className="hover:text-primary transition-colors">Refund Policy</a></li>
           </ul>
         </div>
       </div>
