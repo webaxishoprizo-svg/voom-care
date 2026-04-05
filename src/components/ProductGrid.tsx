@@ -1,9 +1,10 @@
 import { useState, useCallback, useEffect } from "react";
 import { motion } from "framer-motion";
 import { products } from "@/data/products";
-import { Bookmark, ArrowRight } from "lucide-react";
+import { Bookmark, ArrowRight, ShoppingBag } from "lucide-react";
 import useEmblaCarousel from "embla-carousel-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useCart } from "@/context/CartContext";
 
 const ProductGrid = () => {
   const [emblaRef, emblaApi] = useEmblaCarousel({
@@ -13,6 +14,8 @@ const ProductGrid = () => {
     containScroll: false,
   });
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const navigate = useNavigate();
+  const { addItem } = useCart();
 
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
@@ -61,7 +64,7 @@ const ProductGrid = () => {
                     opacity: isActive ? 1 : 0.5,
                   }}
                   transition={{ duration: 0.35, ease: "easeOut" }}
-                  className="relative rounded-2xl overflow-hidden bg-card cursor-grab active:cursor-grabbing"
+                  className="relative rounded-2xl overflow-hidden bg-card"
                 >
                   {/* Bookmark */}
                   <button className="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-background/40 backdrop-blur-sm flex items-center justify-center text-foreground/70 hover:text-foreground transition-colors">
@@ -75,8 +78,11 @@ const ProductGrid = () => {
                     </span>
                   )}
 
-                  {/* Product image */}
-                  <div className="aspect-[3/4] relative">
+                  {/* Product image - clickable */}
+                  <div
+                    className="aspect-[3/4] relative cursor-pointer"
+                    onClick={() => navigate(`/product/${product.id}`)}
+                  >
                     <img
                       src={product.image}
                       alt={product.name}
@@ -90,15 +96,23 @@ const ProductGrid = () => {
                         <h4 className="font-display text-lg md:text-xl text-foreground font-bold uppercase tracking-wide">
                           {product.name}
                         </h4>
-                        <div className="text-right">
-                          <span className="text-primary font-bold text-lg">
-                            ₹{product.price.toLocaleString()}
-                          </span>
-                          {product.originalPrice && (
-                            <span className="block text-muted-foreground line-through text-xs">
-                              ₹{product.originalPrice.toLocaleString()}
+                        <div className="flex items-center gap-3">
+                          <div className="text-right">
+                            <span className="text-primary font-bold text-lg">
+                              ₹{product.price.toLocaleString()}
                             </span>
-                          )}
+                            {product.originalPrice && (
+                              <span className="block text-muted-foreground line-through text-xs">
+                                ₹{product.originalPrice.toLocaleString()}
+                              </span>
+                            )}
+                          </div>
+                          <button
+                            onClick={(e) => { e.stopPropagation(); addItem(product); }}
+                            className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center hover:bg-primary/90 transition-colors"
+                          >
+                            <ShoppingBag className="w-4 h-4" />
+                          </button>
                         </div>
                       </div>
                     </div>
