@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { Menu, Search, User, ShoppingBag, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
+import { useCustomerAuth } from "@/context/CustomerAuthContext";
 import logo from "@/assets/logo.png";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { totalItems, setIsOpen } = useCart();
+  const { isAuthenticated } = useCustomerAuth();
 
   return (
     <>
@@ -20,13 +23,25 @@ const Navbar = () => {
             <Menu className="w-5 h-5" />
           </button>
 
-          <a href="/" aria-label="NOR home" className="shrink-0">
+          <Link to="/" aria-label="NOR home" className="shrink-0">
             <img src={logo} alt="NOR" className="h-10 w-auto scale-110 sm:h-12" />
-          </a>
+          </Link>
 
           <div className="flex items-center gap-4">
             <Search className="w-5 h-5 text-foreground/70 hover:text-foreground cursor-pointer transition-colors" />
-            <User className="w-5 h-5 text-foreground/70 hover:text-foreground cursor-pointer transition-colors hidden sm:block" />
+            <Link
+              to={isAuthenticated ? "/account" : "/login"}
+              className="hidden sm:block"
+              aria-label={isAuthenticated ? "Open account" : "Login"}
+            >
+              <User
+                className={`w-5 h-5 transition-colors ${
+                  isAuthenticated
+                    ? "text-primary"
+                    : "text-foreground/70 hover:text-foreground"
+                }`}
+              />
+            </Link>
             <button onClick={() => setIsOpen(true)} className="relative">
               <ShoppingBag className="w-5 h-5 text-foreground/70 hover:text-foreground cursor-pointer transition-colors" />
               <span className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-primary text-primary-foreground text-[10px] flex items-center justify-center font-semibold">
@@ -55,17 +70,18 @@ const Navbar = () => {
               {[
                 { label: "Home", href: "/" },
                 { label: "Products", href: "/products" },
+                { label: isAuthenticated ? "Account" : "Login", href: isAuthenticated ? "/account" : "/login" },
                 { label: "About Us", href: "/about" },
                 { label: "Track My Order", href: "/track-order" },
               ].map((item) => (
-                <a
+                <Link
                   key={item.label}
-                  href={item.href}
                   onClick={() => setMenuOpen(false)}
                   className="font-display text-4xl md:text-5xl text-foreground hover:text-primary transition-colors"
+                  to={item.href}
                 >
                   {item.label}
-                </a>
+                </Link>
               ))}
             </div>
           </motion.div>

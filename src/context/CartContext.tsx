@@ -1,64 +1,252 @@
-import { createContext, useContext, useState, ReactNode, useCallback } from "react";
-import { Product } from "@/data/products";
+import {
+  createContext,
+  useContext,
+  useState,
+  type ReactNode,
+  useCallback,
+  useEffect,
+} from "react";
+import { type Product } from "@/data/products";
+import { toast } from "@/components/ui/sonner";
+import {
+  addShopifyCartLines,
+  createShopifyCart,
+  fetchShopifyCart,
+  removeShopifyCartLines,
+  syncShopifyCartBuyerIdentity,
+  updateShopifyCartLines,
+  type ShopifyCartItem,
+} from "@/lib/shopify/cart";
+import { useCustomerAuth } from "@/context/CustomerAuthContext";
 
-export interface CartItem {
-  product: Product;
-  quantity: number;
-}
+export const CART_STORAGE_KEY = "nor-shopify-cart-id";
+
+export interface CartItem extends ShopifyCartItem {}
 
 interface CartContextType {
   items: CartItem[];
-  addItem: (product: Product) => void;
-  removeItem: (productId: string) => void;
-  updateQuantity: (productId: string, quantity: number) => void;
-  clearCart: () => void;
+  addItem: (product: Product, quantity?: number) => Promise<void>;
+  removeItem: (productId: string) => Promise<void>;
+  updateQuantity: (productId: string, quantity: number) => Promise<void>;
+  clearCart: () => Promise<void>;
+  checkout: () => Promise<void>;
   totalItems: number;
   totalPrice: number;
   isOpen: boolean;
+  isCheckingOut: boolean;
   setIsOpen: (open: boolean) => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
+  const { customerAccessToken, customer } = useCustomerAuth();
+  const [cartId, setCartId] = useState<string | null>(null);
+  const [checkoutUrl, setCheckoutUrl] = useState<string>("");
   const [items, setItems] = useState<CartItem[]>([]);
+  const [totalItems, setTotalItems] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
 
-  const addItem = useCallback((product: Product) => {
-    setItems((prev) => {
-      const existing = prev.find((i) => i.product.id === product.id);
-      if (existing) {
-        return prev.map((i) =>
-          i.product.id === product.id ? { ...i, quantity: i.quantity + 1 } : i
-        );
+  const persistCartId = useCallback((nextCartId: string | null) => {
+    if (typeof window === "undefined") return;
+
+    if (nextCartId) {
+      window.localStorage.setItem(CART_STORAGE_KEY, nextCartId);
+    } else {
+      window.localStorage.removeItem(CART_STORAGE_KEY);
+    }
+  }, []);
+
+  const applyCartSnapshot = useCallback(
+    (snapshot: {
+      id: string;
+      checkoutUrl: string;
+      items: CartItem[];
+      totalItems: number;
+      totalPrice: number;
+    }) => {
+      setCartId(snapshot.id);
+      setCheckoutUrl(snapshot.checkoutUrl);
+      setItems(snapshot.items);
+      setTotalItems(snapshot.totalItems);
+      setTotalPrice(snapshot.totalPrice);
+      persistCartId(snapshot.id);
+    },
+    [persistCartId],
+  );
+
+  const clearCartState = useCallback(() => {
+    setCartId(null);
+    setCheckoutUrl("");
+    setItems([]);
+    setTotalItems(0);
+    setTotalPrice(0);
+    persistCartId(null);
+  }, [persistCartId]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const storedCartId = window.localStorage.getItem(CART_STORAGE_KEY);
+    if (!storedCartId) return;
+
+    void fetchShopifyCart(storedCartId)
+      .then(applyCartSnapshot)
+      .catch(() => clearCartState());
+  }, [applyCartSnapshot, clearCartState]);
+
+  useEffect(() => {
+    if (!cartId || !customerAccessToken) return;
+
+    void syncShopifyCartBuyerIdentity(cartId, customerAccessToken, customer?.email || undefined)
+      .then(applyCartSnapshot)
+      .catch(() => {
+        // Keep checkout usable even if buyer identity sync fails.
+      });
+  }, [applyCartSnapshot, cartId, customer?.email, customerAccessToken]);
+
+  const addItem = useCallback(
+    async (product: Product, quantity = 1) => {
+      if (!product.variantId) {
+        toast.error("This product is not ready for Shopify cart yet.");
+        return;
       }
-      return [...prev, { product, quantity: 1 }];
-    });
-    setIsOpen(true);
-  }, []);
 
-  const removeItem = useCallback((productId: string) => {
-    setItems((prev) => prev.filter((i) => i.product.id !== productId));
-  }, []);
+      try {
+        const snapshot = cartId
+          ? await addShopifyCartLines(cartId, [
+              { merchandiseId: product.variantId, quantity },
+            ])
+          : await createShopifyCart(
+              [{ merchandiseId: product.variantId, quantity }],
+              customerAccessToken || undefined,
+            );
 
-  const updateQuantity = useCallback((productId: string, quantity: number) => {
-    if (quantity <= 0) {
-      setItems((prev) => prev.filter((i) => i.product.id !== productId));
+        applyCartSnapshot(snapshot);
+        setIsOpen(true);
+      } catch (error) {
+        const message =
+          error instanceof Error ? error.message : "Unable to add this item to your Shopify cart.";
+        toast.error(message);
+      }
+    },
+    [applyCartSnapshot, cartId, customerAccessToken],
+  );
+
+  const removeItem = useCallback(
+    async (productId: string) => {
+      if (!cartId) return;
+
+      const item = items.find((entry) => entry.product.id === productId);
+      if (!item?.lineId) return;
+
+      try {
+        const snapshot = await removeShopifyCartLines(cartId, [item.lineId]);
+        applyCartSnapshot(snapshot);
+      } catch (error) {
+        const message =
+          error instanceof Error ? error.message : "Unable to remove this item from your cart.";
+        toast.error(message);
+      }
+    },
+    [applyCartSnapshot, cartId, items],
+  );
+
+  const updateQuantity = useCallback(
+    async (productId: string, quantity: number) => {
+      if (!cartId) return;
+
+      const item = items.find((entry) => entry.product.id === productId);
+      if (!item?.lineId) return;
+
+      if (quantity <= 0) {
+        await removeItem(productId);
+        return;
+      }
+
+      try {
+        const snapshot = await updateShopifyCartLines(cartId, [
+          { id: item.lineId, quantity },
+        ]);
+        applyCartSnapshot(snapshot);
+      } catch (error) {
+        const message =
+          error instanceof Error ? error.message : "Unable to update this cart item.";
+        toast.error(message);
+      }
+    },
+    [applyCartSnapshot, cartId, items, removeItem],
+  );
+
+  const clearCart = useCallback(async () => {
+    if (!cartId || !items.length) {
+      clearCartState();
       return;
     }
-    setItems((prev) =>
-      prev.map((i) => (i.product.id === productId ? { ...i, quantity } : i))
-    );
-  }, []);
 
-  const clearCart = useCallback(() => setItems([]), []);
+    try {
+      const snapshot = await removeShopifyCartLines(
+        cartId,
+        items.map((item) => item.lineId),
+      );
+      applyCartSnapshot(snapshot);
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Unable to clear your Shopify cart.";
+      toast.error(message);
+    }
+  }, [applyCartSnapshot, cartId, clearCartState, items]);
 
-  const totalItems = items.reduce((sum, i) => sum + i.quantity, 0);
-  const totalPrice = items.reduce((sum, i) => sum + i.product.price * i.quantity, 0);
+  const checkout = useCallback(async () => {
+    if (!items.length) {
+      toast.error("Your cart is empty.");
+      return;
+    }
+
+    if (!checkoutUrl && cartId) {
+      try {
+        const snapshot = await fetchShopifyCart(cartId);
+        applyCartSnapshot(snapshot);
+      } catch (error) {
+        const message =
+          error instanceof Error ? error.message : "Unable to refresh your Shopify cart.";
+        toast.error(message);
+        return;
+      }
+    }
+
+    const targetUrl = checkoutUrl || (cartId ? (await fetchShopifyCart(cartId)).checkoutUrl : "");
+
+    if (!targetUrl) {
+      toast.error("Shopify checkout URL is not available.");
+      return;
+    }
+
+    try {
+      setIsCheckingOut(true);
+      window.location.assign(targetUrl);
+    } finally {
+      setIsCheckingOut(false);
+    }
+  }, [applyCartSnapshot, cartId, checkoutUrl, items.length]);
 
   return (
     <CartContext.Provider
-      value={{ items, addItem, removeItem, updateQuantity, clearCart, totalItems, totalPrice, isOpen, setIsOpen }}
+      value={{
+        items,
+        addItem,
+        removeItem,
+        updateQuantity,
+        clearCart,
+        checkout,
+        totalItems,
+        totalPrice,
+        isOpen,
+        isCheckingOut,
+        setIsOpen,
+      }}
     >
       {children}
     </CartContext.Provider>

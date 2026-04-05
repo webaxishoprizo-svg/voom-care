@@ -1,4 +1,5 @@
 import { Instagram, Facebook, Linkedin } from "lucide-react";
+import { Link } from "react-router-dom";
 import logo from "@/assets/logo.png";
 
 const Footer = () => (
@@ -6,10 +7,10 @@ const Footer = () => (
     <div className="max-w-6xl mx-auto">
       <div className="grid md:grid-cols-4 gap-8 mb-12">
         <div>
-          <a href="/" aria-label="NOR home" className="mb-4 inline-flex items-center gap-3">
+          <Link to="/" aria-label="NOR home" className="mb-4 inline-flex items-center gap-3">
             <img src={logo} alt="NOR" className="h-12 w-auto" />
             <span className="font-display text-xl text-foreground">NOR perfume</span>
-          </a>
+          </Link>
           <p className="text-muted-foreground text-sm leading-relaxed">
             Luxury car fragrances crafted in India with 100% natural oils.
           </p>
@@ -23,27 +24,39 @@ const Footer = () => (
         <div>
           <h4 className="text-foreground font-semibold text-sm tracking-wider uppercase mb-4">Shop</h4>
           <ul className="space-y-2 text-muted-foreground text-sm">
-            <li><a href="/products" className="hover:text-primary transition-colors">All Products</a></li>
-            <li><a href="/products" className="hover:text-primary transition-colors">Best Sellers</a></li>
-            <li><a href="/products" className="hover:text-primary transition-colors">New Arrivals</a></li>
+            <li>
+              <Link to="/products?collection=all-collection" className="hover:text-primary transition-colors">
+                All Products
+              </Link>
+            </li>
+            <li>
+              <Link to="/products?collection=best-seller" className="hover:text-primary transition-colors">
+                Best Sellers
+              </Link>
+            </li>
+            <li>
+              <Link to="/products?collection=new-arrival" className="hover:text-primary transition-colors">
+                New Arrivals
+              </Link>
+            </li>
           </ul>
         </div>
 
         <div>
           <h4 className="text-foreground font-semibold text-sm tracking-wider uppercase mb-4">Company</h4>
           <ul className="space-y-2 text-muted-foreground text-sm">
-            <li><a href="/about" className="hover:text-primary transition-colors">About Us</a></li>
-            <li><a href="/contact" className="hover:text-primary transition-colors">Contact</a></li>
-            <li><a href="/track-order" className="hover:text-primary transition-colors">Track Order</a></li>
+            <li><Link to="/about" className="hover:text-primary transition-colors">About Us</Link></li>
+            <li><Link to="/contact" className="hover:text-primary transition-colors">Contact</Link></li>
+            <li><Link to="/track-order" className="hover:text-primary transition-colors">Track Order</Link></li>
           </ul>
         </div>
 
         <div>
           <h4 className="text-foreground font-semibold text-sm tracking-wider uppercase mb-4">Legal</h4>
           <ul className="space-y-2 text-muted-foreground text-sm">
-            <li><a href="/privacy-policy" className="hover:text-primary transition-colors">Privacy Policy</a></li>
-            <li><a href="/terms-of-service" className="hover:text-primary transition-colors">Terms of Service</a></li>
-            <li><a href="/refund-policy" className="hover:text-primary transition-colors">Refund Policy</a></li>
+            <li><Link to="/privacy-policy" className="hover:text-primary transition-colors">Privacy Policy</Link></li>
+            <li><Link to="/terms-of-service" className="hover:text-primary transition-colors">Terms of Service</Link></li>
+            <li><Link to="/refund-policy" className="hover:text-primary transition-colors">Refund Policy</Link></li>
           </ul>
         </div>
       </div>

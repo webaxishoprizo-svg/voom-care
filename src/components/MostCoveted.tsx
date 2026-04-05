@@ -1,12 +1,15 @@
 import { motion } from "framer-motion";
-import { products } from "@/data/products";
 import { Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
+import { useHybridProducts } from "@/lib/shopify/hooks";
+import { formatCurrency } from "@/lib/utils";
 
 const MostCoveted = () => {
   const navigate = useNavigate();
   const { addItem } = useCart();
+  const { data = [], isLoading } = useHybridProducts();
+  const products = data.slice(0, 4);
 
   return (
     <section className="py-16 px-4">
@@ -16,56 +19,65 @@ const MostCoveted = () => {
           <h2 className="font-display text-4xl md:text-5xl text-foreground">Most Coveted</h2>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-          {products.map((product, i) => (
-            <motion.div
-              key={product.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1, duration: 0.4 }}
-              className="group cursor-pointer"
-              onClick={() => navigate(`/product/${product.id}`)}
-            >
-              <div className="relative rounded-xl overflow-hidden aspect-square bg-card mb-3">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  loading="lazy"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
+        {isLoading && !products.length ? (
+          <div className="text-center text-muted-foreground">Loading products...</div>
+        ) : products.length ? (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+            {products.map((product, index) => (
+              <motion.div
+                key={product.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1, duration: 0.4 }}
+                className="group cursor-pointer"
+                onClick={() => navigate(`/product/${product.id}`)}
+              >
+                <div className="relative rounded-xl overflow-hidden aspect-square bg-card mb-3">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    loading="lazy"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
 
-                {product.discount && (
-                  <span className="absolute top-2.5 left-2.5 z-10 bg-primary text-primary-foreground text-[10px] md:text-xs font-semibold px-2.5 py-1 rounded-md">
-                    {product.discount}% OFF
+                  {product.discount && (
+                    <span className="absolute top-2.5 left-2.5 z-10 bg-primary text-primary-foreground text-[10px] md:text-xs font-semibold px-2.5 py-1 rounded-md">
+                      {product.discount}% OFF
+                    </span>
+                  )}
+
+                  <button
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      void addItem(product);
+                    }}
+                    className="absolute bottom-2.5 right-2.5 z-10 bg-primary text-primary-foreground text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-primary/90"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    Add
+                  </button>
+                </div>
+
+                <h3 className="font-display text-base md:text-lg text-foreground tracking-wide uppercase">
+                  {product.name}
+                </h3>
+                <div className="flex items-baseline gap-2 mt-0.5">
+                  <span className="text-primary font-bold text-sm md:text-base">
+                    {formatCurrency(product.price, product.currencyCode)}
                   </span>
-                )}
-
-                <button
-                  onClick={(e) => { e.stopPropagation(); addItem(product); }}
-                  className="absolute bottom-2.5 right-2.5 z-10 bg-primary text-primary-foreground text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-primary/90"
-                >
-                  <Plus className="w-3.5 h-3.5" />
-                  Add
-                </button>
-              </div>
-
-              <h3 className="font-display text-base md:text-lg text-foreground tracking-wide uppercase">
-                {product.name}
-              </h3>
-              <div className="flex items-baseline gap-2 mt-0.5">
-                <span className="text-primary font-bold text-sm md:text-base">
-                  ₹{product.price.toLocaleString()}
-                </span>
-                {product.originalPrice && (
-                  <span className="text-muted-foreground line-through text-xs">
-                    ₹{product.originalPrice.toLocaleString()}
-                  </span>
-                )}
-              </div>
-            </motion.div>
-          ))}
-        </div>
+                  {product.originalPrice && (
+                    <span className="text-muted-foreground line-through text-xs">
+                      {formatCurrency(product.originalPrice, product.currencyCode)}
+                    </span>
+                  )}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center text-muted-foreground">No Shopify products found.</div>
+        )}
       </div>
     </section>
   );
