@@ -3,6 +3,8 @@ import Footer from "@/components/Footer";
 import { products } from "@/data/products";
 import { ShoppingBag } from "lucide-react";
 import { motion } from "framer-motion";
+import { useCart } from "@/context/CartContext";
+import { useNavigate } from "react-router-dom";
 
 const Products = () => (
   <main className="min-h-screen bg-background">
