@@ -1,55 +1,131 @@
+import { useState, useCallback, useEffect } from "react";
 import { motion } from "framer-motion";
 import { products } from "@/data/products";
+import { Bookmark, ArrowRight } from "lucide-react";
+import useEmblaCarousel from "embla-carousel-react";
+import { Link } from "react-router-dom";
 
-const ProductGrid = () => (
-  <section id="collections" className="py-20 px-4">
-    <div className="max-w-6xl mx-auto">
-      <div className="text-center mb-12">
-        <p className="text-xs tracking-[0.3em] uppercase text-primary mb-2">The Elite Edit</p>
-        <h2 className="font-display text-4xl md:text-5xl text-foreground">Most Coveted</h2>
+const ProductGrid = () => {
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    align: "center",
+    loop: true,
+    skipSnaps: false,
+    containScroll: false,
+  });
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on("select", onSelect);
+    return () => { emblaApi.off("select", onSelect); };
+  }, [emblaApi, onSelect]);
+
+  return (
+    <section id="collections" className="py-16 px-0">
+      <div className="max-w-6xl mx-auto px-4 mb-8">
+        <div className="flex items-end justify-between">
+          <div>
+            <p className="text-xs tracking-[0.3em] uppercase text-primary mb-1">Top Picks</p>
+            <h2 className="font-display text-3xl md:text-5xl text-foreground font-bold">
+              BEST<br />SELLERS
+            </h2>
+          </div>
+          <Link
+            to="/products"
+            className="flex items-center gap-2 border border-muted-foreground/30 rounded-full px-4 py-2 text-sm text-muted-foreground hover:text-foreground hover:border-foreground/50 transition-colors"
+          >
+            <ArrowRight className="w-4 h-4" />
+            Discover all items
+          </Link>
+        </div>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-        {products.map((product, i) => (
-          <motion.div
-            key={product.id}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.1, duration: 0.5 }}
-            className="group cursor-pointer"
-          >
-            <div className="relative overflow-hidden rounded-lg bg-secondary aspect-square mb-3">
-              {product.discount && (
-                <span className="absolute top-3 left-3 z-10 bg-primary text-primary-foreground text-xs px-2 py-1 rounded font-semibold">
-                  {product.discount}% OFF
-                </span>
-              )}
-              <img
-                src={product.image}
-                alt={product.name}
-                loading="lazy"
-                width={800}
-                height={800}
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-              />
-              <div className="absolute inset-0 bg-background/0 group-hover:bg-background/20 transition-colors" />
-              <button className="absolute bottom-3 right-3 bg-primary text-primary-foreground text-xs px-3 py-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity font-semibold">
-                + Add
-              </button>
-            </div>
-            <h4 className="font-display text-lg text-foreground">{product.name}</h4>
-            <div className="flex items-center gap-2 mt-1">
-              <span className="text-primary font-semibold">₹{product.price.toLocaleString()}</span>
-              {product.originalPrice && (
-                <span className="text-muted-foreground line-through text-sm">₹{product.originalPrice.toLocaleString()}</span>
-              )}
-            </div>
-          </motion.div>
+      <div className="overflow-hidden" ref={emblaRef}>
+        <div className="flex">
+          {products.map((product, i) => {
+            const isActive = i === selectedIndex;
+            return (
+              <div
+                key={product.id}
+                className="flex-[0_0_75%] md:flex-[0_0_45%] lg:flex-[0_0_35%] min-w-0 px-2"
+              >
+                <motion.div
+                  animate={{
+                    scale: isActive ? 1 : 0.9,
+                    opacity: isActive ? 1 : 0.5,
+                  }}
+                  transition={{ duration: 0.35, ease: "easeOut" }}
+                  className="relative rounded-2xl overflow-hidden bg-card cursor-grab active:cursor-grabbing"
+                >
+                  {/* Bookmark */}
+                  <button className="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-background/40 backdrop-blur-sm flex items-center justify-center text-foreground/70 hover:text-foreground transition-colors">
+                    <Bookmark className="w-4 h-4" />
+                  </button>
+
+                  {/* Discount badge */}
+                  {product.discount && (
+                    <span className="absolute top-3 left-3 z-10 bg-primary text-primary-foreground text-xs px-2.5 py-1 rounded-md font-semibold">
+                      {product.discount}% OFF
+                    </span>
+                  )}
+
+                  {/* Product image */}
+                  <div className="aspect-[3/4] relative">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      loading="lazy"
+                      className="w-full h-full object-cover"
+                    />
+
+                    {/* Bottom overlay with product info */}
+                    <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-background via-background/80 to-transparent pt-16 pb-4 px-4">
+                      <div className="flex items-end justify-between">
+                        <h4 className="font-display text-lg md:text-xl text-foreground font-bold uppercase tracking-wide">
+                          {product.name}
+                        </h4>
+                        <div className="text-right">
+                          <span className="text-primary font-bold text-lg">
+                            ₹{product.price.toLocaleString()}
+                          </span>
+                          {product.originalPrice && (
+                            <span className="block text-muted-foreground line-through text-xs">
+                              ₹{product.originalPrice.toLocaleString()}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Dots */}
+      <div className="flex justify-center gap-2 mt-6">
+        {products.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => emblaApi?.scrollTo(i)}
+            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+              i === selectedIndex
+                ? "bg-primary w-6"
+                : "bg-muted-foreground/30"
+            }`}
+          />
         ))}
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 export default ProductGrid;
