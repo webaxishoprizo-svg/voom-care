@@ -25,6 +25,7 @@ const Index = () => (
     <ProductGrid />
     <FeaturedProducts />
     <CollectionsSection />
+    <MostCoveted />
     <ExperienceSection />
     <TestimonialsSection />
     <CTASection />
