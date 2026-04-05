@@ -1,12 +1,11 @@
 import { Instagram, Facebook, Linkedin } from "lucide-react";
-import norLogo from "@/assets/nor-logo.jpg";
 
 const Footer = () => (
   <footer className="border-t border-border py-12 px-4">
     <div className="max-w-6xl mx-auto">
       <div className="grid md:grid-cols-4 gap-8 mb-12">
         <div>
-          <img src={norLogo} alt="NOR" className="h-12 w-auto mb-4" />
+          <h3 className="font-display text-2xl text-foreground mb-4">NOR</h3>
           <p className="text-muted-foreground text-sm leading-relaxed">
             Luxury car fragrances crafted in India with 100% natural oils.
           </p>
