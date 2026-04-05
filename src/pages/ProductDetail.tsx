@@ -115,7 +115,7 @@ const ProductDetail = () => {
                 <span className="text-muted-foreground line-through text-lg">₹{product.originalPrice}</span>
               )}
               {product.discount && (
-                <span className="text-sm font-semibold text-green-400">Save {product.discount}%</span>
+                <span className="text-sm font-semibold text-primary">Save {product.discount}%</span>
               )}
             </div>
 
