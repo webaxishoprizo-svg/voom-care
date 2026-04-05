@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Menu, Search, User, ShoppingBag, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/context/CartContext";
+import logo from "@/assets/logo.png";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -9,8 +10,8 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 px-4 py-3">
-        <div className="max-w-7xl mx-auto flex items-center justify-between bg-surface-glass rounded-full px-6 py-3">
+      <nav className="fixed top-0 left-0 right-0 z-50 px-4 py-3 lg:px-3 lg:py-2">
+        <div className="max-w-7xl mx-auto flex items-center justify-between bg-surface-glass rounded-full px-6 py-3 lg:px-5 lg:py-2.5">
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="flex items-center gap-2 text-foreground text-sm tracking-widest uppercase"
@@ -19,8 +20,8 @@ const Navbar = () => {
             <Menu className="w-5 h-5" />
           </button>
 
-          <a href="/" className="font-display text-2xl font-bold tracking-wider text-foreground">
-            NOR
+          <a href="/" aria-label="NOR home" className="shrink-0">
+            <img src={logo} alt="NOR" className="h-10 w-auto scale-110 sm:h-12" />
           </a>
 
           <div className="flex items-center gap-4">

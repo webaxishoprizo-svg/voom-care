@@ -1,3 +1,3 @@
-# Welcome to your Lovable project
+# NOR
 
-TODO: Document your project here
+Luxury car fragrance storefront for NOR, built with Vite, React, and TypeScript.

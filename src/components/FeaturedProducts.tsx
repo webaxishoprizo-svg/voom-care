@@ -18,7 +18,7 @@ const FeaturedProducts = () => {
           </h2>
         </div>
 
-        <div className="space-y-8">
+        <div className="grid gap-8 lg:grid-cols-2">
           {products.map((product, i) => (
             <motion.div
               key={product.id}
