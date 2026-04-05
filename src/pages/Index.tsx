@@ -4,6 +4,7 @@ import MarqueeBanner from "@/components/MarqueeBanner";
 import TrustBadges from "@/components/TrustBadges";
 import ProductGrid from "@/components/ProductGrid";
 import FeaturedProducts from "@/components/FeaturedProducts";
+import MostCoveted from "@/components/MostCoveted";
 import CollectionsSection from "@/components/CollectionsSection";
 import ExperienceSection from "@/components/ExperienceSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
