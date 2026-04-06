@@ -114,8 +114,8 @@ const Products = () => {
           ) : (
             <div className="text-center text-muted-foreground">
               {collectionHandle
-                ? `No Shopify products found in the ${heading} collection.`
-                : "No Shopify products found."}
+                ? `No products founds found in the ${heading} collection.`
+                : "No products founds found."}
             </div>
           )}
         </div>

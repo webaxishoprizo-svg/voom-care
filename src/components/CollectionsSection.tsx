@@ -100,7 +100,7 @@ const CollectionsSection = () => {
                     key={collection.handle}
                     collection={collection}
                     index={index}
-                    className="aspect-[3/4]"
+                    className="aspect-[3/4] md:aspect-[16/10]"
                     titleClassName=""
                     titlePositionClassName="items-center justify-center"
                   />
@@ -113,7 +113,7 @@ const CollectionsSection = () => {
                 <CollectionTile
                   collection={bannerCollection}
                   index={featuredCollections.length}
-                  className="aspect-[16/10]"
+                  className="aspect-[16/10] md:aspect-[21/7]"
                   titleClassName="text-base md:text-lg"
                   titlePositionClassName="items-end justify-center pb-6"
                 />
@@ -127,7 +127,7 @@ const CollectionsSection = () => {
                     key={collection.handle}
                     collection={collection}
                     index={featuredCollections.length + 1 + index}
-                    className="aspect-[16/10]"
+                    className="aspect-[16/10] md:aspect-[21/7]"
                     titleClassName="text-base md:text-lg"
                     titlePositionClassName="items-end justify-center pb-6"
                   />

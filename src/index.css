@@ -5,6 +5,15 @@
 @tailwind utilities;
 
 @layer base {
+  /* Force Inter for numbers only across all weights - using direct CDN for reliability */
+  @font-face {
+    font-family: 'InterNumbers';
+    src: url('https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuGKYAZJhiI2B.woff2') format('woff2');
+    unicode-range: U+0030-0039, U+002C, U+002E, U+20B9, U+00A5, U+0024, U+00A3, U+20AC; /* 0-9, numeric symbols, currency */
+    font-weight: 100 900;
+    font-display: swap;
+  }
+
   :root {
     --background: 0 0% 5%;
     --foreground: 40 20% 92%;
@@ -53,22 +62,28 @@
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
   * {
     @apply border-border;
   }
 
   body {
-    @apply bg-background text-foreground font-sans;
+    @apply bg-background text-foreground;
+    font-family: 'InterNumbers', 'Inter', system-ui, sans-serif;
+    font-variant-numeric: tabular-nums lining-nums;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'InterNumbers', 'Playfair Display', serif;
   }
 }
 
 @layer utilities {
   .font-display {
-    font-family: 'Playfair Display', serif;
+    font-family: 'InterNumbers', 'Playfair Display', serif;
   }
 
   .text-gold {

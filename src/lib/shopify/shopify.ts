@@ -50,6 +50,10 @@ interface ShopifyProductNode {
   variants: {
     edges: Array<{ node: ShopifyVariantNode }>;
   };
+  heroImage: Nullable<ShopifyMetafieldNode>;
+  heroMobileImage: Nullable<ShopifyMetafieldNode>;
+  heroMobileVideo: Nullable<ShopifyMetafieldNode>;
+  heroDescription: Nullable<ShopifyMetafieldNode>;
   metafields: Array<Nullable<ShopifyMetafieldNode>>;
 }
 
@@ -60,8 +64,17 @@ interface ShopifyCollectionNode {
   description: string;
   image: Nullable<ShopifyImageNode>;
   products: {
-    edges: Array<{ node: Pick<ShopifyProductNode, "id" | "title" | "handle"> }>;
+    edges: Array<{
+      node: Pick<
+        ShopifyProductNode,
+        "id" | "title" | "handle" | "heroImage" | "heroMobileImage" | "heroMobileVideo" | "heroDescription"
+      >;
+    }>;
   };
+  heroImage: Nullable<ShopifyMetafieldNode>;
+  heroMobileImage: Nullable<ShopifyMetafieldNode>;
+  heroMobileVideo: Nullable<ShopifyMetafieldNode>;
+  heroDescription: Nullable<ShopifyMetafieldNode>;
   metafields: Array<Nullable<ShopifyMetafieldNode>>;
 }
 
@@ -95,25 +108,30 @@ const PRODUCT_METAFIELDS = `
   }
 `;
 
-const COLLECTION_METAFIELDS = `
-  metafields(
-    identifiers: [
-      { namespace: "custom", key: "hero_image" }
-      { namespace: "custom", key: "hero_mobile_image" }
-      { namespace: "custom", key: "hero_description" }
-      { namespace: "custom", key: "hero_mobile_video" }
-    ]
-  ) {
-    key
-    namespace
+const HERO_METAFIELDS = `
+  heroImage: metafield(namespace: "custom", key: "hero_image") {
     value
     reference {
       ... on MediaImage {
         image {
-          url(transform: { maxWidth: 2000, preferredContentType: WEBP })
-          altText
+          url
         }
       }
+    }
+  }
+  heroMobileImage: metafield(namespace: "custom", key: "hero_mobile_image") {
+    value
+    reference {
+      ... on MediaImage {
+        image {
+          url
+        }
+      }
+    }
+  }
+  heroMobileVideo: metafield(namespace: "custom", key: "hero_mobile_video") {
+    value
+    reference {
       ... on Video {
         sources {
           url
@@ -121,6 +139,9 @@ const COLLECTION_METAFIELDS = `
         }
       }
     }
+  }
+  heroDescription: metafield(namespace: "custom", key: "hero_description") {
+    value
   }
 `;
 
@@ -163,6 +184,7 @@ const PRODUCT_FIELDS = `
     }
   }
   ${PRODUCT_METAFIELDS}
+  ${HERO_METAFIELDS}
 `;
 
 const COLLECTION_FIELDS = `
@@ -180,10 +202,11 @@ const COLLECTION_FIELDS = `
         id
         title
         handle
+        ${HERO_METAFIELDS}
       }
     }
   }
-  ${COLLECTION_METAFIELDS}
+  ${HERO_METAFIELDS}
 `;
 
 const GET_PRODUCTS_QUERY = `
@@ -312,12 +335,25 @@ function mapProduct(node: ShopifyProductNode): Product {
       howToUse: parseMetafieldText(metafields.how_to_use?.value),
       whatsInTheBox: parseMetafieldText(metafields.whats_in_the_box?.value),
     },
+    heroImage: node.heroImage?.reference?.image?.url || node.heroImage?.value || undefined,
+    heroMobileImage:
+      node.heroMobileImage?.reference?.image?.url ||
+      node.heroMobileImage?.value ||
+      undefined,
+    heroDescription: parseMetafieldText(node.heroDescription?.value),
+    heroMobileVideo:
+      node.heroMobileVideo?.reference?.sources?.[0]?.url ||
+      node.heroMobileVideo?.value ||
+      undefined,
     source: "shopify",
   };
 }
 
 function mapCollection(node: ShopifyCollectionNode): CollectionCard {
-  const metafields = getMetafieldMap(node.metafields);
+  const heroImage = node.heroImage;
+  const heroMobileImage = node.heroMobileImage;
+  const heroMobileVideo = node.heroMobileVideo;
+  const heroDescription = node.heroDescription;
 
   return {
     id: node.id,
@@ -325,27 +361,35 @@ function mapCollection(node: ShopifyCollectionNode): CollectionCard {
     handle: node.handle,
     image:
       node.image?.url ||
-      metafields.hero_image?.reference?.image?.url ||
-      metafields.hero_mobile_image?.reference?.image?.url ||
+      heroImage?.reference?.image?.url ||
+      heroMobileImage?.reference?.image?.url ||
       "",
-    description: node.description || parseMetafieldText(metafields.hero_description?.value),
+    description: node.description || parseMetafieldText(heroDescription?.value),
     products: node.products.edges.map((edge) => ({
       id: edge.node.id,
       title: edge.node.title,
       handle: edge.node.handle,
+      heroImage:
+        edge.node.heroImage?.reference?.image?.url ||
+        edge.node.heroImage?.value ||
+        undefined,
+      heroMobileImage:
+        edge.node.heroMobileImage?.reference?.image?.url ||
+        edge.node.heroMobileImage?.value ||
+        undefined,
+      heroDescription: parseMetafieldText(edge.node.heroDescription?.value),
+      heroMobileVideo:
+        edge.node.heroMobileVideo?.reference?.sources?.[0]?.url ||
+        edge.node.heroMobileVideo?.value ||
+        undefined,
     })),
     productHandles: node.products.edges.map((edge) => edge.node.handle),
-    heroImage:
-      metafields.hero_image?.reference?.image?.url || metafields.hero_image?.value || undefined,
+    heroImage: heroImage?.reference?.image?.url || heroImage?.value || undefined,
     heroMobileImage:
-      metafields.hero_mobile_image?.reference?.image?.url ||
-      metafields.hero_mobile_image?.value ||
-      undefined,
-    heroDescription: parseMetafieldText(metafields.hero_description?.value),
+      heroMobileImage?.reference?.image?.url || heroMobileImage?.value || undefined,
+    heroDescription: parseMetafieldText(heroDescription?.value),
     heroMobileVideo:
-      metafields.hero_mobile_video?.reference?.sources?.[0]?.url ||
-      metafields.hero_mobile_video?.value ||
-      undefined,
+      heroMobileVideo?.reference?.sources?.[0]?.url || heroMobileVideo?.value || undefined,
   };
 }
 
@@ -390,12 +434,12 @@ export function buildHeroSlides(_products: Product[], collections: CollectionCar
   const heroSlidesSource = heroCollection.products?.length
     ? heroCollection.products
     : [
-        {
-          id: heroCollection.id,
-          title: heroCollection.title,
-          handle: heroCollection.handle,
-        },
-      ];
+      {
+        id: heroCollection.id,
+        title: heroCollection.title,
+        handle: heroCollection.handle,
+      },
+    ];
 
   return heroSlidesSource
     .map((product) => {
@@ -403,13 +447,16 @@ export function buildHeroSlides(_products: Product[], collections: CollectionCar
         id: product.handle,
         title: product.title,
         subtitle: heroCollection.title,
-        image: heroCollection.heroImage || defaultHeroImage,
+        image:
+          product.heroImage || heroCollection.heroImage || defaultHeroImage,
         mobileImage:
+          product.heroMobileImage ||
           heroCollection.heroMobileImage ||
+          product.heroImage ||
           heroCollection.heroImage ||
           defaultHeroImage,
-        mobileVideo: heroCollection.heroMobileVideo,
-        description: heroCollection.heroDescription,
+        mobileVideo: product.heroMobileVideo || heroCollection.heroMobileVideo,
+        description: product.heroDescription || heroCollection.heroDescription,
         ctaHref:
           product.handle && product.handle !== heroCollection.handle
             ? `/product/${product.handle}`

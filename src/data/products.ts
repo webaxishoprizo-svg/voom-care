@@ -21,6 +21,10 @@ export interface Product {
   availableForSale?: boolean;
   details?: ProductDetails;
   source?: "shopify";
+  heroImage?: string;
+  heroMobileImage?: string;
+  heroDescription?: string;
+  heroMobileVideo?: string;
 }
 
 export interface HeroSlide {
@@ -44,6 +48,10 @@ export interface CollectionCard {
     id: string;
     title: string;
     handle: string;
+    heroImage?: string;
+    heroMobileImage?: string;
+    heroMobileVideo?: string;
+    heroDescription?: string;
   }>;
   productHandles?: string[];
   heroImage?: string;

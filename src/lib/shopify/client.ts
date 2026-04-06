@@ -20,7 +20,12 @@ export const SHOPIFY_CONFIG = {
     import.meta.env.VITE_SHOPIFY_ACCESS_TOKEN || DEFAULT_SHOPIFY_CONFIG.accessToken,
 };
 
+export const SHOPIFY_STORE_URL = `https://${SHOPIFY_CONFIG.domain}`;
 export const SHOPIFY_ENDPOINT = `https://${SHOPIFY_CONFIG.domain}/api/${SHOPIFY_CONFIG.apiVersion}/graphql.json`;
+export const SHOPIFY_ACCOUNT_URL = `${SHOPIFY_STORE_URL}/account`;
+export const SHOPIFY_LOGIN_URL = `${SHOPIFY_STORE_URL}/account/login`;
+export const SHOPIFY_REGISTER_URL = `${SHOPIFY_STORE_URL}/account/register`;
+export const SHOPIFY_LOGOUT_URL = `${SHOPIFY_STORE_URL}/account/logout`;
 
 interface ShopifyGraphQLError {
   message: string;

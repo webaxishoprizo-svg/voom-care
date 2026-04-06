@@ -2,21 +2,21 @@ import { motion } from "framer-motion";
 import { ShoppingBag } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
-import { useHybridProducts } from "@/lib/shopify/hooks";
+import { useCollectionProducts } from "@/lib/shopify/hooks";
 import { formatCurrency } from "@/lib/utils";
 
 const FeaturedProducts = () => {
   const navigate = useNavigate();
   const { addItem } = useCart();
-  const { data: products = [], isLoading } = useHybridProducts();
+  const { data: products = [], isLoading } = useCollectionProducts("best-seller");
 
   return (
     <section className="py-8 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="mb-10 text-center">
-          <p className="text-xs tracking-[0.3em] uppercase text-primary mb-2">New Exclusive</p>
+          <p className="text-xs tracking-[0.3em] uppercase text-primary mb-2">The Elite Edit</p>
           <h2 className="font-display text-3xl md:text-5xl text-foreground font-bold tracking-wide">
-            OUR COLLECTION
+            Most Coveted
           </h2>
         </div>
 
@@ -34,7 +34,7 @@ const FeaturedProducts = () => {
                 className="relative rounded-2xl overflow-hidden group cursor-pointer"
                 onClick={() => navigate(`/product/${product.id}`)}
               >
-                <div className="aspect-[3/4] md:aspect-[16/9] relative">
+                <div className="aspect-[3/4] md:aspect-[3/3.4] relative">
                   <img
                     src={product.image}
                     alt={product.name}
@@ -82,7 +82,7 @@ const FeaturedProducts = () => {
             ))}
           </div>
         ) : (
-          <div className="text-center text-muted-foreground">No Shopify products found.</div>
+          <div className="text-center text-muted-foreground">No products found.</div>
         )}
       </div>
     </section>

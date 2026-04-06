@@ -20,7 +20,7 @@ const CartDrawer = () => {
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      <SheetContent className="bg-card border-border w-full sm:max-w-md flex flex-col">
+      <SheetContent className="bg-card border-border w-full sm:max-w-md flex flex-col font-sans">
         <SheetHeader className="border-b border-border pb-4">
           <SheetTitle className="font-display text-2xl text-foreground flex items-center gap-2">
             <ShoppingBag className="w-5 h-5 text-primary" />
@@ -108,7 +108,7 @@ const CartDrawer = () => {
             <div className="border-t border-border pt-4 space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-muted-foreground">Subtotal</span>
-                <span className="text-foreground font-display text-xl font-semibold">
+                <span className="text-foreground font-sans text-xl font-semibold">
                   {formatCurrency(totalPrice)}
                 </span>
               </div>

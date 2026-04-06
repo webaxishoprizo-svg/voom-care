@@ -169,7 +169,7 @@ const ProductDetail = () => {
             )}
 
             <div className="flex items-baseline gap-3 mb-8">
-              <span className="font-display text-3xl text-foreground">
+              <span className="font-sans text-3xl text-foreground font-semibold">
                 {formatCurrency(product.price, product.currencyCode)}
               </span>
               {product.originalPrice && (

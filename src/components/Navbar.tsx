@@ -3,45 +3,51 @@ import { Menu, Search, User, ShoppingBag, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
-import { useCustomerAuth } from "@/context/CustomerAuthContext";
+import { SHOPIFY_ACCOUNT_URL } from "@/lib/shopify/client";
 import logo from "@/assets/logo.png";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { totalItems, setIsOpen } = useCart();
-  const { isAuthenticated } = useCustomerAuth();
+
+  const menuItems = [
+    { label: "Home", href: "/", external: false },
+    { label: "Products", href: "/products", external: false },
+    { label: "FAQ", href: "/faq", external: false },
+    { label: "Account", href: SHOPIFY_ACCOUNT_URL, external: true },
+    { label: "About Us", href: "/about", external: false },
+    { label: "Track My Order", href: "/track-order", external: false },
+  ];
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 px-4 py-3 lg:px-3 lg:py-2">
-        <div className="max-w-7xl mx-auto flex items-center justify-between bg-surface-glass rounded-full px-6 py-3 lg:px-5 lg:py-2.5">
+      <nav className="fixed top-0 left-0 right-0 z-50 px-4 py-5 lg:px-3 lg:py-2">
+        <div className="max-w-7xl mx-auto flex items-center justify-between bg-surface-glass rounded-full px-6 py-4 lg:px-5 lg:py-2.5 relative">
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="flex items-center gap-2 text-foreground text-sm tracking-widest uppercase"
+            className="flex items-center gap-2 text-foreground text-sm tracking-widest uppercase z-10 group"
           >
             <span className="hidden sm:inline">Menu</span>
-            <Menu className="w-5 h-5" />
+            <div className="flex flex-col gap-1 w-6 items-start">
+              <div className="h-0.5 w-full bg-current transition-all duration-300" />
+              <div className="h-0.5 w-[75%] bg-current transition-all duration-300" />
+              <div className="h-0.5 w-[50%] bg-current transition-all duration-300" />
+            </div>
           </button>
 
-          <Link to="/" aria-label="NOR home" className="shrink-0">
+          <Link to="/" aria-label="NOR home" className="shrink-0 absolute left-1/2 -translate-x-1/2 md:relative md:left-auto md:translate-x-0">
             <img src={logo} alt="NOR" className="h-10 w-auto scale-110 sm:h-12" />
           </Link>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 z-10">
             <Search className="w-5 h-5 text-foreground/70 hover:text-foreground cursor-pointer transition-colors" />
-            <Link
-              to={isAuthenticated ? "/account" : "/login"}
+            <a
+              href={SHOPIFY_ACCOUNT_URL}
               className="hidden sm:block"
-              aria-label={isAuthenticated ? "Open account" : "Login"}
+              aria-label="Open Shopify account"
             >
-              <User
-                className={`w-5 h-5 transition-colors ${
-                  isAuthenticated
-                    ? "text-primary"
-                    : "text-foreground/70 hover:text-foreground"
-                }`}
-              />
-            </Link>
+              <User className="w-5 h-5 text-foreground/70 hover:text-foreground transition-colors" />
+            </a>
             <button onClick={() => setIsOpen(true)} className="relative">
               <ShoppingBag className="w-5 h-5 text-foreground/70 hover:text-foreground cursor-pointer transition-colors" />
               <span className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-primary text-primary-foreground text-[10px] flex items-center justify-center font-semibold">
@@ -67,22 +73,27 @@ const Navbar = () => {
               <X className="w-8 h-8" />
             </button>
             <div className="flex flex-col items-center gap-8">
-              {[
-                { label: "Home", href: "/" },
-                { label: "Products", href: "/products" },
-                { label: isAuthenticated ? "Account" : "Login", href: isAuthenticated ? "/account" : "/login" },
-                { label: "About Us", href: "/about" },
-                { label: "Track My Order", href: "/track-order" },
-              ].map((item) => (
-                <Link
-                  key={item.label}
-                  onClick={() => setMenuOpen(false)}
-                  className="font-display text-4xl md:text-5xl text-foreground hover:text-primary transition-colors"
-                  to={item.href}
-                >
-                  {item.label}
-                </Link>
-              ))}
+              {menuItems.map((item) =>
+                item.external ? (
+                  <a
+                    key={item.label}
+                    onClick={() => setMenuOpen(false)}
+                    className="font-display text-4xl md:text-5xl text-foreground hover:text-primary transition-colors"
+                    href={item.href}
+                  >
+                    {item.label}
+                  </a>
+                ) : (
+                  <Link
+                    key={item.label}
+                    onClick={() => setMenuOpen(false)}
+                    className="font-display text-4xl md:text-5xl text-foreground hover:text-primary transition-colors"
+                    to={item.href}
+                  >
+                    {item.label}
+                  </Link>
+                ),
+              )}
             </div>
           </motion.div>
         )}

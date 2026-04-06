@@ -7,6 +7,15 @@ const HeroCarousel = () => {
   const [current, setCurrent] = useState(0);
   const { data: slides, isLoading } = useHeroSlides();
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   useEffect(() => {
     if (!slides.length) return;
 
@@ -45,33 +54,35 @@ const HeroCarousel = () => {
           transition={{ duration: 0.8 }}
           className="absolute inset-0"
         >
-          <img
-            src={currentSlide.image}
-            alt={currentSlide.title}
-            className="hidden md:block w-full h-full object-cover"
-            width={1920}
-            height={1080}
-          />
-
-          {currentSlide.mobileVideo ? (
-            <video
-              key={currentSlide.mobileVideo}
-              autoPlay
-              muted
-              loop
-              playsInline
-              className="md:hidden w-full h-full object-cover"
-              poster={currentSlide.mobileImage || currentSlide.image}
-            >
-              <source src={currentSlide.mobileVideo} />
-            </video>
+          {isMobile ? (
+            currentSlide.mobileVideo ? (
+              <video
+                key={currentSlide.mobileVideo}
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="w-full h-full object-cover"
+                poster={currentSlide.mobileImage || currentSlide.image}
+              >
+                <source src={currentSlide.mobileVideo} />
+              </video>
+            ) : (
+              <img
+                src={currentSlide.mobileImage || currentSlide.image}
+                alt={currentSlide.title}
+                className="w-full h-full object-cover"
+                width={1080}
+                height={1440}
+              />
+            )
           ) : (
             <img
-              src={currentSlide.mobileImage || currentSlide.image}
+              src={currentSlide.image}
               alt={currentSlide.title}
-              className="md:hidden w-full h-full object-cover"
-              width={1080}
-              height={1440}
+              className="w-full h-full object-cover"
+              width={1920}
+              height={1080}
             />
           )}
 
@@ -79,48 +90,55 @@ const HeroCarousel = () => {
         </motion.div>
       </AnimatePresence>
 
-      <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-10">
-        <motion.h1
-          key={`title-${currentSlide.id}`}
-          initial={{ opacity: 0, y: 30 }}
+      <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-10 px-4">
+        <motion.h2
+          key={`heading-${currentSlide.id}`}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.6 }}
-          className="font-display italic text-6xl md:text-8xl lg:text-9xl text-foreground"
+          transition={{ delay: 0.4, duration: 0.6 }}
+          className="font-display italic text-[clamp(2.5rem,7vw,5.5rem)] text-foreground leading-[1.1] mb-6 tracking-wide"
         >
-          {currentSlide.title}
-        </motion.h1>
+          Signature Series
+        </motion.h2>
+        {currentSlide.description && (
+          <motion.p
+            key={`desc-${currentSlide.id}`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.6 }}
+            className="text-[clamp(0.8rem,2.5vw,1.3rem)] text-foreground/60 max-w-lg mx-auto leading-relaxed tracking-widest lowercase italic font-light"
+          >
+            {currentSlide.description}
+          </motion.p>
+        )}
         <motion.a
           href={currentSlide.ctaHref || "#collections"}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.6 }}
-          className="mt-8 px-10 py-3 border border-foreground/40 rounded-full text-foreground text-sm tracking-widest uppercase hover:bg-foreground/10 transition-colors"
+          transition={{ delay: 0.6, duration: 0.6 }}
+          className="mt-12 px-12 py-3.5 border border-foreground/20 rounded-full text-foreground text-[10px] tracking-[0.25em] uppercase hover:bg-foreground hover:text-background transition-all duration-500 backdrop-blur-sm"
         >
-          Explore Fragrance
+          Explore Collection
         </motion.a>
       </div>
 
-      {(currentSlide.subtitle || currentSlide.description) && (
-        <motion.div
-          key={`card-${currentSlide.id}`}
-          initial={{ opacity: 0, x: -40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.4, duration: 0.6 }}
-          className="absolute bottom-12 left-6 md:left-16 z-10 bg-surface-glass rounded-xl p-6 max-w-xs"
-        >
-          {currentSlide.subtitle && (
-            <p className="text-xs tracking-[0.3em] uppercase text-muted-foreground mb-1">
-              {currentSlide.subtitle}
-            </p>
-          )}
-          <h3 className="font-display text-2xl text-foreground">{currentSlide.title}</h3>
-          {currentSlide.description && (
-            <p className="text-sm text-muted-foreground mt-2 line-clamp-3">
-              {currentSlide.description}
-            </p>
-          )}
-        </motion.div>
-      )}
+      <motion.div
+        key={`card-${currentSlide.id}`}
+        initial={{ opacity: 0, x: -40 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.4, duration: 0.6 }}
+        className="absolute bottom-12 left-6 md:left-16 z-20 bg-surface-glass rounded-xl p-6 max-w-[240px]"
+      >
+        <p className="text-[10px] tracking-[0.4em] uppercase text-foreground/40 mb-2 font-medium">
+          {currentSlide.subtitle || "BESTSELLER"}
+        </p>
+        <h3 className="font-display italic text-2xl md:text-3xl text-foreground tracking-wide leading-tight">
+          {currentSlide.title}
+        </h3>
+        <p className="text-[9px] md:text-[10px] tracking-[0.3em] uppercase text-foreground/40 mt-5 font-medium">
+          WARM · WOODY · SENSUAL
+        </p>
+      </motion.div>
 
       <button
         onClick={prev}
