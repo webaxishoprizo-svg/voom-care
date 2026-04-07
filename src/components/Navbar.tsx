@@ -62,42 +62,53 @@ const Navbar = () => {
 
       <AnimatePresence>
         {menuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[60] bg-background/95 backdrop-blur-xl flex items-center justify-center"
-          >
-            <button
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.5 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 z-[60] bg-black"
               onClick={() => setMenuOpen(false)}
-              className="absolute top-6 right-6 text-foreground"
+            />
+            <motion.div
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
+              className="fixed top-0 left-0 bottom-0 z-[61] w-[75%] max-w-[360px] bg-background flex flex-col"
             >
-              <X className="w-8 h-8" />
-            </button>
-            <div className="flex flex-col items-center gap-8">
-              {menuItems.map((item) =>
-                item.external ? (
-                  <a
-                    key={item.label}
-                    onClick={() => setMenuOpen(false)}
-                    className="font-display text-4xl md:text-5xl text-foreground hover:text-primary transition-colors"
-                    href={item.href}
-                  >
-                    {item.label}
-                  </a>
-                ) : (
-                  <Link
-                    key={item.label}
-                    onClick={() => setMenuOpen(false)}
-                    className="font-display text-4xl md:text-5xl text-foreground hover:text-primary transition-colors"
-                    to={item.href}
-                  >
-                    {item.label}
-                  </Link>
-                ),
-              )}
-            </div>
-          </motion.div>
+              <div className="flex items-center justify-between px-6 py-5">
+                <img src={logo} alt="NOR" className="h-8 w-auto" />
+                <button onClick={() => setMenuOpen(false)} className="text-foreground">
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+              <div className="flex flex-col px-6 py-4 gap-1 flex-1 overflow-y-auto">
+                {menuItems.map((item) =>
+                  item.external ? (
+                    <a
+                      key={item.label}
+                      onClick={() => setMenuOpen(false)}
+                      className="font-display text-2xl text-foreground hover:text-primary transition-colors py-4 border-b border-border/20"
+                      href={item.href}
+                    >
+                      {item.label}
+                    </a>
+                  ) : (
+                    <Link
+                      key={item.label}
+                      onClick={() => setMenuOpen(false)}
+                      className="font-display text-2xl text-foreground hover:text-primary transition-colors py-4 border-b border-border/20"
+                      to={item.href}
+                    >
+                      {item.label}
+                    </Link>
+                  ),
+                )}
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
 
