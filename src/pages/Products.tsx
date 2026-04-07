@@ -40,10 +40,10 @@ const Products = () => {
       <Navbar />
       <section className="pt-28 pb-16 px-4">
         <div className="max-w-6xl mx-auto">
-          <h1 className="font-display text-4xl md:text-5xl text-foreground text-center mb-4">
+          <h1 className="font-display text-4xl md:text-5xl text-foreground text-center mb-4 hidden md:block">
             {heading}
           </h1>
-          <p className="text-muted-foreground text-center max-w-xl mx-auto mb-12">
+          <p className="text-muted-foreground text-center max-w-xl mx-auto mb-12 hidden md:block">
             {description}
           </p>
 
