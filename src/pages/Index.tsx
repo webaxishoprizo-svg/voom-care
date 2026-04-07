@@ -35,9 +35,6 @@ const Index = () => (
     <Reveal delay={0.2}>
       <CollectionsSection />
     </Reveal>
-    <Reveal delay={0.1}>
-      <MostCoveted />
-    </Reveal>
     <Reveal delay={0.2}>
       <ExperienceSection />
     </Reveal>
