@@ -5,9 +5,11 @@ import { Link } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
 import { SHOPIFY_ACCOUNT_URL } from "@/lib/shopify/client";
 import logo from "@/assets/logo.png";
+import SearchDialog from "@/components/SearchDialog";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const { totalItems, setIsOpen } = useCart();
 
   const menuItems = [
@@ -40,7 +42,7 @@ const Navbar = () => {
           </Link>
 
           <div className="flex items-center gap-4 z-10">
-            <Search className="w-5 h-5 text-foreground/70 hover:text-foreground cursor-pointer transition-colors" />
+            <Search onClick={() => setSearchOpen(true)} className="w-5 h-5 text-foreground/70 hover:text-foreground cursor-pointer transition-colors" />
             <a
               href={SHOPIFY_ACCOUNT_URL}
               className="hidden sm:block"
@@ -98,6 +100,8 @@ const Navbar = () => {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <SearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
     </>
   );
 };
