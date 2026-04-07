@@ -9,6 +9,7 @@ import SearchDialog from "@/components/SearchDialog";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const { totalItems, setIsOpen } = useCart();
 
   const menuItems = [
