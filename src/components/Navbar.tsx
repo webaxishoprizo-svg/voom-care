@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
 import { SHOPIFY_ACCOUNT_URL } from "@/lib/shopify/client";
 import logo from "@/assets/logo.png";
+import SearchDialog from "@/components/SearchDialog";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
