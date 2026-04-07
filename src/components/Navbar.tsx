@@ -24,7 +24,7 @@ const Navbar = () => {
   return (
     <>
       <nav className="fixed top-0 left-0 right-0 z-50 px-4 py-5 lg:px-3 lg:py-2">
-        <div className="max-w-7xl mx-auto flex items-center justify-between bg-surface-glass rounded-full px-6 py-4 lg:px-5 lg:py-2.5 relative">
+        <div className="max-w-7xl lg:max-w-4xl mx-auto flex items-center justify-between bg-surface-glass rounded-full px-6 py-4 lg:px-5 lg:py-2.5 relative">
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="flex items-center gap-2 text-foreground text-sm tracking-widest uppercase z-10 group"
