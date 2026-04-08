@@ -18,12 +18,14 @@ const Index = () => (
     <Navbar />
     <HeroCarousel />
     <MarqueeBanner
+      className="-rotate-[3deg] scale-[1] relative z-16 my-4 py-4 shadow-0xl"
       items={["Luxury Car Fragrance", "Crafted in India", "Zero-Liquid Technology", "45 Days Lasting", "100% Natural Oils", "Worn Worldwide"]}
     />
     <Reveal delay={0.1}>
       <TrustBadges />
     </Reveal>
     <MarqueeBanner
+      className="-rotate-[-3deg] scale-[1] relative z-16 my-4 py-4 shadow-0xl"
       items={["FREE SHIPPING ON ALL ORDERS ABOVE ₹999", "ALL INDIA DELIVERY AVAILABLE"]}
     />
     <Reveal delay={0.2} duration={1}>
