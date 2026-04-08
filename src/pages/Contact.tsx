@@ -87,7 +87,7 @@ const Contact = () => {
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="lg:col-span-7 bg-card/30 border border-border/50 rounded-2xl p-6 md:p-10"
+              className="lg:col-span-7 glass-card rounded-2xl p-6 md:p-10"
             >
               <h2 className="font-display text-2xl text-foreground mb-8 text-white">Send us a message</h2>
 
@@ -168,7 +168,7 @@ const Contact = () => {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="bg-card/30 border border-border/50 rounded-2xl p-6 flex items-start gap-4 hover:border-primary/20 transition-colors"
+                  className="glass-card rounded-2xl p-6 flex items-start gap-4 hover:border-primary/20 transition-colors"
                 >
                   <div className="w-12 h-12 rounded-xl bg-background border border-border/50 flex items-center justify-center shrink-0">
                     <card.icon className="w-5 h-5 text-primary" />
@@ -204,7 +204,7 @@ const Contact = () => {
             />
 
             {/* Map Overlay Info */}
-            <div className="absolute top-8 left-8 bg-card/90 backdrop-blur-md border border-border/50 p-6 rounded-2xl max-w-xs shadow-2xl hidden md:block">
+            <div className="absolute top-8 left-8 glass-card backdrop-blur-md p-6 rounded-2xl max-w-xs shadow-2xl hidden md:block">
               <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mb-4">
                 <MapPin className="w-5 h-5 text-primary" />
               </div>

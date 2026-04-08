@@ -23,8 +23,8 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 px-4 py-5 lg:px-3 lg:py-2">
-        <div className="max-w-7xl lg:max-w-4xl mx-auto flex items-center justify-between bg-surface-glass rounded-full px-6 py-4 lg:px-5 lg:py-2.5 relative">
+      <nav className="fixed top-0 left-0 right-0 z-50 px-4 py-3 lg:px-3 lg:py-2">
+        <div className="max-w-7xl lg:max-w-4xl mx-auto flex items-center justify-between bg-surface-glass rounded-full px-6 py-4 lg:px-5 lg:py-2.5 relative border border-white/5 shadow-2xl shadow-black/40">
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="flex items-center gap-2 text-foreground text-sm tracking-widest uppercase z-10 group"
@@ -76,7 +76,7 @@ const Navbar = () => {
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
-              className="fixed top-0 left-0 bottom-0 z-[61] w-[75%] max-w-[360px] bg-background flex flex-col"
+              className="fixed top-0 left-0 bottom-0 z-[61] w-[75%] max-w-[360px] bg-background/80 backdrop-blur-xl border-r border-white/10 flex flex-col"
             >
               <div className="flex items-center justify-between px-6 py-5">
                 <img src={logo} alt="NOR" className="h-8 w-auto" />

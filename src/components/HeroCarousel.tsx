@@ -116,7 +116,7 @@ const HeroCarousel = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.6 }}
-          className="mt-12 px-12 py-3.5 border border-foreground/20 rounded-full text-foreground text-[10px] tracking-[0.25em] uppercase hover:bg-foreground hover:text-background transition-all duration-500 backdrop-blur-sm"
+          className="mt-12 px-12 py-3.5 glass-card rounded-full text-foreground text-[10px] tracking-[0.25em] uppercase hover:bg-white/10 transition-all duration-500 backdrop-blur-md"
         >
           Explore Collection
         </motion.a>
