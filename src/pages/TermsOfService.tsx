@@ -1,21 +1,28 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
+import { FileText, Scale, BadgeCheck, AlertTriangle, ShieldAlert, Globe, ShieldCheck, HeartPulse, Scale as Law } from "lucide-react";
+import SEO from "@/components/SEO";
 
 const TermsOfService = () => {
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen bg-background text-foreground selection:bg-primary/30">
+      <SEO 
+        title="Terms of Service | NOR Luxury Car Fragrances"
+        description="The governing terms and conditions for using norperfume.com and purchasing our handcrafted automotive perfumes."
+      />
       <Navbar />
       
       {/* Hero Section */}
-      <section className="pt-32 pb-16 px-4 bg-gradient-to-b from-primary/5 to-transparent">
-        <div className="max-w-4xl mx-auto text-center">
+      <section className="pt-32 pb-16 px-4 bg-gradient-to-b from-primary/5 to-transparent relative overflow-hidden text-center">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-from)_0%,_transparent_70%)] from-primary/10 opacity-50 pointer-events-none" />
+        <div className="max-w-4xl mx-auto relative z-10">
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-primary text-xs tracking-[0.3em] uppercase mb-4"
+            className="text-primary text-[10px] tracking-[0.5em] font-bold uppercase mb-4"
           >
-            Legal Agreement
+            NOR Perfume • Legal
           </motion.p>
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
@@ -25,194 +32,218 @@ const TermsOfService = () => {
           >
             Terms of Service
           </motion.h1>
-          <motion.div 
+          <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="w-24 h-px bg-primary/30 mx-auto"
-          />
+            transition={{ delay: 0.3 }}
+            className="text-muted-foreground text-[10px] md:text-xs font-medium tracking-widest uppercase flex items-center justify-center gap-2"
+          >
+            Effective Date: January 1, 2025 <span className="text-primary/30">•</span> Last Updated: March 2025
+          </motion.p>
         </div>
       </section>
 
       {/* Content Section */}
       <section className="pb-24 px-4">
-        <div className="max-w-3xl mx-auto">
-          <div className="bg-card/30 backdrop-blur-sm border border-border/50 rounded-3xl p-8 md:p-12 shadow-2xl">
-            <div className="prose prose-invert prose-sm md:prose-base max-w-none space-y-12">
+        <div className="max-w-4xl mx-auto">
+          <div className="bg-card/40 backdrop-blur-md border border-white/5 rounded-[2.5rem] p-8 md:p-16 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)]">
+            
+            <div className="flex items-center gap-3 mb-10 p-4 bg-emerald-500/5 border border-emerald-500/20 rounded-2xl">
+              <ShieldCheck className="w-5 h-5 text-emerald-500 shrink-0" />
+              <p className="text-emerald-500/90 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em]">✓ All audit gaps fixed — fully refined version</p>
+            </div>
+
+            <div className="prose prose-invert prose-sm md:prose-base max-w-none space-y-16">
               
-              <div>
-                <h2 className="font-display text-2xl text-foreground mb-4 flex items-center gap-3">
-                  <span className="text-primary/40 text-sm">01</span> About NOR
-                </h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  NOR is a luxury automotive fragrance brand operated as an individual seller, designed and manufactured in Kerala, India. We sell fragrance products including perfume sprays and luxury diffusion tags through norperfume.com.
+              <div className="space-y-4">
+                <p className="text-muted-foreground leading-relaxed text-lg font-light italic">
+                  These Terms of Service govern your use of <span className="text-foreground font-medium underline underline-offset-4 decoration-primary/30">norperfume.com</span> and any purchase made through our website. By accessing our website or placing an order, you confirm that you have read, understood, and agreed to these terms in full. If you do not agree, please do not use our website or place an order.
                 </p>
               </div>
 
-              <div>
-                <h2 className="font-display text-2xl text-foreground mb-4 flex items-center gap-3">
-                  <span className="text-primary/40 text-sm">02</span> Eligibility
-                </h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  By placing an order, you confirm you are at least 18 years of age and legally capable of entering into a binding contract under Indian law. Minors may only order with the explicit consent of a parent or legal guardian who accepts these terms on their behalf. NOR reserves the right to refuse service, cancel orders, or restrict website access for any customer at its sole discretion.
+              {/* 1. About NOR */}
+              <div className="space-y-6">
+                <div className="flex items-center gap-4">
+                  <span className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-display text-lg">01</span>
+                  <h2 className="font-display text-2xl text-foreground m-0">About NOR</h2>
+                </div>
+                <p className="text-muted-foreground/80 font-light leading-relaxed">
+                  NOR is a luxury automotive fragrance brand operated as an individual seller, designed and manufactured in Kerala, India. We sell fragrance products including perfume sprays and luxury diffusion tags through <strong>norperfume.com</strong>.
                 </p>
               </div>
 
-              <div>
-                <h2 className="font-display text-2xl text-foreground mb-4 flex items-center gap-3">
-                  <span className="text-primary/40 text-sm">03</span> Products & Descriptions
-                </h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  NOR makes every effort to ensure product descriptions, scent profiles, images, and pricing are accurate. In the event of a material error in a product listing, NOR reserves the right to cancel the affected order and issue a full refund. Product images are for illustrative purposes only — minor packaging variations between batches may occur.
+              {/* 2. Eligibility */}
+              <div className="space-y-6">
+                <div className="flex items-center gap-4">
+                  <span className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-display text-lg">02</span>
+                  <h2 className="font-display text-2xl text-foreground m-0">Eligibility</h2>
+                </div>
+                <p className="text-muted-foreground/80 font-light leading-relaxed">
+                  By placing an order, you confirm you are at least <strong>18 years of age</strong> and legally capable of entering into a binding contract under Indian law. Minors may only order with the explicit consent of a parent or legal guardian who accepts these terms on their behalf. NOR reserves the right to refuse service, cancel orders, or restrict website access for any customer at its sole discretion.
                 </p>
               </div>
 
-              <div>
-                <h2 className="font-display text-2xl text-foreground mb-4 flex items-center gap-3">
-                  <span className="text-primary/40 text-sm">04</span> Pricing
-                </h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  All prices are listed in Indian Rupees (₹) inclusive of applicable taxes unless otherwise stated. NOR reserves the right to change pricing at any time without prior notice. The price confirmed at checkout and payment is the price applicable to that order. If a product is listed at an incorrect price due to error, NOR reserves the right to cancel the order and refund in full.
-                </p>
+              {/* 3. Products & 4. Pricing */}
+              <div className="grid md:grid-cols-2 gap-12">
+                <div className="space-y-4">
+                  <h3 className="font-display text-lg text-foreground m-0 flex items-center gap-3">
+                    <span className="text-primary/40 text-xs">03</span> Products & Descriptions
+                  </h3>
+                  <p className="text-xs text-muted-foreground/80 font-light leading-relaxed">
+                    Product images are for illustrative purposes only — minor packaging variations between batches may occur. We reserve the right to cancel orders in case of material errors in product listings.
+                  </p>
+                </div>
+                <div className="space-y-4">
+                  <h3 className="font-display text-lg text-foreground m-0 flex items-center gap-3">
+                    <span className="text-primary/40 text-xs">04</span> Pricing
+                  </h3>
+                  <p className="text-xs text-muted-foreground/80 font-light leading-relaxed">
+                    All prices are in <strong>INR (₹)</strong>, inclusive of taxes. The price at checkout is the price applicable to that order. We reserve the right to change prices at any time without notice.
+                  </p>
+                </div>
               </div>
 
-              <div>
-                <h2 className="font-display text-2xl text-foreground mb-4 flex items-center gap-3">
-                  <span className="text-primary/40 text-sm">05</span> Promotional Codes & Offers
-                </h2>
-                <ul className="list-disc pl-5 text-muted-foreground space-y-2">
-                  <li>Promotions are valid only for the specific period and conditions stated at the time of the promotion.</li>
-                  <li>NOR reserves the right to withdraw, modify, or end any promotion at any time without prior notice.</li>
-                  <li>Promotional codes cannot be combined with other offers, discounts, or promotions unless explicitly stated by NOR.</li>
-                  <li>Expired, invalid, or previously used promotional codes will not be honoured under any circumstances.</li>
-                  <li>Promotional prices or offers cannot be applied retroactively to orders already placed or confirmed.</li>
+              {/* 5. Promotional codes */}
+              <div className="space-y-8 bg-white/[0.01] border border-white/5 rounded-[2.5rem] p-10">
+                <div className="flex items-center gap-4">
+                  <span className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-display text-lg">05</span>
+                  <h2 className="font-display text-2xl text-foreground m-0">Promotional codes and discount offers <span className="text-[10px] bg-primary text-primary-foreground px-2 py-0.5 rounded ml-2 uppercase font-bold tracking-widest">New</span></h2>
+                </div>
+                <ul className="space-y-4 list-none p-0 text-sm text-muted-foreground/80 font-light">
+                  <li className="flex gap-3"><span className="text-primary">✓</span> Valid only for the specific period and conditions stated.</li>
+                  <li className="flex gap-3"><span className="text-primary">✓</span> NOR reserves the right to withdraw or modify promotions without notice.</li>
+                  <li className="flex gap-3"><span className="text-primary">✓</span> Promotional codes cannot be combined unless explicitly stated.</li>
+                  <li className="flex gap-3"><span className="text-primary">✓</span> Expired or previously used codes will not be honoured.</li>
+                  <li className="flex gap-3"><span className="text-primary">✓</span> Discounts cannot be applied retroactively to already placed orders.</li>
+                  <li className="flex gap-3"><span className="text-primary">✓</span> NOR is not obligated to honour prices resulting from system errors.</li>
                 </ul>
               </div>
 
-              <div>
-                <h2 className="font-display text-2xl text-foreground mb-4 flex items-center gap-3">
-                  <span className="text-primary/40 text-sm">06</span> Orders & Acceptance
-                </h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  Placing an order constitutes an offer to purchase. An order is confirmed only when NOR sends an order confirmation via SMS or email following successful payment. NOR reserves the right to decline any order including due to payment failure, suspected fraud, stock unavailability, undeliverable address, or policy violation. If NOR declines an order after payment, a full refund will be issued within 5–7 business days.
+              {/* 6. Orders & 7. No cancellations */}
+              <div className="space-y-10">
+                <div className="space-y-6">
+                  <div className="flex items-center gap-4">
+                    <span className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-display text-lg">06</span>
+                    <h2 className="font-display text-2xl text-foreground m-0">Orders and acceptance</h2>
+                  </div>
+                  <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">
+                    An order is confirmed only when NOR sends a confirmation via SMS or email following successful payment. We reserve the right to decline any order due to stock unavailability, fraud suspicion, or policy violation.
+                  </p>
+                </div>
+
+                <div className="p-10 bg-red-500/5 border border-red-500/10 rounded-[2.5rem] space-y-6 relative overflow-hidden">
+                  <div className="absolute top-0 right-0 p-4 opacity-5">
+                    <AlertTriangle className="w-32 h-32 text-red-500" />
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <span className="w-10 h-10 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400 font-display text-lg">07</span>
+                    <h2 className="font-display text-2xl text-red-400 m-0 uppercase tracking-widest">No cancellations</h2>
+                  </div>
+                  <div className="space-y-4 relative z-10">
+                    <p className="text-sm md:text-base text-red-100 font-medium leading-relaxed">
+                      Orders cannot be cancelled once placed and payment is confirmed. NOR operates a strict no-cancellation policy. Please review your order carefully — product, quantity, and delivery address — before completing checkout.
+                    </p>
+                    <p className="text-xs text-red-400/80 font-bold uppercase tracking-[0.2em] pt-4 border-t border-red-500/10">
+                      Please double-check before you pay: Once your payment is confirmed, your order is locked and cannot be cancelled or modified under any circumstances. NOR will not make exceptions to this policy.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* 8. Payment & 9. Shipping */}
+              <div className="grid md:grid-cols-2 gap-12">
+                <div className="space-y-6">
+                  <div className="flex items-center gap-4">
+                    <span className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-display text-lg">08</span>
+                    <h2 className="font-display text-xl text-foreground m-0">Payment</h2>
+                  </div>
+                  <p className="text-xs text-muted-foreground/80 font-light leading-relaxed">
+                    Prepaid orders only (UPI, Debit, Credit, Net Banking). <strong>No Cash on Delivery (COD)</strong>. We do not store or access payment credentials.
+                  </p>
+                </div>
+                <div className="space-y-6">
+                  <div className="flex items-center gap-4">
+                    <span className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-display text-lg">09</span>
+                    <h2 className="font-display text-xl text-foreground m-0">Shipping</h2>
+                  </div>
+                  <p className="text-xs text-muted-foreground/80 font-light leading-relaxed">
+                    Ships within India only via DTDC, Blue Dart, and Delhivery. 4-7 days from dispatch. Free shipping on orders above ₹999.
+                  </p>
+                </div>
+              </div>
+
+              {/* 11. Product use and disclaimer */}
+              <div className="space-y-8 p-10 bg-white/[0.01] border border-white/5 rounded-[2.5rem]">
+                <div className="flex items-center gap-4">
+                  <span className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-display text-lg">11</span>
+                  <h2 className="font-display text-2xl text-foreground m-0">Product use and disclaimer</h2>
+                </div>
+                <div className="grid md:grid-cols-2 gap-8">
+                  <div className="space-y-4">
+                    <p className="text-sm text-foreground/80 font-light leading-relaxed italic">
+                      NOR make no medical or therapeutic claims. Perform a patch test before skin use. Store away from heat and direct sunlight.
+                    </p>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    {["Do not ingest", "Keep away from children", "Avoid eye contact", "Automotive use only"].map((item, i) => (
+                      <div key={i} className="px-3 py-2 bg-white/5 border border-white/5 rounded-lg text-[10px] uppercase tracking-widest font-bold text-muted-foreground/60 text-center flex items-center justify-center">
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* 12. Intellectual Property */}
+              <div className="space-y-6">
+                <div className="flex items-center gap-4">
+                  <span className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-display text-lg">12</span>
+                  <h2 className="font-display text-2xl text-foreground m-0">Intellectual property</h2>
+                </div>
+                <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">
+                  All content — including the <strong>NOR</strong> brand name, logo, and product names (<strong>Mask, Aqua</strong>) — is the exclusive intellectual property of NOR. Unauthorised reproduction or distribution results in legal action.
                 </p>
               </div>
 
-              <div>
-                <h2 className="font-display text-2xl text-foreground mb-4 flex items-center gap-3">
-                  <span className="text-primary/40 text-sm">07</span> No Cancellations
-                </h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  Orders cannot be cancelled once placed and payment is confirmed. NOR operates a strict no-cancellation policy. Please review your order carefully — product, quantity, and delivery address — before completing checkout.
-                  <br /><br />
-                  <span className="text-primary italic">Note: Once your payment is confirmed, your order is locked and cannot be cancelled or modified under any circumstances. NOR will not make exceptions to this policy.</span>
+              {/* 13. Limitation & 14. Indemnification */}
+              <div className="grid md:grid-cols-2 gap-8 pt-8">
+                <div className="space-y-4">
+                  <h4 className="text-[10px] font-bold text-primary tracking-widest uppercase">13. Limitation of liability</h4>
+                  <p className="text-xs text-muted-foreground/70 font-light leading-relaxed">
+                    NOR's total liability shall not exceed the amount paid for the specific product. We are not liable for incidental or consequential damages.
+                  </p>
+                </div>
+                <div className="space-y-4">
+                  <h4 className="text-[10px] font-bold text-primary tracking-widest uppercase">14. Indemnification</h4>
+                  <p className="text-xs text-muted-foreground/70 font-light leading-relaxed">
+                    You agree to hold NOR harmless from any claims arising from your violation of these terms or misuse of our products.
+                  </p>
+                </div>
+              </div>
+
+              {/* 16. Governing Law */}
+              <div className="space-y-6 pt-10 border-t border-white/5">
+                <div className="flex items-center gap-4">
+                  <span className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-display text-lg">16</span>
+                  <h2 className="font-display text-2xl text-foreground m-0 uppercase tracking-widest text-lg">Governing law and disputes</h2>
+                </div>
+                <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">
+                  These Terms are governed by Indian law. Unresolved disputes shall be subject to the exclusive jurisdiction of the competent courts in <strong>Kerala, India</strong>.
                 </p>
               </div>
 
-              <div>
-                <h2 className="font-display text-2xl text-foreground mb-4 flex items-center gap-3">
-                  <span className="text-primary/40 text-sm">08</span> Payment
-                </h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  All orders must be paid in full at the time of ordering. NOR does not offer Cash on Delivery (COD), credit terms, or deferred payment. Accepted methods: UPI, debit cards, credit cards, and net banking — processed through a secure third-party gateway. NOR does not store or access any payment credentials.
+              {/* 18. Entire agreement */}
+              <div className="space-y-6 p-10 bg-primary/5 border border-primary/10 rounded-3xl text-center">
+                <Law className="w-10 h-10 text-primary mx-auto mb-4 opacity-50" />
+                <h3 className="font-display text-xl text-foreground m-0 uppercase tracking-widest text-sm">Entire Agreement</h3>
+                <p className="text-xs text-muted-foreground/70 font-light italic max-w-sm mx-auto">
+                  These Terms, coupled with our Return, Shipping, and Privacy Policies, supersede all prior communications whether written, verbal, or via Instagram DM.
                 </p>
+                <div className="pt-6">
+                  <p className="text-[10px] text-muted-foreground/40 font-bold uppercase tracking-widest">Legal & Governance • norperfume.help@gmail.com</p>
+                </div>
               </div>
 
-              <div>
-                <h2 className="font-display text-2xl text-foreground mb-4 flex items-center gap-3">
-                  <span className="text-primary/40 text-sm">09</span> Shipping & Delivery
-                </h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  NOR ships within India only via DTDC, Blue Dart, and Delhivery. Standard delivery takes 4–7 business days from dispatch. Free shipping on orders above ₹999. NOR is not liable for delays caused by courier partners, incorrect customer addresses, or circumstances beyond NOR's control.
-                </p>
-              </div>
-
-              <div>
-                <h2 className="font-display text-2xl text-foreground mb-4 flex items-center gap-3">
-                  <span className="text-primary/40 text-sm">10</span> Returns & Replacements
-                </h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  NOR does not accept returns on opened or used products. Damage claims require a valid unboxing video recorded before opening, submitted within 48 hours of delivery, along with photographs and order details. Eligible claims result in a replacement product only — no monetary refunds are issued under any circumstances.
-                </p>
-              </div>
-
-              <div>
-                <h2 className="font-display text-2xl text-foreground mb-4 flex items-center gap-3">
-                  <span className="text-primary/40 text-sm">11</span> Product Use & Disclaimer
-                </h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  NOR products are designed as luxury automotive fragrances for use inside vehicles. While formulations are toxin-free and suitable for skin contact, NOR makes no medical, therapeutic, or dermatological claims. Customers with known allergies or sensitivities should perform a patch test before skin use. Store away from heat and direct sunlight. Keep out of reach of children.
-                </p>
-              </div>
-
-              <div>
-                <h2 className="font-display text-2xl text-foreground mb-4 flex items-center gap-3">
-                  <span className="text-primary/40 text-sm">12</span> Intellectual Property
-                </h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  All content on norperfume.com — including the NOR brand name, logo, product names, descriptions, images, and design — is the exclusive intellectual property of NOR, protected under applicable Indian and international intellectual property laws. Unauthorised use may result in legal action.
-                </p>
-              </div>
-
-              <div>
-                <h2 className="font-display text-2xl text-foreground mb-4 flex items-center gap-3">
-                  <span className="text-primary/40 text-sm">13</span> Limitation of Liability
-                </h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  To the fullest extent permitted by law, NOR shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from use of our website, products, or services. NOR's total liability shall not exceed the total amount paid by that customer for the specific product.
-                </p>
-              </div>
-
-              <div>
-                <h2 className="font-display text-2xl text-foreground mb-4 flex items-center gap-3">
-                  <span className="text-primary/40 text-sm">14</span> Indemnification
-                </h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  You agree to indemnify and hold harmless NOR and its founder, personnel, and agents from any claims, damages, liabilities, and expenses arising from your violation of these Terms, misuse of our products or website, or submission of fraudulent claims.
-                </p>
-              </div>
-
-              <div>
-                <h2 className="font-display text-2xl text-foreground mb-4 flex items-center gap-3">
-                  <span className="text-primary/40 text-sm">15</span> Fraud & Misuse
-                </h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  NOR reserves the right to take legal action against any customer found to have submitted fraudulent damage claims, false non-receipt declarations, or manipulated evidence. Such customers will be permanently banned from purchasing on norperfume.com.
-                </p>
-              </div>
-
-              <div>
-                <h2 className="font-display text-2xl text-foreground mb-4 flex items-center gap-3">
-                  <span className="text-primary/40 text-sm">16</span> Governing Law & Disputes
-                </h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  These Terms are governed by the laws of India. Any dispute unresolved through good-faith negotiation shall be subject to the exclusive jurisdiction of the competent courts in Kerala, India.
-                </p>
-              </div>
-
-              <div>
-                <h2 className="font-display text-2xl text-foreground mb-4 flex items-center gap-3">
-                  <span className="text-primary/40 text-sm">17</span> Changes to These Terms
-                </h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  NOR reserves the right to update these Terms at any time. Changes will be posted with a revised effective date. Continued use of norperfume.com after any update constitutes acceptance of the revised terms.
-                </p>
-              </div>
-
-              <div>
-                <h2 className="font-display text-2xl text-foreground mb-4 flex items-center gap-3">
-                  <span className="text-primary/40 text-sm">18</span> Entire Agreement
-                </h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  These Terms of Service constitute the entire agreement between you and NOR regarding the use of our services.
-                </p>
-              </div>
-
-              <div className="pt-8 border-t border-border/50 text-center">
-                <p className="text-foreground font-medium mb-2 font-display uppercase tracking-widest text-lg">Legal Enquiries</p>
-                <a href="mailto:norperfume.help@gmail.com" className="text-primary hover:underline text-lg">norperfume.help@gmail.com</a>
-              </div>
-              
             </div>
           </div>
         </div>

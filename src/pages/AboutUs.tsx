@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import { Leaf, Award, Globe, Heart } from "lucide-react";
+import SEO from "@/components/SEO";
 
 const values = [
   { icon: Leaf, title: "100% Natural", desc: "We use only pure, sustainably sourced essential oils and botanicals." },
@@ -11,7 +12,11 @@ const values = [
 ];
 
 const AboutUs = () => (
-  <main className="min-h-screen bg-background">
+  <main className="min-h-screen bg-background text-foreground">
+    <SEO 
+      title="About Us | NOR Luxury Car Fragrances"
+      description="The story of NOR. Handcrafted luxury automotive fragrances made in India with 100% natural oils and innovative zero-liquid technology."
+    />
     <Navbar />
     <section className="pt-28 pb-16 px-4">
       <div className="max-w-4xl mx-auto text-center">

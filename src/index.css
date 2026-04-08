@@ -131,7 +131,7 @@
 }
 
 .animate-marquee {
-  animation: marquee 15s linear infinite;
+  animation: marquee 8s linear infinite;
 }
 
 /* Counter animation */

@@ -18,6 +18,7 @@ import {
   type ShopifyCartItem,
 } from "@/lib/shopify/cart";
 import { useCustomerAuth } from "@/context/CustomerAuthContext";
+import { trackAddToCart, trackInitiateCheckout } from "@/lib/meta-pixel";
 
 export const CART_STORAGE_KEY = "nor-shopify-cart-id";
 
@@ -126,6 +127,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
         applyCartSnapshot(snapshot);
         setIsOpen(true);
+        trackAddToCart(product, quantity);
       } catch (error) {
         const message =
           error instanceof Error ? error.message : "Unable to add this item to your Shopify cart.";
@@ -226,6 +228,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
     try {
       setIsCheckingOut(true);
+      trackInitiateCheckout(items, totalPrice);
       window.location.assign(targetUrl);
     } finally {
       setIsCheckingOut(false);

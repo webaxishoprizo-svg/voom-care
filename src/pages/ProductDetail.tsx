@@ -15,9 +15,11 @@ import {
   Plus,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useHybridProduct, useHybridProducts } from "@/lib/shopify/hooks";
 import { formatCurrency } from "@/lib/utils";
+import SEO from "@/components/SEO";
+import { trackViewContent } from "@/lib/meta-pixel";
 
 const testimonials = [
   {
@@ -48,6 +50,12 @@ const ProductDetail = () => {
   const product = productQuery.data;
   const catalog = catalogQuery.data || [];
   const recommended = catalog.filter((item) => item.id !== product?.id).slice(0, 3);
+
+  useEffect(() => {
+    if (product) {
+      trackViewContent(product);
+    }
+  }, [product]);
 
   if (!product && productQuery.isLoading) {
     return (
@@ -98,8 +106,34 @@ const ProductDetail = () => {
     await addItem(product, qty);
   };
 
+  const productSchema = product ? {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    "name": product.name,
+    "image": [product.image, ...(product.images || [])],
+    "description": product.description || `Luxury car fragrance ${product.name} by NOR.`,
+    "sku": product.id,
+    "brand": {
+      "@type": "Brand",
+      "name": "NOR"
+    },
+    "offers": {
+      "@type": "Offer",
+      "url": window.location.href,
+      "priceCurrency": product.currencyCode || "INR",
+      "price": product.price,
+      "availability": product.availableForSale ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+    }
+  } : null;
+
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen bg-background text-foreground">
+      <SEO 
+        title={`${product.name} | Luxury Car Fragrance | NOR`}
+        description={product.description || `Discover ${product.name}, a premium handcrafted car fragrance from NOR. 100% natural oils with zero-liquid technology.`}
+        keywords={`${product.name}, car perfume, luxury fragrance, NOR perfume, automotive scent`}
+        schema={productSchema}
+      />
       <Navbar />
 
       <div className="pt-24 px-4">

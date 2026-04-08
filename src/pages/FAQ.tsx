@@ -4,6 +4,7 @@ import Newsletter from "@/components/Newsletter";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Minus, ExternalLink } from "lucide-react";
 import { useState } from "react";
+import SEO from "@/components/SEO";
 
 interface FAQItemData {
   q: string;
@@ -225,8 +226,26 @@ const FAQ = () => {
     return cat.id === activeCategory;
   });
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqData.flatMap(cat => cat.questions).map(item => ({
+      "@type": "Question",
+      "name": item.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": item.a
+      }
+    }))
+  };
+
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen bg-background text-foreground">
+      <SEO 
+        title="FAQ | NOR Luxury Car Fragrances | Help Centre"
+        description="Find answers to common questions about NOR car perfumes, delivery times, usage instructions, and return policies."
+        schema={faqSchema}
+      />
       <Navbar />
 
       {/* Hero Section */}

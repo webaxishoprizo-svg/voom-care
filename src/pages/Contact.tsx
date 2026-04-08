@@ -7,6 +7,8 @@ import { Input } from "@/components/ui/input";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mail, Phone, MapPin, Clock, Send, X, CheckCircle2, Loader2 } from "lucide-react";
 import Newsletter from "@/components/Newsletter";
+import SEO from "@/components/SEO";
+import { trackContact } from "@/lib/meta-pixel";
 
 const infoCards = [
   {
@@ -61,6 +63,7 @@ const Contact = () => {
       console.log('SUCCESS!', result.status, result.text);
       setShowSuccess(true);
       setFormData({ name: "", email: "", subject: "", message: "" });
+      trackContact();
 
       // Auto-close success modal after 5 seconds
       setTimeout(() => setShowSuccess(false), 5000);
@@ -79,6 +82,10 @@ const Contact = () => {
 
   return (
     <main className="min-h-screen bg-background text-foreground">
+      <SEO 
+        title="Contact Us | NOR Luxury Car Fragrances"
+        description="Get in touch with the NOR team for order inquiries, damage claims, or product questions. We respond to all messages within 24 hours."
+      />
       <Navbar />
 
       <section className="pt-32 pb-20 px-4">
