@@ -15,8 +15,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['InterNumbers', 'Inter', 'system-ui', 'sans-serif'],
-        display: ['InterNumbers', '"Playfair Display"', 'serif'],
+        sans: ['InterNumbers', 'Montserrat', 'system-ui', 'sans-serif'],
+        display: ['InterNumbers', '"Tenor Sans"', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",

@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Menu, Search, User, ShoppingBag, X } from "lucide-react";
+import { Menu, Search, User, ShoppingBag, X, Package } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
-import { SHOPIFY_ACCOUNT_URL } from "@/lib/shopify/client";
+import { SHOPIFY_ACCOUNT_URL, SHOPIFY_ORDERS_URL } from "@/lib/shopify/client";
 import logo from "@/assets/logo.png";
 import SearchDialog from "@/components/SearchDialog";
 
@@ -16,7 +16,6 @@ const Navbar = () => {
     { label: "Home", href: "/", external: false },
     { label: "Products", href: "/products", external: false },
     { label: "FAQ", href: "/faq", external: false },
-    { label: "Account", href: SHOPIFY_ACCOUNT_URL, external: true },
     { label: "About Us", href: "/about", external: false },
     { label: "Track My Order", href: "/track-order", external: false },
   ];
@@ -27,7 +26,7 @@ const Navbar = () => {
         <div className="max-w-7xl lg:max-w-4xl mx-auto flex items-center justify-between bg-surface-glass rounded-full px-6 py-4 lg:px-5 lg:py-2.5 relative border border-white/5 shadow-2xl shadow-black/40">
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="flex items-center gap-2 text-foreground text-sm tracking-widest uppercase z-10 group"
+            className="flex items-center gap-2 text-foreground text-[13px] font-medium tracking-wide z-10 group"
           >
             <span className="hidden sm:inline">Menu</span>
             <div className="flex flex-col gap-1 w-6 items-start">
@@ -79,7 +78,9 @@ const Navbar = () => {
               className="fixed top-0 left-0 bottom-0 z-[61] w-[75%] max-w-[360px] bg-background/80 backdrop-blur-xl border-r border-white/10 flex flex-col"
             >
               <div className="flex items-center justify-between px-6 py-5">
-                <img src={logo} alt="NOR" className="h-8 w-auto" />
+                <div className="flex items-center gap-4">
+                  <img src={logo} alt="NOR" className="h-8 w-auto" />
+                </div>
                 <button onClick={() => setMenuOpen(false)} className="text-foreground">
                   <X className="w-6 h-6" />
                 </button>
@@ -106,6 +107,23 @@ const Navbar = () => {
                     </Link>
                   ),
                 )}
+
+                <div className="mt-8 flex items-center gap-4 py-8 border-t border-white/5">
+                  <a
+                    href={SHOPIFY_ACCOUNT_URL}
+                    className="flex items-center justify-center w-12 h-12 rounded-full bg-surface-glass border border-white/10 hover:border-primary/50 transition-colors"
+                    aria-label="Account"
+                  >
+                    <User className="w-6 h-6 text-foreground" />
+                  </a>
+                  <a
+                    href={SHOPIFY_ORDERS_URL}
+                    className="flex items-center justify-center w-12 h-12 rounded-full bg-surface-glass border border-white/10 hover:border-primary/50 transition-colors"
+                    aria-label="Orders"
+                  >
+                    <Package className="w-6 h-6 text-foreground" />
+                  </a>
+                </div>
               </div>
             </motion.div>
           </>

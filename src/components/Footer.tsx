@@ -1,27 +1,11 @@
-import { Instagram, Facebook, Linkedin } from "lucide-react";
+import { Instagram, Facebook, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
 import logo from "@/assets/logo.png";
 
 const Footer = () => {
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
   return (
-    <footer className="relative bg-background border-t border-border/30 pt-8 pb-12 px-4 mt-20">
+    <footer className="relative bg-background border-t border-border/30 pt-16 pb-12 px-4 mt-20">
       <div className="max-w-7xl mx-auto">
-        {/* Back to Top Section */}
-        <div className="flex flex-col items-center mb-12">
-          <button
-            onClick={scrollToTop}
-            className="group flex flex-col items-center gap-2 text-foreground/60 hover:text-primary transition-colors duration-500 mb-8"
-          >
-            <span className="text-[10px] tracking-[0.4em] font-medium uppercase py-2">
-              ↑ Back to Top
-            </span>
-          </button>
-          <div className="w-full h-px bg-border/20" />
-        </div>
 
         <div className="grid md:grid-cols-4 gap-12 mb-16">
           <div className="space-y-6">
@@ -33,14 +17,14 @@ const Footer = () => {
               Luxury car fragrances crafted in India with 100% natural oils for those who drive with purpose.
             </p>
             <div className="flex gap-4 pt-2">
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors duration-300">
+              <a href="https://www.instagram.com/norperfumeofficial" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors duration-300">
                 <Instagram className="w-5 h-5" />
               </a>
               <a href="#" className="text-muted-foreground hover:text-primary transition-colors duration-300">
                 <Facebook className="w-5 h-5" />
               </a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors duration-300">
-                <Linkedin className="w-5 h-5" />
+              <a href="mailto:norperfume.in@gmail.com" className="text-muted-foreground hover:text-primary transition-colors duration-300">
+                <Mail className="w-5 h-5" />
               </a>
             </div>
           </div>
@@ -87,7 +71,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-border/20 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-muted-foreground text-[10px] tracking-widest uppercase">
+        <div className="border-t border-border/20 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-muted-foreground text-[10px] tracking-wide uppercase">
           <p>© {new Date().getFullYear()} NOR PERFUME. All rights reserved.</p>
           <p>Crafted with pride in India</p>
         </div>

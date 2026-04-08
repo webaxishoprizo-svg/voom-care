@@ -7,6 +7,7 @@ import { CartProvider } from "@/context/CartContext";
 import { CustomerAuthProvider } from "@/context/CustomerAuthContext";
 import CartDrawer from "@/components/CartDrawer";
 import ScrollToTop from "@/components/ScrollToTop";
+import ScrollToTopOnNavigation from "@/components/ScrollToTopOnNavigation";
 import Index from "./pages/Index.tsx";
 import Products from "./pages/Products.tsx";
 import ProductDetail from "./pages/ProductDetail.tsx";
@@ -34,6 +35,7 @@ const App = () => (
           <CartDrawer />
           <BrowserRouter>
             <ScrollToTop />
+            <ScrollToTopOnNavigation />
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/products" element={<Products />} />

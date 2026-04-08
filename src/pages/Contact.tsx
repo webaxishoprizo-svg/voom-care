@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mail, Phone, MapPin, Clock, Send, X, CheckCircle2, Loader2 } from "lucide-react";
+import Newsletter from "@/components/Newsletter";
 
 const infoCards = [
   {
@@ -184,42 +185,7 @@ const Contact = () => {
         </div>
       </section>
 
-      {/* Map Section */}
-      <section className="px-4 pb-20">
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="relative rounded-3xl overflow-hidden h-[450px] border border-border/50 shadow-2xl"
-          >
-            {/* Dark styled Google Map iframe */}
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3886.0827284646543!2d74.8942!3d12.7094!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba36136d8d8d8d8%3A0x8d8d8d8d8d8d8d8d!2sUppala%2C%20Kerala!5e0!3m2!1sen!2sin!4v1712415000000!5m2!1sen!2sin"
-              className="w-full h-full grayscale invert-[0.9] contrast-[1.2] opacity-80"
-              style={{ border: 0 }}
-              allowFullScreen={true}
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
-
-            {/* Map Overlay Info */}
-            <div className="absolute top-8 left-8 glass-card backdrop-blur-md p-6 rounded-2xl max-w-xs shadow-2xl hidden md:block">
-              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                <MapPin className="w-5 h-5 text-primary" />
-              </div>
-              <h3 className="text-foreground font-display text-lg mb-2">Our Location</h3>
-              <p className="text-muted-foreground text-xs leading-relaxed mb-4">
-                Door No:5/52 Kodibail, Mangalpady Gram Panchayth, Uppala, Kasargod-671322, Kerala
-              </p>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                <span className="text-[10px] font-bold tracking-widest text-foreground uppercase">Open for drop-ins</span>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      <Newsletter />
 
       {/* Success Modal */}
       <AnimatePresence>

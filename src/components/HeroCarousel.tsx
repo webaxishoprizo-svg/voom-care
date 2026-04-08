@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useHeroSlides } from "@/lib/shopify/hooks";
 
 const HeroCarousel = () => {
@@ -96,7 +97,7 @@ const HeroCarousel = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.6 }}
-          className="font-display italic text-[clamp(2.5rem,7vw,5.5rem)] text-foreground leading-[1.1] mb-6 tracking-wide"
+          className="font-display italic text-[clamp(2.5rem,7vw,5.5rem)] text-foreground leading-[1.1] mb-6 tracking-normal"
         >
           Signature Series
         </motion.h2>
@@ -106,7 +107,7 @@ const HeroCarousel = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.6 }}
-            className="text-[clamp(0.8rem,2.5vw,1.3rem)] text-foreground/60 max-w-lg mx-auto leading-relaxed tracking-widest lowercase italic font-light"
+            className="text-[clamp(0.9rem,2.5vw,1.4rem)] text-foreground/60 max-w-lg mx-auto leading-relaxed tracking-normal italic font-light"
           >
             {currentSlide.description}
           </motion.p>
@@ -116,29 +117,31 @@ const HeroCarousel = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.6 }}
-          className="mt-12 px-12 py-3.5 glass-card rounded-full text-foreground text-[10px] tracking-[0.25em] uppercase hover:bg-white/10 transition-all duration-500 backdrop-blur-md"
+          className="mt-12 px-12 py-3.5 glass-card rounded-full text-foreground text-[12px] font-medium tracking-wide hover:bg-white/10 transition-all duration-500 backdrop-blur-md"
         >
           Explore Collection
         </motion.a>
       </div>
 
-      <motion.div
-        key={`card-${currentSlide.id}`}
-        initial={{ opacity: 0, x: -40 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.4, duration: 0.6 }}
-        className="absolute bottom-12 left-6 md:left-16 z-20 bg-surface-glass rounded-xl p-6 max-w-[240px]"
-      >
-        <p className="text-[10px] tracking-[0.4em] uppercase text-foreground/40 mb-2 font-medium">
-          {currentSlide.subtitle || "BESTSELLER"}
-        </p>
-        <h3 className="font-display italic text-2xl md:text-3xl text-foreground tracking-wide leading-tight">
-          {currentSlide.title}
-        </h3>
-        <p className="text-[9px] md:text-[10px] tracking-[0.3em] uppercase text-foreground/40 mt-5 font-medium">
-          WARM · WOODY · SENSUAL
-        </p>
-      </motion.div>
+      <Link to={currentSlide.ctaHref || "#"}>
+        <motion.div
+          key={`card-${currentSlide.id}`}
+          initial={{ opacity: 0, x: -40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.4, duration: 0.6 }}
+          className="absolute bottom-12 left-6 md:left-16 z-20 bg-surface-glass rounded-xl p-6 max-w-[240px] border border-white/5 hover:bg-white/10 hover:border-white/20 transition-all group"
+        >
+          <p className="text-[11px] tracking-wide font-medium text-foreground/40 mb-2">
+            {currentSlide.subtitle || "Bestseller"}
+          </p>
+          <h3 className="font-display italic text-2xl md:text-3xl text-foreground tracking-normal leading-tight group-hover:text-primary transition-colors">
+            {currentSlide.title}
+          </h3>
+          <p className="text-[10px] md:text-[11px] tracking-widest text-foreground/40 mt-5 font-medium">
+            Warm • Woody • Sensual
+          </p>
+        </motion.div>
+      </Link>
 
       <button
         onClick={prev}

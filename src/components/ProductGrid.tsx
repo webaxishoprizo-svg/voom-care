@@ -58,7 +58,7 @@ const ProductCard = ({ product, index, x, itemWidth, productsCount }: {
         />
         
         {product.discount && (
-          <span className="absolute top-4 left-4 z-10 bg-primary/80 backdrop-blur-sm text-primary-foreground text-[10px] tracking-widest px-3 py-1 rounded-full font-bold">
+          <span className="absolute top-4 left-4 z-10 bg-primary/80 backdrop-blur-sm text-primary-foreground text-[11px] tracking-wide px-3 py-1 rounded-full font-bold">
             {product.discount}% OFF
           </span>
         )}
@@ -178,9 +178,9 @@ const ProductGrid = () => {
   return (
     <section id="collections" className="py-24 overflow-hidden relative">
       <div className="max-w-6xl mx-auto px-4 mb-16 text-center">
-        <p className="text-xs tracking-[0.3em] uppercase text-primary mb-2">The Elite Edit</p>
-        <h2 className="font-display text-4xl md:text-6xl text-foreground font-bold tracking-tight">
-          BEST SELLERS
+        <p className="text-[13px] tracking-wide font-medium text-primary mb-2">The Elite Edit</p>
+        <h2 className="font-display text-4xl md:text-5xl text-foreground font-bold tracking-normal">
+          Best Sellers
         </h2>
       </div>
 
@@ -237,7 +237,7 @@ const ProductGrid = () => {
       <div className="mt-16 text-center px-4">
         <Link
           to="/products"
-          className="inline-flex items-center justify-center gap-3 border border-white/10 rounded-full px-10 py-4 text-sm text-foreground/70 hover:text-foreground hover:bg-white/5 transition-all uppercase tracking-widest"
+          className="inline-flex items-center justify-center gap-3 border border-white/10 rounded-full px-10 py-3.5 text-[13px] font-medium text-foreground/70 hover:text-foreground hover:bg-white/5 transition-all tracking-wide"
         >
           <ArrowRight className="w-4 h-4" />
           Browse Full Selection

@@ -1,9 +1,9 @@
-import { Truck, ShieldCheck, RotateCcw } from "lucide-react";
+import { Truck, ShieldCheck, Headphones } from "lucide-react";
 
 const badges = [
   { icon: Truck, label: "Free Shipping" },
   { icon: ShieldCheck, label: "Secure Payment" },
-  { icon: RotateCcw, label: "Easy Returns" },
+  { icon: Headphones, label: "24/7 Support" },
 ];
 
 const TrustBadges = () => (
@@ -11,7 +11,7 @@ const TrustBadges = () => (
     {badges.map(({ icon: Icon, label }) => (
       <div key={label} className="flex flex-col items-center gap-2 text-center">
         <Icon className="w-6 h-6 text-primary" />
-        <span className="text-xs tracking-widest uppercase text-muted-foreground">{label}</span>
+        <span className="text-xs tracking-wide uppercase text-muted-foreground">{label}</span>
       </div>
     ))}
   </div>

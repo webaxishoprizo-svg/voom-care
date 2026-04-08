@@ -67,7 +67,7 @@ const Newsletter = () => {
         viewport={{ once: true }}
         className="max-w-xl mx-auto text-center"
       >
-        <p className="text-xs tracking-[0.3em] uppercase text-primary mb-2">
+        <p className="text-xs tracking-wider uppercase text-primary mb-2">
           Stay Updated
         </p>
 

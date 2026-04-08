@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Newsletter from "@/components/Newsletter";
 import { useCart } from "@/context/CartContext";
 import { motion } from "framer-motion";
 import {
@@ -326,6 +327,7 @@ const ProductDetail = () => {
         </section>
       )}
 
+      <Newsletter />
       <Footer />
     </main>
   );
