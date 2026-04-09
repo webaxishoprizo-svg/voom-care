@@ -112,18 +112,21 @@ const HeroCarousel = () => {
             {currentSlide.description}
           </motion.p>
         )}
-        <motion.a
-          href={currentSlide.ctaHref || "#collections"}
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.6 }}
-          className="mt-12 px-12 py-3.5 glass-card rounded-full text-foreground text-[12px] font-medium tracking-wide hover:bg-white/10 transition-all duration-500 backdrop-blur-md"
         >
-          Explore Collection
-        </motion.a>
+          <Link
+            to="/products"
+            className="mt-12 px-12 py-3.5 glass-card rounded-full text-foreground text-[12px] font-medium tracking-wide hover:bg-white/10 transition-all duration-500 backdrop-blur-md inline-block"
+          >
+            Explore Collection
+          </Link>
+        </motion.div>
       </div>
 
-      <Link to={currentSlide.ctaHref || "#"}>
+      <Link to={currentSlide.ctaHref && currentSlide.ctaHref !== "#collections" ? currentSlide.ctaHref : "/products"}>
         <motion.div
           key={`card-${currentSlide.id}`}
           initial={{ opacity: 0, x: -40 }}

@@ -116,7 +116,7 @@ const CartDrawer = () => {
               <Button
                 onClick={checkout}
                 disabled={isCheckingOut}
-                className="w-full h-12 gradient-gold text-primary-foreground font-semibold text-base rounded-full hover:opacity-90 transition-opacity disabled:opacity-70"
+                className="w-full h-12 gradient-gold text-primary-foreground font-semibold text-base rounded-[6px] hover:opacity-90 transition-opacity disabled:opacity-70"
               >
                 {isCheckingOut
                   ? "Redirecting to Checkout..."

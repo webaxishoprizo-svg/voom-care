@@ -460,7 +460,7 @@ export function buildHeroSlides(_products: Product[], collections: CollectionCar
         ctaHref:
           product.handle && product.handle !== heroCollection.handle
             ? `/product/${product.handle}`
-            : "#collections",
+            : "/products",
       } satisfies HeroSlide;
     })
     .filter((slide) => Boolean(slide.image));
