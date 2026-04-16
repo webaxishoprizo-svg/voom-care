@@ -1,5 +1,5 @@
 const DEFAULT_SHOPIFY_CONFIG = {
-  domain: "shop.norperfume.com",
+  domain: "nor-perfume-2.myshopify.com",
   apiVersion: "2024-01",
   accessToken: "597e532f7345926a95b019ced728a002",
 };
