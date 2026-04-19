@@ -42,13 +42,13 @@ const Navbar = () => {
 
           <div className="flex items-center gap-4 z-10">
             <Search onClick={() => setSearchOpen(true)} className="w-5 h-5 text-foreground/70 hover:text-foreground cursor-pointer transition-colors" />
-            <a
-              href={SHOPIFY_ACCOUNT_URL}
+            <Link
+              to={SHOPIFY_ACCOUNT_URL}
               className="hidden sm:block"
-              aria-label="Open Shopify account"
+              aria-label="Open account"
             >
               <User className="w-5 h-5 text-foreground/70 hover:text-foreground transition-colors" />
-            </a>
+            </Link>
             <button onClick={() => setIsOpen(true)} className="relative">
               <ShoppingBag className="w-5 h-5 text-foreground/70 hover:text-foreground cursor-pointer transition-colors" />
               <span className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-primary text-primary-foreground text-[10px] flex items-center justify-center font-semibold">
@@ -109,20 +109,22 @@ const Navbar = () => {
                 )}
 
                 <div className="mt-8 flex items-center gap-4 py-8 border-t border-white/5">
-                  <a
-                    href={SHOPIFY_ACCOUNT_URL}
+                  <Link
+                    to={SHOPIFY_ACCOUNT_URL}
+                    onClick={() => setMenuOpen(false)}
                     className="flex items-center justify-center w-12 h-12 rounded-full bg-surface-glass border border-white/10 hover:border-primary/50 transition-colors"
                     aria-label="Account"
                   >
                     <User className="w-6 h-6 text-foreground" />
-                  </a>
-                  <a
-                    href={SHOPIFY_ORDERS_URL}
+                  </Link>
+                  <Link
+                    to={SHOPIFY_ORDERS_URL}
+                    onClick={() => setMenuOpen(false)}
                     className="flex items-center justify-center w-12 h-12 rounded-full bg-surface-glass border border-white/10 hover:border-primary/50 transition-colors"
                     aria-label="Orders"
                   >
                     <Package className="w-6 h-6 text-foreground" />
-                  </a>
+                  </Link>
                 </div>
               </div>
             </motion.div>

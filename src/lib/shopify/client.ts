@@ -18,6 +18,7 @@ export const SHOPIFY_CONFIG = {
     import.meta.env.VITE_SHOPIFY_API_VERSION || DEFAULT_SHOPIFY_CONFIG.apiVersion,
   accessToken:
     import.meta.env.VITE_SHOPIFY_ACCESS_TOKEN || DEFAULT_SHOPIFY_CONFIG.accessToken,
+  publicClientId: "d9d84aeb-8c67-483e-9cfe-a9bf59a8731f",
 };
 
 // Ensure domain always ends with .myshopify.com if it's a shopify domain
@@ -31,11 +32,11 @@ const getFullDomain = (domain: string) => {
 const normalizedDomain = getFullDomain(SHOPIFY_CONFIG.domain);
 export const SHOPIFY_STORE_URL = `https://${normalizedDomain}`;
 export const SHOPIFY_ENDPOINT = `${SHOPIFY_STORE_URL}/api/${SHOPIFY_CONFIG.apiVersion}/graphql.json`;
-export const SHOPIFY_ACCOUNT_URL = `${SHOPIFY_STORE_URL}/account`;
-export const SHOPIFY_ORDERS_URL = `${SHOPIFY_STORE_URL}/account?view=orders`; // Shopify default orders view
-export const SHOPIFY_LOGIN_URL = `${SHOPIFY_STORE_URL}/account/login`;
-export const SHOPIFY_REGISTER_URL = `${SHOPIFY_STORE_URL}/account/register`;
-export const SHOPIFY_LOGOUT_URL = `${SHOPIFY_STORE_URL}/account/logout`;
+export const SHOPIFY_ACCOUNT_URL = "/account";
+export const SHOPIFY_ORDERS_URL = "/account/orders";
+export const SHOPIFY_LOGIN_URL = "/login";
+export const SHOPIFY_REGISTER_URL = "/login"; // New flow combines login/register
+export const SHOPIFY_LOGOUT_URL = "/logout";
 
 interface ShopifyGraphQLError {
   message: string;
@@ -81,6 +82,45 @@ export async function shopifyQuery<T>(
     return payload.data;
   } catch (error) {
     console.error("Shopify Fetch Exception:", error);
+    throw error;
+  }
+
+export async function shopifyCustomerQuery<T>(
+  query: string,
+  variables: Record<string, unknown> = {},
+  accessToken: string,
+) {
+  try {
+    const response = await fetch("https://shopify.com/api/customer/graphql", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ query, variables }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`Shopify Customer Error (${response.status}):`, errorText);
+      throw new Error(`Shopify Customer request failed with status ${response.status}.`);
+    }
+
+    const payload = (await response.json()) as ShopifyGraphQLResponse<T>;
+
+    if (payload.errors?.length) {
+      const errorMessages = payload.errors.map((error) => error.message).join("\n");
+      console.error("Shopify Customer GraphQL Errors:", errorMessages);
+      throw new Error(errorMessages);
+    }
+
+    if (!payload.data) {
+      throw new Error("Shopify Customer returned an empty response.");
+    }
+
+    return payload.data;
+  } catch (error) {
+    console.error("Shopify Customer Fetch Exception:", error);
     throw error;
   }
 }

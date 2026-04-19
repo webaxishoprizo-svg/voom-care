@@ -7,51 +7,29 @@ import {
   type ReactNode,
 } from "react";
 import { toast } from "@/components/ui/sonner";
-import {
-  fetchShopifyCustomer,
-  loginShopifyCustomer,
-  logoutShopifyCustomer,
-  registerShopifyCustomer,
-  updateShopifyCustomer,
-  type ShopifyCustomerProfile,
-} from "@/lib/shopify/customer";
+import { fetchCustomerProfile, type CustomerProfile } from "@/lib/shopify/customer-account";
 
 export const CUSTOMER_TOKEN_STORAGE_KEY = "nor-shopify-customer-access-token";
 
 interface CustomerAuthContextType {
-  customer: ShopifyCustomerProfile | null;
+  customer: CustomerProfile | null;
   customerAccessToken: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  isSubmitting: boolean;
-  login: (email: string, password: string) => Promise<void>;
-  register: (input: {
-    firstName?: string;
-    lastName?: string;
-    email: string;
-    password: string;
-  }) => Promise<void>;
-  logout: () => Promise<void>;
-  updateProfile: (input: {
-    firstName?: string;
-    lastName?: string;
-    email?: string;
-    phone?: string;
-  }) => Promise<void>;
+  login: () => void;
+  logout: () => void;
   refreshCustomer: () => Promise<void>;
 }
 
 const CustomerAuthContext = createContext<CustomerAuthContextType | undefined>(undefined);
 
 export const CustomerAuthProvider = ({ children }: { children: ReactNode }) => {
-  const [customer, setCustomer] = useState<ShopifyCustomerProfile | null>(null);
+  const [customer, setCustomer] = useState<CustomerProfile | null>(null);
   const [customerAccessToken, setCustomerAccessToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const persistToken = useCallback((token: string | null) => {
     if (typeof window === "undefined") return;
-
     if (token) {
       window.localStorage.setItem(CUSTOMER_TOKEN_STORAGE_KEY, token);
     } else {
@@ -66,20 +44,16 @@ export const CustomerAuthProvider = ({ children }: { children: ReactNode }) => {
   }, [persistToken]);
 
   const loadCustomer = useCallback(
-    async (token: string, silent = false) => {
+    async (token: string) => {
       try {
-        const profile = await fetchShopifyCustomer(token);
+        const profile = await fetchCustomerProfile(token);
         setCustomer(profile);
         setCustomerAccessToken(token);
         persistToken(token);
         return profile;
       } catch (error) {
         clearSession();
-        if (!silent) {
-          const message =
-            error instanceof Error ? error.message : "Unable to load your Shopify account.";
-          toast.error(message);
-        }
+        console.error("Failed to load customer:", error);
         throw error;
       }
     },
@@ -92,111 +66,50 @@ export const CustomerAuthProvider = ({ children }: { children: ReactNode }) => {
       return;
     }
 
-    const token = window.localStorage.getItem(CUSTOMER_TOKEN_STORAGE_KEY);
+    // Check URL for access token (handle OAuth callback)
+    const hash = window.location.hash;
+    const urlParams = new URL(window.location.href).searchParams;
+    const tokenFromUrl = urlParams.get("access_token") || new URLSearchParams(hash.replace("#", "?")).get("access_token");
 
-    if (!token) {
-      setIsLoading(false);
+    if (tokenFromUrl) {
+      void loadCustomer(tokenFromUrl).finally(() => {
+        setIsLoading(false);
+        // Clean up URL
+        const cleanUrl = window.location.origin + window.location.pathname;
+        window.history.replaceState({}, document.title, cleanUrl);
+      });
       return;
     }
 
-    void loadCustomer(token, true).finally(() => setIsLoading(false));
+    const savedToken = window.localStorage.getItem(CUSTOMER_TOKEN_STORAGE_KEY);
+    if (savedToken) {
+      void loadCustomer(savedToken).finally(() => setIsLoading(false));
+    } else {
+      setIsLoading(false);
+    }
   }, [loadCustomer]);
+
+  const login = useCallback(() => {
+    const shopId = "77660979223";
+    const clientId = "d9d84aeb-8c67-483e-9cfe-a9bf59a8731f";
+    const redirectUri = encodeURIComponent(`${window.location.origin}/login`);
+    const scope = encodeURIComponent("openid email customer-account:full");
+    
+    // Using the Shopify Customer Account OAuth authorize endpoint
+    const authUrl = `https://shopify.com/${shopId}/auth/oauth/authorize?client_id=${clientId}&scope=${scope}&response_type=token&redirect_uri=${redirectUri}&state=${Math.random().toString(36).substring(7)}`;
+
+    window.location.href = authUrl;
+  }, []);
+
+  const logout = useCallback(() => {
+    clearSession();
+    window.location.href = "/";
+  }, [clearSession]);
 
   const refreshCustomer = useCallback(async () => {
     if (!customerAccessToken) return;
     await loadCustomer(customerAccessToken);
   }, [customerAccessToken, loadCustomer]);
-
-  const login = useCallback(
-    async (email: string, password: string) => {
-      setIsSubmitting(true);
-
-      try {
-        const token = await loginShopifyCustomer(email, password);
-        await loadCustomer(token.accessToken);
-        toast.success("Logged in with Shopify.");
-      } catch (error) {
-        const message =
-          error instanceof Error ? error.message : "Unable to log in with Shopify.";
-        toast.error(message);
-        throw error;
-      } finally {
-        setIsSubmitting(false);
-      }
-    },
-    [loadCustomer],
-  );
-
-  const register = useCallback(
-    async (input: {
-      firstName?: string;
-      lastName?: string;
-      email: string;
-      password: string;
-    }) => {
-      setIsSubmitting(true);
-
-      try {
-        await registerShopifyCustomer(input);
-        const token = await loginShopifyCustomer(input.email, input.password);
-        await loadCustomer(token.accessToken);
-        toast.success("Your Shopify account has been created.");
-      } catch (error) {
-        const message =
-          error instanceof Error ? error.message : "Unable to create your Shopify account.";
-        toast.error(message);
-        throw error;
-      } finally {
-        setIsSubmitting(false);
-      }
-    },
-    [loadCustomer],
-  );
-
-  const logout = useCallback(async () => {
-    const token = customerAccessToken;
-    clearSession();
-
-    if (!token) return;
-
-    try {
-      await logoutShopifyCustomer(token);
-    } catch {
-      // Logging out locally is enough to end the headless storefront session.
-    }
-
-    toast.success("Logged out.");
-  }, [clearSession, customerAccessToken]);
-
-  const updateProfile = useCallback(
-    async (input: {
-      firstName?: string;
-      lastName?: string;
-      email?: string;
-      phone?: string;
-    }) => {
-      if (!customerAccessToken) {
-        toast.error("Please log in first.");
-        return;
-      }
-
-      setIsSubmitting(true);
-
-      try {
-        const updatedCustomer = await updateShopifyCustomer(customerAccessToken, input);
-        setCustomer(updatedCustomer);
-        toast.success("Your Shopify profile has been updated.");
-      } catch (error) {
-        const message =
-          error instanceof Error ? error.message : "Unable to update your Shopify profile.";
-        toast.error(message);
-        throw error;
-      } finally {
-        setIsSubmitting(false);
-      }
-    },
-    [customerAccessToken],
-  );
 
   return (
     <CustomerAuthContext.Provider
@@ -205,11 +118,8 @@ export const CustomerAuthProvider = ({ children }: { children: ReactNode }) => {
         customerAccessToken,
         isAuthenticated: Boolean(customerAccessToken && customer),
         isLoading,
-        isSubmitting,
         login,
-        register,
         logout,
-        updateProfile,
         refreshCustomer,
       }}
     >
@@ -220,10 +130,8 @@ export const CustomerAuthProvider = ({ children }: { children: ReactNode }) => {
 
 export const useCustomerAuth = () => {
   const context = useContext(CustomerAuthContext);
-
   if (!context) {
     throw new Error("useCustomerAuth must be used within CustomerAuthProvider");
   }
-
   return context;
 };
