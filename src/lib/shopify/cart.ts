@@ -365,7 +365,6 @@ export async function removeShopifyCartLines(cartId: string, lineIds: string[]) 
 
 export async function syncShopifyCartBuyerIdentity(
   cartId: string,
-  customerAccessToken: string,
   email?: string,
 ) {
   const data = await shopifyQuery<ShopifyCartMutationResponse>(
@@ -373,7 +372,6 @@ export async function syncShopifyCartBuyerIdentity(
     {
       cartId,
       buyerIdentity: {
-        customerAccessToken,
         email,
       },
     },

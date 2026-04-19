@@ -100,14 +100,14 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   }, [applyCartSnapshot, clearCartState]);
 
   useEffect(() => {
-    if (!cartId || !customerAccessToken) return;
+    if (!cartId || !customer?.email) return;
 
-    void syncShopifyCartBuyerIdentity(cartId, customerAccessToken, customer?.email || undefined)
+    void syncShopifyCartBuyerIdentity(cartId, customer.email)
       .then(applyCartSnapshot)
       .catch(() => {
         // Keep checkout usable even if buyer identity sync fails.
       });
-  }, [applyCartSnapshot, cartId, customer?.email, customerAccessToken]);
+  }, [applyCartSnapshot, cartId, customer?.email]);
 
   const addItem = useCallback(
     async (product: Product, quantity = 1) => {
@@ -122,8 +122,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
               { merchandiseId: product.variantId, quantity },
             ])
           : await createShopifyCart(
-              [{ merchandiseId: product.variantId, quantity }],
-              customerAccessToken || undefined,
+              [{ merchandiseId: product.variantId, quantity }]
             );
 
         applyCartSnapshot(snapshot);
