@@ -105,7 +105,7 @@ export const CustomerAuthProvider = ({ children }: { children: ReactNode }) => {
     const shopId = "77660979223";
     
     const redirectUri = `${window.location.origin}/login`;
-    const scope = "openid email customer-account:full";
+    const scope = "openid email https://api.shopify.com/auth/customer.read_personal_info https://api.shopify.com/auth/customer.read_orders";
     
     // 1. Generate a much stronger PKCE verifier (at least 43 characters required by RFC 7636)
     const array = new Uint32Array(56);
