@@ -17,12 +17,19 @@ const Account = () => {
     }
   }, [isAuthenticated, isLoading, navigate]);
 
-  if (isLoading || !customer) {
+  if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-primary"></div>
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-primary mx-auto"></div>
+          <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Verifying Session...</p>
+        </div>
       </div>
     );
+  }
+
+  if (!customer) {
+    return null; // The useEffect handles the redirect
   }
 
   return (

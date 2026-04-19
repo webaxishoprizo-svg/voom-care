@@ -102,6 +102,14 @@ export async function shopifyCustomerQuery<T>(
     });
 
     if (!response.ok) {
+      if (response.status === 401) {
+        // Token expired or invalid
+        if (typeof window !== "undefined") {
+          window.localStorage.removeItem("customer_token");
+          window.location.href = "/login?error=expired";
+        }
+        throw new Error("Session expired. Please log in again.");
+      }
       const errorText = await response.text();
       console.error(`Shopify Customer Error (${response.status}):`, errorText);
       throw new Error(`Shopify Customer request failed with status ${response.status}.`);

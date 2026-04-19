@@ -87,15 +87,14 @@ export const CustomerAuthProvider = ({ children }: { children: ReactNode }) => {
   }, [loadCustomer]);
 
   const login = useCallback(() => {
-    const shopId = "77660979223";
     const clientId = "d9d84aeb-8c67-483e-9cfe-a9bf59a8731f";
     
-    const redirectUri = window.location.origin.includes("localhost") 
-      ? "http://localhost:8082/login" 
-      : "https://nor-sage-showcase.vercel.app/login";
+    // Mandatory production redirect URI
+    const redirectUri = "https://nor-sage-showcase.vercel.app/login";
     const scope = "openid email customer-account:full";
     
-    const authUrl = `https://shopify.com/${shopId}/auth/oauth/authorize?client_id=${clientId}&scope=${encodeURIComponent(scope)}&response_type=token&redirect_uri=${encodeURIComponent(redirectUri)}&state=${Math.random().toString(36).substring(7)}`;
+    // Correct Mandatory Base URL: https://nor-perfume-2.myshopify.com/auth/oauth/authorize
+    const authUrl = `https://nor-perfume-2.myshopify.com/auth/oauth/authorize?client_id=${clientId}&scope=${encodeURIComponent(scope)}&response_type=token&redirect_uri=${encodeURIComponent(redirectUri)}&state=${Math.random().toString(36).substring(7)}`;
 
     window.location.href = authUrl;
   }, []);
@@ -116,14 +115,18 @@ export const CustomerAuthProvider = ({ children }: { children: ReactNode }) => {
         customer,
         customerAccessToken,
         isAuthenticated: Boolean(customerAccessToken && customer),
-        isLoading,
+        isLoading: isLoading && !customerAccessToken, // Refined loading state
         login,
         logout,
         setAccessToken,
         refreshCustomer,
       }}
     >
-      {children}
+      {isLoading && !customerAccessToken && !window.localStorage.getItem(CUSTOMER_TOKEN_STORAGE_KEY) ? (
+        <div className="fixed inset-0 bg-background flex items-center justify-center z-50">
+           <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-primary"></div>
+        </div>
+      ) : children}
     </CustomerAuthContext.Provider>
   );
 };
