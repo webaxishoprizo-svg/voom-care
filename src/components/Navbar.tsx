@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Menu, Search, User, ShoppingBag, X, Package } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
+import { useCustomerAuth } from "@/context/CustomerAuthContext";
 import { SHOPIFY_ACCOUNT_URL, SHOPIFY_ORDERS_URL } from "@/lib/shopify/client";
 import logo from "@/assets/logo.png";
 import SearchDialog from "@/components/SearchDialog";
@@ -11,6 +12,17 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const { totalItems, setIsOpen } = useCart();
+  const { isAuthenticated, login } = useCustomerAuth();
+  const navigate = useNavigate();
+
+  const handleAccountClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (isAuthenticated) {
+      navigate(SHOPIFY_ACCOUNT_URL);
+    } else {
+      login();
+    }
+  };
 
   const menuItems = [
     { label: "Home", href: "/", external: false },
@@ -42,13 +54,13 @@ const Navbar = () => {
 
           <div className="flex items-center gap-4 z-10">
             <Search onClick={() => setSearchOpen(true)} className="w-5 h-5 text-foreground/70 hover:text-foreground cursor-pointer transition-colors" />
-            <Link
-              to={SHOPIFY_ACCOUNT_URL}
-              className="hidden sm:block"
-              aria-label="Open account"
+            <button
+              onClick={handleAccountClick}
+              className="hidden sm:block outline-none"
+              aria-label={isAuthenticated ? "Open account" : "Login"}
             >
-              <User className="w-5 h-5 text-foreground/70 hover:text-foreground transition-colors" />
-            </Link>
+              <User className={`w-5 h-5 transition-colors ${isAuthenticated ? "text-primary" : "text-foreground/70 hover:text-foreground"}`} />
+            </button>
             <button onClick={() => setIsOpen(true)} className="relative">
               <ShoppingBag className="w-5 h-5 text-foreground/70 hover:text-foreground cursor-pointer transition-colors" />
               <span className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-primary text-primary-foreground text-[10px] flex items-center justify-center font-semibold">
@@ -109,14 +121,16 @@ const Navbar = () => {
                 )}
 
                 <div className="mt-8 flex items-center gap-4 py-8 border-t border-white/5">
-                  <Link
-                    to={SHOPIFY_ACCOUNT_URL}
-                    onClick={() => setMenuOpen(false)}
+                  <button
+                    onClick={(e) => {
+                      setMenuOpen(false);
+                      handleAccountClick(e);
+                    }}
                     className="flex items-center justify-center w-12 h-12 rounded-full bg-surface-glass border border-white/10 hover:border-primary/50 transition-colors"
                     aria-label="Account"
                   >
-                    <User className="w-6 h-6 text-foreground" />
-                  </Link>
+                    <User className={`w-6 h-6 ${isAuthenticated ? "text-primary" : "text-foreground"}`} />
+                  </button>
                   <Link
                     to={SHOPIFY_ORDERS_URL}
                     onClick={() => setMenuOpen(false)}
