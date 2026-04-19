@@ -12,7 +12,7 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const { totalItems, setIsOpen } = useCart();
-  const { isAuthenticated, login } = useCustomerAuth();
+  const { isAuthenticated, login, logout } = useCustomerAuth();
   const navigate = useNavigate();
 
   const handleAccountClick = (e: React.MouseEvent) => {
@@ -120,25 +120,45 @@ const Navbar = () => {
                   ),
                 )}
 
-                <div className="mt-8 flex items-center gap-4 py-8 border-t border-white/5">
+                <div className="mt-8 pt-8 border-t border-white/5 space-y-4">
+                  <div className="flex items-center gap-4">
+                    <button
+                      onClick={(e) => {
+                        setMenuOpen(false);
+                        handleAccountClick(e);
+                      }}
+                      className="flex items-center justify-center w-12 h-12 rounded-full bg-surface-glass border border-white/10 hover:border-primary/50 transition-colors"
+                      aria-label="Account"
+                    >
+                      <User className={`w-6 h-6 ${isAuthenticated ? "text-primary" : "text-foreground"}`} />
+                    </button>
+                    <Link
+                      to={SHOPIFY_ORDERS_URL}
+                      onClick={() => setMenuOpen(false)}
+                      className="flex items-center justify-center w-12 h-12 rounded-full bg-surface-glass border border-white/10 hover:border-primary/50 transition-colors"
+                      aria-label="Orders"
+                    >
+                      <Package className="w-6 h-6 text-foreground" />
+                    </Link>
+                  </div>
+                  
                   <button
-                    onClick={(e) => {
+                    onClick={() => {
                       setMenuOpen(false);
-                      handleAccountClick(e);
+                      if (isAuthenticated) {
+                        logout();
+                      } else {
+                        login();
+                      }
                     }}
-                    className="flex items-center justify-center w-12 h-12 rounded-full bg-surface-glass border border-white/10 hover:border-primary/50 transition-colors"
-                    aria-label="Account"
+                    className={`w-full py-4 rounded-2xl flex items-center justify-center gap-3 font-display text-sm tracking-widest uppercase transition-all active:scale-[0.98] ${
+                      isAuthenticated 
+                        ? "bg-red-500/10 text-red-500 border border-red-500/20 hover:bg-red-500/20" 
+                        : "bg-primary text-primary-foreground font-bold shadow-lg shadow-primary/20 hover:opacity-90"
+                    }`}
                   >
-                    <User className={`w-6 h-6 ${isAuthenticated ? "text-primary" : "text-foreground"}`} />
+                    {isAuthenticated ? "Logout" : "Login to Account"}
                   </button>
-                  <Link
-                    to={SHOPIFY_ORDERS_URL}
-                    onClick={() => setMenuOpen(false)}
-                    className="flex items-center justify-center w-12 h-12 rounded-full bg-surface-glass border border-white/10 hover:border-primary/50 transition-colors"
-                    aria-label="Orders"
-                  >
-                    <Package className="w-6 h-6 text-foreground" />
-                  </Link>
                 </div>
               </div>
             </motion.div>
