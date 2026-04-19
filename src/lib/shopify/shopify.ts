@@ -155,7 +155,7 @@ const PRODUCT_FIELDS = `
   images(first: 6) {
     edges {
       node {
-        url(transform: { maxWidth: 2000, preferredContentType: WEBP })
+        url(transform: { maxWidth: 800, preferredContentType: WEBP })
         altText
       }
     }
@@ -193,7 +193,7 @@ const COLLECTION_FIELDS = `
   handle
   description
   image {
-    url(transform: { maxWidth: 2000, preferredContentType: WEBP })
+    url(transform: { maxWidth: 1200, preferredContentType: WEBP })
     altText
   }
   products(first: 12) {

@@ -67,9 +67,10 @@ const Contact = () => {
 
       // Auto-close success modal after 5 seconds
       setTimeout(() => setShowSuccess(false), 5000);
-    } catch (err: any) {
+    } catch (err) {
       console.error("Submission error:", err);
-      setError(err?.text || err?.message || "Something went wrong. Please try again.");
+      const message = err instanceof Error ? err.message : "Something went wrong. Please try again.";
+      setError(message);
     } finally {
       setIsLoading(false);
     }

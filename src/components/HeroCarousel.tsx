@@ -75,6 +75,8 @@ const HeroCarousel = () => {
                 className="w-full h-full object-cover"
                 width={1080}
                 height={1440}
+                loading="eager"
+                fetchPriority="high"
               />
             )
           ) : (
@@ -84,6 +86,8 @@ const HeroCarousel = () => {
               className="w-full h-full object-cover"
               width={1920}
               height={1080}
+              loading="eager"
+              fetchPriority="high"
             />
           )}
 

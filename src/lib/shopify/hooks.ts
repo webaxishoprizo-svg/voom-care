@@ -1,14 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import { buildHeroSlides, fetchHybridCollections, fetchHybridProduct, fetchHybridProducts } from "./shopify";
 
-const SHOPIFY_STALE_TIME = 1000 * 60 * 60;
+const SHOPIFY_STALE_TIME = 1000 * 60 * 60 * 4; // 4 hours
+const SHOPIFY_GC_TIME = 1000 * 60 * 60 * 24; // 24 hours
 
 export function useHybridProducts(limit = 20) {
   return useQuery({
     queryKey: ["shopify", "products", limit],
     queryFn: () => fetchHybridProducts(limit),
     staleTime: SHOPIFY_STALE_TIME,
+    gcTime: SHOPIFY_GC_TIME,
     retry: 1,
+    refetchOnWindowFocus: false,
   });
 }
 
@@ -17,7 +20,9 @@ export function useHybridCollections(limit = 20) {
     queryKey: ["shopify", "collections", limit],
     queryFn: () => fetchHybridCollections(limit),
     staleTime: SHOPIFY_STALE_TIME,
+    gcTime: SHOPIFY_GC_TIME,
     retry: 1,
+    refetchOnWindowFocus: false,
   });
 }
 
@@ -27,7 +32,9 @@ export function useHybridProduct(idOrHandle?: string) {
     queryFn: () => fetchHybridProduct(idOrHandle || ""),
     enabled: Boolean(idOrHandle),
     staleTime: SHOPIFY_STALE_TIME,
+    gcTime: SHOPIFY_GC_TIME,
     retry: 1,
+    refetchOnWindowFocus: false,
   });
 }
 

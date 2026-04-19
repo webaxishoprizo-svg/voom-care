@@ -1,13 +1,14 @@
-import { useState, useRef, useEffect, useMemo } from "react";
+import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { motion, useAnimation, useMotionValue, useTransform, MotionValue } from "framer-motion";
 import { Bookmark, ArrowRight, ShoppingBag, ChevronLeft, ChevronRight } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
 import { useCollectionProducts } from "@/lib/shopify/hooks";
 import { formatCurrency } from "@/lib/utils";
+import { Product } from "@/data/products";
 
 const ProductCard = ({ product, index, x, itemWidth, productsCount }: { 
-  product: any; 
+  product: Product; 
   index: number; 
   x: MotionValue<number>; 
   itemWidth: number; 
@@ -44,7 +45,7 @@ const ProductCard = ({ product, index, x, itemWidth, productsCount }: {
   return (
     <motion.div
       style={{ scale, opacity: brightness, zIndex }}
-      className="w-[280px] md:w-[350px] bg-card/40 backdrop-blur-sm border border-border/50 rounded-2xl overflow-hidden group select-none flex-shrink-0 relative transition-shadow duration-500 hover:shadow-[0_0_40px_rgba(255,255,255,0.05)]"
+      className="w-[280px] md:w-[350px] bg-card/40 backdrop-blur-sm border border-border/50 rounded-2xl overflow-hidden group select-none flex-shrink-0 relative transition-shadow duration-500 hover:shadow-[0_0_40px_rgba(255,255,255,0.05)] will-change-transform"
     >
       <div 
          className="aspect-[3/4] relative cursor-pointer overflow-hidden"
@@ -115,7 +116,8 @@ const ProductGrid = () => {
   // Multi-duplicate for infinite effect
   const items = useMemo(() => {
     if (!products.length) return [];
-    return [...products, ...products, ...products, ...products, ...products];
+    // 3 duplicates is usually enough for infinite effect and and much lighter than 5
+    return [...products, ...products, ...products];
   }, [products]);
   
   const isMobile = windowWidth < 768;
@@ -129,7 +131,7 @@ const ProductGrid = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const startAnimation = async () => {
+  const startAnimation = useCallback(async () => {
     if (!products.length) return;
     await controls.start({
       x: -itemWidth * products.length,
@@ -139,13 +141,13 @@ const ProductGrid = () => {
         repeat: Infinity,
       },
     });
-  };
+  }, [products.length, itemWidth, controls]);
 
   useEffect(() => {
     if (products.length > 0) {
-      startAnimation();
+      void startAnimation();
     }
-  }, [products.length, itemWidth]);
+  }, [products.length, itemWidth, startAnimation]);
 
   const handleArrowClick = (direction: "left" | "right") => {
     setIsPaused(true);

@@ -22,7 +22,7 @@ import { trackAddToCart, trackInitiateCheckout } from "@/lib/meta-pixel";
 
 export const CART_STORAGE_KEY = "nor-shopify-cart-id";
 
-export interface CartItem extends ShopifyCartItem {}
+export type CartItem = ShopifyCartItem;
 
 interface CartContextType {
   items: CartItem[];
@@ -233,7 +233,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     } finally {
       setIsCheckingOut(false);
     }
-  }, [applyCartSnapshot, cartId, checkoutUrl, items.length]);
+  }, [applyCartSnapshot, cartId, checkoutUrl, items, totalPrice]);
 
   return (
     <CartContext.Provider

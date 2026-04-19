@@ -51,9 +51,10 @@ const Newsletter = () => {
       } else {
         throw new Error(result.message || "Subscription failed");
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error("Newsletter Error:", error);
-      toast.error(error.message || "Something went wrong.");
+      const message = error instanceof Error ? error.message : "Something went wrong.";
+      toast.error(message);
     } finally {
       setIsLoading(false);
     }

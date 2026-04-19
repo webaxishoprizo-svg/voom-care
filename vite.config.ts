@@ -59,7 +59,7 @@ export default defineConfig(({ mode }) => {
                     }),
                   });
 
-                  const data = await shopifyResponse.json() as any;
+                  const data = (await shopifyResponse.json()) as { errors?: { email?: string[] } };
                   res.statusCode = 200;
                   res.setHeader("Content-Type", "application/json");
 

@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, useAnimation, useMotionValue } from "framer-motion";
 import { Star, ChevronLeft, ChevronRight } from "lucide-react";
 import { testimonials } from "@/data/testimonials";
@@ -23,7 +23,7 @@ const TestimonialsSection = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const startAnimation = async () => {
+  const startAnimation = useCallback(async () => {
     await controls.start({
       x: -itemWidth * testimonials.length,
       transition: {
@@ -32,11 +32,11 @@ const TestimonialsSection = () => {
         repeat: Infinity,
       },
     });
-  };
+  }, [itemWidth, controls]);
 
   useEffect(() => {
-    startAnimation();
-  }, [itemWidth]);
+    void startAnimation();
+  }, [itemWidth, startAnimation]);
 
   const handleArrowClick = (direction: "left" | "right") => {
     setIsPaused(true);

@@ -5,10 +5,13 @@
 
 declare global {
   interface Window {
-    fbq: any;
-    _fbq: any;
+    fbq: (command: string, action: string, params?: Record<string, unknown>) => void;
+    _fbq: unknown;
   }
 }
+
+import { Product } from "@/data/products";
+import { CartItem } from "@/context/CartContext";
 
 // Pixel ID placeholder (User to update this)
 export const PIXEL_ID = "827163549102837"; 
@@ -19,7 +22,7 @@ export const trackPageView = () => {
   }
 };
 
-export const trackViewContent = (product: any) => {
+export const trackViewContent = (product: Product) => {
   if (typeof window.fbq === "function") {
     window.fbq("track", "ViewContent", {
       content_name: product.name,
@@ -32,7 +35,7 @@ export const trackViewContent = (product: any) => {
   }
 };
 
-export const trackAddToCart = (product: any, quantity: number = 1) => {
+export const trackAddToCart = (product: Product, quantity: number = 1) => {
   if (typeof window.fbq === "function") {
     window.fbq("track", "AddToCart", {
       content_name: product.name,
@@ -44,7 +47,7 @@ export const trackAddToCart = (product: any, quantity: number = 1) => {
   }
 };
 
-export const trackInitiateCheckout = (items: any[], total: number) => {
+export const trackInitiateCheckout = (items: CartItem[], total: number) => {
   if (typeof window.fbq === "function") {
     window.fbq("track", "InitiateCheckout", {
       content_ids: items.map(item => item.product.id),
