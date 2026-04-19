@@ -88,14 +88,20 @@ export const CustomerAuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = useCallback(() => {
     const clientId = "d9d84aeb-8c67-483e-9cfe-a9bf59a8731f";
+    const shopId = "77660979223";
     
-    // Mandatory production redirect URI
-    const redirectUri = "https://nor-sage-showcase.vercel.app/login";
+    // Dynamic redirect URI that works on localhost and production
+    const redirectUri = `${window.location.origin}/login`;
     const scope = "openid email customer-account:full";
     
-    // Correct Mandatory Base URL: https://nor-perfume-2.myshopify.com/auth/oauth/authorize
-    const authUrl = `https://nor-perfume-2.myshopify.com/auth/oauth/authorize?client_id=${clientId}&scope=${encodeURIComponent(scope)}&response_type=token&redirect_uri=${encodeURIComponent(redirectUri)}&state=${Math.random().toString(36).substring(7)}`;
+    // Modern Customer Account API Authorization URL
+    // This MUST use shopify.com/<shopId>/auth/oauth/authorize to avoid redirecting to store templates
+    const state = Math.random().toString(36).substring(7);
+    const nonce = Math.random().toString(36).substring(7);
+    
+    const authUrl = `https://shopify.com/${shopId}/auth/oauth/authorize?client_id=${clientId}&scope=${encodeURIComponent(scope)}&response_type=token&redirect_uri=${encodeURIComponent(redirectUri)}&state=${state}&nonce=${nonce}`;
 
+    console.log("Redirecting to Shopify for authentication:", authUrl);
     window.location.href = authUrl;
   }, []);
 

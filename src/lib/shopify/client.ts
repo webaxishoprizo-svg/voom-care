@@ -18,7 +18,8 @@ export const SHOPIFY_CONFIG = {
     import.meta.env.VITE_SHOPIFY_API_VERSION || DEFAULT_SHOPIFY_CONFIG.apiVersion,
   accessToken:
     import.meta.env.VITE_SHOPIFY_ACCESS_TOKEN || DEFAULT_SHOPIFY_CONFIG.accessToken,
-  publicClientId: "d9d84aeb-8c67-483e-9cfe-a9bf59a8731f",
+  publicClientId: "d9d84aeb-8c67-483e-9cfe-a9bf59a8731f", // Customer Account API Client ID
+  shopId: "77660979223", // Numeric Shop ID for Customer Account API
 };
 
 // Ensure domain always ends with .myshopify.com if it's a shopify domain

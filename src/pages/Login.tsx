@@ -13,28 +13,37 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // 🔄 STEP 4: HANDLE TOKEN AFTER REDIRECT
+    // 🔄 HANDLE TOKEN OR ERROR AFTER REDIRECT
     const hash = window.location.hash;
-    if (hash) {
-      const params = new URLSearchParams(hash.substring(1)); // Remove '#'
-      const accessToken = params.get("access_token");
+    const search = window.location.search;
+    const params = new URLSearchParams(hash ? hash.substring(1) : search);
+    
+    const accessToken = params.get("access_token");
+    const error = params.get("error");
+    const errorDescription = params.get("error_description");
 
-      if (accessToken) {
-        // Store and handle token
-        void setAccessToken(accessToken)
-          .then(() => {
-            toast.success("Successfully logged in");
-            // DO NOT keep token in URL - clear hash
-            window.history.replaceState(null, "", window.location.pathname);
-            // Redirect to /account
-            navigate("/account");
-          })
-          .catch((error) => {
-            console.error("Login failed:", error);
-            toast.error("Failed to authenticate with Shopify");
-            window.history.replaceState(null, "", window.location.pathname);
-          });
-      }
+    if (error) {
+      console.error("Auth error:", error, errorDescription);
+      toast.error(errorDescription || "Authentication failed");
+      window.history.replaceState(null, "", window.location.pathname);
+      return;
+    }
+
+    if (accessToken) {
+      // Store and handle token
+      void setAccessToken(accessToken)
+        .then(() => {
+          toast.success("Successfully logged in");
+          // DO NOT keep token in URL - clear hash/search
+          window.history.replaceState(null, "", window.location.pathname);
+          // Redirect to /account
+          navigate("/account");
+        })
+        .catch((err) => {
+          console.error("Login failed:", err);
+          toast.error("Failed to fetch customer profile");
+          window.history.replaceState(null, "", window.location.pathname);
+        });
     }
   }, [setAccessToken, navigate]);
 
