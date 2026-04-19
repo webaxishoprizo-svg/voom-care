@@ -141,7 +141,7 @@ const Navbar = () => {
                       <Package className="w-6 h-6 text-foreground" />
                     </Link>
                   </div>
-                  
+
                   <button
                     onClick={() => {
                       setMenuOpen(false);
@@ -151,13 +151,12 @@ const Navbar = () => {
                         login();
                       }
                     }}
-                    className={`w-full py-4 rounded-2xl flex items-center justify-center gap-3 font-display text-sm tracking-widest uppercase transition-all active:scale-[0.98] ${
-                      isAuthenticated 
-                        ? "bg-red-500/10 text-red-500 border border-red-500/20 hover:bg-red-500/20" 
+                    className={`w-full py-4 rounded-2xl flex items-center justify-center gap-3 font-display text-sm tracking-widest uppercase transition-all active:scale-[0.98] ${isAuthenticated
+                        ? "bg-red-500/10 text-red-500 border border-red-500/20 hover:bg-red-500/20"
                         : "bg-primary text-primary-foreground font-bold shadow-lg shadow-primary/20 hover:opacity-90"
-                    }`}
+                      }`}
                   >
-                    {isAuthenticated ? "Logout" : "Login to Account"}
+                    {isAuthenticated ? "Logout" : "Login"}
                   </button>
                 </div>
               </div>
