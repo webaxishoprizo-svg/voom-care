@@ -105,7 +105,7 @@ export const CustomerAuthProvider = ({ children }: { children: ReactNode }) => {
     const shopId = "77660979223";
     
     const redirectUri = `${window.location.origin}/login`;
-    const scope = "openid email customer-account:full";
+    const scope = "openid email";
     
     // 1. Generate PKCE values
     const codeVerifier = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
