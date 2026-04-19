@@ -9,7 +9,8 @@ import {
 import { toast } from "@/components/ui/sonner";
 import { fetchCustomerProfile, type CustomerProfile } from "@/lib/shopify/customer-account";
 
-export const CUSTOMER_TOKEN_STORAGE_KEY = "nor-shopify-customer-access-token";
+// User specified key: "customer_token"
+export const CUSTOMER_TOKEN_STORAGE_KEY = "customer_token";
 
 interface CustomerAuthContextType {
   customer: CustomerProfile | null;
@@ -18,6 +19,7 @@ interface CustomerAuthContextType {
   isLoading: boolean;
   login: () => void;
   logout: () => void;
+  setAccessToken: (token: string) => Promise<void>;
   refreshCustomer: () => Promise<void>;
 }
 
@@ -60,24 +62,18 @@ export const CustomerAuthProvider = ({ children }: { children: ReactNode }) => {
     [clearSession, persistToken],
   );
 
+  const setAccessToken = useCallback(async (token: string) => {
+    setIsLoading(true);
+    try {
+      await loadCustomer(token);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [loadCustomer]);
+
   useEffect(() => {
     if (typeof window === "undefined") {
       setIsLoading(false);
-      return;
-    }
-
-    // Check URL for access token (handle OAuth callback)
-    const hash = window.location.hash;
-    const urlParams = new URL(window.location.href).searchParams;
-    const tokenFromUrl = urlParams.get("access_token") || new URLSearchParams(hash.replace("#", "?")).get("access_token");
-
-    if (tokenFromUrl) {
-      void loadCustomer(tokenFromUrl).finally(() => {
-        setIsLoading(false);
-        // Clean up URL
-        const cleanUrl = window.location.origin + window.location.pathname;
-        window.history.replaceState({}, document.title, cleanUrl);
-      });
       return;
     }
 
@@ -92,11 +88,13 @@ export const CustomerAuthProvider = ({ children }: { children: ReactNode }) => {
   const login = useCallback(() => {
     const shopId = "77660979223";
     const clientId = "d9d84aeb-8c67-483e-9cfe-a9bf59a8731f";
-    const redirectUri = encodeURIComponent(`${window.location.origin}/login`);
-    const scope = encodeURIComponent("openid email customer-account:full");
     
-    // Using the Shopify Customer Account OAuth authorize endpoint
-    const authUrl = `https://shopify.com/${shopId}/auth/oauth/authorize?client_id=${clientId}&scope=${scope}&response_type=token&redirect_uri=${redirectUri}&state=${Math.random().toString(36).substring(7)}`;
+    const redirectUri = window.location.origin.includes("localhost") 
+      ? "http://localhost:8082/login" 
+      : "https://nor-sage-showcase.vercel.app/login";
+    const scope = "openid email customer-account:full";
+    
+    const authUrl = `https://shopify.com/${shopId}/auth/oauth/authorize?client_id=${clientId}&scope=${encodeURIComponent(scope)}&response_type=token&redirect_uri=${encodeURIComponent(redirectUri)}&state=${Math.random().toString(36).substring(7)}`;
 
     window.location.href = authUrl;
   }, []);
@@ -120,6 +118,7 @@ export const CustomerAuthProvider = ({ children }: { children: ReactNode }) => {
         isLoading,
         login,
         logout,
+        setAccessToken,
         refreshCustomer,
       }}
     >

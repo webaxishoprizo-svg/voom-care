@@ -84,6 +84,7 @@ export async function shopifyQuery<T>(
     console.error("Shopify Fetch Exception:", error);
     throw error;
   }
+}
 
 export async function shopifyCustomerQuery<T>(
   query: string,

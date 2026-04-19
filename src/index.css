@@ -5,11 +5,13 @@
 @tailwind utilities;
 
 @layer base {
+
   /* Force Inter for numbers only across all weights - using direct CDN for reliability */
   @font-face {
     font-family: 'InterNumbers';
     src: url('https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuGKYAZJhiI2B.woff2') format('woff2');
-    unicode-range: U+0030-0039, U+002C, U+002E, U+20B9, U+00A5, U+0024, U+00A3, U+20AC; /* 0-9, numeric symbols, currency */
+    unicode-range: U+0030-0039, U+002C, U+002E, U+20B9, U+00A5, U+0024, U+00A3, U+20AC;
+    /* 0-9, numeric symbols, currency */
     font-weight: 100 900;
     font-display: swap;
   }
@@ -62,9 +64,7 @@
 }
 
 @layer base {
-  html {
-    scroll-behavior: smooth;
-  }
+  html {}
 
   * {
     @apply border-border;
@@ -76,7 +76,12 @@
     font-variant-numeric: tabular-nums lining-nums;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: 'InterNumbers', 'Tenor Sans', sans-serif;
     letter-spacing: 0.01em;
   }
@@ -126,18 +131,36 @@
 
 /* Marquee animation */
 @keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 .animate-marquee {
-  animation: marquee 8s linear infinite;
+  animation: marquee 30s linear infinite;
+}
+
+@media (max-width: 768px) {
+  .animate-marquee {
+    animation-duration: 25s;
+  }
 }
 
 /* Counter animation */
 @keyframes countUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Scrollbar styling */

@@ -8,6 +8,7 @@ import { CustomerAuthProvider } from "@/context/CustomerAuthContext";
 import CartDrawer from "@/components/CartDrawer";
 import ScrollToTop from "@/components/ScrollToTop";
 import ScrollToTopOnNavigation from "@/components/ScrollToTopOnNavigation";
+import SmoothScroll from "@/components/SmoothScroll";
 import Index from "./pages/Index.tsx";
 import Products from "./pages/Products.tsx";
 import ProductDetail from "./pages/ProductDetail.tsx";
@@ -34,6 +35,7 @@ const App = () => (
           <Toaster />
           <Sonner />
           <CartDrawer />
+          <SmoothScroll />
           <BrowserRouter>
             <ScrollToTop />
             <ScrollToTopOnNavigation />

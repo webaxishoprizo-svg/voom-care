@@ -41,7 +41,7 @@ const Account = () => {
               <Button 
                 variant="outline"
                 onClick={logout}
-                className="rounded-none border-border/40 text-[9px] uppercase tracking-[0.2em] font-bold h-10 px-6 hover:bg-foreground hover:text-background transition-colors duration-500"
+                className="rounded-[8px] border-border/40 text-[9px] uppercase tracking-[0.2em] font-bold h-10 px-6 hover:bg-foreground hover:text-background transition-colors duration-500"
               >
                 <LogOut className="mr-2 h-3 w-3" />
                 Sign Out
