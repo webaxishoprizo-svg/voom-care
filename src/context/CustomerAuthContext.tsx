@@ -95,11 +95,11 @@ export const CustomerAuthProvider = ({ children }: { children: ReactNode }) => {
     const scope = "openid email customer-account:full";
     
     // Modern Customer Account API Authorization URL
-    // This MUST use shopify.com/<shopId>/auth/oauth/authorize to avoid redirecting to store templates
+    // Updated to match your exact Admin endpoint: shopify.com/authentication/<shopId>/oauth/authorize
     const state = Math.random().toString(36).substring(7);
     const nonce = Math.random().toString(36).substring(7);
     
-    const authUrl = `https://shopify.com/${shopId}/auth/oauth/authorize?client_id=${clientId}&scope=${encodeURIComponent(scope)}&response_type=token&redirect_uri=${encodeURIComponent(redirectUri)}&state=${state}&nonce=${nonce}`;
+    const authUrl = `https://shopify.com/authentication/${shopId}/oauth/authorize?client_id=${clientId}&scope=${encodeURIComponent(scope)}&response_type=token&redirect_uri=${encodeURIComponent(redirectUri)}&state=${state}&nonce=${nonce}`;
 
     console.log("Redirecting to Shopify for authentication:", authUrl);
     window.location.href = authUrl;
