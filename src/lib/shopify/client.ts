@@ -1,6 +1,6 @@
 const DEFAULT_SHOPIFY_CONFIG = {
   domain: "nor-perfume-2.myshopify.com",
-  apiVersion: "2024-01",
+  apiVersion: "2024-04",
   accessToken: "597e532f7345926a95b019ced728a002",
 };
 
@@ -93,7 +93,7 @@ export async function shopifyCustomerQuery<T>(
   accessToken: string,
 ) {
   try {
-    const response = await fetch("https://shopify.com/api/customer/graphql", {
+    const response = await fetch(`https://shopify.com/${SHOPIFY_CONFIG.shopId}/account/customer/api/${SHOPIFY_CONFIG.apiVersion}/graphql`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
