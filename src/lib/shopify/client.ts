@@ -106,14 +106,14 @@ export async function shopifyCustomerQuery<T>(
       if (response.status === 401) {
         // Token expired or invalid
         if (typeof window !== "undefined") {
+          console.warn("Session expired or token invalid. Clearing local session.");
           window.localStorage.removeItem("customer_token");
-          window.location.href = "/login?error=expired";
         }
-        throw new Error("Session expired. Please log in again.");
+        throw new Error("Your session has expired. Please log in again.");
       }
       const errorText = await response.text();
-      console.error(`Shopify Customer Error (${response.status}):`, errorText);
-      throw new Error(`Shopify Customer request failed with status ${response.status}.`);
+      console.error(`Shopify Customer API Error (${response.status}):`, errorText);
+      throw new Error(`Shopify account service returned an error (${response.status}).`);
     }
 
     const payload = (await response.json()) as ShopifyGraphQLResponse<T>;
@@ -121,11 +121,17 @@ export async function shopifyCustomerQuery<T>(
     if (payload.errors?.length) {
       const errorMessages = payload.errors.map((error) => error.message).join("\n");
       console.error("Shopify Customer GraphQL Errors:", errorMessages);
+      
+      // Check for specific authorization errors in the GraphQL response
+      if (errorMessages.toLowerCase().includes("access denied") || errorMessages.toLowerCase().includes("unauthorized")) {
+         throw new Error("Permission denied. Your account doesn't have access to this information.");
+      }
+      
       throw new Error(errorMessages);
     }
 
     if (!payload.data) {
-      throw new Error("Shopify Customer returned an empty response.");
+      throw new Error("Shopify returned an empty response for your account.");
     }
 
     return payload.data;
