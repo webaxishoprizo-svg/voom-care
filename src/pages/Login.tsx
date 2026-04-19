@@ -13,12 +13,9 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // 🔄 HANDLE TOKEN OR ERROR AFTER REDIRECT
-    const hash = window.location.hash;
-    const search = window.location.search;
-    const params = new URLSearchParams(hash ? hash.substring(1) : search);
-    
-    const accessToken = params.get("access_token");
+    // 🔄 HANDLE PKCE CODE REDIRECT
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
     const error = params.get("error");
     const errorDescription = params.get("error_description");
 
@@ -29,21 +26,54 @@ const Login = () => {
       return;
     }
 
-    if (accessToken) {
-      // Store and handle token
-      void setAccessToken(accessToken)
-        .then(() => {
-          toast.success("Successfully logged in");
-          // DO NOT keep token in URL - clear hash/search
+    if (code) {
+      const exchangeToken = async () => {
+        const codeVerifier = window.sessionStorage.getItem("shopify_code_verifier");
+        const clientId = "d9d84aeb-8c67-483e-9cfe-a9bf59a8731f";
+        const shopId = "77660979223";
+        const redirectUri = `${window.location.origin}/login`;
+
+        if (!codeVerifier) {
+          toast.error("Security session expired. Please try logging in again.");
+          return;
+        }
+
+        try {
+          const response = await fetch(`https://shopify.com/authentication/${shopId}/oauth/token`, {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams({
+              grant_type: "authorization_code",
+              client_id: clientId,
+              redirect_uri: redirectUri,
+              code,
+              code_verifier: codeVerifier,
+            }),
+          });
+
+          if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(errorText || "Failed to exchange code for token");
+          }
+
+          const data = await response.json();
+          const accessToken = data.access_token;
+
+          if (accessToken) {
+            await setAccessToken(accessToken);
+            toast.success("Successfully logged in");
+            window.sessionStorage.removeItem("shopify_code_verifier");
+            window.history.replaceState(null, "", window.location.pathname);
+            navigate("/account");
+          }
+        } catch (err) {
+          console.error("Token exchange failed:", err);
+          toast.error("Login verification failed");
           window.history.replaceState(null, "", window.location.pathname);
-          // Redirect to /account
-          navigate("/account");
-        })
-        .catch((err) => {
-          console.error("Login failed:", err);
-          toast.error("Failed to fetch customer profile");
-          window.history.replaceState(null, "", window.location.pathname);
-        });
+        }
+      };
+
+      void exchangeToken();
     }
   }, [setAccessToken, navigate]);
 

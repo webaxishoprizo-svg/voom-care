@@ -26,6 +26,20 @@ interface CustomerAuthContextType {
 
 const CustomerAuthContext = createContext<CustomerAuthContextType | undefined>(undefined);
 
+// Helper for PKCE
+async function generateCodeChallenge(codeVerifier: string) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(codeVerifier);
+  const digest = await window.crypto.subtle.digest("SHA-256", data);
+  const base64url = (arrayBuffer: ArrayBuffer) => {
+    return btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)))
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_")
+      .replace(/=+$/, "");
+  };
+  return base64url(digest);
+}
+
 export const CustomerAuthProvider = ({ children }: { children: ReactNode }) => {
   const [customer, setCustomer] = useState<CustomerProfile | null>(null);
   const [customerAccessToken, setCustomerAccessToken] = useState<string | null>(null);
@@ -86,22 +100,27 @@ export const CustomerAuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [loadCustomer]);
 
-  const login = useCallback(() => {
+  const login = useCallback(async () => {
     const clientId = "d9d84aeb-8c67-483e-9cfe-a9bf59a8731f";
     const shopId = "77660979223";
     
-    // Dynamic redirect URI that works on localhost and production
     const redirectUri = `${window.location.origin}/login`;
     const scope = "openid email customer-account:full";
     
-    // Modern Customer Account API Authorization URL
-    // Updated to match your exact Admin endpoint: shopify.com/authentication/<shopId>/oauth/authorize
+    // 1. Generate PKCE values
+    const codeVerifier = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
+    const codeChallenge = await generateCodeChallenge(codeVerifier);
+    
+    // 2. Persist verifier temporarily for the callback
+    window.sessionStorage.setItem("shopify_code_verifier", codeVerifier);
+    
+    // 3. Modern Auth URL with response_type=code
     const state = Math.random().toString(36).substring(7);
     const nonce = Math.random().toString(36).substring(7);
     
-    const authUrl = `https://shopify.com/authentication/${shopId}/oauth/authorize?client_id=${clientId}&scope=${encodeURIComponent(scope)}&response_type=token&redirect_uri=${encodeURIComponent(redirectUri)}&state=${state}&nonce=${nonce}`;
+    const authUrl = `https://shopify.com/authentication/${shopId}/oauth/authorize?client_id=${clientId}&scope=${encodeURIComponent(scope)}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}&state=${state}&nonce=${nonce}&code_challenge=${codeChallenge}&code_challenge_method=S256`;
 
-    console.log("Redirecting to Shopify for authentication:", authUrl);
+    console.log("Redirecting to Shopify (PKCE Flow):", authUrl);
     window.location.href = authUrl;
   }, []);
 
@@ -121,7 +140,7 @@ export const CustomerAuthProvider = ({ children }: { children: ReactNode }) => {
         customer,
         customerAccessToken,
         isAuthenticated: Boolean(customerAccessToken && customer),
-        isLoading: isLoading && !customerAccessToken, // Refined loading state
+        isLoading: isLoading && !customerAccessToken,
         login,
         logout,
         setAccessToken,
