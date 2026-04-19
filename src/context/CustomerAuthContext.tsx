@@ -107,8 +107,10 @@ export const CustomerAuthProvider = ({ children }: { children: ReactNode }) => {
     const redirectUri = `${window.location.origin}/login`;
     const scope = "openid email";
     
-    // 1. Generate PKCE values
-    const codeVerifier = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
+    // 1. Generate a much stronger PKCE verifier (at least 43 characters required by RFC 7636)
+    const array = new Uint32Array(56);
+    window.crypto.getRandomValues(array);
+    const codeVerifier = Array.from(array, dec => ("0" + dec.toString(36)).slice(-2)).join("");
     const codeChallenge = await generateCodeChallenge(codeVerifier);
     
     // 2. Persist verifier temporarily for the callback

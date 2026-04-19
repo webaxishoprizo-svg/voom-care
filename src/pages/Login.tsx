@@ -20,8 +20,9 @@ const Login = () => {
     const errorDescription = params.get("error_description");
 
     if (error) {
-      console.error("Auth error:", error, errorDescription);
-      toast.error(errorDescription || "Authentication failed");
+      const detailedError = errorDescription || error;
+      console.error("Shopify Auth Error:", detailedError);
+      toast.error(`Authentication failed: ${detailedError}`);
       window.history.replaceState(null, "", window.location.pathname);
       return;
     }
