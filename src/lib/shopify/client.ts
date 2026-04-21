@@ -93,7 +93,7 @@ export async function shopifyCustomerQuery<T>(
   accessToken: string,
 ) {
   try {
-    const response = await fetch(`https://shopify.com/${SHOPIFY_CONFIG.shopId}/account/customer/api/${SHOPIFY_CONFIG.apiVersion}/graphql`, {
+    const response = await fetch("https://shopify.com/api/customer/graphql", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -140,3 +140,4 @@ export async function shopifyCustomerQuery<T>(
     throw error;
   }
 }
+

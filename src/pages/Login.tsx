@@ -13,68 +13,36 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // 🔄 HANDLE PKCE CODE REDIRECT
-    const params = new URLSearchParams(window.location.search);
-    const code = params.get("code");
-    const error = params.get("error");
-    const errorDescription = params.get("error_description");
+    // 🔐 STEP 1: HANDLE OAuth REDIRECT (Token in Hash)
+    const hash = window.location.hash;
+    if (hash) {
+      const params = new URLSearchParams(hash.substring(1));
+      const accessToken = params.get("access_token");
+      const error = params.get("error");
 
-    if (error) {
-      const detailedError = errorDescription || error;
-      console.error("Shopify Auth Error:", detailedError);
-      toast.error(`Authentication failed: ${detailedError}`);
-      window.history.replaceState(null, "", window.location.pathname);
-      return;
-    }
+      if (error) {
+        console.error("Shopify Auth Error:", error);
+        toast.error(`Authentication failed: ${error}`);
+        window.history.replaceState(null, "", window.location.pathname);
+        return;
+      }
 
-    if (code) {
-      const exchangeToken = async () => {
-        const codeVerifier = window.sessionStorage.getItem("shopify_code_verifier");
-        const clientId = "d9d84aeb-8c67-483e-9cfe-a9bf59a8731f";
-        const shopId = "77660979223";
-        const redirectUri = `${window.location.origin}/login`;
-
-        if (!codeVerifier) {
-          toast.error("Security session expired. Please try logging in again.");
-          return;
-        }
-
-        try {
-          const response = await fetch(`https://shopify.com/authentication/${shopId}/oauth/token`, {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: new URLSearchParams({
-              grant_type: "authorization_code",
-              client_id: clientId,
-              redirect_uri: redirectUri,
-              code,
-              code_verifier: codeVerifier,
-            }),
-          });
-
-          if (!response.ok) {
-            const errorText = await response.text();
-            throw new Error(errorText || "Failed to exchange code for token");
-          }
-
-          const data = await response.json();
-          const accessToken = data.access_token;
-
-          if (accessToken) {
+      if (accessToken) {
+        const handleLogin = async () => {
+          try {
             await setAccessToken(accessToken);
             toast.success("Successfully logged in");
-            window.sessionStorage.removeItem("shopify_code_verifier");
+            // Clear hash
             window.history.replaceState(null, "", window.location.pathname);
             navigate("/account");
+          } catch (err) {
+            console.error("Token handling failed:", err);
+            toast.error("Login verification failed");
+            window.history.replaceState(null, "", window.location.pathname);
           }
-        } catch (err) {
-          console.error("Token exchange failed:", err);
-          toast.error("Login verification failed");
-          window.history.replaceState(null, "", window.location.pathname);
-        }
-      };
-
-      void exchangeToken();
+        };
+        void handleLogin();
+      }
     }
   }, [setAccessToken, navigate]);
 
@@ -86,7 +54,7 @@ const Login = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-primary"></div>
       </div>
     );
@@ -127,3 +95,4 @@ const Login = () => {
 };
 
 export default Login;
+

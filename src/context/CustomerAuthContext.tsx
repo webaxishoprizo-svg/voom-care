@@ -7,7 +7,6 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { toast } from "@/components/ui/sonner";
 import { fetchCustomerProfile, type CustomerProfile } from "@/lib/shopify/customer-account";
 
 // User specified key: "customer_token"
@@ -25,20 +24,6 @@ interface CustomerAuthContextType {
 }
 
 const CustomerAuthContext = createContext<CustomerAuthContextType | undefined>(undefined);
-
-// Helper for PKCE
-async function generateCodeChallenge(codeVerifier: string) {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(codeVerifier);
-  const digest = await window.crypto.subtle.digest("SHA-256", data);
-  const base64url = (arrayBuffer: ArrayBuffer) => {
-    return btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)))
-      .replace(/\+/g, "-")
-      .replace(/\//g, "_")
-      .replace(/=+$/, "");
-  };
-  return base64url(digest);
-}
 
 export const CustomerAuthProvider = ({ children }: { children: ReactNode }) => {
   const [customer, setCustomer] = useState<CustomerProfile | null>(null);
@@ -100,29 +85,14 @@ export const CustomerAuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [loadCustomer]);
 
-  const login = useCallback(async () => {
+  const login = useCallback(() => {
     const clientId = "d9d84aeb-8c67-483e-9cfe-a9bf59a8731f";
-    const shopId = "77660979223";
+    const redirectUri = "https://nor-sage-showcase.vercel.app/login"; // Use requested redirect URI
+    const scope = "openid email customer-account:full";
     
-    const redirectUri = `${window.location.origin}/login`;
-    const scope = "openid email";
-    
-    // 1. Generate a much stronger PKCE verifier (at least 43 characters required by RFC 7636)
-    const array = new Uint32Array(56);
-    window.crypto.getRandomValues(array);
-    const codeVerifier = Array.from(array, dec => ("0" + dec.toString(36)).slice(-2)).join("");
-    const codeChallenge = await generateCodeChallenge(codeVerifier);
-    
-    // 2. Persist verifier temporarily for the callback
-    window.sessionStorage.setItem("shopify_code_verifier", codeVerifier);
-    
-    // 3. Modern Auth URL with response_type=code
-    const state = Math.random().toString(36).substring(7);
-    const nonce = Math.random().toString(36).substring(7);
-    
-    const authUrl = `https://shopify.com/authentication/${shopId}/oauth/authorize?client_id=${clientId}&scope=${encodeURIComponent(scope)}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}&state=${state}&nonce=${nonce}&code_challenge=${codeChallenge}&code_challenge_method=S256`;
+    const authUrl = `https://nor-perfume-2.myshopify.com/auth/oauth/authorize?client_id=${clientId}&scope=${encodeURIComponent(scope)}&response_type=token&redirect_uri=${encodeURIComponent(redirectUri)}`;
 
-    console.log("Redirecting to Shopify (PKCE Flow):", authUrl);
+    console.log("Redirecting to Shopify (Token Flow):", authUrl);
     window.location.href = authUrl;
   }, []);
 
@@ -149,11 +119,7 @@ export const CustomerAuthProvider = ({ children }: { children: ReactNode }) => {
         refreshCustomer,
       }}
     >
-      {isLoading && !customerAccessToken && !window.localStorage.getItem(CUSTOMER_TOKEN_STORAGE_KEY) ? (
-        <div className="fixed inset-0 bg-background flex items-center justify-center z-50">
-           <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-primary"></div>
-        </div>
-      ) : children}
+      {children}
     </CustomerAuthContext.Provider>
   );
 };
@@ -165,3 +131,4 @@ export const useCustomerAuth = () => {
   }
   return context;
 };
+
