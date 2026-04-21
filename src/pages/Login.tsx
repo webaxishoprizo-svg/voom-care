@@ -1,37 +1,40 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { useCustomerAuth } from "@/context/CustomerAuthContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/ScrollReveal";
 import { LogIn } from "lucide-react";
-import { toast } from "@/components/ui/sonner";
 
+/**
+ * 🔐 STEP 1: LOGIN PAGE (/login)
+ * Responsibilities:
+ * - Display login button
+ * - Handle OAuth redirect response
+ * - Extract token from URL hash
+ */
 const Login = () => {
-  const { login, isAuthenticated, isLoading, setAccessToken } = useCustomerAuth();
-  const navigate = useNavigate();
+  const { login, isLoading } = useCustomerAuth();
 
   useEffect(() => {
-    // 🔐 STEP 1: HANDLE OAuth REDIRECT (Token in Hash)
+    // 🪙 TOKEN HANDLING
     const hash = window.location.hash;
     if (hash && hash.includes("access_token")) {
       const params = new URLSearchParams(hash.substring(1));
       const accessToken = params.get("access_token");
 
       if (accessToken) {
-        // Store immediately to satisfy auth guards
+        // 1. Store in localStorage
         localStorage.setItem("customer_token", accessToken);
         
-        // Clear hash and redirect without adding to history
+        // 2. Clear URL using history.replaceState
         window.history.replaceState(null, "", window.location.pathname);
+        
+        // 3. Redirect using window.location.replace("/account")
         window.location.replace("/account");
       }
     }
   }, []);
-
-  // Removed general isAuthenticated redirect to prevent loops
-
 
   if (isLoading) {
     return (
@@ -76,4 +79,3 @@ const Login = () => {
 };
 
 export default Login;
-

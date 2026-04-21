@@ -9,7 +9,6 @@ import {
 } from "react";
 import { fetchCustomerProfile, type CustomerProfile } from "@/lib/shopify/customer-account";
 
-// User specified key: "customer_token"
 export const CUSTOMER_TOKEN_STORAGE_KEY = "customer_token";
 
 interface CustomerAuthContextType {
@@ -19,7 +18,6 @@ interface CustomerAuthContextType {
   isLoading: boolean;
   login: () => void;
   logout: () => void;
-  setAccessToken: (token: string) => Promise<void>;
   refreshCustomer: () => Promise<void>;
 }
 
@@ -30,92 +28,56 @@ export const CustomerAuthProvider = ({ children }: { children: ReactNode }) => {
   const [customerAccessToken, setCustomerAccessToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const persistToken = useCallback((token: string | null) => {
-    if (typeof window === "undefined") return;
-    if (token) {
-      window.localStorage.setItem(CUSTOMER_TOKEN_STORAGE_KEY, token);
-    } else {
-      window.localStorage.removeItem(CUSTOMER_TOKEN_STORAGE_KEY);
-    }
-  }, []);
-
-  const clearSession = useCallback(() => {
-    setCustomer(null);
-    setCustomerAccessToken(null);
-    persistToken(null);
-  }, [persistToken]);
-
-  const loadCustomer = useCallback(
-    async (token: string) => {
-      try {
-        const profile = await fetchCustomerProfile(token);
-        setCustomer(profile);
-        setCustomerAccessToken(token);
-        persistToken(token);
-        return profile;
-      } catch (error) {
-        clearSession();
-        console.error("Failed to load customer:", error);
-        throw error;
-      }
-    },
-    [clearSession, persistToken],
-  );
-
-  const setAccessToken = useCallback(async (token: string) => {
-    setIsLoading(true);
+  const loadCustomer = useCallback(async (token: string) => {
     try {
-      await loadCustomer(token);
+      const profile = await fetchCustomerProfile(token);
+      setCustomer(profile);
+      setCustomerAccessToken(token);
+    } catch (error) {
+      console.error("Auth Session Error:", error);
+      localStorage.removeItem(CUSTOMER_TOKEN_STORAGE_KEY);
+      setCustomer(null);
+      setCustomerAccessToken(null);
     } finally {
       setIsLoading(false);
     }
-  }, [loadCustomer]);
+  }, []);
 
   useEffect(() => {
-    if (typeof window === "undefined") {
-      setIsLoading(false);
-      return;
-    }
-
-    const savedToken = window.localStorage.getItem(CUSTOMER_TOKEN_STORAGE_KEY);
+    const savedToken = localStorage.getItem(CUSTOMER_TOKEN_STORAGE_KEY);
     if (savedToken) {
-      void loadCustomer(savedToken).finally(() => setIsLoading(false));
+      void loadCustomer(savedToken);
     } else {
       setIsLoading(false);
     }
   }, [loadCustomer]);
 
   const login = useCallback(() => {
-    const clientId = "d9d84aeb-8c67-483e-9cfe-a9bf59a8731f";
-    const redirectUri = "https://nor-sage-showcase.vercel.app/login"; // Use requested redirect URI
-    const scope = "openid email customer-account:full";
-    
-    const authUrl = `https://nor-perfume-2.myshopify.com/auth/oauth/authorize?client_id=${clientId}&scope=${encodeURIComponent(scope)}&response_type=token&redirect_uri=${encodeURIComponent(redirectUri)}`;
-
-    console.log("Redirecting to Shopify (Token Flow):", authUrl);
+    const authUrl = "https://nor-perfume-2.myshopify.com/auth/oauth/authorize?client_id=d9d84aeb-8c67-483e-9cfe-a9bf59a8731f&scope=openid%20email%20customer-account:full&response_type=token&redirect_uri=https://nor-sage-showcase.vercel.app/login";
     window.location.href = authUrl;
   }, []);
 
   const logout = useCallback(() => {
-    clearSession();
-    window.location.href = "/";
-  }, [clearSession]);
+    localStorage.removeItem(CUSTOMER_TOKEN_STORAGE_KEY);
+    setCustomer(null);
+    setCustomerAccessToken(null);
+    window.location.replace("/");
+  }, []);
 
   const refreshCustomer = useCallback(async () => {
-    if (!customerAccessToken) return;
-    await loadCustomer(customerAccessToken);
-  }, [customerAccessToken, loadCustomer]);
+    const token = localStorage.getItem(CUSTOMER_TOKEN_STORAGE_KEY);
+    if (token) await loadCustomer(token);
+  }, [loadCustomer]);
 
   return (
     <CustomerAuthContext.Provider
       value={{
         customer,
         customerAccessToken,
-        isAuthenticated: Boolean(customerAccessToken && customer),
-        isLoading: isLoading && !customerAccessToken,
+        isAuthenticated: !!customerAccessToken,
+        isLoading,
         login,
         logout,
-        setAccessToken,
         refreshCustomer,
       }}
     >
@@ -131,4 +93,3 @@ export const useCustomerAuth = () => {
   }
   return context;
 };
-

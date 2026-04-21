@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useCustomerAuth } from "@/context/CustomerAuthContext";
 import { fetchCustomerOrders, type CustomerOrder } from "@/lib/shopify/customer-account";
 import Navbar from "@/components/Navbar";
@@ -7,21 +7,23 @@ import Footer from "@/components/Footer";
 import { Reveal } from "@/components/ScrollReveal";
 import { ArrowLeft, Package, Calendar, Tag } from "lucide-react";
 
+/**
+ * 📦 STEP 3: ORDERS PAGE (/account/orders)
+ * Responsibilities:
+ * - Protected route
+ * - Fetch order history
+ */
 const Orders = () => {
-  const { customerAccessToken, isAuthenticated, isLoading } = useCustomerAuth();
+  const { customerAccessToken, isLoading } = useCustomerAuth();
   const [orders, setOrders] = useState<CustomerOrder[]>([]);
   const [isFetching, setIsFetching] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
     // 🛡️ CONTROLLED AUTH GUARD
-    const checkAuth = () => {
-      const token = localStorage.getItem("customer_token");
-      if (!isLoading && !token) {
-        window.location.replace("/login");
-      }
-    };
-    checkAuth();
+    const token = localStorage.getItem("customer_token");
+    if (!isLoading && !token) {
+      window.location.replace("/login");
+    }
   }, [isLoading]);
 
   useEffect(() => {
@@ -37,10 +39,10 @@ const Orders = () => {
       }
     };
 
-    if (isAuthenticated) {
+    if (customerAccessToken) {
       getOrders();
     }
-  }, [customerAccessToken, isAuthenticated]);
+  }, [customerAccessToken]);
 
   if (isLoading) {
     return (
@@ -67,7 +69,7 @@ const Orders = () => {
                 <ArrowLeft className="h-3 w-3 group-hover:-translate-x-1 transition-transform duration-500" />
                 Back to Account
               </Link>
-              <div className="space-y-4">
+              <div className="space-y-4 text-left">
                 <p className="text-[10px] tracking-[0.4em] uppercase text-primary font-medium">Order History</p>
                 <h1 className="text-4xl sm:text-5xl font-display text-foreground tracking-tight">Your Journeys</h1>
               </div>
@@ -75,11 +77,16 @@ const Orders = () => {
           </Reveal>
 
           <div className="space-y-6">
-            {orders.length === 0 ? (
+            {isFetching ? (
+              <div className="py-20 text-center">
+                 <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-primary mx-auto mb-4"></div>
+                 <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Syncing History...</p>
+              </div>
+            ) : orders.length === 0 ? (
               <Reveal delay={0.1}>
-                <div className="text-center py-20 bg-muted/20 border border-dashed border-border/40">
+                <div className="text-center py-20 bg-muted/30 border border-dashed border-border/40">
                   <Package className="h-10 w-10 text-muted-foreground/30 mx-auto mb-4" />
-                  <p className="text-sm text-muted-foreground font-light italic">No orders found.</p>
+                  <p className="text-sm text-muted-foreground font-light italic">No fragrance journeys found yet.</p>
                   <Link to="/products" className="text-[10px] uppercase tracking-[0.2em] text-primary font-bold mt-4 inline-block hover:underline">
                     Explore Collections
                   </Link>
@@ -90,14 +97,14 @@ const Orders = () => {
                 <Reveal key={order.name} delay={index * 0.05}>
                   <div className="bg-muted/30 p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6 hover:bg-muted/50 transition-colors duration-500 group border border-transparent hover:border-border/30">
                     <div className="flex gap-6 sm:gap-10">
-                      <div className="space-y-1">
+                      <div className="space-y-1 text-left">
                         <p className="flex items-center gap-1.5 text-[9px] uppercase tracking-[0.2em] text-muted-foreground mb-1">
                           <Tag className="h-2.5 w-2.5" />
                           Order ID
                         </p>
                         <p className="text-sm font-medium">{order.name}</p>
                       </div>
-                      <div className="space-y-1">
+                      <div className="space-y-1 text-left">
                         <p className="flex items-center gap-1.5 text-[9px] uppercase tracking-[0.2em] text-muted-foreground mb-1">
                           <Calendar className="h-2.5 w-2.5" />
                           Date

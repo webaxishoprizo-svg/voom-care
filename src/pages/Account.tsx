@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useCustomerAuth } from "@/context/CustomerAuthContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -7,19 +7,22 @@ import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/ScrollReveal";
 import { User, LogOut, ShoppingBag, ChevronRight } from "lucide-react";
 
+/**
+ * 📄 STEP 2: ACCOUNT PAGE (/account)
+ * Responsibilities:
+ * - Check token exists
+ * - If missing → redirect to /login (ONLY ONCE)
+ * - Fetch customer data (handled by context on mount if token exists)
+ */
 const Account = () => {
-  const { customer, logout, isAuthenticated, isLoading } = useCustomerAuth();
-  const navigate = useNavigate();
+  const { customer, logout, isLoading } = useCustomerAuth();
 
   useEffect(() => {
     // 🛡️ CONTROLLED AUTH GUARD
-    const checkAuth = () => {
-      const token = localStorage.getItem("customer_token");
-      if (!isLoading && !token) {
-        window.location.replace("/login");
-      }
-    };
-    checkAuth();
+    const token = localStorage.getItem("customer_token");
+    if (!isLoading && !token) {
+      window.location.replace("/login");
+    }
   }, [isLoading]);
 
   if (isLoading) {
@@ -33,9 +36,7 @@ const Account = () => {
     );
   }
 
-  if (!customer) {
-    return null; // The useEffect handles the redirect
-  }
+  if (!customer) return null;
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -63,7 +64,7 @@ const Account = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <Reveal delay={0.1}>
-              <div className="bg-muted/30 p-8 space-y-6">
+              <div className="bg-muted/30 p-8 space-y-6 text-left">
                 <div className="flex items-center gap-3">
                   <User className="h-5 w-5 text-primary" />
                   <h2 className="font-display text-xl uppercase tracking-wider">Profile Details</h2>
@@ -83,7 +84,7 @@ const Account = () => {
 
             <Reveal delay={0.2}>
               <Link to="/account/orders" className="block group">
-                <div className="bg-muted/30 p-8 space-y-6 h-full transition-all duration-500 group-hover:bg-muted/50">
+                <div className="bg-muted/30 p-8 space-y-6 h-full transition-all duration-500 group-hover:bg-muted/50 text-left">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <ShoppingBag className="h-5 w-5 text-primary" />
