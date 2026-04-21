@@ -12,6 +12,8 @@ export interface CustomerOrder {
   totalPrice: {
     amount: string;
   };
+  financialStatus: string;
+  fulfillmentStatus: string;
 }
 
 const GET_CUSTOMER_QUERY = `
@@ -35,12 +37,15 @@ const GET_ORDERS_QUERY = `
             totalPrice {
               amount
             }
+            financialStatus
+            fulfillmentStatus
           }
         }
       }
     }
   }
 `;
+
 
 export async function fetchCustomerProfile(accessToken: string): Promise<CustomerProfile> {
   const data = await shopifyCustomerQuery<{ customer: CustomerProfile }>(
