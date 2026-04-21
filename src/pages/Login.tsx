@@ -15,42 +15,23 @@ const Login = () => {
   useEffect(() => {
     // 🔐 STEP 1: HANDLE OAuth REDIRECT (Token in Hash)
     const hash = window.location.hash;
-    if (hash) {
+    if (hash && hash.includes("access_token")) {
       const params = new URLSearchParams(hash.substring(1));
       const accessToken = params.get("access_token");
-      const error = params.get("error");
-
-      if (error) {
-        console.error("Shopify Auth Error:", error);
-        toast.error(`Authentication failed: ${error}`);
-        window.history.replaceState(null, "", window.location.pathname);
-        return;
-      }
 
       if (accessToken) {
-        const handleLogin = async () => {
-          try {
-            await setAccessToken(accessToken);
-            toast.success("Successfully logged in");
-            // Clear hash
-            window.history.replaceState(null, "", window.location.pathname);
-            navigate("/account");
-          } catch (err) {
-            console.error("Token handling failed:", err);
-            toast.error("Login verification failed");
-            window.history.replaceState(null, "", window.location.pathname);
-          }
-        };
-        void handleLogin();
+        // Store immediately to satisfy auth guards
+        localStorage.setItem("customer_token", accessToken);
+        
+        // Clear hash and redirect without adding to history
+        window.history.replaceState(null, "", window.location.pathname);
+        window.location.replace("/account");
       }
     }
-  }, [setAccessToken, navigate]);
+  }, []);
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/account");
-    }
-  }, [isAuthenticated, navigate]);
+  // Removed general isAuthenticated redirect to prevent loops
+
 
   if (isLoading) {
     return (

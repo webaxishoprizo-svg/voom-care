@@ -14,10 +14,15 @@ const Orders = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      navigate("/login");
-    }
-  }, [isAuthenticated, isLoading, navigate]);
+    // 🛡️ CONTROLLED AUTH GUARD
+    const checkAuth = () => {
+      const token = localStorage.getItem("customer_token");
+      if (!isLoading && !token) {
+        window.location.replace("/login");
+      }
+    };
+    checkAuth();
+  }, [isLoading]);
 
   useEffect(() => {
     const getOrders = async () => {
