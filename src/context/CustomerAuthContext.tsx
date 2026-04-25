@@ -66,7 +66,7 @@ export const CustomerAuthProvider = ({ children }: { children: ReactNode }) => {
     
     const authUrl = new URL(`https://shopify.com/authentication/${SHOPIFY_CONFIG.shopId}/oauth/authorize`);
     authUrl.searchParams.set("client_id", SHOPIFY_CONFIG.publicClientId);
-    authUrl.searchParams.set("scope", "openid email customer-account:full");
+    authUrl.searchParams.set("scope", "openid email customer-account-api:full");
     authUrl.searchParams.set("response_type", "code");
     authUrl.searchParams.set("redirect_uri", redirectUri);
     authUrl.searchParams.set("code_challenge", challenge);
