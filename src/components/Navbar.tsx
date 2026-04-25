@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
 import { useCustomerAuth } from "@/context/CustomerAuthContext";
-import { SHOPIFY_ACCOUNT_URL, SHOPIFY_ORDERS_URL } from "@/lib/shopify/client";
+import { SHOPIFY_ACCOUNT_URL, SHOPIFY_ORDERS_URL, SHOPIFY_LOGIN_URL } from "@/lib/shopify/client";
 import logo from "@/assets/logo.png";
 import SearchDialog from "@/components/SearchDialog";
 
@@ -12,16 +12,12 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const { totalItems, setIsOpen } = useCart();
-  const { isAuthenticated, login, logout } = useCustomerAuth();
+  const { isAuthenticated, logout } = useCustomerAuth();
   const navigate = useNavigate();
 
   const handleAccountClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    if (isAuthenticated) {
-      navigate(SHOPIFY_ACCOUNT_URL);
-    } else {
-      login();
-    }
+    window.location.href = isAuthenticated ? SHOPIFY_ACCOUNT_URL : SHOPIFY_LOGIN_URL;
   };
 
   const menuItems = [
@@ -132,14 +128,14 @@ const Navbar = () => {
                     >
                       <User className={`w-6 h-6 ${isAuthenticated ? "text-primary" : "text-foreground"}`} />
                     </button>
-                    <Link
-                      to={SHOPIFY_ORDERS_URL}
+                    <a
+                      href={SHOPIFY_ORDERS_URL}
                       onClick={() => setMenuOpen(false)}
                       className="flex items-center justify-center w-12 h-12 rounded-full bg-surface-glass border border-white/10 hover:border-primary/50 transition-colors"
                       aria-label="Orders"
                     >
                       <Package className="w-6 h-6 text-foreground" />
-                    </Link>
+                    </a>
                   </div>
 
                   <button
@@ -148,7 +144,7 @@ const Navbar = () => {
                       if (isAuthenticated) {
                         logout();
                       } else {
-                        login();
+                        window.location.href = SHOPIFY_LOGIN_URL;
                       }
                     }}
                     className={`w-full py-4 rounded-2xl flex items-center justify-center gap-3 font-display text-sm tracking-widest uppercase transition-all active:scale-[0.98] ${isAuthenticated

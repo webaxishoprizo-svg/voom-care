@@ -16,8 +16,9 @@ export const SHOPIFY_CONFIG = {
 
 export const SHOPIFY_STORE_URL = `https://${SHOPIFY_CONFIG.domain}`;
 export const SHOPIFY_ENDPOINT = `${SHOPIFY_STORE_URL}/api/${SHOPIFY_CONFIG.apiVersion}/graphql.json`;
-export const SHOPIFY_ACCOUNT_URL = "/account";
-export const SHOPIFY_ORDERS_URL = "/account/orders";
+export const SHOPIFY_ACCOUNT_URL = `${SHOPIFY_STORE_URL}/account`;
+export const SHOPIFY_ORDERS_URL = `${SHOPIFY_STORE_URL}/account/orders`;
+export const SHOPIFY_LOGIN_URL = `${SHOPIFY_STORE_URL}/account/login`;
 
 
 interface ShopifyGraphQLResponse<T> {

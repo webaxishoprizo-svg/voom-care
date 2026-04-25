@@ -7,14 +7,12 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { fetchCustomerProfile, type CustomerProfile } from "@/lib/shopify/customer-account";
-import { SHOPIFY_CONFIG } from "@/lib/shopify/client";
-import { generateCodeVerifier, generateCodeChallenge } from "@/lib/shopify/pkce";
+import { SHOPIFY_STORE_URL } from "@/lib/shopify/client";
 
 export const CUSTOMER_TOKEN_STORAGE_KEY = "customer_token";
 
 interface CustomerAuthContextType {
-  customer: CustomerProfile | null;
+  customer: any | null;
   customerAccessToken: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
@@ -26,23 +24,15 @@ interface CustomerAuthContextType {
 const CustomerAuthContext = createContext<CustomerAuthContextType | undefined>(undefined);
 
 export const CustomerAuthProvider = ({ children }: { children: ReactNode }) => {
-  const [customer, setCustomer] = useState<CustomerProfile | null>(null);
+  const [customer, setCustomer] = useState<any | null>(null);
   const [customerAccessToken, setCustomerAccessToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const loadCustomer = useCallback(async (token: string) => {
-    try {
-      const profile = await fetchCustomerProfile(token);
-      setCustomer(profile);
-      setCustomerAccessToken(token);
-    } catch (error) {
-      console.error("Auth Session Error:", error);
-      localStorage.removeItem(CUSTOMER_TOKEN_STORAGE_KEY);
-      setCustomer(null);
-      setCustomerAccessToken(null);
-    } finally {
-      setIsLoading(false);
-    }
+    // In a pure storefront API setup, we would fetch the customer here
+    // For now, we'll just set the token to indicate authentication
+    setCustomerAccessToken(token);
+    setIsLoading(false);
   }, []);
 
   useEffect(() => {
@@ -54,35 +44,15 @@ export const CustomerAuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [loadCustomer]);
 
-  const login = useCallback(async () => {
-    const redirectUri = `${window.location.origin}/login`;
-    
-    // 🔐 PKCE FLOW: Generate verifier and challenge
-    const verifier = generateCodeVerifier();
-    const challenge = await generateCodeChallenge(verifier);
-    
-    // Store verifier in sessionStorage to use it during token exchange
-    sessionStorage.setItem("shopify_code_verifier", verifier);
-    
-    const authUrl = new URL(`https://shopify.com/authentication/${SHOPIFY_CONFIG.shopId}/oauth/authorize`);
-    authUrl.searchParams.set("client_id", SHOPIFY_CONFIG.publicClientId);
-    authUrl.searchParams.set("scope", "openid email customer-account-api:full");
-    authUrl.searchParams.set("response_type", "code");
-    authUrl.searchParams.set("redirect_uri", redirectUri);
-    authUrl.searchParams.set("code_challenge", challenge);
-    authUrl.searchParams.set("code_challenge_method", "S256");
-    
-    window.location.href = authUrl.toString();
+  const login = useCallback(() => {
+    window.location.href = `${SHOPIFY_STORE_URL}/account/login`;
   }, []);
 
   const logout = useCallback(() => {
     localStorage.removeItem(CUSTOMER_TOKEN_STORAGE_KEY);
     setCustomer(null);
     setCustomerAccessToken(null);
-
-    // 🔐 Restored parameters for proper logout redirection
-    const logoutUrl = `https://shopify.com/authentication/${SHOPIFY_CONFIG.shopId}/logout?return_to=${encodeURIComponent(window.location.origin)}`;
-    window.location.href = logoutUrl;
+    window.location.href = `${SHOPIFY_STORE_URL}/account/logout`;
   }, []);
 
   const refreshCustomer = useCallback(async () => {
