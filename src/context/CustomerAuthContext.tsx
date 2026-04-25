@@ -56,7 +56,7 @@ export const CustomerAuthProvider = ({ children }: { children: ReactNode }) => {
   const login = useCallback(() => {
     const redirectUri = `${window.location.origin}/login`;
     // 🔐 Restored parameters to fix 'Invalid Client Credentials' error
-    const authUrl = `https://shopify.com/authentication/${SHOPIFY_CONFIG.shopId}/oauth/authorize?client_id=${SHOPIFY_CONFIG.publicClientId}&scope=openid%20email%20customer-account:full&response_type=token&redirect_uri=${encodeURIComponent(redirectUri)}`;
+    const authUrl = `https://shopify.com/authentication/${SHOPIFY_CONFIG.shopId}/oauth/authorize?client_id=${SHOPIFY_CONFIG.publicClientId}&scope=openid%20email%20customer-account:response_type=token&redirect_uri=${encodeURIComponent(redirectUri)}`;
     window.location.href = authUrl;
   }, []);
 
