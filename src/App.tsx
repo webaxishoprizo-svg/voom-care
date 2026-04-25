@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -9,18 +10,29 @@ import CartDrawer from "@/components/CartDrawer";
 import ScrollToTop from "@/components/ScrollToTop";
 import ScrollToTopOnNavigation from "@/components/ScrollToTopOnNavigation";
 import SmoothScroll from "@/components/SmoothScroll";
-import Index from "./pages/Index.tsx";
-import Products from "./pages/Products.tsx";
-import ProductDetail from "./pages/ProductDetail.tsx";
-import AboutUs from "./pages/AboutUs.tsx";
-import Contact from "./pages/Contact.tsx";
-import FAQ from "./pages/FAQ.tsx";
-import TrackOrder from "./pages/TrackOrder.tsx";
-import PrivacyPolicy from "./pages/PrivacyPolicy.tsx";
-import TermsOfService from "./pages/TermsOfService.tsx";
-import RefundPolicy from "./pages/RefundPolicy.tsx";
-import ShippingPolicy from "./pages/ShippingPolicy.tsx";
-import NotFound from "./pages/NotFound.tsx";
+
+// Lazy-load pages for performance
+const Index = lazy(() => import("./pages/Index.tsx"));
+const Products = lazy(() => import("./pages/Products.tsx"));
+const ProductDetail = lazy(() => import("./pages/ProductDetail.tsx"));
+const AboutUs = lazy(() => import("./pages/AboutUs.tsx"));
+const Contact = lazy(() => import("./pages/Contact.tsx"));
+const FAQ = lazy(() => import("./pages/FAQ.tsx"));
+const TrackOrder = lazy(() => import("./pages/TrackOrder.tsx"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy.tsx"));
+const TermsOfService = lazy(() => import("./pages/TermsOfService.tsx"));
+const RefundPolicy = lazy(() => import("./pages/RefundPolicy.tsx"));
+const ShippingPolicy = lazy(() => import("./pages/ShippingPolicy.tsx"));
+const NotFound = lazy(() => import("./pages/NotFound.tsx"));
+
+const Loading = () => (
+  <div className="min-h-screen bg-[#050505] flex items-center justify-center">
+    <div className="relative w-16 h-16">
+      <div className="absolute inset-0 border-t-2 border-primary rounded-full animate-spin" />
+      <div className="absolute inset-4 border-b-2 border-primary/30 rounded-full animate-spin-slow" />
+    </div>
+  </div>
+);
 
 const queryClient = new QueryClient();
 
@@ -36,21 +48,23 @@ const App = () => (
           <BrowserRouter>
             <ScrollToTop />
             <ScrollToTopOnNavigation />
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/products" element={<Products />} />
-              <Route path="/product/:id" element={<ProductDetail />} />
-              <Route path="/about" element={<AboutUs />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/faq" element={<FAQ />} />
-              <Route path="/track-order" element={<TrackOrder />} />
-              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-              <Route path="/terms-of-service" element={<TermsOfService />} />
-              <Route path="/refund-policy" element={<RefundPolicy />} />
-              <Route path="/shipping-policy" element={<ShippingPolicy />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <Suspense fallback={<Loading />}>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/products" element={<Products />} />
+                <Route path="/product/:id" element={<ProductDetail />} />
+                <Route path="/about" element={<AboutUs />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/faq" element={<FAQ />} />
+                <Route path="/track-order" element={<TrackOrder />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                <Route path="/terms-of-service" element={<TermsOfService />} />
+                <Route path="/refund-policy" element={<RefundPolicy />} />
+                <Route path="/shipping-policy" element={<ShippingPolicy />} />
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
           </BrowserRouter>
         </TooltipProvider>
       </CartProvider>
