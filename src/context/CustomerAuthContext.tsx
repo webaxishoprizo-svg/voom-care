@@ -56,7 +56,7 @@ export const CustomerAuthProvider = ({ children }: { children: ReactNode }) => {
   const login = useCallback(() => {
     const redirectUri = `${window.location.origin}/login`;
     // 🔐 Updated to user-provided Authorization endpoint
-    const authUrl = `https://shopify.com/authentication/${SHOPIFY_CONFIG.shopId}/oauth/authorize?client_id=${SHOPIFY_CONFIG.publicClientId}&scope=openid%20email%20customer-account:full&response_type=token&redirect_uri=${encodeURIComponent(redirectUri)}`;
+    const authUrl = 'https://shopify.com/authentication/77660979223/oauth/authorize';
     window.location.href = authUrl;
   }, []);
 
@@ -64,9 +64,9 @@ export const CustomerAuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem(CUSTOMER_TOKEN_STORAGE_KEY);
     setCustomer(null);
     setCustomerAccessToken(null);
-    
+
     // 🔐 Updated to user-provided Logout endpoint
-    const logoutUrl = `https://shopify.com/authentication/${SHOPIFY_CONFIG.shopId}/logout?return_to=${encodeURIComponent(window.location.origin)}`;
+    const logoutUrl = `https://shopify.com/authentication/77660979223/logout`;
     window.location.href = logoutUrl;
   }, []);
 
