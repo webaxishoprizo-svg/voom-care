@@ -70,3 +70,37 @@ export async function fetchCustomerOrders(accessToken: string, first = 10): Prom
   
   return data.customer.orders.edges.map((edge) => edge.node);
 }
+
+export async function exchangeCodeForToken(
+  code: string, 
+  codeVerifier: string, 
+  redirectUri: string,
+  shopId: string,
+  clientId: string
+) {
+  const url = `https://shopify.com/authentication/${shopId}/oauth/token`;
+  
+  const body = new URLSearchParams({
+    grant_type: "authorization_code",
+    client_id: clientId,
+    redirect_uri: redirectUri,
+    code,
+    code_verifier: codeVerifier,
+  });
+
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: body.toString(),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error_description || "Token exchange failed");
+  }
+
+  const data = await response.json();
+  return data.access_token as string;
+}

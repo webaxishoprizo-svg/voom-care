@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCustomerAuth } from "@/context/CustomerAuthContext";
+import { exchangeCodeForToken } from "@/lib/shopify/customer-account";
+import { SHOPIFY_CONFIG } from "@/lib/shopify/client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -19,24 +21,39 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // 🪙 TOKEN HANDLING
-    const hash = window.location.hash;
-    if (hash && hash.includes("access_token")) {
-      const params = new URLSearchParams(hash.substring(1));
-      const accessToken = params.get("access_token");
+    // 🪙 CODE EXCHANGE HANDLING (PKCE)
+    const searchParams = new URLSearchParams(window.location.search);
+    const code = searchParams.get("code");
 
-      if (accessToken) {
-        // 1. Store in localStorage
-        localStorage.setItem("customer_token", accessToken);
-        
-        // 2. Clear URL using history.replaceState
-        window.history.replaceState(null, "", window.location.pathname);
-        
-        // 3. Redirect to account
-        navigate("/account");
-      }
+    if (code) {
+      const exchangeCode = async () => {
+        try {
+          const verifier = sessionStorage.getItem("shopify_code_verifier");
+          if (!verifier) throw new Error("No code verifier found in session");
+
+          const redirectUri = `${window.location.origin}/login`;
+          const accessToken = await exchangeCodeForToken(
+            code,
+            verifier,
+            redirectUri,
+            SHOPIFY_CONFIG.shopId,
+            SHOPIFY_CONFIG.publicClientId
+          );
+
+          if (accessToken) {
+            localStorage.setItem("customer_token", accessToken);
+            sessionStorage.removeItem("shopify_code_verifier");
+            window.location.replace("/account");
+          }
+        } catch (error) {
+          console.error("Token Exchange Error:", error);
+          // Handle error (maybe redirect back to login or show toast)
+        }
+      };
+
+      void exchangeCode();
     }
-  }, [navigate]);
+  }, []);
 
   useEffect(() => {
     if (isAuthenticated) {

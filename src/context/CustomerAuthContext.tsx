@@ -9,6 +9,7 @@ import {
 } from "react";
 import { fetchCustomerProfile, type CustomerProfile } from "@/lib/shopify/customer-account";
 import { SHOPIFY_CONFIG } from "@/lib/shopify/client";
+import { generateCodeVerifier, generateCodeChallenge } from "@/lib/shopify/pkce";
 
 export const CUSTOMER_TOKEN_STORAGE_KEY = "customer_token";
 
@@ -53,11 +54,25 @@ export const CustomerAuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [loadCustomer]);
 
-  const login = useCallback(() => {
+  const login = useCallback(async () => {
     const redirectUri = `${window.location.origin}/login`;
-    // 🔐 Restored parameters to fix 'Invalid Client Credentials' error
-    const authUrl = `https://shopify.com/authentication/${SHOPIFY_CONFIG.shopId}/oauth/authorize?client_id=${SHOPIFY_CONFIG.publicClientId}&scope=openid%20email%20customer-account:response_type=token&redirect_uri=${encodeURIComponent(redirectUri)}`;
-    window.location.href = authUrl;
+    
+    // 🔐 PKCE FLOW: Generate verifier and challenge
+    const verifier = generateCodeVerifier();
+    const challenge = await generateCodeChallenge(verifier);
+    
+    // Store verifier in sessionStorage to use it during token exchange
+    sessionStorage.setItem("shopify_code_verifier", verifier);
+    
+    const authUrl = new URL(`https://shopify.com/authentication/${SHOPIFY_CONFIG.shopId}/oauth/authorize`);
+    authUrl.searchParams.set("client_id", SHOPIFY_CONFIG.publicClientId);
+    authUrl.searchParams.set("scope", "openid email customer-account:full");
+    authUrl.searchParams.set("response_type", "code");
+    authUrl.searchParams.set("redirect_uri", redirectUri);
+    authUrl.searchParams.set("code_challenge", challenge);
+    authUrl.searchParams.set("code_challenge_method", "S256");
+    
+    window.location.href = authUrl.toString();
   }, []);
 
   const logout = useCallback(() => {
