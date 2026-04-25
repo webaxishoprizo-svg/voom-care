@@ -26,29 +26,52 @@ const Orders = () => {
   const [orders, setOrders] = useState<CustomerOrder[]>([]);
   const [isFetching, setIsFetching] = useState(true);
 
-  useEffect(() => {
-    const token = localStorage.getItem("customer_token");
-    if (!isLoading && !token) {
-      navigate("/login");
+  // TEMPORARY: Mock orders for UI preview
+  const mockOrders: CustomerOrder[] = [
+    {
+      name: "1001",
+      processedAt: new Date().toISOString(),
+      totalPrice: { amount: "2499.00" },
+      financialStatus: "PAID",
+      fulfillmentStatus: "FULFILLED"
+    },
+    {
+      name: "1002",
+      processedAt: new Date(Date.now() - 86400000 * 2).toISOString(),
+      totalPrice: { amount: "1850.00" },
+      financialStatus: "PAID",
+      fulfillmentStatus: "SHIP"
     }
+  ];
+
+  useEffect(() => {
+    // Temporarily disabled for UI preview
+    // const token = localStorage.getItem("customer_token");
+    // if (!isLoading && !token) {
+    //   navigate("/login");
+    // }
   }, [isLoading, navigate]);
 
   useEffect(() => {
     const getOrders = async () => {
-      if (!customerAccessToken) return;
+      if (!customerAccessToken) {
+        // Use mock data if not logged in
+        setOrders(mockOrders);
+        setIsFetching(false);
+        return;
+      }
       try {
         const orderData = await fetchCustomerOrders(customerAccessToken);
-        setOrders(orderData);
+        setOrders(orderData.length > 0 ? orderData : mockOrders);
       } catch (error) {
         console.error("Error fetching orders:", error);
+        setOrders(mockOrders);
       } finally {
         setIsFetching(false);
       }
     };
 
-    if (customerAccessToken) {
-      getOrders();
-    }
+    getOrders();
   }, [customerAccessToken]);
 
   const getStatusColor = (status: string) => {

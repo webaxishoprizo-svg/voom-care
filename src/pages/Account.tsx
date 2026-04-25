@@ -22,11 +22,21 @@ const Account = () => {
   const { customer, logout, isLoading } = useCustomerAuth();
   const navigate = useNavigate();
 
+  // TEMPORARY: Mock customer for UI preview
+  const mockCustomer = {
+    firstName: "Premium",
+    lastName: "User",
+    email: "concierge@nor-perfume.com"
+  };
+
+  const displayCustomer = customer || mockCustomer;
+
   useEffect(() => {
-    const token = localStorage.getItem("customer_token");
-    if (!isLoading && !token) {
-      navigate("/login");
-    }
+    // Temporarily disabled for UI preview
+    // const token = localStorage.getItem("customer_token");
+    // if (!isLoading && !token) {
+    //   navigate("/login");
+    // }
   }, [isLoading, navigate]);
 
   if (isLoading) {
@@ -40,7 +50,7 @@ const Account = () => {
     );
   }
 
-  if (!customer) return null;
+  // if (!customer) return null; // Disabled for preview
 
   return (
     <div className="min-h-screen bg-[#050505] text-white flex flex-col selection:bg-primary selection:text-black">
@@ -74,11 +84,11 @@ const Account = () => {
 
                     <div className="space-y-2">
                       <h1 className="text-4xl font-display tracking-tight">
-                        {customer.firstName}<br />{customer.lastName}
+                        {displayCustomer.firstName}<br />{displayCustomer.lastName}
                       </h1>
                       <p className="text-white/40 text-sm font-light flex items-center gap-2">
                         <Mail className="h-3 w-3" />
-                        {customer.email}
+                        {displayCustomer.email}
                       </p>
                     </div>
 
