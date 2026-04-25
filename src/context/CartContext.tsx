@@ -102,12 +102,12 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (!cartId || !customer?.email) return;
 
-    void syncShopifyCartBuyerIdentity(cartId, customer.email)
+    void syncShopifyCartBuyerIdentity(cartId, customer?.email, customerAccessToken || undefined)
       .then(applyCartSnapshot)
       .catch(() => {
         // Keep checkout usable even if buyer identity sync fails.
       });
-  }, [applyCartSnapshot, cartId, customer?.email]);
+  }, [applyCartSnapshot, cartId, customer?.email, customerAccessToken]);
 
   const addItem = useCallback(
     async (product: Product, quantity = 1) => {

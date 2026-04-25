@@ -8,6 +8,7 @@ import {
   type ReactNode,
 } from "react";
 import { fetchCustomerProfile, type CustomerProfile } from "@/lib/shopify/customer-account";
+import { SHOPIFY_CONFIG } from "@/lib/shopify/client";
 
 export const CUSTOMER_TOKEN_STORAGE_KEY = "customer_token";
 
@@ -53,7 +54,8 @@ export const CustomerAuthProvider = ({ children }: { children: ReactNode }) => {
   }, [loadCustomer]);
 
   const login = useCallback(() => {
-    const authUrl = "https://nor-perfume-2.myshopify.com/auth/oauth/authorize?client_id=d9d84aeb-8c67-483e-9cfe-a9bf59a8731f&scope=openid%20email%20customer-account:full&response_type=token&redirect_uri=https://nor-sage-showcase.vercel.app/login";
+    const redirectUri = `${window.location.origin}/login`;
+    const authUrl = `https://shopify.com/${SHOPIFY_CONFIG.shopId}/auth/oauth/authorize?client_id=${SHOPIFY_CONFIG.publicClientId}&scope=openid%20email%20customer-account:full&response_type=token&redirect_uri=${encodeURIComponent(redirectUri)}`;
     window.location.href = authUrl;
   }, []);
 
