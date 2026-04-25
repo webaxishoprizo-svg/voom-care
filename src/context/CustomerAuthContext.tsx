@@ -55,7 +55,8 @@ export const CustomerAuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = useCallback(() => {
     const redirectUri = `${window.location.origin}/login`;
-    const authUrl = `https://shopify.com/${SHOPIFY_CONFIG.shopId}/auth/oauth/authorize?client_id=${SHOPIFY_CONFIG.publicClientId}&scope=openid%20email%20customer-account:full&response_type=token&redirect_uri=${encodeURIComponent(redirectUri)}`;
+    // 🔐 Updated to user-provided Authorization endpoint
+    const authUrl = `https://shopify.com/authentication/${SHOPIFY_CONFIG.shopId}/oauth/authorize?client_id=${SHOPIFY_CONFIG.publicClientId}&scope=openid%20email%20customer-account:full&response_type=token&redirect_uri=${encodeURIComponent(redirectUri)}`;
     window.location.href = authUrl;
   }, []);
 
@@ -63,7 +64,10 @@ export const CustomerAuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem(CUSTOMER_TOKEN_STORAGE_KEY);
     setCustomer(null);
     setCustomerAccessToken(null);
-    window.location.replace("/");
+    
+    // 🔐 Updated to user-provided Logout endpoint
+    const logoutUrl = `https://shopify.com/authentication/${SHOPIFY_CONFIG.shopId}/logout?return_to=${encodeURIComponent(window.location.origin)}`;
+    window.location.href = logoutUrl;
   }, []);
 
   const refreshCustomer = useCallback(async () => {
