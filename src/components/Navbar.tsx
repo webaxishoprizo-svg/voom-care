@@ -16,8 +16,10 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const handleAccountClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    window.location.href = isAuthenticated ? SHOPIFY_ACCOUNT_URL : SHOPIFY_LOGIN_URL;
+    // We use onMouseDown for instant response (saves ~100ms over onClick)
+    if (e.type === 'mousedown' || e.type === 'touchstart') {
+      window.location.href = isAuthenticated ? SHOPIFY_ACCOUNT_URL : SHOPIFY_LOGIN_URL;
+    }
   };
 
   const menuItems = [
@@ -51,7 +53,7 @@ const Navbar = () => {
           <div className="flex items-center gap-4 z-10">
             <Search onClick={() => setSearchOpen(true)} className="w-5 h-5 text-foreground/70 hover:text-foreground cursor-pointer transition-colors" />
             <button
-              onClick={handleAccountClick}
+              onMouseDown={handleAccountClick}
               className="hidden sm:block outline-none"
               aria-label={isAuthenticated ? "Open account" : "Login"}
             >
@@ -119,7 +121,7 @@ const Navbar = () => {
                 <div className="mt-8 pt-8 border-t border-white/5 space-y-4">
                   <div className="flex items-center gap-4">
                     <button
-                      onClick={(e) => {
+                      onMouseDown={(e) => {
                         setMenuOpen(false);
                         handleAccountClick(e);
                       }}
@@ -139,7 +141,7 @@ const Navbar = () => {
                   </div>
 
                   <button
-                    onClick={() => {
+                    onMouseDown={() => {
                       setMenuOpen(false);
                       if (isAuthenticated) {
                         logout();

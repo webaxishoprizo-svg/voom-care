@@ -23,7 +23,7 @@ const Footer = () => {
               <a href="#" className="text-muted-foreground hover:text-primary transition-colors duration-300">
                 <Facebook className="w-5 h-5" />
               </a>
-              <a href="mailto:norperfume.in@gmail.com" className="text-muted-foreground hover:text-primary transition-colors duration-300">
+              <a href="mailto:norperfume.help@gmail.com" className="text-muted-foreground hover:text-primary transition-colors duration-300">
                 <Mail className="w-5 h-5" />
               </a>
             </div>

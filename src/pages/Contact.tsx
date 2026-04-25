@@ -14,7 +14,7 @@ const infoCards = [
   {
     icon: Mail,
     label: "EMAIL",
-    value: "norperfume.in@gmail.com",
+    value: "norperfume.help@gmail.com",
   },
   {
     icon: Phone,
@@ -83,7 +83,7 @@ const Contact = () => {
 
   return (
     <main className="min-h-screen bg-background text-foreground">
-      <SEO 
+      <SEO
         title="Contact Us | NOR Luxury Car Fragrances"
         description="Get in touch with the NOR team for order inquiries, damage claims, or product questions. We respond to all messages within 24 hours."
       />
