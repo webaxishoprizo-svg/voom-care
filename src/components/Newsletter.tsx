@@ -73,11 +73,11 @@ const Newsletter = () => {
         </p>
 
         <h2 className="font-display text-2xl md:text-3xl text-foreground mb-3">
-          Join the NOR Community
+          Get 10% Off Your First Order
         </h2>
 
         <p className="text-muted-foreground text-sm mb-8">
-          Subscribe for exclusive launches, offers & fragrance stories.
+          Subscribe to the VOOM newsletter for exclusive launches, offers & detailing tips.
         </p>
 
         <form

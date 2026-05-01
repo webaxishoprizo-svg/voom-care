@@ -11,12 +11,12 @@ interface SEOProps {
 }
 
 const SEO = ({
-  title = "NOR | Luxury Car Fragrances | Crafted in India",
-  description = "Experience automotive luxury with NOR's premium car fragrances. Handcrafted in India with 100% natural oils, our zero-liquid technology provides 45+ days of lasting scent.",
-  keywords = "car perfume, luxury car fragrance, automotive scent, premium car freshener, natural oil car perfume, NOR car perfume, made in India car fragrance",
+  title = "VOOM | Premium Car Care | Shine Beyond Ordinary",
+  description = "VOOM by Frenzo Group — professional-grade car wash, polish and detailing formulas crafted in India. Showroom finish for enthusiasts who demand the best.",
+  keywords = "VOOM, voomcare, car shampoo, tyre polish, dash clean, car care India, premium car wash, car detailing, Frenzo Group",
   ogImage = "/og-image.jpg",
   ogType = "website",
-  canonical = "https://norperfume.com",
+  canonical = "https://voomcare.com",
   schema
 }: SEOProps) => {
   useEffect(() => {
@@ -42,7 +42,7 @@ const SEO = ({
     updateMeta("og:image", ogImage, "property");
     updateMeta("og:type", ogType, "property");
     updateMeta("og:url", window.location.href, "property");
-    updateMeta("og:site_name", "NOR Perfume");
+    updateMeta("og:site_name", "VOOM Care");
 
     // Twitter
     updateMeta("twitter:card", "summary_large_image");
