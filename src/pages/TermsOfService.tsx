@@ -8,8 +8,8 @@ const TermsOfService = () => {
   return (
     <main className="min-h-screen bg-background text-foreground selection:bg-primary/30">
       <SEO 
-        title="Terms of Service | NOR Luxury Car Fragrances"
-        description="The governing terms and conditions for using norperfume.com and purchasing our handcrafted automotive perfumes."
+        title="Terms of Service | VOOM Premium Car Care"
+        description="The governing terms and conditions for using voomcare.com and purchasing our handcrafted automotive perfumes."
       />
       <Navbar />
       
@@ -22,7 +22,7 @@ const TermsOfService = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-primary text-[10px] tracking-[0.5em] font-bold uppercase mb-4"
           >
-            NOR Perfume • Legal
+            VOOM Care • Legal
           </motion.p>
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
@@ -57,18 +57,18 @@ const TermsOfService = () => {
               
               <div className="space-y-4">
                 <p className="text-muted-foreground leading-relaxed text-lg font-light italic">
-                  These Terms of Service govern your use of <span className="text-foreground font-medium underline underline-offset-4 decoration-primary/30">norperfume.com</span> and any purchase made through our website. By accessing our website or placing an order, you confirm that you have read, understood, and agreed to these terms in full. If you do not agree, please do not use our website or place an order.
+                  These Terms of Service govern your use of <span className="text-foreground font-medium underline underline-offset-4 decoration-primary/30">voomcare.com</span> and any purchase made through our website. By accessing our website or placing an order, you confirm that you have read, understood, and agreed to these terms in full. If you do not agree, please do not use our website or place an order.
                 </p>
               </div>
 
-              {/* 1. About NOR */}
+              {/* 1. About VOOM */}
               <div className="space-y-6">
                 <div className="flex items-center gap-4">
                   <span className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-display text-lg">01</span>
-                  <h2 className="font-display text-2xl text-foreground m-0">About NOR</h2>
+                  <h2 className="font-display text-2xl text-foreground m-0">About VOOM</h2>
                 </div>
                 <p className="text-muted-foreground/80 font-light leading-relaxed">
-                  NOR is a luxury automotive fragrance brand operated as an individual seller, designed and manufactured in Kerala, India. We sell fragrance products including perfume sprays and luxury diffusion tags through <strong>norperfume.com</strong>.
+                  VOOM is a luxury automotive fragrance brand operated as an individual seller, designed and manufactured in Kerala, India. We sell fragrance products including perfume sprays and luxury diffusion tags through <strong>voomcare.com</strong>.
                 </p>
               </div>
 
@@ -79,7 +79,7 @@ const TermsOfService = () => {
                   <h2 className="font-display text-2xl text-foreground m-0">Eligibility</h2>
                 </div>
                 <p className="text-muted-foreground/80 font-light leading-relaxed">
-                  By placing an order, you confirm you are at least <strong>18 years of age</strong> and legally capable of entering into a binding contract under Indian law. Minors may only order with the explicit consent of a parent or legal guardian who accepts these terms on their behalf. NOR reserves the right to refuse service, cancel orders, or restrict website access for any customer at its sole discretion.
+                  By placing an order, you confirm you are at least <strong>18 years of age</strong> and legally capable of entering into a binding contract under Indian law. Minors may only order with the explicit consent of a parent or legal guardian who accepts these terms on their behalf. VOOM reserves the right to refuse service, cancel orders, or restrict website access for any customer at its sole discretion.
                 </p>
               </div>
 
@@ -111,11 +111,11 @@ const TermsOfService = () => {
                 </div>
                 <ul className="space-y-4 list-none p-0 text-sm text-muted-foreground/80 font-light">
                   <li className="flex gap-3"><span className="text-primary">✓</span> Valid only for the specific period and conditions stated.</li>
-                  <li className="flex gap-3"><span className="text-primary">✓</span> NOR reserves the right to withdraw or modify promotions without notice.</li>
+                  <li className="flex gap-3"><span className="text-primary">✓</span> VOOM reserves the right to withdraw or modify promotions without notice.</li>
                   <li className="flex gap-3"><span className="text-primary">✓</span> Promotional codes cannot be combined unless explicitly stated.</li>
                   <li className="flex gap-3"><span className="text-primary">✓</span> Expired or previously used codes will not be honoured.</li>
                   <li className="flex gap-3"><span className="text-primary">✓</span> Discounts cannot be applied retroactively to already placed orders.</li>
-                  <li className="flex gap-3"><span className="text-primary">✓</span> NOR is not obligated to honour prices resulting from system errors.</li>
+                  <li className="flex gap-3"><span className="text-primary">✓</span> VOOM is not obligated to honour prices resulting from system errors.</li>
                 </ul>
               </div>
 
@@ -127,7 +127,7 @@ const TermsOfService = () => {
                     <h2 className="font-display text-2xl text-foreground m-0">Orders and acceptance</h2>
                   </div>
                   <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">
-                    An order is confirmed only when NOR sends a confirmation via SMS or email following successful payment. We reserve the right to decline any order due to stock unavailability, fraud suspicion, or policy violation.
+                    An order is confirmed only when VOOM sends a confirmation via SMS or email following successful payment. We reserve the right to decline any order due to stock unavailability, fraud suspicion, or policy violation.
                   </p>
                 </div>
 
@@ -141,10 +141,10 @@ const TermsOfService = () => {
                   </div>
                   <div className="space-y-4 relative z-10">
                     <p className="text-sm md:text-base text-red-100 font-medium leading-relaxed">
-                      Orders cannot be cancelled once placed and payment is confirmed. NOR operates a strict no-cancellation policy. Please review your order carefully — product, quantity, and delivery address — before completing checkout.
+                      Orders cannot be cancelled once placed and payment is confirmed. VOOM operates a strict no-cancellation policy. Please review your order carefully — product, quantity, and delivery address — before completing checkout.
                     </p>
                     <p className="text-xs text-red-400/80 font-bold uppercase tracking-[0.2em] pt-4 border-t border-red-500/10">
-                      Please double-check before you pay: Once your payment is confirmed, your order is locked and cannot be cancelled or modified under any circumstances. NOR will not make exceptions to this policy.
+                      Please double-check before you pay: Once your payment is confirmed, your order is locked and cannot be cancelled or modified under any circumstances. VOOM will not make exceptions to this policy.
                     </p>
                   </div>
                 </div>
@@ -181,7 +181,7 @@ const TermsOfService = () => {
                 <div className="grid md:grid-cols-2 gap-8">
                   <div className="space-y-4">
                     <p className="text-sm text-foreground/80 font-light leading-relaxed italic">
-                      NOR make no medical or therapeutic claims. Perform a patch test before skin use. Store away from heat and direct sunlight.
+                      VOOM make no medical or therapeutic claims. Perform a patch test before skin use. Store away from heat and direct sunlight.
                     </p>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
@@ -201,7 +201,7 @@ const TermsOfService = () => {
                   <h2 className="font-display text-2xl text-foreground m-0">Intellectual property</h2>
                 </div>
                 <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">
-                  All content — including the <strong>NOR</strong> brand name, logo, and product names (<strong>Mask, Aqua</strong>) — is the exclusive intellectual property of NOR. Unauthorised reproduction or distribution results in legal action.
+                  All content — including the <strong>VOOM</strong> brand name, logo, and product names (<strong>Mask, Aqua</strong>) — is the exclusive intellectual property of VOOM. Unauthorised reproduction or distribution results in legal action.
                 </p>
               </div>
 
@@ -210,13 +210,13 @@ const TermsOfService = () => {
                 <div className="space-y-4">
                   <h4 className="text-[10px] font-bold text-primary tracking-widest uppercase">13. Limitation of liability</h4>
                   <p className="text-xs text-muted-foreground/70 font-light leading-relaxed">
-                    NOR's total liability shall not exceed the amount paid for the specific product. We are not liable for incidental or consequential damages.
+                    VOOM's total liability shall not exceed the amount paid for the specific product. We are not liable for incidental or consequential damages.
                   </p>
                 </div>
                 <div className="space-y-4">
                   <h4 className="text-[10px] font-bold text-primary tracking-widest uppercase">14. Indemnification</h4>
                   <p className="text-xs text-muted-foreground/70 font-light leading-relaxed">
-                    You agree to hold NOR harmless from any claims arising from your violation of these terms or misuse of our products.
+                    You agree to hold VOOM harmless from any claims arising from your violation of these terms or misuse of our products.
                   </p>
                 </div>
               </div>
@@ -240,7 +240,7 @@ const TermsOfService = () => {
                   These Terms, coupled with our Return, Shipping, and Privacy Policies, supersede all prior communications whether written, verbal, or via Instagram DM.
                 </p>
                 <div className="pt-6">
-                  <p className="text-[10px] text-muted-foreground/40 font-bold uppercase tracking-widest">Legal & Governance • norperfume.help@gmail.com</p>
+                  <p className="text-[10px] text-muted-foreground/40 font-bold uppercase tracking-widest">Legal & Governance • support@voomcare.com</p>
                 </div>
               </div>
 

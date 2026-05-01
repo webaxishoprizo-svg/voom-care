@@ -8,8 +8,8 @@ const PrivacyPolicy = () => {
   return (
     <main className="min-h-screen bg-background text-foreground selection:bg-primary/30">
       <SEO 
-        title="Privacy Policy | NOR Luxury Car Fragrances"
-        description="Learn how NOR protects your personal information. Our privacy policy outlines data collection, storage, and user rights in compliance with Indian regulations."
+        title="Privacy Policy | VOOM Premium Car Care"
+        description="Learn how VOOM protects your personal information. Our privacy policy outlines data collection, storage, and user rights in compliance with Indian regulations."
       />
       <Navbar />
       
@@ -22,7 +22,7 @@ const PrivacyPolicy = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-primary text-[10px] tracking-[0.5em] font-bold uppercase mb-4"
           >
-            NOR Perfume • Legal
+            VOOM Care • Legal
           </motion.p>
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
@@ -57,7 +57,7 @@ const PrivacyPolicy = () => {
               
               <div className="space-y-4">
                 <p className="text-muted-foreground leading-relaxed text-lg font-light italic">
-                  This Privacy Policy explains how NOR collects, uses, stores, and protects your personal information when you visit <span className="text-foreground font-medium underline underline-offset-4 decoration-primary/30">norperfume.com</span> or interact with NOR through any channel. By using our website, placing an order, or contacting us via any channel, you consent to the data practices described in this policy.
+                  This Privacy Policy explains how VOOM collects, uses, stores, and protects your personal information when you visit <span className="text-foreground font-medium underline underline-offset-4 decoration-primary/30">voomcare.com</span> or interact with VOOM through any channel. By using our website, placing an order, or contacting us via any channel, you consent to the data practices described in this policy.
                 </p>
               </div>
 
@@ -68,7 +68,7 @@ const PrivacyPolicy = () => {
                   <h2 className="font-display text-2xl text-foreground m-0">Who we are</h2>
                 </div>
                 <p className="text-muted-foreground/80 font-light leading-relaxed">
-                  NOR is a luxury automotive fragrance brand operated as an individual seller, designed and manufactured in Kerala, India. Our website is <strong>norperfume.com</strong>. For any privacy-related queries, contact us at <strong>norperfume.help@gmail.com</strong> or via Instagram DM <strong>@norperfumeofficial</strong>. We respond to all privacy enquiries within 24 hours.
+                  VOOM is a luxury automotive fragrance brand operated as an individual seller, designed and manufactured in Kerala, India. Our website is <strong>voomcare.com</strong>. For any privacy-related queries, contact us at <strong>support@voomcare.com</strong> or via Instagram DM <strong>@voomcare</strong>. We respond to all privacy enquiries within 24 hours.
                 </p>
               </div>
 
@@ -80,13 +80,13 @@ const PrivacyPolicy = () => {
                 </div>
                 <ul className="space-y-4 list-none p-0">
                   <li className="p-4 bg-white/[0.02] border border-white/5 rounded-2xl flex items-center gap-4 text-sm text-foreground/80">
-                    <Database className="w-5 h-5 text-primary" /> norperfume.com — when you browse, add to cart, or place an order
+                    <Database className="w-5 h-5 text-primary" /> voomcare.com — when you browse, add to cart, or place an order
                   </li>
                   <li className="p-4 bg-white/[0.02] border border-white/5 rounded-2xl flex items-center gap-4 text-sm text-foreground/80">
-                    <Mail className="w-5 h-5 text-primary" /> Email (norperfume.help@gmail.com) — when you contact us for support
+                    <Mail className="w-5 h-5 text-primary" /> Email (support@voomcare.com) — when you contact us for support
                   </li>
                   <li className="p-4 bg-white/[0.02] border border-white/5 rounded-2xl flex items-center gap-4 text-sm text-foreground/80">
-                    <Instagram className="w-5 h-5 text-primary" /> Instagram DM (@norperfumeofficial) — when you contact us for support
+                    <Instagram className="w-5 h-5 text-primary" /> Instagram DM (@voomcare) — when you contact us for support
                   </li>
                 </ul>
               </div>
@@ -113,7 +113,7 @@ const PrivacyPolicy = () => {
                     <h3 className="font-display text-lg text-foreground m-0 uppercase tracking-widest text-[11px] text-primary">Information collected automatically</h3>
                     <ul className="space-y-3 text-xs text-muted-foreground/80 font-light list-none p-0">
                       <li>• IP address, browser type, and device identifiers</li>
-                      <li>• Pages visited and time spent on norperfume.com</li>
+                      <li>• Pages visited and time spent on voomcare.com</li>
                       <li>• Cookies and similar tracking technologies</li>
                     </ul>
                   </div>
@@ -125,7 +125,7 @@ const PrivacyPolicy = () => {
                     <h3 className="font-display uppercase tracking-widest text-xs m-0">Payment information</h3>
                   </div>
                   <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">
-                    NOR does not collect, store, or access payment card details, bank account information, or UPI credentials. All payment transactions are processed entirely and securely by our third-party payment gateway. NOR receives only a payment confirmation and transaction reference number.
+                    VOOM does not collect, store, or access payment card details, bank account information, or UPI credentials. All payment transactions are processed entirely and securely by our third-party payment gateway. VOOM receives only a payment confirmation and transaction reference number.
                   </p>
                 </div>
               </div>
@@ -137,12 +137,12 @@ const PrivacyPolicy = () => {
                   <h2 className="font-display text-2xl text-foreground m-0">Instagram DM — data notice <span className="text-[10px] bg-primary text-primary-foreground px-2 py-0.5 rounded ml-2 uppercase font-bold tracking-widest">New</span></h2>
                 </div>
                 <div className="space-y-6 text-muted-foreground/80 font-light leading-relaxed text-sm">
-                  <p>NOR actively uses Instagram DM (@norperfumeofficial) as a customer support channel. When customers submit damage claims, unboxing videos, photographs, or personal order details via Instagram DM, this information is received and retained by NOR for claim verification and support resolution purposes.</p>
+                  <p>VOOM actively uses Instagram DM (@voomcare) as a customer support channel. When customers submit damage claims, unboxing videos, photographs, or personal order details via Instagram DM, this information is received and retained by VOOM for claim verification and support resolution purposes.</p>
                   <p className="font-medium text-foreground">Please be aware of the following:</p>
                   <ul className="space-y-4 list-none p-0 text-xs">
-                    <li className="flex gap-3"><span className="text-primary">•</span> Instagram's own Privacy Policy governs all data transmitted through the Instagram platform. NOR is not responsible for Instagram's data practices.</li>
-                    <li className="flex gap-3"><span className="text-primary">•</span> NOR advises customers not to share sensitive personal or financial information — such as full bank details, card numbers, or passwords — via Instagram DM.</li>
-                    <li className="flex gap-3"><span className="text-primary">•</span> Claim-related materials (videos, photos, order details) received via Instagram DM are retained by NOR for up to 1 year for verification and fraud prevention purposes.</li>
+                    <li className="flex gap-3"><span className="text-primary">•</span> Instagram's own Privacy Policy governs all data transmitted through the Instagram platform. VOOM is not responsible for Instagram's data practices.</li>
+                    <li className="flex gap-3"><span className="text-primary">•</span> VOOM advises customers not to share sensitive personal or financial information — such as full bank details, card numbers, or passwords — via Instagram DM.</li>
+                    <li className="flex gap-3"><span className="text-primary">•</span> Claim-related materials (videos, photos, order details) received via Instagram DM are retained by VOOM for up to 1 year for verification and fraud prevention purposes.</li>
                   </ul>
                 </div>
               </div>
@@ -177,7 +177,7 @@ const PrivacyPolicy = () => {
                   <span className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-display text-lg">06</span>
                   <h2 className="font-display text-2xl text-foreground m-0">Sharing your information</h2>
                 </div>
-                <p className="text-sm text-muted-foreground/80 font-light mb-4">NOR does not sell, rent, trade, or share your data for commercial purposes. Data is shared only with:</p>
+                <p className="text-sm text-muted-foreground/80 font-light mb-4">VOOM does not sell, rent, trade, or share your data for commercial purposes. Data is shared only with:</p>
                 <div className="grid md:grid-cols-2 gap-4">
                   {[
                     { title: "Courier Partners", desc: "DTDC, Blue Dart, Delhivery (For delivery only)" },
@@ -233,7 +233,7 @@ const PrivacyPolicy = () => {
                   ))}
                 </div>
                 <p className="text-xs text-muted-foreground/80 font-light leading-relaxed italic">
-                  Contact <strong>norperfume.help@gmail.com</strong> to exercise any of these rights. We respond within 24 hours and resolve within 7 business days.
+                  Contact <strong>support@voomcare.com</strong> to exercise any of these rights. We respond within 24 hours and resolve within 7 business days.
                 </p>
               </div>
 
@@ -241,10 +241,10 @@ const PrivacyPolicy = () => {
               <div className="pt-20 border-t border-white/5 text-center space-y-8">
                 <div className="space-y-2">
                   <h2 className="font-display text-3xl text-foreground m-0 uppercase tracking-widest">Privacy Enquiries</h2>
-                  <p className="text-xs text-muted-foreground/60 max-w-sm mx-auto font-light italic">Your data security and trust are the foundation of NOR.</p>
+                  <p className="text-xs text-muted-foreground/60 max-w-sm mx-auto font-light italic">Your data security and trust are the foundation of VOOM.</p>
                 </div>
                 <div className="inline-flex flex-col gap-2">
-                  <a href="mailto:norperfume.help@gmail.com" className="text-primary font-medium hover:underline text-lg">norperfume.help@gmail.com</a>
+                  <a href="mailto:support@voomcare.com" className="text-primary font-medium hover:underline text-lg">support@voomcare.com</a>
                   <span className="text-[10px] text-muted-foreground/40 font-bold uppercase tracking-[0.3em] font-display">Data Protection Officer</span>
                 </div>
               </div>

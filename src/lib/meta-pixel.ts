@@ -1,5 +1,5 @@
 /**
- * Meta Pixel Utility for NOR
+ * Meta Pixel Utility for VOOM
  * This helps track conversions and user actions on Facebook/Instagram.
  */
 

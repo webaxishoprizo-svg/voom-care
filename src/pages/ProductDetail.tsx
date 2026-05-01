@@ -111,11 +111,11 @@ const ProductDetail = () => {
     "@type": "Product",
     "name": product.name,
     "image": [product.image, ...(product.images || [])],
-    "description": product.description || `Luxury car fragrance ${product.name} by NOR.`,
+    "description": product.description || `Luxury car fragrance ${product.name} by VOOM.`,
     "sku": product.id,
     "brand": {
       "@type": "Brand",
-      "name": "NOR"
+      "name": "VOOM"
     },
     "offers": {
       "@type": "Offer",
@@ -129,9 +129,9 @@ const ProductDetail = () => {
   return (
     <main className="min-h-screen bg-background text-foreground">
       <SEO 
-        title={`${product.name} | Luxury Car Fragrance | NOR`}
-        description={product.description || `Discover ${product.name}, a premium handcrafted car fragrance from NOR. 100% natural oils with zero-liquid technology.`}
-        keywords={`${product.name}, car perfume, luxury fragrance, NOR perfume, automotive scent`}
+        title={`${product.name} | Premium Car Care | VOOM`}
+        description={product.description || `Discover ${product.name}, a premium handcrafted car fragrance from VOOM. 100% natural oils with zero-liquid technology.`}
+        keywords={`${product.name}, car perfume, luxury fragrance, VOOM care, automotive scent`}
         schema={productSchema}
       />
       <Navbar />
@@ -182,7 +182,7 @@ const ProductDetail = () => {
               <span className="text-muted-foreground text-xs ml-2">(128 reviews)</span>
             </div>
 
-            <p className="text-xs tracking-[0.3em] uppercase text-primary mb-2">NOR Collection</p>
+            <p className="text-xs tracking-[0.3em] uppercase text-primary mb-2">VOOM Collection</p>
             <h1 className="font-display text-4xl md:text-5xl text-foreground mb-4">
               {product.name}
             </h1>

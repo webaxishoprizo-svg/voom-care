@@ -20,9 +20,9 @@ const Index = () => {
   const orgSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "NOR Perfume",
-    "url": "https://norperfume.com",
-    "logo": "https://norperfume.com/logo.png",
+    "name": "VOOM Care",
+    "url": "https://voomcare.com",
+    "logo": "https://voomcare.com/logo.png",
     "description": "Luxury automotive fragrance brand designed and manufactured in India.",
     "sameAs": [
       "https://instagram.com/norperfumeofficial"
@@ -37,15 +37,15 @@ const Index = () => {
   return (
     <main id="main-content" className="min-h-screen bg-background">
       <SEO 
-        title="NOR | Luxury Car Fragrances | Crafted in India"
-        description="Experience automotive luxury with NOR's premium car fragrances. Handcrafted in India with 100% natural oils, our zero-liquid technology provides 45+ days of lasting scent."
+        title="VOOM | Premium Car Cares | Crafted in India"
+        description="Experience automotive luxury with VOOM's premium car fragrances. Handcrafted in India with 100% natural oils, our zero-liquid technology provides 45+ days of lasting scent."
         schema={orgSchema}
       />
       <Navbar />
       <HeroCarousel />
       <MarqueeBanner
         className="-rotate-[2deg] scale-[1] relative z-10 mt-10 mb-[-8px] py-4 shadow-none"
-        items={["Luxury Car Fragrance", "Crafted in India", "Zero-Liquid Technology", "45 Days Lasting", "100% Natural Oils"]}
+        items={["Premium Car Care", "Crafted in India", "Zero-Liquid Technology", "45 Days Lasting", "100% Natural Oils"]}
       />
       <Reveal delay={0.1}>
         <TrustBadges />

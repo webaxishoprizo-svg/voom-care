@@ -56,7 +56,7 @@ const TrackOrder = () => {
              transition={{ delay: 0.2 }}
              className="text-muted-foreground text-[16px] max-w-lg mx-auto leading-relaxed"
           >
-            Enter your details below to follow your NOR fragrance from our studio to your car.
+            Enter your details below to follow your VOOM fragrance from our studio to your car.
           </motion.p>
         </div>
       </section>

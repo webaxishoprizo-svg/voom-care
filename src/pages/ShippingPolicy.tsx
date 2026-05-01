@@ -8,8 +8,8 @@ const ShippingPolicy = () => {
   return (
     <main className="min-h-screen bg-background text-foreground selection:bg-primary/30">
       <SEO 
-        title="Shipping Policy | NOR Luxury Car Fragrances"
-        description="Delivery timelines, shipping partners (Blue Dart, DTDC, Delhivery), and logistics details for NOR car fragrances across India."
+        title="Shipping Policy | VOOM Premium Car Care"
+        description="Delivery timelines, shipping partners (Blue Dart, DTDC, Delhivery), and logistics details for VOOM car fragrances across India."
       />
       <Navbar />
       
@@ -22,7 +22,7 @@ const ShippingPolicy = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-primary text-[10px] tracking-[0.5em] font-bold uppercase mb-4"
           >
-            NOR Perfume • Legal
+            VOOM Care • Legal
           </motion.p>
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
@@ -57,7 +57,7 @@ const ShippingPolicy = () => {
               
               <div className="space-y-4">
                 <p className="text-muted-foreground leading-relaxed text-lg font-light italic">
-                  This policy covers all aspects of order processing, dispatch, delivery, and related matters for purchases made on <span className="text-foreground font-medium underline underline-offset-4 decoration-primary/30">norperfume.com</span>. By placing an order, you confirm that you have read and agreed to this Shipping Policy in full.
+                  This policy covers all aspects of order processing, dispatch, delivery, and related matters for purchases made on <span className="text-foreground font-medium underline underline-offset-4 decoration-primary/30">voomcare.com</span>. By placing an order, you confirm that you have read and agreed to this Shipping Policy in full.
                 </p>
               </div>
 
@@ -68,7 +68,7 @@ const ShippingPolicy = () => {
                   <h2 className="font-display text-2xl text-foreground m-0">Shipping destinations</h2>
                 </div>
                 <p className="text-muted-foreground/80 font-light leading-relaxed">
-                  NOR currently ships to all serviceable pin codes across <strong>India only</strong>. We do not offer international shipping at this time. If an order is placed with a non-Indian or unserviceable delivery address, the order will not be processed and the customer will be notified promptly.
+                  VOOM currently ships to all serviceable pin codes across <strong>India only</strong>. We do not offer international shipping at this time. If an order is placed with a non-Indian or unserviceable delivery address, the order will not be processed and the customer will be notified promptly.
                 </p>
               </div>
 
@@ -79,7 +79,7 @@ const ShippingPolicy = () => {
                   <h2 className="font-display text-2xl text-foreground m-0">Courier partners</h2>
                 </div>
                 <div className="space-y-4">
-                  <p className="text-muted-foreground/80 font-light leading-relaxed">NOR fulfils orders through the following courier partners based on delivery location and service availability:</p>
+                  <p className="text-muted-foreground/80 font-light leading-relaxed">VOOM fulfils orders through the following courier partners based on delivery location and service availability:</p>
                   <div className="flex flex-wrap gap-4">
                     {["DTDC", "Blue Dart", "Delhivery"].map((partner) => (
                       <div key={partner} className="px-6 py-3 bg-white/[0.03] border border-white/5 rounded-xl text-foreground font-display tracking-widest text-sm uppercase">
@@ -88,7 +88,7 @@ const ShippingPolicy = () => {
                     ))}
                   </div>
                   <p className="text-xs text-muted-foreground/60 italic leading-relaxed">
-                    NOR selects the most appropriate courier for each order based on location, availability, and service quality. Customers cannot request or specify a preferred courier partner.
+                    VOOM selects the most appropriate courier for each order based on location, availability, and service quality. Customers cannot request or specify a preferred courier partner.
                   </p>
                 </div>
               </div>
@@ -119,7 +119,7 @@ const ShippingPolicy = () => {
                   <h2 className="font-display text-2xl text-foreground m-0">Delivery timeline</h2>
                 </div>
                 <p className="text-muted-foreground/80 font-light leading-relaxed">
-                  Once dispatched, standard delivery across India takes approximately <strong>4–7 business days</strong>. Total time from order to delivery is typically <strong>5–9 business days</strong>. Delays may occur due to remote locations, festive seasons, weather, incorrect addresses, unavailable recipients, or courier operational disruptions. NOR is not liable for delays caused by courier partners or circumstances beyond NOR's control.
+                  Once dispatched, standard delivery across India takes approximately <strong>4–7 business days</strong>. Total time from order to delivery is typically <strong>5–9 business days</strong>. Delays may occur due to remote locations, festive seasons, weather, incorrect addresses, unavailable recipients, or courier operational disruptions. VOOM is not liable for delays caused by courier partners or circumstances beyond VOOM's control.
                 </p>
               </div>
 
@@ -140,7 +140,7 @@ const ShippingPolicy = () => {
                   </div>
                 </div>
                 <p className="text-[11px] text-muted-foreground/60 italic leading-relaxed">
-                  NOR reserves the right to revise shipping charges at any time. The charge shown at checkout is the amount applicable to that specific order.
+                  VOOM reserves the right to revise shipping charges at any time. The charge shown at checkout is the amount applicable to that specific order.
                 </p>
               </div>
 
@@ -151,7 +151,7 @@ const ShippingPolicy = () => {
                   <h2 className="font-display text-2xl text-foreground m-0">Promotional shipping offers <span className="text-[10px] bg-primary text-primary-foreground px-2 py-0.5 rounded ml-2 uppercase font-bold tracking-widest">New</span></h2>
                 </div>
                 <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">
-                  Any free shipping promotions or reduced shipping offers are valid only for the specified period and conditions stated at the time of the promotion. NOR reserves the right to withdraw or modify any shipping promotion at any time without prior notice. Promotional shipping offers cannot be applied retroactively to orders already placed.
+                  Any free shipping promotions or reduced shipping offers are valid only for the specified period and conditions stated at the time of the promotion. VOOM reserves the right to withdraw or modify any shipping promotion at any time without prior notice. Promotional shipping offers cannot be applied retroactively to orders already placed.
                 </p>
               </div>
 
@@ -167,7 +167,7 @@ const ShippingPolicy = () => {
                     <h3 className="font-display uppercase tracking-widest text-xs m-0">Accepted Payment Methods</h3>
                   </div>
                   <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">
-                    NOR accepts prepaid orders only. <strong>Cash on Delivery (COD) is not available</strong>. Accepted methods are UPI, debit cards, credit cards, and net banking — processed through a secure, encrypted third-party payment gateway. NOR does not store, access, or retain any payment card or banking credentials.
+                    VOOM accepts prepaid orders only. <strong>Cash on Delivery (COD) is not available</strong>. Accepted methods are UPI, debit cards, credit cards, and net banking — processed through a secure, encrypted third-party payment gateway. VOOM does not store, access, or retain any payment card or banking credentials.
                   </p>
                 </div>
               </div>
@@ -179,7 +179,7 @@ const ShippingPolicy = () => {
                   <h2 className="font-display text-2xl text-foreground m-0 text-red-400">No order cancellations</h2>
                 </div>
                 <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">
-                  Orders cannot be cancelled once placed and payment is confirmed. NOR operates a strict no-cancellation policy. Please review your order carefully before completing checkout. The only exception is if NOR is unable to fulfil the order due to a stock issue or system error, in which case a full refund will be issued to the original payment method within 5–7 business days.
+                  Orders cannot be cancelled once placed and payment is confirmed. VOOM operates a strict no-cancellation policy. Please review your order carefully before completing checkout. The only exception is if VOOM is unable to fulfil the order due to a stock issue or system error, in which case a full refund will be issued to the original payment method within 5–7 business days.
                 </p>
               </div>
 
@@ -190,7 +190,7 @@ const ShippingPolicy = () => {
                   <h2 className="font-display text-2xl text-foreground m-0">Order tracking</h2>
                 </div>
                 <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">
-                  Once dispatched, you will receive a shipment notification via SMS or email with a tracking number and a direct link to track your order in real time. You can also use the <strong>Track Order</strong> page on norperfume.com. If you have not received tracking information within 3 business days of order confirmation, contact us at <a href="mailto:norperfume.help@gmail.com" className="text-primary underline">norperfume.help@gmail.com</a>.
+                  Once dispatched, you will receive a shipment notification via SMS or email with a tracking number and a direct link to track your order in real time. You can also use the <strong>Track Order</strong> page on voomcare.com. If you have not received tracking information within 3 business days of order confirmation, contact us at <a href="mailto:support@voomcare.com" className="text-primary underline">support@voomcare.com</a>.
                 </p>
               </div>
 
@@ -201,18 +201,18 @@ const ShippingPolicy = () => {
                   <h2 className="font-display text-2xl text-foreground m-0">Incorrect delivery address — customer error</h2>
                 </div>
                 <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">
-                  It is the customer's sole responsibility to provide a complete, accurate, and accessible delivery address at checkout. NOR is not responsible for delayed, failed, or misdelivered orders resulting from an incorrect, incomplete, or inaccessible address provided by the customer. Address changes can only be accommodated before dispatch — contact <strong>norperfume.help@gmail.com</strong> immediately if a correction is needed. Once in transit, the delivery address cannot be changed.
+                  It is the customer's sole responsibility to provide a complete, accurate, and accessible delivery address at checkout. VOOM is not responsible for delayed, failed, or misdelivered orders resulting from an incorrect, incomplete, or inaccessible address provided by the customer. Address changes can only be accommodated before dispatch — contact <strong>support@voomcare.com</strong> immediately if a correction is needed. Once in transit, the delivery address cannot be changed.
                 </p>
               </div>
 
-              {/* 11. Incorrect delivery address — NOR error */}
+              {/* 11. Incorrect delivery address — VOOM error */}
               <div className="space-y-6">
                 <div className="flex items-center gap-4">
                   <span className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-display text-lg">11</span>
-                  <h2 className="font-display text-2xl text-foreground m-0">Incorrect delivery address — NOR error <span className="text-[10px] bg-primary text-primary-foreground px-2 py-0.5 rounded ml-2 uppercase font-bold tracking-widest">New</span></h2>
+                  <h2 className="font-display text-2xl text-foreground m-0">Incorrect delivery address — VOOM error <span className="text-[10px] bg-primary text-primary-foreground px-2 py-0.5 rounded ml-2 uppercase font-bold tracking-widest">New</span></h2>
                 </div>
                 <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">
-                  In the event that NOR dispatches an order to an address different from the one confirmed in the customer's order — where the error is solely on NOR's side and verifiable against the original confirmed order details — NOR will take full responsibility and arrange for a replacement product to be dispatched to the correct address at no additional cost to the customer. Customers must report such errors within 48 hours of the courier's delivery timestamp.
+                  In the event that VOOM dispatches an order to an address different from the one confirmed in the customer's order — where the error is solely on VOOM's side and verifiable against the original confirmed order details — VOOM will take full responsibility and arrange for a replacement product to be dispatched to the correct address at no additional cost to the customer. Customers must report such errors within 48 hours of the courier's delivery timestamp.
                 </p>
               </div>
 
@@ -223,7 +223,7 @@ const ShippingPolicy = () => {
                   <h2 className="font-display text-2xl text-foreground m-0">Failed delivery attempts</h2>
                 </div>
                 <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">
-                  If the courier cannot deliver due to the recipient being unavailable or the address being inaccessible, the package may be held at the courier facility or returned to origin. NOR is not responsible for re-delivery costs. Please ensure someone is available at the delivery address during business hours.
+                  If the courier cannot deliver due to the recipient being unavailable or the address being inaccessible, the package may be held at the courier facility or returned to origin. VOOM is not responsible for re-delivery costs. Please ensure someone is available at the delivery address during business hours.
                 </p>
               </div>
 
@@ -235,7 +235,7 @@ const ShippingPolicy = () => {
                 </div>
                 <div className="p-8 bg-white/[0.01] border border-white/5 rounded-3xl space-y-4">
                   <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">
-                    If tracking has not updated for more than <strong>5 business days</strong> or shows an exception, contact <strong>norperfume.help@gmail.com</strong> with your order number. NOR will raise a formal investigation with the courier. If the order is confirmed lost by the courier, NOR will arrange a replacement at no cost. <strong>No monetary refunds are issued for lost orders</strong>. Investigations may take up to 7–10 business days.
+                    If tracking has not updated for more than <strong>5 business days</strong> or shows an exception, contact <strong>support@voomcare.com</strong> with your order number. VOOM will raise a formal investigation with the courier. If the order is confirmed lost by the courier, VOOM will arrange a replacement at no cost. <strong>No monetary refunds are issued for lost orders</strong>. Investigations may take up to 7–10 business days.
                   </p>
                 </div>
               </div>
@@ -247,7 +247,7 @@ const ShippingPolicy = () => {
                   <h2 className="font-display text-2xl text-foreground m-0">Damaged in transit</h2>
                 </div>
                 <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">
-                  If your product arrives damaged due to courier mishandling, refer to our <strong>Return Policy</strong> at norperfume.com for full instructions. A valid, continuous unboxing video recorded before the package is opened is required to process any damage claim.
+                  If your product arrives damaged due to courier mishandling, refer to our <strong>Return Policy</strong> at voomcare.com for full instructions. A valid, continuous unboxing video recorded before the package is opened is required to process any damage claim.
                 </p>
               </div>
 
@@ -255,10 +255,10 @@ const ShippingPolicy = () => {
               <div className="pt-20 border-t border-white/5 text-center space-y-8">
                 <div className="space-y-2">
                   <h2 className="font-display text-3xl text-foreground m-0 uppercase tracking-widest">Shipping Enquiries</h2>
-                  <p className="text-xs text-muted-foreground/60 max-w-sm mx-auto font-light italic">Our logistics team ensures every NOR package is handled with precision.</p>
+                  <p className="text-xs text-muted-foreground/60 max-w-sm mx-auto font-light italic">Our logistics team ensures every VOOM package is handled with precision.</p>
                 </div>
                 <div className="p-6 bg-primary/5 border border-primary/10 rounded-2xl inline-block">
-                  <a href="mailto:norperfume.help@gmail.com" className="text-primary font-medium hover:underline text-lg">norperfume.help@gmail.com</a>
+                  <a href="mailto:support@voomcare.com" className="text-primary font-medium hover:underline text-lg">support@voomcare.com</a>
                 </div>
                 <p className="text-[10px] text-muted-foreground/40 font-bold uppercase tracking-[0.3em]">Acknowledgements within 24 hours</p>
               </div>
