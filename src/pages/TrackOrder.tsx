@@ -76,7 +76,7 @@ const TrackOrder = () => {
                 <div className="space-y-2">
                   <label className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase ml-1">Order Number</label>
                   <Input 
-                    placeholder="e.g. #NOR12345" 
+                    placeholder="e.g. #VOOM12345" 
                     value={orderId}
                     onChange={(e) => setOrderId(e.target.value)}
                     required

@@ -22,14 +22,13 @@ const Index = () => {
     "@type": "Organization",
     "name": "VOOM Care",
     "url": "https://voomcare.com",
-    "logo": "https://voomcare.com/logo.png",
-    "description": "Luxury automotive fragrance brand designed and manufactured in India.",
+    "logo": "https://voomcare.com/voom-favicon.png",
+    "description": "VOOM by Frenzo Group — premium car care formulas crafted in India.",
     "sameAs": [
-      "https://instagram.com/norperfumeofficial"
+      "https://instagram.com/voomcare"
     ],
     "address": {
       "@type": "PostalAddress",
-      "addressLocality": "Kerala",
       "addressCountry": "India"
     }
   };
@@ -37,15 +36,15 @@ const Index = () => {
   return (
     <main id="main-content" className="min-h-screen bg-background">
       <SEO 
-        title="VOOM | Premium Car Cares | Crafted in India"
-        description="Experience automotive luxury with VOOM's premium car fragrances. Handcrafted in India with 100% natural oils, our zero-liquid technology provides 45+ days of lasting scent."
+        title="VOOM | Premium Car Care | Shine Beyond Ordinary"
+        description="VOOM by Frenzo Group — professional-grade car wash, polish and detailing formulas crafted in India. Showroom finish for enthusiasts."
         schema={orgSchema}
       />
       <Navbar />
       <HeroCarousel />
       <MarqueeBanner
         className="-rotate-[2deg] scale-[1] relative z-10 mt-10 mb-[-8px] py-4 shadow-none"
-        items={["Premium Car Care", "Crafted in India", "Zero-Liquid Technology", "45 Days Lasting", "100% Natural Oils"]}
+        items={["Premium Car Care", "Crafted in India", "Pro-Grade Formulas", "Paint Safe", "Shine Beyond Ordinary"]}
       />
       <Reveal delay={0.1}>
         <TrustBadges />
