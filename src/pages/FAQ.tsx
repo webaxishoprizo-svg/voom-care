@@ -22,34 +22,34 @@ interface FAQCategory {
 
 const faqData: FAQCategory[] = [
   {
-    category: "Product & Fragrance",
+    category: "Product & Brand",
     id: "product",
     questions: [
       {
-        q: "What is NOR Perfume?",
-        a: "NOR is a luxury car perfume brand from Kerala, India. We make toxin-free, natural fragrances specially designed for your car. Our perfumes smell great, last long, and are safe enough to use on your skin too."
+        q: "What is VOOM?",
+        a: "VOOM is a premium car care brand by Frenzo Group, based in India. We make professional-grade car wash, polish and detailing formulas that deliver a true showroom finish at home."
       },
       {
-        q: "What fragrances do you sell?",
-        a: "We currently have two fragrances — musk and Aqua. Both are priced at ₹1,499 each. Every order includes a 20ml perfume spray bottle and one NOR luxury diffusion tag.",
-        pill: { text: "musk • Aqua — ₹1,499 each", type: "info" }
+        q: "What products do you sell?",
+        a: "Our current line-up includes Car Shampoo, Tyre Polish and Dash Clean — each a 100ml premium formula crafted for everyday detailing.",
+        pill: { text: "Car Shampoo • Tyre Polish • Dash Clean", type: "info" }
       },
       {
-        q: "What does musk smell like?",
-        a: "musk is a warm, deep, and woody fragrance. It gives your car a rich and sophisticated feel. If you like strong, bold scents, musk is the one for you."
+        q: "What does Car Shampoo do?",
+        a: "VOOM Car Shampoo is a high-foam, pH-balanced cleaning solution designed for effective dirt, mud, dust and road grime removal. Its gentle yet powerful formula ensures a deep clean while protecting your vehicle's paint, clear coat and wax finish."
       },
       {
-        q: "What does Aqua smell like?",
-        a: "Aqua is a fresh, clean, and light fragrance — like a cool ocean breeze. It keeps your car smelling crisp and refreshing. Great for everyday use, especially in warm weather."
+        q: "What does Tyre Polish do?",
+        a: "VOOM Tyre Polish is a high-performance formula that restores a deep black shine to tyres while forming a protective layer that repels dust and grime. It also helps prevent cracking and fading caused by regular wear and exposure."
       },
       {
-        q: "Is NOR safe to use?",
-        a: "Yes, completely. NOR is 100% toxin-free and made with natural fragrance oils. It is safe to use inside your car every day. It is even gentle enough to use on your skin.",
-        pill: { text: "Toxin-free • Safe on skin", type: "success" }
+        q: "Is VOOM safe for all paint and surfaces?",
+        a: "Yes. VOOM formulas are pH balanced and safe on wax, sealants, ceramic coatings and all types of delicate paint finishes — including dashboards and trim.",
+        pill: { text: "Paint safe • pH balanced", type: "success" }
       },
       {
-        q: "Where is NOR made?",
-        a: "NOR is designed and made in Kerala, India. We personally oversee every step — from choosing the fragrance oils to packing your order — to make sure you get the best quality every time."
+        q: "Where is VOOM made?",
+        a: "VOOM is designed and made in India under Frenzo Group. We oversee every step — from formulation to packaging — to make sure you get pro-grade quality every time."
       }
     ]
   },
@@ -59,36 +59,34 @@ const faqData: FAQCategory[] = [
     questions: [
       {
         q: "What comes in the box?",
-        a: "Inside every NOR box you will find a 20ml fragrance spray bottle and one NOR luxury diffusion tag. That is everything you need to get started."
+        a: "Each VOOM bottle is 100ml of concentrated, pro-grade formula. Directions for use are printed on the back of every bottle."
       },
       {
-        q: "How do I use NOR in my car?",
+        q: "How do I use VOOM Car Shampoo?",
         a: "It is very easy. Just follow these steps:",
         steps: [
-          "Take the perfume bottle and the NOR tag out of the box.",
-          "Hold the bottle about 10–15 cm away from the tag.",
-          "Spray the perfume evenly on the tag.",
-          "Hang the tag on your rear-view mirror or anywhere with good airflow.",
-          "When the scent fades, just spray again to refresh it.",
-          "After use, close the bottle tightly and keep it in a cool, dry place away from sunlight."
+          "Mix the recommended amount of car shampoo with water.",
+          "Apply using a sponge or microfiber cloth.",
+          "Gently wash the vehicle surface in straight lines.",
+          "Rinse thoroughly with clean water and dry with a microfiber towel."
         ],
-        pill: { text: "Ready in under a minute", type: "success" }
+        pill: { text: "Shake well before use", type: "success" }
       },
       {
-        q: "Where should I hang the NOR tag in my car?",
-        a: "The best spots are your rear-view mirror or near an air vent — anywhere air flows freely. Good airflow helps the scent spread evenly through your car. Try to keep the tag out of direct sunlight to make the fragrance last longer."
+        q: "How do I apply Tyre Polish?",
+        a: "Clean the tyre surface thoroughly and allow it to dry. Apply a small amount of tyre polish onto a sponge or applicator pad, spread evenly across the tyre surface, and allow it to dry for a rich, glossy finish."
       },
       {
-        q: "How do I make the scent stronger or lighter?",
-        a: "Simple — spray more for a stronger scent, spray less for something lighter. You are fully in control. Just reapply whenever you feel the fragrance is fading."
+        q: "How do I use Dash Clean?",
+        a: "Spray a small amount onto a clean microfiber cloth, gently wipe the dashboard or interior surface, then buff lightly for a clean, even, non-greasy finish."
       },
       {
-        q: "How long will the fragrance last?",
-        a: "It depends on how much you spray, your car's ventilation, and the temperature. The NOR tag is designed to release the scent slowly over time. Once the smell fades, just spray the tag again to bring it back."
+        q: "How long does protection last?",
+        a: "Depending on usage and weather, our products provide up to 6 months of protection in a single application — and even longer with regular maintenance washes."
       },
       {
-        q: "How should I store the perfume bottle?",
-        a: "Always close the bottle tightly after use. Store it in a cool, dry place away from direct sunlight. Do not leave it inside a hot car for long periods — heat can affect the fragrance quality."
+        q: "How should I store VOOM products?",
+        a: "Always close the bottle tightly after use. Store in a cool, dry place away from direct sunlight. Do not leave it inside a hot car for long periods."
       }
     ]
   },
@@ -98,7 +96,7 @@ const faqData: FAQCategory[] = [
     questions: [
       {
         q: "Do you deliver across India?",
-        a: "Yes, we ship to all locations across India. International shipping is something we are working on — follow us on Instagram @norperfumeofficial for updates."
+        a: "Yes, we ship to all locations across India. International shipping is something we are working on — follow @voomcare on Instagram for updates."
       },
       {
         q: "How long does delivery take?",
@@ -137,15 +135,15 @@ const faqData: FAQCategory[] = [
           "Your order number."
         ],
         pill: { text: "Unboxing video is required — no exceptions", type: "warning" },
-        note: "Reach out to us on Instagram @norperfumeofficial or via our Contact page. We cannot process claims without the unboxing video."
+        note: "Reach out to us on Instagram @voomcare or via our Contact page. We cannot process claims without the unboxing video."
       },
       {
         q: "What if I got the wrong product?",
         a: "We apologise for that! Please contact us within 48 hours of receiving your order. Send us your order number and a photo of what you received. We will send you the correct product at no extra charge."
       },
       {
-        q: "Can I exchange my fragrance?",
-        a: "Exchanges are only possible if your product arrived damaged or you received the wrong item. We do not exchange based on scent preference. We recommend reading the musk and Aqua descriptions carefully before ordering."
+        q: "Can I exchange a product?",
+        a: "Exchanges are only possible if your product arrived damaged or you received the wrong item. We recommend reading the product description carefully before ordering."
       }
     ]
   }
@@ -242,8 +240,8 @@ const FAQ = () => {
   return (
     <main className="min-h-screen bg-background text-foreground">
       <SEO 
-        title="FAQ | NOR Luxury Car Fragrances | Help Centre"
-        description="Find answers to common questions about NOR car perfumes, delivery times, usage instructions, and return policies."
+        title="FAQ | VOOM Premium Car Care | Help Centre"
+        description="Find answers to common questions about VOOM car care products, delivery times, usage instructions and return policies."
         schema={faqSchema}
       />
       <Navbar />
@@ -256,7 +254,7 @@ const FAQ = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-primary text-[13px] font-medium tracking-wide mb-4"
           >
-            NOR Perfume — Help Centre
+            VOOM Care — Help Centre
           </motion.p>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -272,7 +270,7 @@ const FAQ = () => {
             transition={{ delay: 0.2 }}
             className="text-muted-foreground text-[16px] max-w-lg mx-auto leading-relaxed"
           >
-            Simple answers to everything you need to know about NOR.
+            Simple answers to everything you need to know about VOOM.
           </motion.p>
         </div>
       </section>

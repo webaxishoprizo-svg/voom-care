@@ -46,8 +46,8 @@ const Navbar = () => {
             </div>
           </button>
 
-          <Link to="/" aria-label="NOR home" className="shrink-0 absolute left-1/2 -translate-x-1/2 md:relative md:left-auto md:translate-x-0">
-            <img src={logo} alt="NOR" className="h-10 w-auto scale-110 sm:h-12" />
+          <Link to="/" aria-label="VOOM home" className="shrink-0 absolute left-1/2 -translate-x-1/2 md:relative md:left-auto md:translate-x-0">
+            <img src={logo} alt="VOOM" className="h-12 w-auto sm:h-14" />
           </Link>
 
           <div className="flex items-center gap-4 z-10">
@@ -89,7 +89,7 @@ const Navbar = () => {
             >
               <div className="flex items-center justify-between px-6 py-5">
                 <div className="flex items-center gap-4">
-                  <img src={logo} alt="NOR" className="h-8 w-auto" />
+                <img src={logo} alt="VOOM" className="h-10 w-auto" />
                 </div>
                 <button onClick={() => setMenuOpen(false)} className="text-foreground">
                   <X className="w-6 h-6" />

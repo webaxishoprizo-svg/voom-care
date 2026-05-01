@@ -14,7 +14,7 @@ const infoCards = [
   {
     icon: Mail,
     label: "EMAIL",
-    value: "norperfume.help@gmail.com",
+    value: "support@voomcare.com",
   },
   {
     icon: Phone,
@@ -84,8 +84,8 @@ const Contact = () => {
   return (
     <main className="min-h-screen bg-background text-foreground">
       <SEO
-        title="Contact Us | NOR Luxury Car Fragrances"
-        description="Get in touch with the NOR team for order inquiries, damage claims, or product questions. We respond to all messages within 24 hours."
+        title="Contact Us | VOOM Premium Car Care"
+        description="Get in touch with the VOOM team for order inquiries, damage claims, or product questions. We respond to all messages within 24 hours."
       />
       <Navbar />
 

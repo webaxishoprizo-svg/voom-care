@@ -56,7 +56,7 @@ const TrackOrder = () => {
              transition={{ delay: 0.2 }}
              className="text-muted-foreground text-[16px] max-w-lg mx-auto leading-relaxed"
           >
-            Enter your details below to follow your NOR fragrance from our studio to your car.
+            Enter your details below to follow your VOOM fragrance from our studio to your car.
           </motion.p>
         </div>
       </section>
@@ -76,7 +76,7 @@ const TrackOrder = () => {
                 <div className="space-y-2">
                   <label className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase ml-1">Order Number</label>
                   <Input 
-                    placeholder="e.g. #NOR12345" 
+                    placeholder="e.g. #VOOM12345" 
                     value={orderId}
                     onChange={(e) => setOrderId(e.target.value)}
                     required

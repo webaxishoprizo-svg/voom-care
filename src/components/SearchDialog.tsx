@@ -5,7 +5,6 @@ import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { useHybridProducts } from "@/lib/shopify/hooks";
 import { formatCurrency } from "@/lib/utils";
-import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 interface SearchDialogProps {
   open: boolean;
@@ -34,7 +33,7 @@ const SearchDialog = ({ open, onOpenChange }: SearchDialogProps) => {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md p-0 gap-0 overflow-hidden">
-        <VisuallyHidden><DialogTitle>Search products</DialogTitle></VisuallyHidden>
+        <DialogTitle className="sr-only">Search products</DialogTitle>
         <div className="flex items-center border-b px-4">
           <Search className="w-4 h-4 text-muted-foreground shrink-0" />
           <Input

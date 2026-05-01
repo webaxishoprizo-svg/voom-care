@@ -9,21 +9,20 @@ const Footer = () => {
 
         <div className="grid md:grid-cols-4 gap-12 mb-16">
           <div className="space-y-6">
-            <Link to="/" aria-label="NOR home" className="inline-flex items-center gap-4 group">
-              <img src={logo} alt="NOR" className="h-10 w-auto group-hover:scale-110 transition-transform duration-500" />
-              <span className="font-display text-2xl text-foreground tracking-tight">NOR perfume</span>
+            <Link to="/" aria-label="VOOM home" className="inline-flex items-center gap-4 group">
+              <img src={logo} alt="VOOM" className="h-12 w-auto group-hover:scale-110 transition-transform duration-500" />
             </Link>
             <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">
-              Luxury car fragrances crafted in India with 100% natural oils for those who drive with purpose.
+              Premium car care crafted in India by Frenzo Group. Professional-grade formulas for a true showroom finish.
             </p>
             <div className="flex gap-4 pt-2">
-              <a href="https://www.instagram.com/norperfumeofficial" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors duration-300">
+              <a href="https://www.instagram.com/voomcare" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors duration-300">
                 <Instagram className="w-5 h-5" />
               </a>
               <a href="#" className="text-muted-foreground hover:text-primary transition-colors duration-300">
                 <Facebook className="w-5 h-5" />
               </a>
-              <a href="mailto:norperfume.help@gmail.com" className="text-muted-foreground hover:text-primary transition-colors duration-300">
+              <a href="mailto:support@voomcare.com" className="text-muted-foreground hover:text-primary transition-colors duration-300">
                 <Mail className="w-5 h-5" />
               </a>
             </div>
@@ -72,8 +71,8 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-border/20 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-muted-foreground text-[10px] tracking-wide uppercase">
-          <p>© {new Date().getFullYear()} NOR PERFUME. All rights reserved.</p>
-          <p>Crafted with pride in India</p>
+          <p>© {new Date().getFullYear()} VOOM by Frenzo Group. All rights reserved.</p>
+          <p>Shine beyond ordinary — Made in India</p>
         </div>
       </div>
     </footer>

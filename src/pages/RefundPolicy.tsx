@@ -8,8 +8,8 @@ const RefundPolicy = () => {
   return (
     <main className="min-h-screen bg-background text-foreground selection:bg-primary/30">
       <SEO 
-        title="Return & Refund Policy | NOR Luxury Car Fragrances"
-        description="View NOR's clear and transparent return policy. Includes details on damage claims, unboxing video requirements, and replacement protocols."
+        title="Return & Refund Policy | VOOM Premium Car Care"
+        description="View VOOM's clear and transparent return policy. Includes details on damage claims, unboxing video requirements, and replacement protocols."
       />
       <Navbar />
       
@@ -22,7 +22,7 @@ const RefundPolicy = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-primary text-[10px] tracking-[0.5em] font-bold uppercase mb-4"
           >
-            NOR Perfume • Legal
+            VOOM Care • Legal
           </motion.p>
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
@@ -57,7 +57,7 @@ const RefundPolicy = () => {
               
               <div className="space-y-4">
                 <p className="text-muted-foreground leading-relaxed text-lg font-light italic">
-                  This policy applies to all purchases made on <span className="text-foreground font-medium underline underline-offset-4 decoration-primary/30">norperfume.com</span>. By placing an order with NOR, you confirm that you have read, understood, and agreed to this Return Policy in full. Please read carefully before purchasing.
+                  This policy applies to all purchases made on <span className="text-foreground font-medium underline underline-offset-4 decoration-primary/30">voomcare.com</span>. By placing an order with VOOM, you confirm that you have read, understood, and agreed to this Return Policy in full. Please read carefully before purchasing.
                 </p>
               </div>
 
@@ -69,16 +69,16 @@ const RefundPolicy = () => {
                 </div>
                 <div className="space-y-4 text-muted-foreground/80 font-light leading-relaxed">
                   <p>
-                    Due to the nature of fragrance and personal care products, NOR does not accept returns, exchanges, or cancellations once an order has been placed or a product has been delivered and opened. All sales are considered final from the moment an order is confirmed and payment is received.
+                    Due to the nature of fragrance and personal care products, VOOM does not accept returns, exchanges, or cancellations once an order has been placed or a product has been delivered and opened. All sales are considered final from the moment an order is confirmed and payment is received.
                   </p>
                   <p>
-                    We strongly encourage all customers to read product descriptions, scent profiles, and all available information carefully before placing an order. Fragrance preference is personal and subjective — NOR does not accept returns based on scent preference, change of mind, or personal dissatisfaction with the fragrance under any circumstances.
+                    We strongly encourage all customers to read product descriptions, scent profiles, and all available information carefully before placing an order. Fragrance preference is personal and subjective — VOOM does not accept returns based on scent preference, change of mind, or personal dissatisfaction with the fragrance under any circumstances.
                   </p>
                   <div className="p-6 bg-red-500/5 border border-red-500/20 rounded-2xl flex gap-4">
                     <AlertCircle className="w-6 h-6 text-red-500 shrink-0 mt-0.5" />
                     <p className="text-red-500/90 text-sm leading-relaxed">
                       <strong className="block text-red-500 uppercase tracking-widest text-[10px] mb-1">No cancellations:</strong>
-                      Orders cannot be cancelled once placed and payment is confirmed. Please review your order carefully before completing payment. NOR will not cancel, modify, or refund any order on the basis of a customer change of mind after payment is confirmed.
+                      Orders cannot be cancelled once placed and payment is confirmed. Please review your order carefully before completing payment. VOOM will not cancel, modify, or refund any order on the basis of a customer change of mind after payment is confirmed.
                     </p>
                   </div>
                 </div>
@@ -92,7 +92,7 @@ const RefundPolicy = () => {
                 </div>
                 <div className="space-y-6 text-muted-foreground/80 font-light leading-relaxed">
                   <p>
-                    NOR strongly advises every customer to begin video recording on their phone before touching or opening their delivery package. This is for your own protection and is the only way NOR can verify and process a legitimate damage claim.
+                    VOOM strongly advises every customer to begin video recording on their phone before touching or opening their delivery package. This is for your own protection and is the only way VOOM can verify and process a legitimate damage claim.
                   </p>
                   <div className="p-8 bg-primary/5 border border-primary/10 rounded-3xl space-y-4 relative overflow-hidden">
                     <div className="absolute top-0 right-0 p-4 opacity-5">
@@ -100,7 +100,7 @@ const RefundPolicy = () => {
                     </div>
                     <h3 className="text-primary font-display uppercase tracking-widest text-[10px] m-0 font-bold">Our advice to every customer</h3>
                     <p className="text-sm md:text-base leading-relaxed relative z-10 text-foreground italic">
-                      "The moment your NOR order arrives — before you open or touch the package — start recording a clear, continuous video on your phone. Keep recording through the entire unboxing process without stopping or cutting. If your product has been damaged during shipping, this video is your proof. Without it, NOR cannot process your claim. This video protects you as the customer and helps NOR resolve genuine shipping damage quickly and fairly."
+                      "The moment your VOOM order arrives — before you open or touch the package — start recording a clear, continuous video on your phone. Keep recording through the entire unboxing process without stopping or cutting. If your product has been damaged during shipping, this video is your proof. Without it, VOOM cannot process your claim. This video protects you as the customer and helps VOOM resolve genuine shipping damage quickly and fairly."
                     </p>
                   </div>
                 </div>
@@ -129,7 +129,7 @@ const RefundPolicy = () => {
                     <li>• Normal condensation or surface scratches on box</li>
                   </ul>
                   <div className="p-4 border-l-2 border-primary/30 bg-primary/[0.02] text-xs">
-                    <p><strong>Important:</strong> Only damage to the product itself — as defined above — qualifies for a claim. Outer packaging imperfections alone do not qualify. NOR's decision on whether damage meets the definition above is final.</p>
+                    <p><strong>Important:</strong> Only damage to the product itself — as defined above — qualifies for a claim. Outer packaging imperfections alone do not qualify. VOOM's decision on whether damage meets the definition above is final.</p>
                   </div>
                 </div>
               </div>
@@ -141,7 +141,7 @@ const RefundPolicy = () => {
                   <h2 className="font-display text-2xl text-foreground m-0">Eligible claims — shipping damage only</h2>
                 </div>
                 <div className="p-6 bg-white/[0.01] border border-white/5 rounded-2xl italic font-light text-muted-foreground/80 leading-relaxed">
-                  NOR will only consider a claim under the following circumstance: The product itself was physically damaged during shipping by the courier (DTDC, Blue Dart, or Delhivery). No monetary refund will be issued under any circumstances.
+                  VOOM will only consider a claim under the following circumstance: The product itself was physically damaged during shipping by the courier (DTDC, Blue Dart, or Delhivery). No monetary refund will be issued under any circumstances.
                 </div>
               </div>
 
@@ -166,7 +166,7 @@ const RefundPolicy = () => {
                 </div>
                 <div className="p-6 bg-amber-500/5 border border-amber-500/10 rounded-2xl">
                   <p className="text-xs text-amber-500/80 leading-relaxed italic">
-                    <strong>Zero exceptions policy:</strong> If any requirement is missing or does not meet standards — including a partial or post-opening video — NOR reserves the right to reject the claim entirely.
+                    <strong>Zero exceptions policy:</strong> If any requirement is missing or does not meet standards — including a partial or post-opening video — VOOM reserves the right to reject the claim entirely.
                   </p>
                 </div>
               </div>
@@ -178,8 +178,8 @@ const RefundPolicy = () => {
                   <h2 className="font-display text-2xl text-foreground m-0">Non-receipt claims <span className="text-[10px] bg-primary text-primary-foreground px-2 py-0.5 rounded ml-2 uppercase font-bold tracking-widest">New</span></h2>
                 </div>
                 <div className="space-y-4 text-muted-foreground/80 font-light leading-relaxed text-sm">
-                  <p>If an order is marked as delivered but you haven't received it, report it within 48 hours. NOR will raise an investigation with the courier (DTDC, Blue Dart, or Delhivery) allowing up to 7 business days for response.</p>
-                  <p>NOR reserves the right to request a valid photo ID and a signed declaration of non-receipt. If courier investigation confirms successful delivery to the correct address, NOR is not obligated to provide a replacement.</p>
+                  <p>If an order is marked as delivered but you haven't received it, report it within 48 hours. VOOM will raise an investigation with the courier (DTDC, Blue Dart, or Delhivery) allowing up to 7 business days for response.</p>
+                  <p>VOOM reserves the right to request a valid photo ID and a signed declaration of non-receipt. If courier investigation confirms successful delivery to the correct address, VOOM is not obligated to provide a replacement.</p>
                   <div className="p-4 border-l-2 border-primary/30 bg-primary/[0.02] text-[11px] uppercase tracking-widest font-bold">
                     Fraud prevention: false non-receipt claims will lead to a permanent ban and reporting to authorities.
                   </div>
@@ -193,7 +193,7 @@ const RefundPolicy = () => {
                   <h2 className="font-display text-2xl text-foreground m-0">Repeat and suspicious claims <span className="text-[10px] bg-primary text-primary-foreground px-2 py-0.5 rounded ml-2 uppercase font-bold tracking-widest">New</span></h2>
                 </div>
                 <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">
-                  NOR reserves the right to decline or limit claims from customers who have previously submitted damage or non-receipt claims. Customers who submit repeated, escalating, or suspicious claims may be flagged and refused future service at NOR's sole discretion.
+                  VOOM reserves the right to decline or limit claims from customers who have previously submitted damage or non-receipt claims. Customers who submit repeated, escalating, or suspicious claims may be flagged and refused future service at VOOM's sole discretion.
                 </p>
               </div>
 
@@ -202,7 +202,7 @@ const RefundPolicy = () => {
                 <div className="space-y-4">
                   <h3 className="font-display text-lg text-foreground m-0">08. How to submit</h3>
                   <p className="text-xs text-muted-foreground/70 font-light leading-relaxed">
-                    Contact us at <a href="mailto:norperfume.help@gmail.com" className="text-primary underline">norperfume.help@gmail.com</a> or via Instagram <span className="text-foreground font-medium">@norperfumeofficial</span> with your unboxing video, photos, and order ID.
+                    Contact us at <a href="mailto:support@voomcare.com" className="text-primary underline">support@voomcare.com</a> or via Instagram <span className="text-foreground font-medium">@voomcare</span> with your unboxing video, photos, and order ID.
                   </p>
                 </div>
                 <div className="space-y-4">
@@ -248,14 +248,14 @@ const RefundPolicy = () => {
                 <div className="space-y-4 text-center">
                   <h3 className="font-display text-2xl text-foreground m-0">Replacement only — no refunds</h3>
                   <p className="text-sm text-muted-foreground/60 font-light italic max-w-xl mx-auto">
-                    NOR does not offer monetary refunds under any circumstances, including for verified damage. In all eligible cases, NOR will provide a replacement product only.
+                    VOOM does not offer monetary refunds under any circumstances, including for verified damage. In all eligible cases, VOOM will provide a replacement product only.
                   </p>
                 </div>
                 <div className="p-8 bg-card/60 border border-white/5 rounded-3xl text-center space-y-4">
                   <PackageX className="w-10 h-10 text-primary/40 mx-auto" />
                   <h4 className="font-display text-lg text-foreground m-0">Unauthorised returns</h4>
                   <p className="text-xs text-muted-foreground/70 font-light leading-relaxed max-w-md mx-auto">
-                    Any product physically returned to NOR without prior written approval will not be accepted, processed, or eligible for replacement. NOR bears no responsibility for shipping costs, losses, or damage related to unauthorised returns.
+                    Any product physically returned to VOOM without prior written approval will not be accepted, processed, or eligible for replacement. VOOM bears no responsibility for shipping costs, losses, or damage related to unauthorised returns.
                   </p>
                 </div>
               </div>

@@ -1,29 +1,28 @@
 import { motion } from "framer-motion";
 
 const features = [
-  { title: "Long-lasting Release", desc: "Up to 45 days of continuous fragrance" },
-  { title: "Sustainably Sourced", desc: "100% natural essential oils, ethically obtained" },
-  { title: "Zero-Liquid Technology", desc: "Spill-proof ceramic core, safe for all vehicles" },
+  { title: "Instant Results", desc: "See the difference from the very first use — no layering or buffing required." },
+  { title: "Paint Safe", desc: "pH balanced and scratch-free formulas safe for all paint types and ceramic coatings." },
+  { title: "Pro-Grade Power", desc: "The same formulas trusted by professional detailers, now made for home use." },
 ];
 
 const stats = [
-  { value: "5+", label: "Fragrances" },
-  { value: "4", label: "Luxury Lines" },
-  { value: "100%", label: "Natural Oil Toxin Free" },
-  { value: "500+", label: "Happy Customers" },
+  { value: "12K+", label: "Happy Customers" },
+  { value: "4.8★", label: "Avg Rating" },
+  { value: "100%", label: "Pro-Grade Formulas" },
+  { value: "24h", label: "Fast Delivery" },
 ];
 
 const ExperienceSection = () => (
   <section className="py-20 px-4 bg-secondary/30">
     <div className="max-w-6xl mx-auto">
       <div className="text-center mb-16">
-        <p className="text-xs tracking-[0.3em] uppercase text-primary mb-2">The Experience</p>
+        <p className="text-xs tracking-[0.3em] uppercase text-primary mb-2">Why VOOM</p>
         <h2 className="font-display text-4xl md:text-5xl text-foreground">
-          More Than <em>Just a Scent.</em>
+          More Than <em>Just a Wash.</em>
         </h2>
         <p className="mt-6 text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-          We believe your car is an extension of your personal sanctuary. NOR diffusers are engineered with premium
-          aerospace-grade aluminum and feature a minimalist design that seamlessly integrates into luxury interiors.
+          Our formulas aren&apos;t just soap. They&apos;re precision-engineered to protect and enhance your vehicle&apos;s finish — built for enthusiasts, trusted by professionals.
         </p>
       </div>
 
