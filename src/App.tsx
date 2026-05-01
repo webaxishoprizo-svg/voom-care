@@ -25,6 +25,9 @@ const RefundPolicy = lazy(() => import("./pages/RefundPolicy.tsx"));
 const ShippingPolicy = lazy(() => import("./pages/ShippingPolicy.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 
+import CustomCursor from "@/components/CustomCursor";
+import { AnimatePresence } from "framer-motion";
+
 const Loading = () => (
   <div className="min-h-screen bg-[#050505] flex items-center justify-center">
     <div className="relative w-16 h-16">
@@ -41,6 +44,7 @@ const App = () => (
     <CustomerAuthProvider>
       <CartProvider>
         <TooltipProvider>
+          <CustomCursor />
           <Toaster />
           <Sonner />
           <CartDrawer />
@@ -49,7 +53,8 @@ const App = () => (
             <ScrollToTop />
             <ScrollToTopOnNavigation />
             <Suspense fallback={<Loading />}>
-              <Routes>
+              <AnimatePresence mode="wait">
+                <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/products" element={<Products />} />
                 <Route path="/product/:id" element={<ProductDetail />} />
@@ -64,8 +69,9 @@ const App = () => (
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
-            </Suspense>
-          </BrowserRouter>
+            </AnimatePresence>
+          </Suspense>
+        </BrowserRouter>
         </TooltipProvider>
       </CartProvider>
     </CustomerAuthProvider>

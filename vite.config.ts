@@ -29,7 +29,7 @@ export default defineConfig(({ mode }) => {
               req.on("end", async () => {
                 try {
                   const { email } = JSON.parse(body);
-                  const SHOP = env.SHOP || "nor-perfume-2.myshopify.com";
+                  const SHOP = env.SHOP || "shop.voomcare.com";
                   const ACCESS_TOKEN = env.ADMIN_API_TOKEN;
 
                   if (!ACCESS_TOKEN) {

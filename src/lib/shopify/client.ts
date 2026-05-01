@@ -1,7 +1,7 @@
 const DEFAULT_SHOPIFY_CONFIG = {
-  domain: "nor-perfume-2.myshopify.com",
+  domain: "shop.voomcare.com",
   apiVersion: "2024-04",
-  accessToken: "597e532f7345926a95b019ced728a002",
+  accessToken: "59591aa3cb16515b8e0f371e63cc676c",
   publicClientId: "d9d84aeb-8c67-483e-9cfe-a9bf59a8731f",
   shopId: "77660979223",
 };
@@ -54,7 +54,7 @@ export async function shopifyCustomerQuery<T>(
 ) {
   // Use the standard high-performance endpoint
   const url = `https://shopify.com/${SHOPIFY_CONFIG.shopId}/account/customer/api/${SHOPIFY_CONFIG.apiVersion}/graphql`;
-  
+
   const response = await fetch(url, {
     method: "POST",
     headers: {

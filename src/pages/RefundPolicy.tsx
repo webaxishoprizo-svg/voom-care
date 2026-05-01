@@ -7,12 +7,12 @@ import SEO from "@/components/SEO";
 const RefundPolicy = () => {
   return (
     <main className="min-h-screen bg-background text-foreground selection:bg-primary/30">
-      <SEO 
+      <SEO
         title="Return & Refund Policy | VOOM Premium Car Care"
         description="View VOOM's clear and transparent return policy. Includes details on damage claims, unboxing video requirements, and replacement protocols."
       />
       <Navbar />
-      
+
       {/* Hero Section */}
       <section className="pt-32 pb-16 px-4 bg-gradient-to-b from-primary/5 to-transparent relative overflow-hidden text-center">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-from)_0%,_transparent_70%)] from-primary/10 opacity-50 pointer-events-none" />
@@ -24,7 +24,7 @@ const RefundPolicy = () => {
           >
             VOOM Care • Legal
           </motion.p>
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -47,14 +47,14 @@ const RefundPolicy = () => {
       <section className="pb-24 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="bg-card/40 backdrop-blur-md border border-white/5 rounded-[2.5rem] p-8 md:p-16 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)]">
-            
+
             <div className="flex items-center gap-3 mb-12 p-4 bg-emerald-500/5 border border-emerald-500/20 rounded-2xl">
               <ShieldCheck className="w-5 h-5 text-emerald-500 shrink-0" />
               <p className="text-emerald-500/90 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em]">✓ All audit gaps fixed — fully refined version</p>
             </div>
 
             <div className="prose prose-invert prose-sm md:prose-base max-w-none space-y-16">
-              
+
               <div className="space-y-4">
                 <p className="text-muted-foreground leading-relaxed text-lg font-light italic">
                   This policy applies to all purchases made on <span className="text-foreground font-medium underline underline-offset-4 decoration-primary/30">voomcare.com</span>. By placing an order with VOOM, you confirm that you have read, understood, and agreed to this Return Policy in full. Please read carefully before purchasing.
@@ -159,7 +159,7 @@ const RefundPolicy = () => {
                     { id: "04 — 48-hour window", text: "Claim must be submitted within 48 hours of courier delivery. Claims after this window will not be reviewed." }
                   ].map((step, i) => (
                     <div key={i} className="p-6 bg-white/[0.02] border border-white/5 rounded-2xl">
-                    <h4 className="text-[10px] font-bold text-primary tracking-widest uppercase mb-2">{step.id}</h4>
+                      <h4 className="text-[10px] font-bold text-primary tracking-widest uppercase mb-2">{step.id}</h4>
                       <p className="text-sm text-muted-foreground/90 font-light leading-relaxed">{step.text}</p>
                     </div>
                   ))}
@@ -202,7 +202,7 @@ const RefundPolicy = () => {
                 <div className="space-y-4">
                   <h3 className="font-display text-lg text-foreground m-0">08. How to submit</h3>
                   <p className="text-xs text-muted-foreground/70 font-light leading-relaxed">
-                    Contact us at <a href="mailto:support@voomcare.com" className="text-primary underline">support@voomcare.com</a> or via Instagram <span className="text-foreground font-medium">@voomcare</span> with your unboxing video, photos, and order ID.
+                    Contact us at <a href="mailto:info.frenzogp@gmail.com" className="text-primary underline">info.frenzogp@gmail.com</a> or via Instagram <span className="text-foreground font-medium">@voomcare</span> with your unboxing video, photos, and order ID.
                   </p>
                 </div>
                 <div className="space-y-4">

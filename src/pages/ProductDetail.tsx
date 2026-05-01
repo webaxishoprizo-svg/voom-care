@@ -13,10 +13,12 @@ import {
   ChevronLeft,
   Minus,
   Plus,
+  ArrowRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState, useEffect } from "react";
-import { useHybridProduct, useHybridProducts } from "@/lib/shopify/hooks";
+import { useState, useEffect, useCallback } from "react";
+import useEmblaCarousel from "embla-carousel-react";
+import { useHybridProduct, useHybridProducts, useCollectionProducts } from "@/lib/shopify/hooks";
 import { formatCurrency } from "@/lib/utils";
 import SEO from "@/components/SEO";
 import { trackViewContent } from "@/lib/meta-pixel";
@@ -44,12 +46,39 @@ const ProductDetail = () => {
   const navigate = useNavigate();
   const { addItem } = useCart();
   const [qty, setQty] = useState(1);
+  
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, skipSnaps: false });
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on("select", onSelect);
+    emblaApi.on("reInit", onSelect);
+  }, [emblaApi, onSelect]);
+
+  const scrollTo = useCallback(
+    (index: number) => emblaApi && emblaApi.scrollTo(index),
+    [emblaApi]
+  );
 
   const productQuery = useHybridProduct(id);
   const catalogQuery = useHybridProducts();
   const product = productQuery.data;
   const catalog = catalogQuery.data || [];
-  const recommended = catalog.filter((item) => item.id !== product?.id).slice(0, 3);
+  const recommended = catalog.filter((item) => 
+    item.id !== product?.id && 
+    !(item.price === 0 && !item.availableForSale)
+  ).slice(0, 3);
+
+  const { data: compoInnerProducts } = useCollectionProducts("what-is-insice-the-compo");
+  const isInsideCompo = product && compoInnerProducts?.some(p => p.id === product.id);
+  const isNotForSale = product && product.price === 0 && !product.availableForSale;
 
   useEffect(() => {
     if (product) {
@@ -126,6 +155,8 @@ const ProductDetail = () => {
     }
   } : null;
 
+  const allImages = product.images?.length > 0 ? product.images : [product.image];
+
   return (
     <main className="min-h-screen bg-background text-foreground">
       <SEO 
@@ -153,19 +184,59 @@ const ProductDetail = () => {
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="relative"
+            className="flex flex-col gap-4"
           >
-            <div className="aspect-square rounded-2xl overflow-hidden bg-card border border-border">
-              <img
-                src={product.images?.[0] || product.image}
-                alt={product.name}
-                className="w-full h-full object-cover"
-              />
+            <div className="relative aspect-square rounded-2xl overflow-hidden bg-card border border-border group">
+              <div className="overflow-hidden h-full w-full" ref={emblaRef}>
+                <div className="flex h-full w-full">
+                  {allImages.map((img, idx) => (
+                    <div key={idx} className="flex-[0_0_100%] min-w-0 h-full relative">
+                      <img
+                        src={img}
+                        alt={`${product.name} - ${idx + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {product.discount && (
+                <span className="absolute top-4 left-4 gradient-gold text-primary-foreground text-xs font-bold px-3 py-1.5 rounded-full z-10 shadow-lg">
+                  -{product.discount}% OFF
+                </span>
+              )}
+
+              {allImages.length > 1 && (
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 z-10 md:hidden">
+                  {allImages.map((_, idx) => (
+                    <div
+                      key={idx}
+                      className={`h-1.5 rounded-full transition-all duration-300 ${
+                        idx === selectedIndex ? "w-6 bg-primary" : "w-1.5 bg-white/40"
+                      }`}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
-            {product.discount && (
-              <span className="absolute top-4 left-4 gradient-gold text-primary-foreground text-xs font-bold px-3 py-1.5 rounded-full">
-                -{product.discount}% OFF
-              </span>
+
+            {allImages.length > 1 && (
+              <div className="grid grid-cols-4 gap-3">
+                {allImages.map((img, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => scrollTo(idx)}
+                    className={`aspect-square rounded-xl overflow-hidden border-2 transition-all ${
+                      idx === selectedIndex 
+                        ? "border-primary opacity-100" 
+                        : "border-transparent opacity-40 hover:opacity-100"
+                    }`}
+                  >
+                    <img src={img} alt="" className="w-full h-full object-cover" />
+                  </button>
+                ))}
+              </div>
             )}
           </motion.div>
 
@@ -203,46 +274,66 @@ const ProductDetail = () => {
               </div>
             )}
 
-            <div className="flex items-baseline gap-3 mb-8">
-              <span className="font-sans text-3xl text-foreground font-semibold">
-                {formatCurrency(product.price, product.currencyCode)}
-              </span>
-              {product.originalPrice && (
-                <span className="text-muted-foreground line-through text-lg">
-                  {formatCurrency(product.originalPrice, product.currencyCode)}
+            {isNotForSale ? (
+              <div className="mb-8">
+                <p className="text-red-500 font-bold text-lg tracking-wider uppercase">
+                  Sorry, currently not selling
+                </p>
+              </div>
+            ) : !isInsideCompo && (
+              <div className="flex items-baseline gap-3 mb-8">
+                <span className="font-sans text-3xl text-foreground font-semibold">
+                  {formatCurrency(product.price, product.currencyCode)}
                 </span>
-              )}
-              {product.discount && (
-                <span className="text-sm font-semibold text-primary">
-                  Save {product.discount}%
-                </span>
-              )}
-            </div>
+                {product.originalPrice && (
+                  <span className="text-muted-foreground line-through text-lg">
+                    {formatCurrency(product.originalPrice, product.currencyCode)}
+                  </span>
+                )}
+                {product.discount && (
+                  <span className="text-sm font-semibold text-primary">
+                    Save {product.discount}%
+                  </span>
+                )}
+              </div>
+            )}
 
             <div className="flex items-center gap-4 mb-6">
-              <div className="flex items-center border border-border rounded-full overflow-hidden">
-                <button
-                  onClick={() => setQty(Math.max(1, qty - 1))}
-                  className="w-10 h-10 flex items-center justify-center hover:bg-muted transition-colors"
+              {(isInsideCompo || isNotForSale) ? (
+                <Button
+                  onClick={() => navigate('/products?collection=compo')}
+                  className="flex-1 h-12 gradient-gold text-primary-foreground font-semibold text-base rounded-full hover:opacity-90 transition-opacity gap-2"
                 >
-                  <Minus className="w-4 h-4" />
-                </button>
-                <span className="w-10 text-center text-foreground font-medium">{qty}</span>
-                <button
-                  onClick={() => setQty(qty + 1)}
-                  className="w-10 h-10 flex items-center justify-center hover:bg-muted transition-colors"
-                >
-                  <Plus className="w-4 h-4" />
-                </button>
-              </div>
-              <Button
-                onClick={handleAddToCart}
-                disabled={!product.availableForSale}
-                className="flex-1 h-12 gradient-gold text-primary-foreground font-semibold text-base rounded-full hover:opacity-90 transition-opacity gap-2 disabled:opacity-60"
-              >
-                <ShoppingBag className="w-5 h-5" />
-                {product.availableForSale ? "Add to Cart" : "Sold Out"}
-              </Button>
+                  View Compo Kit
+                  <ArrowRight className="w-5 h-5" />
+                </Button>
+              ) : (
+                <>
+                  <div className="flex items-center border border-border rounded-full overflow-hidden">
+                    <button
+                      onClick={() => setQty(Math.max(1, qty - 1))}
+                      className="w-10 h-10 flex items-center justify-center hover:bg-muted transition-colors"
+                    >
+                      <Minus className="w-4 h-4" />
+                    </button>
+                    <span className="w-10 text-center text-foreground font-medium">{qty}</span>
+                    <button
+                      onClick={() => setQty(qty + 1)}
+                      className="w-10 h-10 flex items-center justify-center hover:bg-muted transition-colors"
+                    >
+                      <Plus className="w-4 h-4" />
+                    </button>
+                  </div>
+                  <Button
+                    onClick={handleAddToCart}
+                    disabled={!product.availableForSale}
+                    className="flex-1 h-12 gradient-gold text-primary-foreground font-semibold text-base rounded-full hover:opacity-90 transition-opacity gap-2 disabled:opacity-60"
+                  >
+                    <ShoppingBag className="w-5 h-5" />
+                    {product.availableForSale ? "Add to Cart" : "Sold Out"}
+                  </Button>
+                </>
+              )}
             </div>
 
             {detailCards.length > 0 && (

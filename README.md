@@ -1,6 +1,6 @@
-# NOR | Luxury Car Fragrance Storefront
+# VOOM | Premium Car Care Storefront
 
-NOR is a high-fidelity, production-ready storefront designed for a luxury automotive fragrance brand. This project is built using a modern stack (Vite, React, TypeScript, Tailwind CSS) and is deeply integrated with the Shopify eco-system.
+VOOM is a high-fidelity, production-ready storefront designed for a luxury automotive fragrance brand. This project is built using a modern stack (Vite, React, TypeScript, Tailwind CSS) and is deeply integrated with the Shopify eco-system.
 
 ## 🚀 Deployment & Post-Build Setup
 
@@ -11,9 +11,9 @@ You must add the following environment variables in your Vercel Dashboard (`Sett
 
 | Variable | Description | Source |
 | :--- | :--- | :--- |
-| `SHOP` | Your Shopify store domain (e.g., `shop.norperfume.com`) | Shopify Admin |
+| `SHOP` | Your Shopify store domain (e.g., `shop.voomcare.com`) | Shopify Admin |
 | `ADMIN_API_TOKEN` | Shopify Admin API Access Token | Shopify App Settings |
-| `PUBLIC_STORE_DOMAIN` | Your public domain (e.g., `norperfume.com`) | Domain Provider |
+| `PUBLIC_STORE_DOMAIN` | Your public domain (e.g., `voomcare.com`) | Domain Provider |
 | `PUBLIC_STOREFRONT_ACCESS_TOKEN` | Shopify Storefront API Token | Shopify App Settings |
 
 ### 2. Meta Pixel Update
@@ -50,4 +50,4 @@ The newsletter subscription logic is handled by `/api/newsletter.js`.
 4.  Run the development server: `npm run dev`.
 
 ---
-© 2025 NOR Perfume. Built with precision in Kerala, India.
+© 2025 VOOM Care. Built with precision in Kerala, India.

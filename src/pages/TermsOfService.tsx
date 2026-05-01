@@ -7,12 +7,12 @@ import SEO from "@/components/SEO";
 const TermsOfService = () => {
   return (
     <main className="min-h-screen bg-background text-foreground selection:bg-primary/30">
-      <SEO 
+      <SEO
         title="Terms of Service | VOOM Premium Car Care"
         description="The governing terms and conditions for using voomcare.com and purchasing our handcrafted automotive perfumes."
       />
       <Navbar />
-      
+
       {/* Hero Section */}
       <section className="pt-32 pb-16 px-4 bg-gradient-to-b from-primary/5 to-transparent relative overflow-hidden text-center">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-from)_0%,_transparent_70%)] from-primary/10 opacity-50 pointer-events-none" />
@@ -24,7 +24,7 @@ const TermsOfService = () => {
           >
             VOOM Care • Legal
           </motion.p>
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -47,14 +47,14 @@ const TermsOfService = () => {
       <section className="pb-24 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="bg-card/40 backdrop-blur-md border border-white/5 rounded-[2.5rem] p-8 md:p-16 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)]">
-            
+
             <div className="flex items-center gap-3 mb-10 p-4 bg-emerald-500/5 border border-emerald-500/20 rounded-2xl">
               <ShieldCheck className="w-5 h-5 text-emerald-500 shrink-0" />
               <p className="text-emerald-500/90 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em]">✓ All audit gaps fixed — fully refined version</p>
             </div>
 
             <div className="prose prose-invert prose-sm md:prose-base max-w-none space-y-16">
-              
+
               <div className="space-y-4">
                 <p className="text-muted-foreground leading-relaxed text-lg font-light italic">
                   These Terms of Service govern your use of <span className="text-foreground font-medium underline underline-offset-4 decoration-primary/30">voomcare.com</span> and any purchase made through our website. By accessing our website or placing an order, you confirm that you have read, understood, and agreed to these terms in full. If you do not agree, please do not use our website or place an order.
@@ -240,7 +240,7 @@ const TermsOfService = () => {
                   These Terms, coupled with our Return, Shipping, and Privacy Policies, supersede all prior communications whether written, verbal, or via Instagram DM.
                 </p>
                 <div className="pt-6">
-                  <p className="text-[10px] text-muted-foreground/40 font-bold uppercase tracking-widest">Legal & Governance • support@voomcare.com</p>
+                  <p className="text-[10px] text-muted-foreground/40 font-bold uppercase tracking-widest">Legal & Governance • info.frenzogp@gmail.com</p>
                 </div>
               </div>
 

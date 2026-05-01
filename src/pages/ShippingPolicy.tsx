@@ -7,12 +7,12 @@ import SEO from "@/components/SEO";
 const ShippingPolicy = () => {
   return (
     <main className="min-h-screen bg-background text-foreground selection:bg-primary/30">
-      <SEO 
+      <SEO
         title="Shipping Policy | VOOM Premium Car Care"
         description="Delivery timelines, shipping partners (Blue Dart, DTDC, Delhivery), and logistics details for VOOM car fragrances across India."
       />
       <Navbar />
-      
+
       {/* Hero Section */}
       <section className="pt-32 pb-16 px-4 bg-gradient-to-b from-primary/5 to-transparent relative overflow-hidden text-center">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-from)_0%,_transparent_70%)] from-primary/10 opacity-50 pointer-events-none" />
@@ -24,7 +24,7 @@ const ShippingPolicy = () => {
           >
             VOOM Care • Legal
           </motion.p>
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -47,14 +47,14 @@ const ShippingPolicy = () => {
       <section className="pb-24 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="bg-card/40 backdrop-blur-md border border-white/5 rounded-[2.5rem] p-8 md:p-16 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)]">
-            
+
             <div className="flex items-center gap-3 mb-10 p-4 bg-emerald-500/5 border border-emerald-500/20 rounded-2xl">
               <ShieldCheck className="w-5 h-5 text-emerald-500 shrink-0" />
               <p className="text-emerald-500/90 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em]">✓ All audit gaps fixed — fully refined version</p>
             </div>
 
             <div className="prose prose-invert prose-sm md:prose-base max-w-none space-y-16">
-              
+
               <div className="space-y-4">
                 <p className="text-muted-foreground leading-relaxed text-lg font-light italic">
                   This policy covers all aspects of order processing, dispatch, delivery, and related matters for purchases made on <span className="text-foreground font-medium underline underline-offset-4 decoration-primary/30">voomcare.com</span>. By placing an order, you confirm that you have read and agreed to this Shipping Policy in full.
@@ -190,7 +190,7 @@ const ShippingPolicy = () => {
                   <h2 className="font-display text-2xl text-foreground m-0">Order tracking</h2>
                 </div>
                 <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">
-                  Once dispatched, you will receive a shipment notification via SMS or email with a tracking number and a direct link to track your order in real time. You can also use the <strong>Track Order</strong> page on voomcare.com. If you have not received tracking information within 3 business days of order confirmation, contact us at <a href="mailto:support@voomcare.com" className="text-primary underline">support@voomcare.com</a>.
+                  Once dispatched, you will receive a shipment notification via SMS or email with a tracking number and a direct link to track your order in real time. You can also use the <strong>Track Order</strong> page on voomcare.com. If you have not received tracking information within 3 business days of order confirmation, contact us at <a href="mailto:info.frenzogp@gmail.com" className="text-primary underline">info.frenzogp@gmail.com</a>.
                 </p>
               </div>
 
@@ -201,7 +201,7 @@ const ShippingPolicy = () => {
                   <h2 className="font-display text-2xl text-foreground m-0">Incorrect delivery address — customer error</h2>
                 </div>
                 <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">
-                  It is the customer's sole responsibility to provide a complete, accurate, and accessible delivery address at checkout. VOOM is not responsible for delayed, failed, or misdelivered orders resulting from an incorrect, incomplete, or inaccessible address provided by the customer. Address changes can only be accommodated before dispatch — contact <strong>support@voomcare.com</strong> immediately if a correction is needed. Once in transit, the delivery address cannot be changed.
+                  It is the customer's sole responsibility to provide a complete, accurate, and accessible delivery address at checkout. VOOM is not responsible for delayed, failed, or misdelivered orders resulting from an incorrect, incomplete, or inaccessible address provided by the customer. Address changes can only be accommodated before dispatch — contact <strong>info.frenzogp@gmail.com</strong> immediately if a correction is needed. Once in transit, the delivery address cannot be changed.
                 </p>
               </div>
 
@@ -235,7 +235,7 @@ const ShippingPolicy = () => {
                 </div>
                 <div className="p-8 bg-white/[0.01] border border-white/5 rounded-3xl space-y-4">
                   <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">
-                    If tracking has not updated for more than <strong>5 business days</strong> or shows an exception, contact <strong>support@voomcare.com</strong> with your order number. VOOM will raise a formal investigation with the courier. If the order is confirmed lost by the courier, VOOM will arrange a replacement at no cost. <strong>No monetary refunds are issued for lost orders</strong>. Investigations may take up to 7–10 business days.
+                    If tracking has not updated for more than <strong>5 business days</strong> or shows an exception, contact <strong>info.frenzogp@gmail.com</strong> with your order number. VOOM will raise a formal investigation with the courier. If the order is confirmed lost by the courier, VOOM will arrange a replacement at no cost. <strong>No monetary refunds are issued for lost orders</strong>. Investigations may take up to 7–10 business days.
                   </p>
                 </div>
               </div>
@@ -258,7 +258,7 @@ const ShippingPolicy = () => {
                   <p className="text-xs text-muted-foreground/60 max-w-sm mx-auto font-light italic">Our logistics team ensures every VOOM package is handled with precision.</p>
                 </div>
                 <div className="p-6 bg-primary/5 border border-primary/10 rounded-2xl inline-block">
-                  <a href="mailto:support@voomcare.com" className="text-primary font-medium hover:underline text-lg">support@voomcare.com</a>
+                  <a href="mailto:info.frenzogp@gmail.com" className="text-primary font-medium hover:underline text-lg">info.frenzogp@gmail.com</a>
                 </div>
                 <p className="text-[10px] text-muted-foreground/40 font-bold uppercase tracking-[0.3em]">Acknowledgements within 24 hours</p>
               </div>

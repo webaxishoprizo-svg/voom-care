@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { Menu, Search, User, ShoppingBag, X, Package } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Menu, Search, User, ShoppingBag, X, Package, Bookmark } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
 import { useCustomerAuth } from "@/context/CustomerAuthContext";
 import { SHOPIFY_ACCOUNT_URL, SHOPIFY_ORDERS_URL, SHOPIFY_LOGIN_URL } from "@/lib/shopify/client";
@@ -11,12 +11,21 @@ import SearchDialog from "@/components/SearchDialog";
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const { totalItems, setIsOpen } = useCart();
   const { isAuthenticated, logout } = useCustomerAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleAccountClick = (e: React.MouseEvent) => {
-    // We use onMouseDown for instant response (saves ~100ms over onClick)
     if (e.type === 'mousedown' || e.type === 'touchstart') {
       window.location.href = isAuthenticated ? SHOPIFY_ACCOUNT_URL : SHOPIFY_LOGIN_URL;
     }
@@ -24,44 +33,79 @@ const Navbar = () => {
 
   const menuItems = [
     { label: "Home", href: "/", external: false },
-    { label: "Products", href: "/products", external: false },
-    { label: "FAQ", href: "/faq", external: false },
+    { label: "Products", href: "/products?collection=products", external: false },
     { label: "About Us", href: "/about", external: false },
+    { label: "FAQ", href: "/faq", external: false },
     { label: "Track My Order", href: "/track-order", external: false },
   ];
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 px-4 py-3 lg:px-3 lg:py-2">
-        <div className="max-w-7xl lg:max-w-4xl mx-auto flex items-center justify-between bg-surface-glass rounded-full px-6 py-4 lg:px-5 lg:py-2.5 relative border border-white/5 shadow-2xl shadow-black/40">
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="flex items-center gap-2 text-foreground text-[13px] font-medium tracking-wide z-10 group"
-          >
-            <span className="hidden sm:inline">Menu</span>
-            <div className="flex flex-col gap-1 w-6 items-start">
-              <div className="h-0.5 w-full bg-current transition-all duration-300" />
-              <div className="h-0.5 w-[75%] bg-current transition-all duration-300" />
-              <div className="h-0.5 w-[50%] bg-current transition-all duration-300" />
-            </div>
-          </button>
+      <nav
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-transparent py-3 px-4 md:px-10"
+      >
+        <div className="max-w-7xl mx-auto flex items-center justify-between lg:border lg:border-white/10 lg:rounded-full lg:px-10 lg:py-1.5 bg-transparent">
+          {/* Desktop Left: Nav Links */}
+          <div className="hidden lg:flex items-center gap-2 flex-1">
+            {menuItems.slice(0, 3).map((item) => (
+              <Link
+                key={item.label}
+                to={item.href}
+                className="px-5 py-2 rounded-full text-[13px] font-medium tracking-wide text-foreground/80 hover:text-foreground hover:bg-white/5 transition-all backdrop-blur-sm border border-transparent hover:border-white/10"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
 
-          <Link to="/" aria-label="VOOM home" className="shrink-0 absolute left-1/2 -translate-x-1/2 md:relative md:left-auto md:translate-x-0">
-            <img src={logo} alt="VOOM" className="h-12 w-auto sm:h-14" />
-          </Link>
+          {/* Mobile: Hamburger */}
+          <div className="lg:hidden flex-1">
+            <button
+              onClick={() => setMenuOpen(true)}
+              className="p-2 -ml-2 text-foreground/80 hover:text-foreground transition-colors"
+            >
+              <Menu className="w-6 h-6" />
+            </button>
+          </div>
 
-          <div className="flex items-center gap-4 z-10">
-            <Search onClick={() => setSearchOpen(true)} className="w-5 h-5 text-foreground/70 hover:text-foreground cursor-pointer transition-colors" />
+          {/* Center: Logo */}
+          <div className="shrink-0 flex items-center justify-center relative w-32 md:w-52 h-10 md:h-12">
+            <Link to="/" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+              <img src={logo} alt="VOOM" className="h-16 md:h-22 w-auto object-contain max-w-none" />
+            </Link>
+          </div>
+
+          {/* Right: Icons */}
+          <div className="flex items-center justify-end gap-2 md:gap-5 flex-1">
+            <button
+              onClick={() => setSearchOpen(true)}
+              className="p-2.5 rounded-full bg-white/5 hover:bg-white/10 border border-transparent backdrop-blur-xl text-foreground/80 hover:text-foreground transition-all"
+              aria-label="Search"
+            >
+              <Search className="w-5 h-5" />
+            </button>
+
             <button
               onMouseDown={handleAccountClick}
-              className="hidden sm:block outline-none"
-              aria-label={isAuthenticated ? "Open account" : "Login"}
+              className="hidden md:flex p-2.5 rounded-full bg-white/5 hover:bg-white/10 border border-transparent backdrop-blur-xl text-foreground/80 hover:text-foreground transition-all"
+              aria-label="Account"
             >
-              <User className={`w-5 h-5 transition-colors ${isAuthenticated ? "text-primary" : "text-foreground/70 hover:text-foreground"}`} />
+              <User className={`w-5 h-5 ${isAuthenticated ? "text-primary" : ""}`} />
             </button>
-            <button onClick={() => setIsOpen(true)} className="relative">
-              <ShoppingBag className="w-5 h-5 text-foreground/70 hover:text-foreground cursor-pointer transition-colors" />
-              <span className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-primary text-primary-foreground text-[10px] flex items-center justify-center font-semibold">
+
+            <button
+              className="hidden md:flex p-2.5 rounded-full bg-white/5 hover:bg-white/10 border border-transparent backdrop-blur-xl text-foreground/80 hover:text-foreground transition-all"
+              aria-label="Save"
+            >
+              <Bookmark className="w-5 h-5" />
+            </button>
+
+            <button
+              onClick={() => setIsOpen(true)}
+              className="flex items-center gap-2 p-2.5 md:px-4 md:py-2 rounded-full bg-white/5 hover:bg-white/10 border border-transparent backdrop-blur-xl transition-all group"
+            >
+              <ShoppingBag className="w-5 h-5 text-foreground/80 group-hover:text-foreground transition-colors" />
+              <span className="hidden md:inline text-[12px] font-bold tracking-wider text-foreground/80 group-hover:text-foreground">
                 {totalItems}
               </span>
             </button>
@@ -69,94 +113,75 @@ const Navbar = () => {
         </div>
       </nav>
 
+      {/* Mobile Menu Drawer */}
       <AnimatePresence>
         {menuOpen && (
           <>
             <motion.div
               initial={{ opacity: 0 }}
-              animate={{ opacity: 0.5 }}
+              animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="fixed inset-0 z-[60] bg-black"
+              className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm"
               onClick={() => setMenuOpen(false)}
             />
             <motion.div
               initial={{ x: "-100%" }}
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
-              transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
-              className="fixed top-0 left-0 bottom-0 z-[61] w-[75%] max-w-[360px] bg-background/80 backdrop-blur-xl border-r border-white/10 flex flex-col"
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="fixed top-0 left-0 bottom-0 z-[61] w-[85%] max-w-[400px] bg-background flex flex-col"
             >
-              <div className="flex items-center justify-between px-6 py-5">
-                <div className="flex items-center gap-4">
-                <img src={logo} alt="VOOM" className="h-10 w-auto" />
-                </div>
-                <button onClick={() => setMenuOpen(false)} className="text-foreground">
-                  <X className="w-6 h-6" />
+              <div className="flex items-center justify-between p-6 border-b border-white/5">
+                <img src={logo} alt="VOOM" className="h-12 w-auto" />
+                <button onClick={() => setMenuOpen(false)} className="p-2">
+                  <X className="w-6 h-6 text-foreground" />
                 </button>
               </div>
-              <div className="flex flex-col px-6 py-4 gap-1 flex-1 overflow-y-auto">
-                {menuItems.map((item) =>
-                  item.external ? (
-                    <a
-                      key={item.label}
-                      onClick={() => setMenuOpen(false)}
-                      className="font-display text-2xl text-foreground hover:text-primary transition-colors py-4 border-b border-border/20"
-                      href={item.href}
-                    >
-                      {item.label}
-                    </a>
-                  ) : (
-                    <Link
-                      key={item.label}
-                      onClick={() => setMenuOpen(false)}
-                      className="font-display text-2xl text-foreground hover:text-primary transition-colors py-4 border-b border-border/20"
-                      to={item.href}
-                    >
-                      {item.label}
-                    </Link>
-                  ),
-                )}
 
-                <div className="mt-8 pt-8 border-t border-white/5 space-y-4">
-                  <div className="flex items-center gap-4">
-                    <button
-                      onMouseDown={(e) => {
-                        setMenuOpen(false);
-                        handleAccountClick(e);
-                      }}
-                      className="flex items-center justify-center w-12 h-12 rounded-full bg-surface-glass border border-white/10 hover:border-primary/50 transition-colors"
-                      aria-label="Account"
-                    >
-                      <User className={`w-6 h-6 ${isAuthenticated ? "text-primary" : "text-foreground"}`} />
-                    </button>
-                    <a
-                      href={SHOPIFY_ORDERS_URL}
-                      onClick={() => setMenuOpen(false)}
-                      className="flex items-center justify-center w-12 h-12 rounded-full bg-surface-glass border border-white/10 hover:border-primary/50 transition-colors"
-                      aria-label="Orders"
-                    >
-                      <Package className="w-6 h-6 text-foreground" />
-                    </a>
-                  </div>
-
-                  <button
-                    onMouseDown={() => {
-                      setMenuOpen(false);
-                      if (isAuthenticated) {
-                        logout();
-                      } else {
-                        window.location.href = SHOPIFY_LOGIN_URL;
-                      }
-                    }}
-                    className={`w-full py-4 rounded-2xl flex items-center justify-center gap-3 font-display text-sm tracking-widest uppercase transition-all active:scale-[0.98] ${isAuthenticated
-                        ? "bg-red-500/10 text-red-500 border border-red-500/20 hover:bg-red-500/20"
-                        : "bg-primary text-primary-foreground font-bold shadow-lg shadow-primary/20 hover:opacity-90"
-                      }`}
+              <div className="flex-1 overflow-y-auto py-8 px-6 space-y-2">
+                {menuItems.map((item) => (
+                  <Link
+                    key={item.label}
+                    to={item.href}
+                    onClick={() => setMenuOpen(false)}
+                    className="block text-3xl font-display italic text-foreground hover:text-primary transition-all py-3"
                   >
-                    {isAuthenticated ? "Logout" : "Login"}
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+
+              <div className="p-6 border-t border-white/5 bg-secondary/20">
+                <div className="flex items-center gap-4 mb-8">
+                  <button
+                    onMouseDown={(e) => {
+                      setMenuOpen(false);
+                      handleAccountClick(e);
+                    }}
+                    className="flex-1 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center gap-3 text-foreground font-medium"
+                  >
+                    <User className="w-5 h-5" />
+                    Account
                   </button>
+                  <a
+                    href={SHOPIFY_ORDERS_URL}
+                    className="flex-1 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center gap-3 text-foreground font-medium"
+                  >
+                    <Package className="w-5 h-5" />
+                    Orders
+                  </a>
                 </div>
+
+                <button
+                  onClick={() => {
+                    setMenuOpen(false);
+                    if (isAuthenticated) logout();
+                    else window.location.href = SHOPIFY_LOGIN_URL;
+                  }}
+                  className="w-full h-14 rounded-2xl bg-primary text-primary-foreground font-bold tracking-widest uppercase text-xs"
+                >
+                  {isAuthenticated ? "Logout" : "Login / Register"}
+                </button>
               </div>
             </motion.div>
           </>
@@ -169,3 +194,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+

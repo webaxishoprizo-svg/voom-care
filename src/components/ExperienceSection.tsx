@@ -9,8 +9,8 @@ const features = [
 const stats = [
   { value: "12K+", label: "Happy Customers" },
   { value: "4.8★", label: "Avg Rating" },
-  { value: "100%", label: "Pro-Grade Formulas" },
-  { value: "24h", label: "Fast Delivery" },
+  { value: "100%", label: "Lab Tested" },
+  { value: "24/7", label: "Professional Care" },
 ];
 
 const ExperienceSection = () => (

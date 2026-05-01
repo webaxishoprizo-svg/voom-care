@@ -21,7 +21,7 @@ import {
 import { useCustomerAuth } from "@/context/CustomerAuthContext";
 import { trackAddToCart, trackInitiateCheckout } from "@/lib/meta-pixel";
 
-export const CART_STORAGE_KEY = "nor-shopify-cart-id";
+export const CART_STORAGE_KEY = "voom-shopify-cart-id";
 
 export type CartItem = ShopifyCartItem;
 

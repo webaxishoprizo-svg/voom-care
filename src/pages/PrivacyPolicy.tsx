@@ -7,12 +7,12 @@ import SEO from "@/components/SEO";
 const PrivacyPolicy = () => {
   return (
     <main className="min-h-screen bg-background text-foreground selection:bg-primary/30">
-      <SEO 
+      <SEO
         title="Privacy Policy | VOOM Premium Car Care"
         description="Learn how VOOM protects your personal information. Our privacy policy outlines data collection, storage, and user rights in compliance with Indian regulations."
       />
       <Navbar />
-      
+
       {/* Hero Section */}
       <section className="pt-32 pb-16 px-4 bg-gradient-to-b from-primary/5 to-transparent relative overflow-hidden text-center">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-from)_0%,_transparent_70%)] from-primary/10 opacity-50 pointer-events-none" />
@@ -24,7 +24,7 @@ const PrivacyPolicy = () => {
           >
             VOOM Care • Legal
           </motion.p>
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -47,14 +47,14 @@ const PrivacyPolicy = () => {
       <section className="pb-24 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="bg-card/40 backdrop-blur-md border border-white/5 rounded-[2.5rem] p-8 md:p-16 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)]">
-            
+
             <div className="flex items-center gap-3 mb-10 p-4 bg-emerald-500/5 border border-emerald-500/20 rounded-2xl">
               <ShieldCheck className="w-5 h-5 text-emerald-500 shrink-0" />
               <p className="text-emerald-500/90 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em]">✓ All audit gaps fixed — fully refined version</p>
             </div>
 
             <div className="prose prose-invert prose-sm md:prose-base max-w-none space-y-16">
-              
+
               <div className="space-y-4">
                 <p className="text-muted-foreground leading-relaxed text-lg font-light italic">
                   This Privacy Policy explains how VOOM collects, uses, stores, and protects your personal information when you visit <span className="text-foreground font-medium underline underline-offset-4 decoration-primary/30">voomcare.com</span> or interact with VOOM through any channel. By using our website, placing an order, or contacting us via any channel, you consent to the data practices described in this policy.
@@ -68,7 +68,7 @@ const PrivacyPolicy = () => {
                   <h2 className="font-display text-2xl text-foreground m-0">Who we are</h2>
                 </div>
                 <p className="text-muted-foreground/80 font-light leading-relaxed">
-                  VOOM is a luxury automotive fragrance brand operated as an individual seller, designed and manufactured in Kerala, India. Our website is <strong>voomcare.com</strong>. For any privacy-related queries, contact us at <strong>support@voomcare.com</strong> or via Instagram DM <strong>@voomcare</strong>. We respond to all privacy enquiries within 24 hours.
+                  VOOM is a luxury automotive fragrance brand operated as an individual seller, designed and manufactured in Kerala, India. Our website is <strong>voomcare.com</strong>. For any privacy-related queries, contact us at <strong>info.frenzogp@gmail.com</strong> or via Instagram DM <strong>@voomcare</strong>. We respond to all privacy enquiries within 24 hours.
                 </p>
               </div>
 
@@ -83,7 +83,7 @@ const PrivacyPolicy = () => {
                     <Database className="w-5 h-5 text-primary" /> voomcare.com — when you browse, add to cart, or place an order
                   </li>
                   <li className="p-4 bg-white/[0.02] border border-white/5 rounded-2xl flex items-center gap-4 text-sm text-foreground/80">
-                    <Mail className="w-5 h-5 text-primary" /> Email (support@voomcare.com) — when you contact us for support
+                    <Mail className="w-5 h-5 text-primary" /> Email (info.frenzogp@gmail.com) — when you contact us for support
                   </li>
                   <li className="p-4 bg-white/[0.02] border border-white/5 rounded-2xl flex items-center gap-4 text-sm text-foreground/80">
                     <Instagram className="w-5 h-5 text-primary" /> Instagram DM (@voomcare) — when you contact us for support
@@ -97,7 +97,7 @@ const PrivacyPolicy = () => {
                   <span className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-display text-lg">03</span>
                   <h2 className="font-display text-2xl text-foreground m-0">Information we collect</h2>
                 </div>
-                
+
                 <div className="grid md:grid-cols-2 gap-8">
                   <div className="space-y-6">
                     <h3 className="font-display text-lg text-foreground m-0 uppercase tracking-widest text-[11px] text-primary">Information you provide directly</h3>
@@ -233,7 +233,7 @@ const PrivacyPolicy = () => {
                   ))}
                 </div>
                 <p className="text-xs text-muted-foreground/80 font-light leading-relaxed italic">
-                  Contact <strong>support@voomcare.com</strong> to exercise any of these rights. We respond within 24 hours and resolve within 7 business days.
+                  Contact <strong>info.frenzogp@gmail.com</strong> to exercise any of these rights. We respond within 24 hours and resolve within 7 business days.
                 </p>
               </div>
 
@@ -244,7 +244,7 @@ const PrivacyPolicy = () => {
                   <p className="text-xs text-muted-foreground/60 max-w-sm mx-auto font-light italic">Your data security and trust are the foundation of VOOM.</p>
                 </div>
                 <div className="inline-flex flex-col gap-2">
-                  <a href="mailto:support@voomcare.com" className="text-primary font-medium hover:underline text-lg">support@voomcare.com</a>
+                  <a href="mailto:info.frenzogp@gmail.com" className="text-primary font-medium hover:underline text-lg">info.frenzogp@gmail.com</a>
                   <span className="text-[10px] text-muted-foreground/40 font-bold uppercase tracking-[0.3em] font-display">Data Protection Officer</span>
                 </div>
               </div>

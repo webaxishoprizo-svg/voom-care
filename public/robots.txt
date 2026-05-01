@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://norperfume.com/sitemap.xml
+Sitemap: https://voomcare.com/sitemap.xml

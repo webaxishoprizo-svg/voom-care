@@ -14,17 +14,17 @@ const infoCards = [
   {
     icon: Mail,
     label: "EMAIL",
-    value: "support@voomcare.com",
+    value: "info.frenzogp@gmail.com",
   },
   {
     icon: Phone,
     label: "PHONE",
-    value: "+91 9544290206",
+    value: "+91 9187331513",
   },
   {
     icon: MapPin,
     label: "ADDRESS",
-    value: "Door No:5/52 Kodibail, Mangalpady Gram Panchayth,, Uppala, Kasargod-671322, Kerala",
+    value: "R square building, Kannur Road, NH 66, Kozhikode, Kerala 673021",
   },
   {
     icon: Clock,

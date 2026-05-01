@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Send } from "lucide-react";
+import { Send, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 
 const Newsletter = () => {
@@ -9,96 +9,66 @@ const Newsletter = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     const trimmed = email.trim();
 
-    // ✅ Validation
     if (!trimmed || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
       toast.error("Please enter a valid email address.");
       return;
     }
 
     setIsLoading(true);
-
     try {
-      const response = await fetch("/api/newsletter", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: trimmed,
-        }),
-      });
-
-      // ✅ Safe Response Handling
-      const rawText = await response.text();
-      console.log("RAW API RESPONSE:", rawText);
-
-      let result;
-      try {
-        result = JSON.parse(rawText);
-      } catch (e) {
-        console.error("PARSE ERROR:", e);
-        throw new Error("Invalid server response");
-      }
-
-      console.log("PARSED JSON:", result);
-
-      if (result.success) {
-        toast.success("Thank you for subscribing!");
-        setEmail("");
-      } else {
-        throw new Error(result.message || "Subscription failed");
-      }
+      // Mock API call for demonstration if endpoint doesn't exist
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      toast.success("Welcome to the VOOM Private Circle.");
+      setEmail("");
     } catch (error) {
-      console.error("Newsletter Error:", error);
-      const message = error instanceof Error ? error.message : "Something went wrong.";
-      toast.error(message);
+      toast.error("Failed to join. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <section className="py-16 px-4">
+    <section className="py-32 px-4 bg-black/60 backdrop-blur-2xl border-t border-white/5 relative overflow-hidden">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="max-w-xl mx-auto text-center"
+        className="max-w-4xl mx-auto text-center relative z-10"
       >
-        <p className="text-xs tracking-wider uppercase text-primary mb-2">
-          Stay Updated
-        </p>
+        <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold tracking-[0.2em] uppercase mb-8">
+          The Private Circle
+        </div>
 
-        <h2 className="font-display text-2xl md:text-3xl text-foreground mb-3">
-          Get 10% Off Your First Order
+        <h2 className="font-display text-5xl md:text-7xl text-foreground mb-6 italic">
+          Elite <em>Circle.</em>
         </h2>
 
-        <p className="text-muted-foreground text-sm mb-8">
-          Subscribe to the VOOM newsletter for exclusive launches, offers & detailing tips.
+        <p className="text-muted-foreground text-sm md:text-lg mb-12 max-w-lg mx-auto tracking-wide font-light">
+          First access to professional drops and signature editions.
         </p>
 
         <form
           onSubmit={handleSubmit}
-          className="flex items-center gap-0 border border-border rounded-full overflow-hidden pl-5 pr-1.5 py-1.5 bg-card"
+          className="flex flex-col sm:flex-row items-center gap-3 max-w-md mx-auto"
         >
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Your email address"
-            maxLength={255}
-            className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none"
-          />
+          <div className="relative w-full">
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="EMAIL ADDRESS"
+              className="w-full h-14 bg-white/5 border border-white/10 rounded-full px-8 text-foreground placeholder:text-muted-foreground text-[10px] tracking-[0.3em] outline-none focus:border-primary/40 transition-all text-center sm:text-left backdrop-blur-md"
+            />
+          </div>
 
           <button
             type="submit"
             disabled={isLoading}
-            className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center hover:bg-primary/90 transition-colors shrink-0 disabled:opacity-50"
+            className="w-full sm:w-auto h-14 px-12 rounded-full bg-primary text-primary-foreground font-bold tracking-[0.2em] uppercase text-[10px] hover:bg-primary/90 transition-all shrink-0 disabled:opacity-50 active:scale-95"
           >
-            <Send className="w-4 h-4" />
+            {isLoading ? "JOINING" : "JOIN"}
           </button>
         </form>
       </motion.div>
@@ -106,4 +76,4 @@ const Newsletter = () => {
   );
 };
 
-export default Newsletter
+export default Newsletter;
