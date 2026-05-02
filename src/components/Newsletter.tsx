@@ -30,10 +30,10 @@ const Newsletter = () => {
   };
 
   return (
-    <section className="relative py-28 md:py-36 px-4 bg-black border-t border-white/5 overflow-hidden">
+    <section className="relative py-28 md:py-36 px-4 bg-background border-t border-white/5 overflow-hidden">
       {/* Ambient glow */}
       <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 blur-[140px] rounded-full" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,black_75%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,hsl(var(--background))_75%)]" />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
