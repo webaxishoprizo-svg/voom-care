@@ -42,7 +42,9 @@ const Index = () => {
         schema={orgSchema}
       />
       <Navbar />
-      <HeroCarousel />
+      {/* Hero temporarily hidden - using Compo Breakdown as hero */}
+      {false && <HeroCarousel />}
+      <FeaturedProducts />
       <MarqueeBanner
         className="-rotate-[2deg] scale-[1] relative z-10 mt-10 mb-[-8px] py-4 shadow-none"
         items={["Premium Car Care", "Crafted in India", "Pro-Grade Formulas", "Paint Safe", "Shine Beyond Ordinary"]}
@@ -55,8 +57,6 @@ const Index = () => {
       <Reveal delay={0.1} duration={1}>
         <ProductGrid />
       </Reveal>
-
-      <FeaturedProducts />
 
       <Reveal delay={0.1}>
         <CollectionsSection />
