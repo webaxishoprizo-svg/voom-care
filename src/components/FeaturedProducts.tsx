@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useCollectionProducts } from "@/lib/shopify/hooks";
-import { ArrowRight } from "lucide-react";
 
 const FeaturedProducts = () => {
-  const navigate = useNavigate();
   const { data: products = [], isLoading } = useCollectionProducts("what-is-inside-the-compo");
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -42,7 +40,7 @@ const FeaturedProducts = () => {
   const currentProduct = products[currentIndex];
 
   return (
-    <section className="relative w-full h-[80vh] md:h-[90vh] overflow-hidden bg-black">
+    <section className="relative w-full h-screen overflow-hidden bg-black">
       <AnimatePresence mode="wait">
         <motion.div
           key={currentProduct.id}
@@ -82,13 +80,12 @@ const FeaturedProducts = () => {
                 <span className="hidden md:inline">{currentProduct.description?.split('.')[0]}. Hand-selected for the ultimate showroom finish.</span>
               </p>
               
-              <button
-                onClick={() => navigate(`/product/${currentProduct.id}`)}
-                className="group inline-flex items-center gap-3 px-10 py-4 rounded-full bg-white text-black font-bold tracking-widest uppercase text-[10px] hover:bg-primary hover:text-primary-foreground transition-all duration-500 active:scale-95"
+              <Link
+                to="/collections/what-is-inside-the-compo"
+                className="mt-4 px-12 py-3.5 glass-card rounded-full text-foreground text-[12px] font-medium tracking-wide hover:bg-white/10 transition-all duration-500 backdrop-blur-md inline-block"
               >
-                Explore Part
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button>
+                Explore Collection
+              </Link>
             </motion.div>
           </div>
         </motion.div>
