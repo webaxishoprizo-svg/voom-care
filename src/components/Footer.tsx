@@ -31,7 +31,7 @@ const Footer = () => {
               Premium car care crafted in India by Frenzo Group. Professional-grade formulas for a true showroom finish.
             </p>
             <div className="flex gap-4 pt-2">
-              <a href="https://www.instagram.com/voomcare" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors duration-300">
+              <a href="https://www.instagram.com/voom.care" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors duration-300">
                 <Instagram className="w-5 h-5" />
               </a>
               <a href="#" className="text-muted-foreground hover:text-primary transition-colors duration-300">

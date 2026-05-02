@@ -63,7 +63,7 @@ const ComingSoonBanner = () => {
                 className="w-full h-full object-cover lg:absolute lg:inset-0"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/20 to-transparent hidden lg:block" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent lg:hidden" />
+              <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0a] via-transparent to-transparent lg:hidden" />
             </div>
           </div>
         </motion.div>

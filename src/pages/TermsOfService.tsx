@@ -1,7 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
-import { FileText, Scale, BadgeCheck, AlertTriangle, ShieldAlert, Globe, ShieldCheck, HeartPulse, Scale as Law } from "lucide-react";
+import { Scale, ShieldCheck, ShoppingBag, Truck, AlertTriangle, FileText, Globe, Gavel, Ban } from "lucide-react";
 import SEO from "@/components/SEO";
 
 const TermsOfService = () => {
@@ -9,7 +9,7 @@ const TermsOfService = () => {
     <main className="min-h-screen bg-background text-foreground selection:bg-primary/30">
       <SEO
         title="Terms of Service | VOOM Premium Car Care"
-        description="The governing terms and conditions for using voomcare.com and purchasing our handcrafted automotive perfumes."
+        description="The strict governing terms and conditions for using voomcare.com. Review our legal framework for purchases and usage."
       />
       <Navbar />
 
@@ -22,7 +22,7 @@ const TermsOfService = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-primary text-[10px] tracking-[0.5em] font-bold uppercase mb-4"
           >
-            VOOM Care • Legal
+            VOOM Care • Legal Framework
           </motion.p>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -38,7 +38,7 @@ const TermsOfService = () => {
             transition={{ delay: 0.3 }}
             className="text-muted-foreground text-[10px] md:text-xs font-medium tracking-widest uppercase flex items-center justify-center gap-2"
           >
-            Effective Date: January 1, 2025 <span className="text-primary/30">•</span> Last Updated: March 2025
+            Effective: January 2025 <span className="text-primary/30">•</span> Last Updated: May 2026
           </motion.p>
         </div>
       </section>
@@ -47,200 +47,133 @@ const TermsOfService = () => {
       <section className="pb-24 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="bg-card/40 backdrop-blur-md border border-white/5 rounded-[2.5rem] p-8 md:p-16 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)]">
-
-            <div className="flex items-center gap-3 mb-10 p-4 bg-emerald-500/5 border border-emerald-500/20 rounded-2xl">
-              <ShieldCheck className="w-5 h-5 text-emerald-500 shrink-0" />
-              <p className="text-emerald-500/90 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em]">✓ All audit gaps fixed — fully refined version</p>
-            </div>
-
+            
             <div className="prose prose-invert prose-sm md:prose-base max-w-none space-y-16">
-
+              
               <div className="space-y-4">
-                <p className="text-muted-foreground leading-relaxed text-lg font-light italic">
-                  These Terms of Service govern your use of <span className="text-foreground font-medium underline underline-offset-4 decoration-primary/30">voomcare.com</span> and any purchase made through our website. By accessing our website or placing an order, you confirm that you have read, understood, and agreed to these terms in full. If you do not agree, please do not use our website or place an order.
+                <p className="text-muted-foreground leading-relaxed text-lg font-light italic text-center">
+                  By accessing <span className="text-foreground font-medium underline underline-offset-4 decoration-primary/30">voomcare.com</span>, you entering into a legally binding agreement with VOOM. Failure to comply with these terms may result in immediate suspension of access and legal action.
                 </p>
               </div>
 
-              {/* 1. About VOOM */}
+              {/* 1. Binding Agreement */}
               <div className="space-y-6">
                 <div className="flex items-center gap-4">
-                  <span className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-display text-lg">01</span>
-                  <h2 className="font-display text-2xl text-foreground m-0">About VOOM</h2>
-                </div>
-                <p className="text-muted-foreground/80 font-light leading-relaxed">
-                  VOOM is a luxury automotive fragrance brand operated as an individual seller, designed and manufactured in Kerala, India. We sell fragrance products including perfume sprays and luxury diffusion tags through <strong>voomcare.com</strong>.
-                </p>
-              </div>
-
-              {/* 2. Eligibility */}
-              <div className="space-y-6">
-                <div className="flex items-center gap-4">
-                  <span className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-display text-lg">02</span>
-                  <h2 className="font-display text-2xl text-foreground m-0">Eligibility</h2>
-                </div>
-                <p className="text-muted-foreground/80 font-light leading-relaxed">
-                  By placing an order, you confirm you are at least <strong>18 years of age</strong> and legally capable of entering into a binding contract under Indian law. Minors may only order with the explicit consent of a parent or legal guardian who accepts these terms on their behalf. VOOM reserves the right to refuse service, cancel orders, or restrict website access for any customer at its sole discretion.
-                </p>
-              </div>
-
-              {/* 3. Products & 4. Pricing */}
-              <div className="grid md:grid-cols-2 gap-12">
-                <div className="space-y-4">
-                  <h3 className="font-display text-lg text-foreground m-0 flex items-center gap-3">
-                    <span className="text-primary/40 text-xs">03</span> Products & Descriptions
-                  </h3>
-                  <p className="text-xs text-muted-foreground/80 font-light leading-relaxed">
-                    Product images are for illustrative purposes only — minor packaging variations between batches may occur. We reserve the right to cancel orders in case of material errors in product listings.
-                  </p>
-                </div>
-                <div className="space-y-4">
-                  <h3 className="font-display text-lg text-foreground m-0 flex items-center gap-3">
-                    <span className="text-primary/40 text-xs">04</span> Pricing
-                  </h3>
-                  <p className="text-xs text-muted-foreground/80 font-light leading-relaxed">
-                    All prices are in <strong>INR (₹)</strong>, inclusive of taxes. The price at checkout is the price applicable to that order. We reserve the right to change prices at any time without notice.
-                  </p>
-                </div>
-              </div>
-
-              {/* 5. Promotional codes */}
-              <div className="space-y-8 bg-white/[0.01] border border-white/5 rounded-[2.5rem] p-10">
-                <div className="flex items-center gap-4">
-                  <span className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-display text-lg">05</span>
-                  <h2 className="font-display text-2xl text-foreground m-0">Promotional codes and discount offers <span className="text-[10px] bg-primary text-primary-foreground px-2 py-0.5 rounded ml-2 uppercase font-bold tracking-widest">New</span></h2>
-                </div>
-                <ul className="space-y-4 list-none p-0 text-sm text-muted-foreground/80 font-light">
-                  <li className="flex gap-3"><span className="text-primary">✓</span> Valid only for the specific period and conditions stated.</li>
-                  <li className="flex gap-3"><span className="text-primary">✓</span> VOOM reserves the right to withdraw or modify promotions without notice.</li>
-                  <li className="flex gap-3"><span className="text-primary">✓</span> Promotional codes cannot be combined unless explicitly stated.</li>
-                  <li className="flex gap-3"><span className="text-primary">✓</span> Expired or previously used codes will not be honoured.</li>
-                  <li className="flex gap-3"><span className="text-primary">✓</span> Discounts cannot be applied retroactively to already placed orders.</li>
-                  <li className="flex gap-3"><span className="text-primary">✓</span> VOOM is not obligated to honour prices resulting from system errors.</li>
-                </ul>
-              </div>
-
-              {/* 6. Orders & 7. No cancellations */}
-              <div className="space-y-10">
-                <div className="space-y-6">
-                  <div className="flex items-center gap-4">
-                    <span className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-display text-lg">06</span>
-                    <h2 className="font-display text-2xl text-foreground m-0">Orders and acceptance</h2>
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                    <Scale className="w-5 h-5" />
                   </div>
+                  <h2 className="font-display text-2xl text-foreground m-0">1. Binding Agreement</h2>
+                </div>
+                <p className="text-muted-foreground/80 font-light leading-relaxed">
+                  These Terms of Service ("Terms") constitute a legally binding contract between you and VOOM. By using our website or purchasing products, you represent that you have read, understood, and agree to be bound by these Terms. We reserve the absolute right to modify these Terms at any time; your continued use signifies acceptance of those changes.
+                </p>
+              </div>
+
+              {/* 2. Prohibited Conduct */}
+              <div className="space-y-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                    <Ban className="w-5 h-5" />
+                  </div>
+                  <h2 className="font-display text-2xl text-foreground m-0">2. Prohibited Conduct</h2>
+                </div>
+                <div className="space-y-4 text-muted-foreground/80 font-light leading-relaxed text-sm">
+                  <p>Users are strictly prohibited from:</p>
+                  <ul className="list-disc pl-5 space-y-2">
+                    <li>Using the site for any fraudulent or illegal activities.</li>
+                    <li>Attempting to bypass security measures or reverse-engineer our platform.</li>
+                    <li>Unauthorized use of VOOM intellectual property for commercial gain.</li>
+                    <li>Providing false information during checkout or support interactions.</li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* 3. Strict Sales Policy */}
+              <div className="space-y-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                    <ShoppingBag className="w-5 h-5" />
+                  </div>
+                  <h2 className="font-display text-2xl text-foreground m-0">3. Sales & Payment Terms</h2>
+                </div>
+                <div className="p-8 bg-white/[0.02] border border-white/5 rounded-3xl space-y-4">
                   <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">
-                    An order is confirmed only when VOOM sends a confirmation via SMS or email following successful payment. We reserve the right to decline any order due to stock unavailability, fraud suspicion, or policy violation.
+                    VOOM operates a <strong>Prepaid-Only</strong> model. All transactions must be cleared before shipment. Under our automated fulfillment protocol:
                   </p>
-                </div>
-
-                <div className="p-10 bg-red-500/5 border border-red-500/10 rounded-[2.5rem] space-y-6 relative overflow-hidden">
-                  <div className="absolute top-0 right-0 p-4 opacity-5">
-                    <AlertTriangle className="w-32 h-32 text-red-500" />
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <span className="w-10 h-10 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400 font-display text-lg">07</span>
-                    <h2 className="font-display text-2xl text-red-400 m-0 uppercase tracking-widest">No cancellations</h2>
-                  </div>
-                  <div className="space-y-4 relative z-10">
-                    <p className="text-sm md:text-base text-red-100 font-medium leading-relaxed">
-                      Orders cannot be cancelled once placed and payment is confirmed. VOOM operates a strict no-cancellation policy. Please review your order carefully — product, quantity, and delivery address — before completing checkout.
-                    </p>
-                    <p className="text-xs text-red-400/80 font-bold uppercase tracking-[0.2em] pt-4 border-t border-red-500/10">
-                      Please double-check before you pay: Once your payment is confirmed, your order is locked and cannot be cancelled or modified under any circumstances. VOOM will not make exceptions to this policy.
-                    </p>
-                  </div>
+                  <ul className="list-disc pl-5 space-y-2 text-xs text-primary/70">
+                    <li>Orders cannot be cancelled once payment is processed.</li>
+                    <li>Addresses cannot be modified once the order enters "Processing" status.</li>
+                    <li>Chargebacks without prior communication will be treated as fraudulent.</li>
+                  </ul>
                 </div>
               </div>
 
-              {/* 8. Payment & 9. Shipping */}
-              <div className="grid md:grid-cols-2 gap-12">
-                <div className="space-y-6">
-                  <div className="flex items-center gap-4">
-                    <span className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-display text-lg">08</span>
-                    <h2 className="font-display text-xl text-foreground m-0">Payment</h2>
-                  </div>
-                  <p className="text-xs text-muted-foreground/80 font-light leading-relaxed">
-                    Prepaid orders only (UPI, Debit, Credit, Net Banking). <strong>No Cash on Delivery (COD)</strong>. We do not store or access payment credentials.
-                  </p>
-                </div>
-                <div className="space-y-6">
-                  <div className="flex items-center gap-4">
-                    <span className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-display text-lg">09</span>
-                    <h2 className="font-display text-xl text-foreground m-0">Shipping</h2>
-                  </div>
-                  <p className="text-xs text-muted-foreground/80 font-light leading-relaxed">
-                    Ships within India only via DTDC, Blue Dart, and Delhivery. 4-7 days from dispatch. Free shipping on orders above ₹999.
-                  </p>
-                </div>
-              </div>
-
-              {/* 11. Product use and disclaimer */}
-              <div className="space-y-8 p-10 bg-white/[0.01] border border-white/5 rounded-[2.5rem]">
-                <div className="flex items-center gap-4">
-                  <span className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-display text-lg">11</span>
-                  <h2 className="font-display text-2xl text-foreground m-0">Product use and disclaimer</h2>
-                </div>
-                <div className="grid md:grid-cols-2 gap-8">
-                  <div className="space-y-4">
-                    <p className="text-sm text-foreground/80 font-light leading-relaxed italic">
-                      VOOM make no medical or therapeutic claims. Perform a patch test before skin use. Store away from heat and direct sunlight.
-                    </p>
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    {["Do not ingest", "Keep away from children", "Avoid eye contact", "Automotive use only"].map((item, i) => (
-                      <div key={i} className="px-3 py-2 bg-white/5 border border-white/5 rounded-lg text-[10px] uppercase tracking-widest font-bold text-muted-foreground/60 text-center flex items-center justify-center">
-                        {item}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* 12. Intellectual Property */}
+              {/* 4. Product Liability Disclaimer */}
               <div className="space-y-6">
                 <div className="flex items-center gap-4">
-                  <span className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-display text-lg">12</span>
-                  <h2 className="font-display text-2xl text-foreground m-0">Intellectual property</h2>
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                    <AlertTriangle className="w-5 h-5" />
+                  </div>
+                  <h2 className="font-display text-2xl text-foreground m-0">4. Product Disclaimer</h2>
                 </div>
-                <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">
-                  All content — including the <strong>VOOM</strong> brand name, logo, and product names (<strong>Mask, Aqua</strong>) — is the exclusive intellectual property of VOOM. Unauthorised reproduction or distribution results in legal action.
+                <p className="text-muted-foreground/80 font-light leading-relaxed text-sm">
+                  VOOM provides professional-grade chemical products. Use is at the user's sole risk. We explicitly disclaim liability for damage to vehicles, surfaces, or health resulting from improper application, failure to follow instructions, or lack of patch testing. Products are sold "as-is" without any express or implied warranties of merchantability or fitness for a specific purpose.
                 </p>
               </div>
 
-              {/* 13. Limitation & 14. Indemnification */}
-              <div className="grid md:grid-cols-2 gap-8 pt-8">
-                <div className="space-y-4">
-                  <h4 className="text-[10px] font-bold text-primary tracking-widest uppercase">13. Limitation of liability</h4>
-                  <p className="text-xs text-muted-foreground/70 font-light leading-relaxed">
-                    VOOM's total liability shall not exceed the amount paid for the specific product. We are not liable for incidental or consequential damages.
-                  </p>
-                </div>
-                <div className="space-y-4">
-                  <h4 className="text-[10px] font-bold text-primary tracking-widest uppercase">14. Indemnification</h4>
-                  <p className="text-xs text-muted-foreground/70 font-light leading-relaxed">
-                    You agree to hold VOOM harmless from any claims arising from your violation of these terms or misuse of our products.
-                  </p>
-                </div>
-              </div>
-
-              {/* 16. Governing Law */}
-              <div className="space-y-6 pt-10 border-t border-white/5">
+              {/* 5. Indemnification */}
+              <div className="space-y-6">
                 <div className="flex items-center gap-4">
-                  <span className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-display text-lg">16</span>
-                  <h2 className="font-display text-2xl text-foreground m-0 uppercase tracking-widest text-lg">Governing law and disputes</h2>
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                    <ShieldCheck className="w-5 h-5" />
+                  </div>
+                  <h2 className="font-display text-2xl text-foreground m-0">5. Indemnification</h2>
                 </div>
-                <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">
-                  These Terms are governed by Indian law. Unresolved disputes shall be subject to the exclusive jurisdiction of the competent courts in <strong>Kerala, India</strong>.
+                <p className="text-muted-foreground/80 font-light leading-relaxed text-sm">
+                  You agree to indemnify and hold VOOM, its affiliates, and employees harmless from any claims, losses, or legal fees arising out of your breach of these Terms or your misuse of our products or website.
                 </p>
               </div>
 
-              {/* 18. Entire agreement */}
-              <div className="space-y-6 p-10 bg-primary/5 border border-primary/10 rounded-3xl text-center">
-                <Law className="w-10 h-10 text-primary mx-auto mb-4 opacity-50" />
-                <h3 className="font-display text-xl text-foreground m-0 uppercase tracking-widest text-sm">Entire Agreement</h3>
-                <p className="text-xs text-muted-foreground/70 font-light italic max-w-sm mx-auto">
-                  These Terms, coupled with our Return, Shipping, and Privacy Policies, supersede all prior communications whether written, verbal, or via Instagram DM.
+              {/* 6. Force Majeure & Shipping */}
+              <div className="space-y-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                    <Truck className="w-5 h-5" />
+                  </div>
+                  <h2 className="font-display text-2xl text-foreground m-0">6. Delivery & Force Majeure</h2>
+                </div>
+                <p className="text-muted-foreground/80 font-light leading-relaxed text-sm">
+                  VOOM shall not be held liable for delivery failures or delays caused by circumstances beyond our control, including but not limited to: courier negligence, extreme weather, strikes, or government-imposed restrictions. Risk of loss passes to the customer upon delivery to the courier partner.
                 </p>
-                <div className="pt-6">
-                  <p className="text-[10px] text-muted-foreground/40 font-bold uppercase tracking-widest">Legal & Governance • info.frenzogp@gmail.com</p>
+              </div>
+
+              {/* 7. Legal Governance */}
+              <div className="space-y-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                    <Gavel className="w-5 h-5" />
+                  </div>
+                  <h2 className="font-display text-2xl text-foreground m-0">7. Governing Law</h2>
+                </div>
+                <div className="p-8 bg-card border border-white/5 rounded-3xl space-y-4">
+                  <p className="text-sm text-muted-foreground/80 font-light leading-relaxed italic">
+                    "If any provision of these Terms is found to be unenforceable or invalid under any applicable law, such unenforceability or invalidity shall not render these Terms unenforceable or invalid as a whole."
+                  </p>
+                  <p className="text-xs text-muted-foreground/60">
+                    Governing Law: Laws of India. Jurisdiction: Exclusive jurisdiction of the courts in Kerala, India.
+                  </p>
+                </div>
+              </div>
+
+              {/* Support Footer */}
+              <div className="pt-20 border-t border-white/5 text-center space-y-8">
+                <div className="space-y-2">
+                  <h2 className="font-display text-3xl text-foreground m-0 uppercase tracking-widest">Compliance</h2>
+                  <p className="text-xs text-muted-foreground/60 max-w-sm mx-auto font-light italic">Strict adherence to these terms is mandatory for all transactions.</p>
+                </div>
+                <div className="inline-flex flex-col gap-2">
+                  <a href="mailto:info.frenzogp@gmail.com" className="text-primary font-medium hover:underline text-lg">info.frenzogp@gmail.com</a>
+                  <span className="text-[10px] text-muted-foreground/40 font-bold uppercase tracking-[0.3em] font-display">Legal Department</span>
                 </div>
               </div>
 

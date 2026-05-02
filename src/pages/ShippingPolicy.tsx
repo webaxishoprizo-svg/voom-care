@@ -1,7 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
-import { Truck, MapPin, Clock, CreditCard, Box, AlertCircle, ShieldCheck, Search, HelpCircle } from "lucide-react";
+import { Truck, Clock, ShieldCheck, CreditCard, Package, Info, MapPin, AlertCircle } from "lucide-react";
 import SEO from "@/components/SEO";
 
 const ShippingPolicy = () => {
@@ -9,7 +9,7 @@ const ShippingPolicy = () => {
     <main className="min-h-screen bg-background text-foreground selection:bg-primary/30">
       <SEO
         title="Shipping Policy | VOOM Premium Car Care"
-        description="Delivery timelines, shipping partners (Blue Dart, DTDC, Delhivery), and logistics details for VOOM car fragrances across India."
+        description="Official Shipping Policy of VOOM. Review our strict delivery protocols, liability disclaimers, and logistics framework."
       />
       <Navbar />
 
@@ -22,7 +22,7 @@ const ShippingPolicy = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-primary text-[10px] tracking-[0.5em] font-bold uppercase mb-4"
           >
-            VOOM Care • Legal
+            VOOM Care • Logistics & Liability
           </motion.p>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -38,7 +38,7 @@ const ShippingPolicy = () => {
             transition={{ delay: 0.3 }}
             className="text-muted-foreground text-[10px] md:text-xs font-medium tracking-widest uppercase flex items-center justify-center gap-2"
           >
-            Effective Date: January 1, 2025 <span className="text-primary/30">•</span> Last Updated: March 2025
+            Effective: January 2025 <span className="text-primary/30">•</span> Last Updated: May 2026
           </motion.p>
         </div>
       </section>
@@ -48,219 +48,104 @@ const ShippingPolicy = () => {
         <div className="max-w-4xl mx-auto">
           <div className="bg-card/40 backdrop-blur-md border border-white/5 rounded-[2.5rem] p-8 md:p-16 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)]">
 
-            <div className="flex items-center gap-3 mb-10 p-4 bg-emerald-500/5 border border-emerald-500/20 rounded-2xl">
-              <ShieldCheck className="w-5 h-5 text-emerald-500 shrink-0" />
-              <p className="text-emerald-500/90 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em]">✓ All audit gaps fixed — fully refined version</p>
-            </div>
-
             <div className="prose prose-invert prose-sm md:prose-base max-w-none space-y-16">
 
               <div className="space-y-4">
-                <p className="text-muted-foreground leading-relaxed text-lg font-light italic">
-                  This policy covers all aspects of order processing, dispatch, delivery, and related matters for purchases made on <span className="text-foreground font-medium underline underline-offset-4 decoration-primary/30">voomcare.com</span>. By placing an order, you confirm that you have read and agreed to this Shipping Policy in full.
+                <p className="text-muted-foreground leading-relaxed text-lg font-light italic text-center">
+                  VOOM utilizes professional-grade logistics for all domestic shipments. By placing an order, you agree to our delivery protocols and liability disclaimers.
                 </p>
               </div>
 
-              {/* 1. Shipping destinations */}
+              {/* 1. Fulfillment Timelines */}
               <div className="space-y-6">
                 <div className="flex items-center gap-4">
-                  <span className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-display text-lg">01</span>
-                  <h2 className="font-display text-2xl text-foreground m-0">Shipping destinations</h2>
-                </div>
-                <p className="text-muted-foreground/80 font-light leading-relaxed">
-                  VOOM currently ships to all serviceable pin codes across <strong>India only</strong>. We do not offer international shipping at this time. If an order is placed with a non-Indian or unserviceable delivery address, the order will not be processed and the customer will be notified promptly.
-                </p>
-              </div>
-
-              {/* 2. Courier partners */}
-              <div className="space-y-6">
-                <div className="flex items-center gap-4">
-                  <span className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-display text-lg">02</span>
-                  <h2 className="font-display text-2xl text-foreground m-0">Courier partners</h2>
-                </div>
-                <div className="space-y-4">
-                  <p className="text-muted-foreground/80 font-light leading-relaxed">VOOM fulfils orders through the following courier partners based on delivery location and service availability:</p>
-                  <div className="flex flex-wrap gap-4">
-                    {["DTDC", "Blue Dart", "Delhivery"].map((partner) => (
-                      <div key={partner} className="px-6 py-3 bg-white/[0.03] border border-white/5 rounded-xl text-foreground font-display tracking-widest text-sm uppercase">
-                        {partner}
-                      </div>
-                    ))}
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                    <Clock className="w-5 h-5" />
                   </div>
-                  <p className="text-xs text-muted-foreground/60 italic leading-relaxed">
-                    VOOM selects the most appropriate courier for each order based on location, availability, and service quality. Customers cannot request or specify a preferred courier partner.
-                  </p>
+                  <h2 className="font-display text-2xl text-foreground m-0">1. Fulfillment Timelines</h2>
                 </div>
-              </div>
-
-              {/* 3. Order processing time */}
-              <div className="space-y-6">
-                <div className="flex items-center gap-4">
-                  <span className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-display text-lg">03</span>
-                  <h2 className="font-display text-2xl text-foreground m-0">Order processing time</h2>
-                </div>
-                <div className="space-y-4 text-muted-foreground/80 font-light leading-relaxed">
-                  <p>
-                    All orders are processed within <strong>1–2 business days</strong> from the date of successful payment confirmation. Business days are Monday to Saturday, excluding Indian public holidays. Orders placed on Sundays or public holidays will be processed on the next available business day. You will receive an order confirmation via SMS or email once payment has been verified and the order accepted.
-                  </p>
-                  <div className="p-6 bg-primary/5 border border-primary/10 rounded-2xl flex gap-4">
-                    <Clock className="w-6 h-6 text-primary shrink-0 mt-0.5" />
-                    <p className="text-primary/90 text-sm leading-relaxed italic">
-                      Order confirmation does not mean your order has been dispatched. Processing time of 1–2 business days applies before handover to the courier partner.
-                    </p>
+                <div className="grid md:grid-cols-2 gap-8 text-muted-foreground/80 font-light leading-relaxed text-sm">
+                  <div className="p-6 bg-white/[0.02] border border-white/5 rounded-2xl">
+                    <h4 className="text-[10px] font-bold text-primary tracking-widest uppercase mb-2">Processing Protocol</h4>
+                    <p>Orders are dispatched within 24-48 business hours of payment verification. Dispatch may be delayed during peak demand or national holidays.</p>
+                  </div>
+                  <div className="p-6 bg-white/[0.02] border border-white/5 rounded-2xl">
+                    <h4 className="text-[10px] font-bold text-primary tracking-widest uppercase mb-2">Transit Estimates</h4>
+                    <p>Standard delivery takes 5-9 business days. These are estimates, not guarantees. VOOM disclaims liability for delays caused by third-party couriers.</p>
                   </div>
                 </div>
               </div>
 
-              {/* 4. Delivery timeline */}
+              {/* 2. Risk of Loss & Liability */}
               <div className="space-y-6">
                 <div className="flex items-center gap-4">
-                  <span className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-display text-lg">04</span>
-                  <h2 className="font-display text-2xl text-foreground m-0">Delivery timeline</h2>
-                </div>
-                <p className="text-muted-foreground/80 font-light leading-relaxed">
-                  Once dispatched, standard delivery across India takes approximately <strong>4–7 business days</strong>. Total time from order to delivery is typically <strong>5–9 business days</strong>. Delays may occur due to remote locations, festive seasons, weather, incorrect addresses, unavailable recipients, or courier operational disruptions. VOOM is not liable for delays caused by courier partners or circumstances beyond VOOM's control.
-                </p>
-              </div>
-
-              {/* 5. Shipping charges */}
-              <div className="space-y-6">
-                <div className="flex items-center gap-4">
-                  <span className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-display text-lg">05</span>
-                  <h2 className="font-display text-2xl text-foreground m-0">Shipping charges</h2>
-                </div>
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div className="p-6 bg-emerald-500/5 border border-emerald-500/10 rounded-2xl flex flex-col justify-center gap-1">
-                    <span className="text-[10px] font-bold text-emerald-500 uppercase tracking-widest">Orders above ₹999</span>
-                    <span className="text-xl font-display text-foreground">Free shipping</span>
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                    <AlertCircle className="w-5 h-5" />
                   </div>
-                  <div className="p-6 bg-white/[0.02] border border-white/5 rounded-2xl flex flex-col justify-center gap-1">
-                    <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Orders below ₹999</span>
-                    <span className="text-xl font-display text-foreground">Calculated at checkout</span>
-                  </div>
-                </div>
-                <p className="text-[11px] text-muted-foreground/60 italic leading-relaxed">
-                  VOOM reserves the right to revise shipping charges at any time. The charge shown at checkout is the amount applicable to that specific order.
-                </p>
-              </div>
-
-              {/* 6. Promotional shipping offers */}
-              <div className="space-y-6">
-                <div className="flex items-center gap-4">
-                  <span className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-display text-lg">06</span>
-                  <h2 className="font-display text-2xl text-foreground m-0">Promotional shipping offers <span className="text-[10px] bg-primary text-primary-foreground px-2 py-0.5 rounded ml-2 uppercase font-bold tracking-widest">New</span></h2>
-                </div>
-                <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">
-                  Any free shipping promotions or reduced shipping offers are valid only for the specified period and conditions stated at the time of the promotion. VOOM reserves the right to withdraw or modify any shipping promotion at any time without prior notice. Promotional shipping offers cannot be applied retroactively to orders already placed.
-                </p>
-              </div>
-
-              {/* 7. Payment — prepaid only */}
-              <div className="space-y-6">
-                <div className="flex items-center gap-4">
-                  <span className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-display text-lg">07</span>
-                  <h2 className="font-display text-2xl text-foreground m-0">Payment — prepaid only</h2>
-                </div>
-                <div className="p-8 bg-card border border-white/5 rounded-3xl space-y-4">
-                  <div className="flex items-center gap-3 text-primary">
-                    <CreditCard className="w-5 h-5" />
-                    <h3 className="font-display uppercase tracking-widest text-xs m-0">Accepted Payment Methods</h3>
-                  </div>
-                  <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">
-                    VOOM accepts prepaid orders only. <strong>Cash on Delivery (COD) is not available</strong>. Accepted methods are UPI, debit cards, credit cards, and net banking — processed through a secure, encrypted third-party payment gateway. VOOM does not store, access, or retain any payment card or banking credentials.
-                  </p>
-                </div>
-              </div>
-
-              {/* 8. No order cancellations */}
-              <div className="space-y-6">
-                <div className="flex items-center gap-4">
-                  <span className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-display text-lg">08</span>
-                  <h2 className="font-display text-2xl text-foreground m-0 text-red-400">No order cancellations</h2>
-                </div>
-                <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">
-                  Orders cannot be cancelled once placed and payment is confirmed. VOOM operates a strict no-cancellation policy. Please review your order carefully before completing checkout. The only exception is if VOOM is unable to fulfil the order due to a stock issue or system error, in which case a full refund will be issued to the original payment method within 5–7 business days.
-                </p>
-              </div>
-
-              {/* 9. Order tracking */}
-              <div className="space-y-6">
-                <div className="flex items-center gap-4">
-                  <span className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-display text-lg">09</span>
-                  <h2 className="font-display text-2xl text-foreground m-0">Order tracking</h2>
-                </div>
-                <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">
-                  Once dispatched, you will receive a shipment notification via SMS or email with a tracking number and a direct link to track your order in real time. You can also use the <strong>Track Order</strong> page on voomcare.com. If you have not received tracking information within 3 business days of order confirmation, contact us at <a href="mailto:info.frenzogp@gmail.com" className="text-primary underline">info.frenzogp@gmail.com</a>.
-                </p>
-              </div>
-
-              {/* 10. Incorrect delivery address — customer error */}
-              <div className="space-y-6">
-                <div className="flex items-center gap-4">
-                  <span className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-display text-lg">10</span>
-                  <h2 className="font-display text-2xl text-foreground m-0">Incorrect delivery address — customer error</h2>
-                </div>
-                <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">
-                  It is the customer's sole responsibility to provide a complete, accurate, and accessible delivery address at checkout. VOOM is not responsible for delayed, failed, or misdelivered orders resulting from an incorrect, incomplete, or inaccessible address provided by the customer. Address changes can only be accommodated before dispatch — contact <strong>info.frenzogp@gmail.com</strong> immediately if a correction is needed. Once in transit, the delivery address cannot be changed.
-                </p>
-              </div>
-
-              {/* 11. Incorrect delivery address — VOOM error */}
-              <div className="space-y-6">
-                <div className="flex items-center gap-4">
-                  <span className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-display text-lg">11</span>
-                  <h2 className="font-display text-2xl text-foreground m-0">Incorrect delivery address — VOOM error <span className="text-[10px] bg-primary text-primary-foreground px-2 py-0.5 rounded ml-2 uppercase font-bold tracking-widest">New</span></h2>
-                </div>
-                <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">
-                  In the event that VOOM dispatches an order to an address different from the one confirmed in the customer's order — where the error is solely on VOOM's side and verifiable against the original confirmed order details — VOOM will take full responsibility and arrange for a replacement product to be dispatched to the correct address at no additional cost to the customer. Customers must report such errors within 48 hours of the courier's delivery timestamp.
-                </p>
-              </div>
-
-              {/* 12. Failed delivery attempts */}
-              <div className="space-y-6">
-                <div className="flex items-center gap-4">
-                  <span className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-display text-lg">12</span>
-                  <h2 className="font-display text-2xl text-foreground m-0">Failed delivery attempts</h2>
-                </div>
-                <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">
-                  If the courier cannot deliver due to the recipient being unavailable or the address being inaccessible, the package may be held at the courier facility or returned to origin. VOOM is not responsible for re-delivery costs. Please ensure someone is available at the delivery address during business hours.
-                </p>
-              </div>
-
-              {/* 13. Lost or undelivered orders */}
-              <div className="space-y-6">
-                <div className="flex items-center gap-4">
-                  <span className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-display text-lg">13</span>
-                  <h2 className="font-display text-2xl text-foreground m-0">Lost or undelivered orders</h2>
+                  <h2 className="font-display text-2xl text-foreground m-0">2. Risk of Loss</h2>
                 </div>
                 <div className="p-8 bg-white/[0.01] border border-white/5 rounded-3xl space-y-4">
                   <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">
-                    If tracking has not updated for more than <strong>5 business days</strong> or shows an exception, contact <strong>info.frenzogp@gmail.com</strong> with your order number. VOOM will raise a formal investigation with the courier. If the order is confirmed lost by the courier, VOOM will arrange a replacement at no cost. <strong>No monetary refunds are issued for lost orders</strong>. Investigations may take up to 7–10 business days.
+                    Title and risk of loss for all products pass to the customer upon delivery of the items to the carrier. VOOM is not responsible for lost or stolen packages once they have been marked as "Delivered" by the courier partner.
                   </p>
                 </div>
               </div>
 
-              {/* 14. Damaged in transit */}
+              {/* 3. Address Accuracy & Non-Delivery */}
               <div className="space-y-6">
                 <div className="flex items-center gap-4">
-                  <span className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-display text-lg">14</span>
-                  <h2 className="font-display text-2xl text-foreground m-0">Damaged in transit</h2>
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                    <MapPin className="w-5 h-5" />
+                  </div>
+                  <h2 className="font-display text-2xl text-foreground m-0">3. Delivery Accuracy</h2>
                 </div>
                 <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">
-                  If your product arrives damaged due to courier mishandling, refer to our <strong>Return Policy</strong> at voomcare.com for full instructions. A valid, continuous unboxing video recorded before the package is opened is required to process any damage claim.
+                  The customer holds sole responsibility for providing accurate delivery data. In cases of failed delivery due to:
+                </p>
+                <ul className="list-disc pl-5 space-y-2 text-xs text-muted-foreground/60 italic">
+                  <li>Incorrect or incomplete addresses.</li>
+                  <li>Recipient unavailability during multiple delivery attempts.</li>
+                  <li>Refusal of the shipment upon arrival.</li>
+                </ul>
+                <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">
+                  The shipment will be returned to origin. Re-shipping costs will be borne exclusively by the customer.
                 </p>
               </div>
 
-              {/* Support Contact */}
+              {/* 4. Domestic Only Policy */}
+              <div className="space-y-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                    <ShieldCheck className="w-5 h-5" />
+                  </div>
+                  <h2 className="font-display text-2xl text-foreground m-0">4. Regional Restrictions</h2>
+                </div>
+                <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">
+                  VOOM currently offers shipping services strictly within India. We do not provide international shipping or delivery to restricted zones (e.g., military bases) without prior authorization.
+                </p>
+              </div>
+
+              {/* Important Disclaimer */}
+              <div className="p-8 bg-amber-500/5 border border-amber-500/10 rounded-3xl space-y-4">
+                <div className="flex items-center gap-3 text-amber-500">
+                  <Info className="w-5 h-5" />
+                  <h3 className="font-display uppercase tracking-widest text-[10px] m-0 font-bold">Unboxing Requirement</h3>
+                </div>
+                <p className="text-xs text-muted-foreground/80 font-light leading-relaxed italic">
+                  Reminder: All claims for transit damage must be supported by a continuous unboxing video. Refer to our Refund Policy for strict submission criteria.
+                </p>
+              </div>
+
+              {/* Support Footer */}
               <div className="pt-20 border-t border-white/5 text-center space-y-8">
                 <div className="space-y-2">
-                  <h2 className="font-display text-3xl text-foreground m-0 uppercase tracking-widest">Shipping Enquiries</h2>
-                  <p className="text-xs text-muted-foreground/60 max-w-sm mx-auto font-light italic">Our logistics team ensures every VOOM package is handled with precision.</p>
+                  <h2 className="font-display text-3xl text-foreground m-0 uppercase tracking-widest">Logistics</h2>
+                  <p className="text-xs text-muted-foreground/60 max-w-sm mx-auto font-light italic">Managing the flow of professional care products.</p>
                 </div>
-                <div className="p-6 bg-primary/5 border border-primary/10 rounded-2xl inline-block">
+                <div className="inline-flex flex-col gap-2">
                   <a href="mailto:info.frenzogp@gmail.com" className="text-primary font-medium hover:underline text-lg">info.frenzogp@gmail.com</a>
+                  <span className="text-[10px] text-muted-foreground/40 font-bold uppercase tracking-[0.3em] font-display">Logistics Division</span>
                 </div>
-                <p className="text-[10px] text-muted-foreground/40 font-bold uppercase tracking-[0.3em]">Acknowledgements within 24 hours</p>
               </div>
 
             </div>

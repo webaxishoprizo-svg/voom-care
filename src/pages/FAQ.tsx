@@ -96,7 +96,7 @@ const faqData: FAQCategory[] = [
     questions: [
       {
         q: "Do you deliver across India?",
-        a: "Yes, we ship to all locations across India. International shipping is something we are working on — follow @voomcare on Instagram for updates."
+        a: "Yes, we ship to all locations across India. International shipping is something we are working on — follow @voom.care on Instagram for updates."
       },
       {
         q: "How long does delivery take?",
@@ -135,7 +135,7 @@ const faqData: FAQCategory[] = [
           "Your order number."
         ],
         pill: { text: "Unboxing video is required — no exceptions", type: "warning" },
-        note: "Reach out to us on Instagram @voomcare or via our Contact page. We cannot process claims without the unboxing video."
+        note: "Reach out to us on Instagram @voom.care or via our Contact page. We cannot process claims without the unboxing video."
       },
       {
         q: "What if I got the wrong product?",
@@ -213,7 +213,7 @@ const FAQ = () => {
 
   const categories = [
     { label: "All", id: "ALL" },
-    { label: "Product & Fragrance", id: "product" },
+    { label: "Product & Care", id: "product" },
     { label: "How to Use", id: "usage" },
     { label: "Shipping", id: "shipping" },
     { label: "Returns", id: "returns" }

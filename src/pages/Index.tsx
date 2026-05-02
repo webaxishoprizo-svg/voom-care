@@ -26,7 +26,7 @@ const Index = () => {
     "logo": "https://voomcare.com/voom-favicon.png",
     "description": "VOOM by Frenzo Group — premium car care formulas crafted in India.",
     "sameAs": [
-      "https://instagram.com/voomcare"
+      "https://instagram.com/voom.care"
     ],
     "address": {
       "@type": "PostalAddress",

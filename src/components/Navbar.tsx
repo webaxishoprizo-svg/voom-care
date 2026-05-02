@@ -33,7 +33,7 @@ const Navbar = () => {
 
   const menuItems = [
     { label: "Home", href: "/", external: false },
-    { label: "Products", href: "/products?collection=products", external: false },
+    { label: "Compo", href: "/products?collection=compo", external: false },
     { label: "About Us", href: "/about", external: false },
     { label: "FAQ", href: "/faq", external: false },
     { label: "Track My Order", href: "/track-order", external: false },

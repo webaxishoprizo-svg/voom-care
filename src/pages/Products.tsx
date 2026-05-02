@@ -86,27 +86,29 @@ const Products = () => {
                         {product.description}
                       </p>
                     )}
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <span className="text-primary font-semibold">
-                          {formatCurrency(product.price, product.currencyCode)}
-                        </span>
-                        {product.originalPrice && (
-                          <span className="text-muted-foreground text-xs line-through">
-                            {formatCurrency(product.originalPrice, product.currencyCode)}
+                    {product.price > 0 && (
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <span className="text-primary font-semibold">
+                            {formatCurrency(product.price, product.currencyCode)}
                           </span>
-                        )}
+                          {product.originalPrice && (
+                            <span className="text-muted-foreground text-xs line-through">
+                              {formatCurrency(product.originalPrice, product.currencyCode)}
+                            </span>
+                          )}
+                        </div>
+                        <button
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            void addItem(product);
+                          }}
+                          className="w-9 h-9 rounded-full bg-primary/10 hover:bg-primary text-primary hover:text-primary-foreground flex items-center justify-center transition-colors"
+                        >
+                          <ShoppingBag className="w-4 h-4" />
+                        </button>
                       </div>
-                      <button
-                        onClick={(event) => {
-                          event.stopPropagation();
-                          void addItem(product);
-                        }}
-                        className="w-9 h-9 rounded-full bg-primary/10 hover:bg-primary text-primary hover:text-primary-foreground flex items-center justify-center transition-colors"
-                      >
-                        <ShoppingBag className="w-4 h-4" />
-                      </button>
-                    </div>
+                    )}
                   </div>
                 </motion.div>
               ))}

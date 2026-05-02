@@ -71,32 +71,39 @@ const ProductCard = ({ product, index, x, itemWidth, productsCount }: {
         </button>
 
         <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent pt-20 pb-5 px-5">
-          <div className="flex items-end justify-between">
-            <div className="space-y-1">
+            {product.price > 0 && (
+              <div className="flex items-end justify-between w-full">
+                <div className="space-y-1">
+                  <h4 className="font-display text-xl text-white font-bold tracking-wide">
+                    {product.name}
+                  </h4>
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-primary font-bold text-lg">
+                      {formatCurrency(product.price, product.currencyCode)}
+                    </span>
+                    {product.originalPrice && (
+                      <span className="text-white/40 line-through text-xs font-light">
+                        {formatCurrency(product.originalPrice, product.currencyCode)}
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <button
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    void addItem(product);
+                  }}
+                  className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center hover:bg-primary/90 transition-all shadow-lg active:scale-95"
+                >
+                  <ShoppingBag className="w-4.5 h-4.5" />
+                </button>
+              </div>
+            )}
+            {product.price === 0 && (
               <h4 className="font-display text-xl text-white font-bold tracking-wide">
                 {product.name}
               </h4>
-              <div className="flex items-baseline gap-2">
-                <span className="text-primary font-bold text-lg">
-                  {formatCurrency(product.price, product.currencyCode)}
-                </span>
-                {product.originalPrice && (
-                  <span className="text-white/40 line-through text-xs font-light">
-                    {formatCurrency(product.originalPrice, product.currencyCode)}
-                  </span>
-                )}
-              </div>
-            </div>
-            <button
-              onClick={(event) => {
-                event.stopPropagation();
-                void addItem(product);
-              }}
-              className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center hover:bg-primary/90 transition-all shadow-lg active:scale-95"
-            >
-              <ShoppingBag className="w-4.5 h-4.5" />
-            </button>
-          </div>
+            )}
         </div>
       </div>
     </motion.div>
@@ -133,6 +140,35 @@ const SingleProductFeatured = ({ product }: { product: Product }) => {
                 Exclusive {product.discount}% Off
               </div>
             )}
+
+            {product.price > 0 && (
+              <>
+                <div className="absolute bottom-4 left-4 z-20 md:hidden flex flex-col items-start">
+                  <div className="flex items-baseline gap-2 bg-background/60 backdrop-blur-md px-3 py-2 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+                    <span className="font-sans text-2xl text-foreground font-bold">
+                      {formatCurrency(product.price, product.currencyCode)}
+                    </span>
+                    {product.originalPrice && (
+                      <span className="text-muted-foreground line-through text-sm">
+                        {formatCurrency(product.originalPrice, product.currencyCode)}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <div className="absolute bottom-4 right-4 z-20 md:hidden">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      void addItem(product);
+                    }}
+                    className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg active:scale-95"
+                  >
+                    <ShoppingBag className="w-6 h-6" />
+                  </button>
+                </div>
+              </>
+            )}
           </div>
 
           {/* Content Section */}
@@ -151,31 +187,44 @@ const SingleProductFeatured = ({ product }: { product: Product }) => {
               </p>
             </div>
 
-            <div className="flex items-baseline gap-4">
-              <span className="text-3xl lg:text-5xl font-bold text-foreground">
-                {formatCurrency(product.price, product.currencyCode)}
-              </span>
-              {product.originalPrice && (
-                <span className="text-muted-foreground line-through text-lg">
-                  {formatCurrency(product.originalPrice, product.currencyCode)}
-                </span>
-              )}
-            </div>
+            {product.price > 0 ? (
+              <>
+                <div className="hidden md:flex items-baseline gap-4">
+                  <span className="text-3xl lg:text-5xl font-bold text-foreground">
+                    {formatCurrency(product.price, product.currencyCode)}
+                  </span>
+                  {product.originalPrice && (
+                    <span className="text-muted-foreground line-through text-lg">
+                      {formatCurrency(product.originalPrice, product.currencyCode)}
+                    </span>
+                  )}
+                </div>
 
-            <div className="flex flex-col sm:flex-row items-center gap-4 pt-4">
-              <Button 
-                onClick={() => addItem(product)}
-                className="w-full sm:w-auto h-14 px-12 rounded-full bg-primary text-primary-foreground font-bold tracking-widest uppercase text-xs hover:bg-primary/90 transition-all shadow-lg active:scale-95"
-              >
-                Add to Bag
-              </Button>
-              <button 
-                onClick={() => navigate(`/product/${product.id}`)}
-                className="w-full sm:w-auto h-14 px-10 rounded-full border border-white/10 hover:bg-white/5 text-foreground/80 hover:text-foreground font-bold tracking-widest uppercase text-[10px] transition-all"
-              >
-                View Details
-              </button>
-            </div>
+                <div className="hidden md:flex flex-col sm:flex-row items-center gap-4 pt-4">
+                  <Button 
+                    onClick={() => addItem(product)}
+                    className="w-full sm:w-auto h-14 px-12 rounded-full bg-primary text-primary-foreground font-bold tracking-widest uppercase text-xs hover:bg-primary/90 transition-all shadow-lg active:scale-95"
+                  >
+                    Add to Bag
+                  </Button>
+                  <button 
+                    onClick={() => navigate(`/product/${product.id}`)}
+                    className="w-full sm:w-auto h-14 px-10 rounded-full border border-white/10 hover:bg-white/5 text-foreground/80 hover:text-foreground font-bold tracking-widest uppercase text-[10px] transition-all"
+                  >
+                    View Details
+                  </button>
+                </div>
+              </>
+            ) : (
+              <div className="pt-4">
+                <button 
+                  onClick={() => navigate(`/product/${product.id}`)}
+                  className="w-full sm:w-auto h-14 px-10 rounded-full border border-white/10 hover:bg-white/5 text-foreground/80 hover:text-foreground font-bold tracking-widest uppercase text-[10px] transition-all"
+                >
+                  View Details
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </motion.div>

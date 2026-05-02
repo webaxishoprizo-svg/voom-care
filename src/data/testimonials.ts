@@ -3,43 +3,50 @@ export interface Testimonial {
   name: string;
   location: string;
   initial: string;
+  rating: number;
 }
 
 export const testimonials: Testimonial[] = [
   {
-    text: "VOOM Car Shampoo is exactly what I needed for the dusty roads in Mumbai. Lifts off the dirt effortlessly and leaves a brilliant shine on my Fortuner. Best part is the thick foam!",
+    text: "To be honest, I was a bit skeptical first but the Compo Voom kit is actually very good. The shampoo gives a lot of foam and the dash cleaner doesn't leave any oily feel. My car is looking like new again. Paisa vasool!",
     name: "Aditya S.",
     location: "Mumbai, India",
     initial: "A",
+    rating: 5,
   },
   {
-    text: "Amazing finish on my new Tata Nexon. The water beading is incredible — it survives the Bangalore monsoon like a pro. Truly a quality product from India.",
+    text: "Actually the best car care kit I've used till now. The tyre polish shine stays for a long time even in this heat. Packaging was very professional and delivery was fast also. Highly recommended for car lovers.",
+    name: "Dr. Sameer Khan",
+    location: "New Delhi, India",
+    initial: "S",
+    rating: 4,
+  },
+  {
+    text: "The quality is top notch. I used it on my Nexon and the finish is just wow. The dash clean smells very fresh and premium. Glad to see an Indian brand making such high quality products. Must buy for every car owner.",
     name: "Priyanka N.",
     location: "Bangalore, India",
     initial: "P",
+    rating: 5,
   },
   {
-    text: "Finally found a car wax that works in the Delhi heat. Easy to apply and doesn't leave white marks on the black trim of my Honda City.",
+    text: "Everything you need is in this one kit only. Very easy to use also, no need to go to detailing shops every time. The water beading effect is really good after the wash. Really happy with the results.",
     name: "Rahul K.",
-    location: "New Delhi, India",
+    location: "Hyderabad, India",
     initial: "R",
+    rating: 5,
   },
   {
-    text: "Dash Clean removed tough stains from my Creta's beige seats. Smells fresh, doesn't feel sticky — a must-have for families.",
-    name: "Sneha P.",
-    location: "Pune, India",
-    initial: "S",
-  },
-  {
-    text: "The microfiber towels are huge and absorb water in one go. Perfect for my Thar after a muddy trail near Pune. No scratches, no lint.",
+    text: "Packaging was very secure and the unboxing video rule is good for safety. Results on my black Thar are amazing, all the dust and grime just comes off easily. Finally a product that actually works.",
     name: "Vikram M.",
     location: "Pune, India",
     initial: "V",
+    rating: 4,
   },
   {
-    text: "Tyre Polish is the highlight of my Sunday wash routine. Makes my Baleno wheels look brand new every time. Fast shipping across India too.",
-    name: "Ananya R.",
-    location: "Hyderabad, India",
-    initial: "A",
+    text: "Impressive results on my luxury SUV. The Compo kit handles the tough road grime effortlessly. The dash cleaner has a very pleasant, professional scent too. Actually worth every rupee.",
+    name: "Dr. Vivek Nair",
+    location: "Kochi, India",
+    initial: "V",
+    rating: 5,
   },
 ];

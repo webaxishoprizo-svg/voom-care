@@ -9,10 +9,10 @@ const FeaturedProducts = () => {
 
   useEffect(() => {
     if (products.length <= 1) return;
-    
+
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % products.length);
-    }, 3000);
+    }, 4500);
 
     return () => clearInterval(timer);
   }, [products.length]);
@@ -79,12 +79,12 @@ const FeaturedProducts = () => {
                 <span className="md:hidden">{currentProduct.name} - Showroom grade finish.</span>
                 <span className="hidden md:inline">{currentProduct.description?.split('.')[0]}. Hand-selected for the ultimate showroom finish.</span>
               </p>
-              
+
               <Link
-                to="/collections/what-is-inside-the-compo"
+                to="/products?collection=compo"
                 className="mt-4 px-12 py-3.5 glass-card rounded-full text-foreground text-[12px] font-medium tracking-wide hover:bg-white/10 transition-all duration-500 backdrop-blur-md inline-block"
               >
-                Explore Collection
+                Explore Voom
               </Link>
             </motion.div>
           </div>
@@ -99,17 +99,16 @@ const FeaturedProducts = () => {
             onClick={() => setCurrentIndex(idx)}
             className="group relative h-10 w-2 flex items-center justify-center"
           >
-            <div 
-              className={`w-0.5 transition-all duration-700 ${
-                idx === currentIndex ? "h-6 bg-primary" : "h-3 bg-white/20 group-hover:bg-white/40"
-              }`} 
+            <div
+              className={`w-0.5 transition-all duration-700 ${idx === currentIndex ? "h-6 bg-primary" : "h-3 bg-white/20 group-hover:bg-white/40"
+                }`}
             />
           </button>
         ))}
       </div>
 
       {/* Slide Counter */}
-      <div className="absolute top-10 right-10 z-30 flex items-baseline gap-1">
+      <div className="absolute top-10 right-10 z-30 hidden md:flex items-baseline gap-1">
         <span className="text-white text-2xl font-display italic">{(currentIndex + 1).toString().padStart(2, '0')}</span>
         <span className="text-white/20 text-xs font-bold">/ {products.length.toString().padStart(2, '0')}</span>
       </div>

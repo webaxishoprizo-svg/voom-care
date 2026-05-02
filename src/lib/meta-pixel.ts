@@ -26,7 +26,7 @@ export const trackViewContent = (product: Product) => {
   if (typeof window.fbq === "function") {
     window.fbq("track", "ViewContent", {
       content_name: product.name,
-      content_category: "Car Fragrance",
+      content_category: "Car Care",
       content_ids: [product.id],
       content_type: "product",
       value: product.price,

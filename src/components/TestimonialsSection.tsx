@@ -111,11 +111,14 @@ const TestimonialsSection = () => {
             >
               <div className="flex gap-1 mb-4 md:mb-5">
                 {[...Array(5)].map((_, j) => (
-                  <Star key={j} className="w-3.5 h-3.5 md:w-4 md:h-4 fill-primary text-primary" />
+                  <Star 
+                    key={j} 
+                    className={`w-3.5 h-3.5 md:w-4 md:h-4 ${j < t.rating ? "fill-primary text-primary" : "fill-muted/20 text-muted/20"}`} 
+                  />
                 ))}
               </div>
               <blockquote className="text-foreground/90 italic leading-relaxed mb-6 md:mb-8 text-[15px] md:text-lg font-light">
-                "{t.text}"
+                {t.text}
               </blockquote>
               <div className="flex items-center gap-4 mt-auto">
                 <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-base md:text-lg border border-primary/20">

@@ -25,19 +25,24 @@ import { trackViewContent } from "@/lib/meta-pixel";
 
 const testimonials = [
   {
-    text: "This fragrance completely elevated my daily commute. Pure luxury.",
-    name: "Arjun K.",
+    text: "The Compo Voom kit is actually very good. The shampoo gives a lot of foam and the dash cleaner doesn't leave any oily feel. My car is looking like new again. Paisa vasool!",
+    name: "Rajesh M.",
     rating: 5,
   },
   {
-    text: "Subtle, long-lasting, and beautifully crafted. Worth every rupee.",
-    name: "Meera D.",
+    text: "Everything you need is in this one kit only. Very easy to use also, no need to go to detailing shops every time. The tyre polish shine stays for a long time even in this heat.",
+    name: "Sneha Gupta",
+    rating: 4,
+  },
+  {
+    text: "The quality is top notch. I used it on my sedan and the finish is just wow. Glad to see an Indian brand making such high quality products. Must buy for every car owner.",
+    name: "Amit Sharma",
     rating: 5,
   },
   {
-    text: "I get compliments every time someone sits in my car.",
-    name: "Vikram P.",
-    rating: 5,
+    text: "Actually the best car care kit I've used till now. Packaging was very professional and delivery was fast also. Results on my SUV are amazing. Finally a product that actually works.",
+    name: "Dr. Vivek Nair",
+    rating: 4,
   },
 ];
 
@@ -116,7 +121,7 @@ const ProductDetail = () => {
   const detailCards = [
     {
       icon: Leaf,
-      title: "Fragrance Composition",
+      title: "Product Composition",
       content: product.details?.composition,
     },
     {
@@ -140,7 +145,7 @@ const ProductDetail = () => {
     "@type": "Product",
     "name": product.name,
     "image": [product.image, ...(product.images || [])],
-    "description": product.description || `Luxury car fragrance ${product.name} by VOOM.`,
+    "description": product.description || `Premium car care ${product.name} by VOOM.`,
     "sku": product.id,
     "brand": {
       "@type": "Brand",
@@ -161,13 +166,38 @@ const ProductDetail = () => {
     <main className="min-h-screen bg-background text-foreground">
       <SEO 
         title={`${product.name} | Premium Car Care | VOOM`}
-        description={product.description || `Discover ${product.name}, a premium handcrafted car fragrance from VOOM. 100% natural oils with zero-liquid technology.`}
-        keywords={`${product.name}, car perfume, luxury fragrance, VOOM care, automotive scent`}
+        description={product.description || `Discover ${product.name}, a premium professional car care solution from VOOM. High-performance formula for showroom results.`}
+        keywords={`${product.name}, car care, car detailing, VOOM care, automotive cleaning`}
         schema={productSchema}
       />
       <Navbar />
 
-      <div className="pt-24 px-4">
+      {isInsideCompo && (
+        <div className="pt-24 px-4">
+          <div className="max-w-6xl mx-auto">
+            <div className="bg-primary/10 border border-primary/20 rounded-2xl p-4 md:p-6 flex flex-col md:flex-row items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground">
+                  <ShoppingBag className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold text-foreground tracking-wide uppercase">Compo Kit Exclusive</h4>
+                  <p className="text-xs text-muted-foreground">This premium component is exclusively available as part of our signature collection.</p>
+                </div>
+              </div>
+              <Button 
+                onClick={() => navigate('/products?collection=compo')}
+                variant="outline" 
+                className="rounded-full px-8 border-primary/30 text-primary hover:bg-primary/5"
+              >
+                View Full Kit
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className={`${isInsideCompo ? 'pt-8' : 'pt-24'} px-4`}>
         <div className="max-w-6xl mx-auto">
           <button
             onClick={() => navigate(-1)}
@@ -219,10 +249,37 @@ const ProductDetail = () => {
                   ))}
                 </div>
               )}
+
+              {!isNotForSale && !isInsideCompo && (
+                <div className="absolute bottom-4 left-4 z-20 md:hidden">
+                  <div className="flex items-baseline gap-2 bg-background/60 backdrop-blur-md px-3 py-2 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+                    <span className="font-sans text-2xl text-foreground font-bold">
+                      {formatCurrency(product.price, product.currencyCode)}
+                    </span>
+                    {product.originalPrice && (
+                      <span className="text-muted-foreground line-through text-sm">
+                        {formatCurrency(product.originalPrice, product.currencyCode)}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {!isNotForSale && !isInsideCompo && (
+                <div className="absolute bottom-4 right-4 z-20 md:hidden">
+                  <button
+                    onClick={handleAddToCart}
+                    disabled={!product.availableForSale}
+                    className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg active:scale-95 disabled:opacity-50"
+                  >
+                    <ShoppingBag className="w-6 h-6" />
+                  </button>
+                </div>
+              )}
             </div>
 
             {allImages.length > 1 && (
-              <div className="grid grid-cols-4 gap-3">
+              <div className="hidden md:grid grid-cols-4 gap-3">
                 {allImages.map((img, idx) => (
                   <button
                     key={idx}
@@ -246,12 +303,14 @@ const ProductDetail = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="flex flex-col justify-center"
           >
-            <div className="flex items-center gap-1 mb-3">
-              {[...Array(5)].map((_, index) => (
-                <Star key={index} className="w-4 h-4 fill-primary text-primary" />
-              ))}
-              <span className="text-muted-foreground text-xs ml-2">(128 reviews)</span>
-            </div>
+            {!isNotForSale && (
+              <div className="flex items-center gap-1 mb-3">
+                {[...Array(5)].map((_, index) => (
+                  <Star key={index} className="w-4 h-4 fill-primary text-primary" />
+                ))}
+                <span className="text-muted-foreground text-xs ml-2">(128 reviews)</span>
+              </div>
+            )}
 
             <p className="text-xs tracking-[0.3em] uppercase text-primary mb-2">VOOM Collection</p>
             <h1 className="font-display text-4xl md:text-5xl text-foreground mb-4">
@@ -281,7 +340,7 @@ const ProductDetail = () => {
                 </p>
               </div>
             ) : !isInsideCompo && (
-              <div className="flex items-baseline gap-3 mb-8">
+              <div className="hidden md:flex items-baseline gap-3 mb-8">
                 <span className="font-sans text-3xl text-foreground font-semibold">
                   {formatCurrency(product.price, product.currencyCode)}
                 </span>
@@ -298,7 +357,7 @@ const ProductDetail = () => {
               </div>
             )}
 
-            <div className="flex items-center gap-4 mb-6">
+            <div className="hidden md:flex items-center gap-4 mb-6">
               {(isInsideCompo || isNotForSale) ? (
                 <Button
                   onClick={() => navigate('/products?collection=compo')}
@@ -356,43 +415,45 @@ const ProductDetail = () => {
         </div>
       </section>
 
-      <section className="px-4 py-16">
-        <div className="max-w-6xl mx-auto">
-          <p className="text-xs tracking-[0.3em] uppercase text-primary text-center mb-2">
-            Reviews
-          </p>
-          <h2 className="font-display text-3xl md:text-4xl text-foreground text-center mb-10">
-            What Customers Say
-          </h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            {testimonials.map((testimonial, index) => (
-              <motion.div
-                key={testimonial.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-card border border-border rounded-xl p-6"
-              >
-                <div className="flex gap-0.5 mb-3">
-                  {[...Array(testimonial.rating)].map((_, ratingIndex) => (
-                    <Star
-                      key={ratingIndex}
-                      className="w-3.5 h-3.5 fill-primary text-primary"
-                    />
-                  ))}
-                </div>
-                <p className="text-foreground/90 text-sm italic leading-relaxed mb-4">
-                  "{testimonial.text}"
-                </p>
-                <p className="text-muted-foreground text-xs font-semibold">
-                  - {testimonial.name}
-                </p>
-              </motion.div>
-            ))}
+      {!isNotForSale && (
+        <section className="px-4 py-16">
+          <div className="max-w-6xl mx-auto">
+            <p className="text-xs tracking-[0.3em] uppercase text-primary text-center mb-2">
+              Reviews
+            </p>
+            <h2 className="font-display text-3xl md:text-4xl text-foreground text-center mb-10">
+              What Customers Say
+            </h2>
+            <div className="grid md:grid-cols-3 gap-6">
+              {testimonials.map((testimonial, index) => (
+                <motion.div
+                  key={testimonial.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className="bg-card border border-border rounded-xl p-6"
+                >
+                  <div className="flex gap-0.5 mb-3">
+                    {[...Array(5)].map((_, ratingIndex) => (
+                      <Star
+                        key={ratingIndex}
+                        className={`w-3.5 h-3.5 ${ratingIndex < testimonial.rating ? "fill-primary text-primary" : "fill-muted/20 text-muted/20"}`}
+                      />
+                    ))}
+                  </div>
+                  <p className="text-foreground/90 text-sm italic leading-relaxed mb-4">
+                    {testimonial.text}
+                  </p>
+                  <p className="text-muted-foreground text-xs font-semibold">
+                    - {testimonial.name}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {recommended.length > 0 && (
         <section className="px-4 py-16 border-t border-border">

@@ -47,9 +47,9 @@
 
     --radius: 0.5rem;
 
-    --gold: 210 95% 58%;
-    --gold-light: 210 90% 72%;
-    --gold-dark: 210 95% 42%;
+    --gold: 0 0% 100%;
+    --gold-light: 0 0% 100%;
+    --gold-dark: 0 0% 95%;
     --surface-glass: 0 0% 100% / 0.05;
 
     --sidebar-background: 0 0% 7%;
