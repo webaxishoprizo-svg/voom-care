@@ -62,6 +62,10 @@ const Index = () => {
         <CollectionsSection />
       </Reveal>
 
+      <Reveal delay={0.1}>
+        <ComingSoonBanner />
+      </Reveal>
+
 
       <Reveal delay={0.1}>
         <BrandQuality />
@@ -69,10 +73,6 @@ const Index = () => {
 
       <Reveal delay={0.1}>
         <ExperienceSection />
-      </Reveal>
-
-      <Reveal delay={0.1}>
-        <ComingSoonBanner />
       </Reveal>
 
       <Reveal delay={0.1}>
