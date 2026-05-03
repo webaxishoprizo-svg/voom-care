@@ -73,6 +73,11 @@
     @apply bg-background text-foreground;
     font-family: 'InterNumbers', 'Inter', system-ui, sans-serif;
     font-variant-numeric: tabular-nums lining-nums;
+    font-feature-settings: 'ss01', 'cv11', 'liga';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: -0.005em;
+    line-height: 1.55;
   }
 
   h1,
@@ -82,8 +87,13 @@
   h5,
   h6 {
     font-family: 'InterNumbers', 'Inter', sans-serif;
-    letter-spacing: 0.01em;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    font-weight: 600;
   }
+
+  p { letter-spacing: -0.003em; }
+  small, .text-xs { letter-spacing: 0.01em; }
 }
 
 @layer utilities {

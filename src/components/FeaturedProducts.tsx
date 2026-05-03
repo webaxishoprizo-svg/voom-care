@@ -69,20 +69,20 @@ const FeaturedProducts = () => {
               transition={{ delay: 0.3, duration: 0.8 }}
               className="max-w-4xl"
             >
-              <p className="text-primary text-[10px] md:text-xs tracking-[0.4em] uppercase mb-4 font-bold">
+              <p className="text-primary text-[10px] md:text-xs tracking-[0.4em] uppercase mb-4 font-semibold">
                 The Compo Breakdown
               </p>
-              <h2 className="font-display text-4xl md:text-7xl text-white italic mb-6 tracking-tight leading-tight">
+              <h2 className="font-display text-4xl md:text-7xl text-white italic mb-6 tracking-tight leading-[1.05]">
                 {currentProduct.name}
               </h2>
-              <p className="text-white/60 text-sm md:text-base max-w-2xl mx-auto mb-10 leading-relaxed font-light tracking-wide">
+              <p className="text-white/65 text-sm md:text-base max-w-2xl mx-auto mb-10 leading-relaxed">
                 <span className="md:hidden">{currentProduct.name} - Showroom grade finish.</span>
                 <span className="hidden md:inline">{currentProduct.description?.split('.')[0]}. Hand-selected for the ultimate showroom finish.</span>
               </p>
 
               <Link
                 to="/products?collection=compo"
-                className="mt-4 px-12 py-3.5 glass-card rounded-full text-foreground text-[12px] font-medium tracking-wide hover:bg-white/10 transition-all duration-500 backdrop-blur-md inline-block"
+                className="mt-4 px-10 py-3.5 glass-card rounded-md text-foreground text-[11px] font-semibold tracking-[0.2em] uppercase hover:bg-white/10 transition-all duration-500 backdrop-blur-md inline-block"
               >
                 Explore Voom
               </Link>

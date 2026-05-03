@@ -18,7 +18,7 @@ const ComingSoonBanner = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="relative rounded-[3rem] overflow-hidden bg-[#0a0a0a] border border-white/5 shadow-2xl"
+          className="relative rounded-md overflow-hidden bg-[#0a0a0a] border border-white/5 shadow-2xl"
         >
           {/* Ambient Background Glow */}
           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/10 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/3 pointer-events-none" />
@@ -27,23 +27,23 @@ const ComingSoonBanner = () => {
           <div className="grid lg:grid-cols-2 items-center">
             {/* Content Side */}
             <div className="p-10 md:p-16 lg:p-20 space-y-8 z-10">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary">
-                <Clock className="w-4 h-4 animate-pulse" />
-                <span className="text-[10px] font-bold tracking-[0.2em] uppercase">Coming Soon</span>
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-primary/10 border border-primary/20 text-primary">
+                <Clock className="w-3.5 h-3.5 animate-pulse" />
+                <span className="text-[10px] font-semibold tracking-[0.25em] uppercase">Coming Soon</span>
               </div>
 
               <div className="space-y-4">
-                <h2 className="font-display text-5xl md:text-7xl text-white tracking-tighter leading-none italic">
+                <h2 className="font-display text-4xl md:text-6xl text-white tracking-tight leading-[1.05] italic">
                   {product.name}
                 </h2>
-                <p className="text-white/50 text-sm md:text-lg leading-relaxed max-w-md">
+                <p className="text-white/55 text-sm md:text-base leading-relaxed max-w-md">
                   <span className="md:hidden">The next evolution in professional car care.</span>
                   <span className="hidden md:inline">A new addition to the Signature Series. Engineered for those who demand a perfect showroom finish.</span>
                 </p>
               </div>
 
               <div className="flex flex-col sm:flex-row items-center gap-4 pt-6">
-                <button className="group relative w-full sm:w-auto h-14 px-10 rounded-full bg-white text-black font-bold tracking-widest uppercase text-[10px] hover:bg-primary hover:text-white transition-all duration-500 overflow-hidden">
+                <button className="group relative w-full sm:w-auto h-12 px-8 rounded-md bg-white text-black font-semibold tracking-[0.2em] uppercase text-[11px] hover:bg-white/90 transition-all duration-500 overflow-hidden">
                   <span className="relative z-10 flex items-center gap-2">
                     <Bell className="w-4 h-4" />
                     Notify Me

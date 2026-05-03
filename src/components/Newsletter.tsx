@@ -41,16 +41,16 @@ const Newsletter = () => {
         viewport={{ once: true }}
         className="max-w-2xl mx-auto text-center relative z-10"
       >
-        <div className="inline-flex items-center gap-2 px-5 py-1.5 rounded-full bg-primary/10 border border-primary/30 text-primary text-[10px] font-bold tracking-[0.3em] uppercase mb-8">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-md bg-primary/10 border border-primary/30 text-primary text-[10px] font-semibold tracking-[0.3em] uppercase mb-8">
           <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
           The Private Circle
         </div>
 
-        <h2 className="font-display text-5xl md:text-7xl text-foreground mb-6 italic tracking-tight">
+        <h2 className="font-display text-4xl md:text-6xl text-foreground mb-6 italic tracking-tight leading-[1.05]">
           Elite <em>Circle.</em>
         </h2>
 
-        <p className="text-muted-foreground/80 text-sm md:text-base mb-10 max-w-md mx-auto tracking-wide font-light leading-relaxed">
+        <p className="text-muted-foreground/80 text-sm md:text-base mb-10 max-w-md mx-auto leading-relaxed">
           First access to professional drops and signature editions.
         </p>
 
@@ -58,20 +58,20 @@ const Newsletter = () => {
           onSubmit={handleSubmit}
           className="group relative max-w-md mx-auto"
         >
-          <div className="relative flex items-center w-full h-16 bg-white/[0.03] border border-white/10 rounded-full backdrop-blur-md transition-all duration-300 focus-within:border-primary/50 focus-within:bg-white/[0.05] focus-within:shadow-[0_0_40px_-10px_hsl(var(--primary)/0.5)]">
+          <div className="relative flex items-center w-full h-14 bg-white/[0.03] border border-white/10 rounded-md backdrop-blur-md transition-all duration-300 focus-within:border-primary/50 focus-within:bg-white/[0.05] focus-within:shadow-[0_0_40px_-10px_hsl(var(--primary)/0.5)]">
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email address"
               maxLength={255}
-              className="flex-1 h-full bg-transparent pl-7 pr-2 text-foreground placeholder:text-muted-foreground/50 text-sm tracking-wide outline-none"
+              className="flex-1 h-full bg-transparent pl-5 pr-2 text-foreground placeholder:text-muted-foreground/50 text-sm outline-none"
             />
             <button
               type="submit"
               disabled={isLoading}
               aria-label="Join the Private Circle"
-              className="mr-1.5 h-13 shrink-0 flex items-center gap-2 h-[52px] px-6 rounded-full bg-primary text-primary-foreground font-bold tracking-[0.2em] uppercase text-[10px] hover:bg-primary/90 transition-all disabled:opacity-50 active:scale-95"
+              className="mr-1.5 shrink-0 flex items-center gap-2 h-[44px] px-5 rounded-md bg-primary text-primary-foreground font-semibold tracking-[0.2em] uppercase text-[10px] hover:bg-primary/90 transition-all disabled:opacity-50 active:scale-95"
             >
               {isLoading ? (
                 <Loader2 className="w-4 h-4 animate-spin" />

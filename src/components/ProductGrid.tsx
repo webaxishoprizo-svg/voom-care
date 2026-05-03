@@ -44,7 +44,7 @@ const ProductCard = ({ product, index, x, itemWidth, productsCount }: {
   return (
     <motion.div
       style={{ scale, opacity: brightness, zIndex }}
-      className="w-[280px] md:w-[350px] bg-card/40 backdrop-blur-sm border border-border/50 rounded-2xl overflow-hidden group select-none flex-shrink-0 relative transition-shadow duration-500 hover:shadow-[0_0_40px_rgba(255,255,255,0.05)] will-change-transform"
+      className="w-[280px] md:w-[350px] bg-card/40 backdrop-blur-sm border border-border/50 rounded-none overflow-hidden group select-none flex-shrink-0 relative transition-shadow duration-500 hover:shadow-[0_0_40px_rgba(255,255,255,0.05)] will-change-transform"
     >
       <div
         className="aspect-[3/4] relative cursor-pointer overflow-hidden"
@@ -58,13 +58,13 @@ const ProductCard = ({ product, index, x, itemWidth, productsCount }: {
         />
 
         {product.discount && (
-          <span className="absolute top-4 left-4 z-10 bg-primary/80 backdrop-blur-sm text-primary-foreground text-[11px] tracking-wide px-3 py-1 rounded-full font-bold">
+          <span className="absolute top-4 left-4 z-10 bg-primary/90 text-primary-foreground text-[10px] tracking-[0.15em] uppercase px-2.5 py-1 rounded-md font-semibold">
             {product.discount}% OFF
           </span>
         )}
 
         <button
-          className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-background/40 backdrop-blur-sm flex items-center justify-center text-foreground/70 hover:text-foreground hover:bg-background/60 transition-all opacity-0 group-hover:opacity-100"
+          className="absolute top-4 right-4 z-10 w-9 h-9 rounded-md bg-background/40 backdrop-blur-sm flex items-center justify-center text-foreground/70 hover:text-foreground hover:bg-background/60 transition-all opacity-0 group-hover:opacity-100"
           onClick={(e) => e.stopPropagation()}
         >
           <Bookmark className="w-4 h-4" />
@@ -74,15 +74,15 @@ const ProductCard = ({ product, index, x, itemWidth, productsCount }: {
             {product.price > 0 && (
               <div className="flex items-end justify-between w-full">
                 <div className="space-y-1">
-                  <h4 className="font-display text-xl text-white font-bold tracking-wide">
+                  <h4 className="font-display text-lg md:text-xl text-white tracking-wide">
                     {product.name}
                   </h4>
                   <div className="flex items-baseline gap-2">
-                    <span className="text-primary font-bold text-lg">
+                    <span className="text-primary font-semibold text-base md:text-lg tracking-tight">
                       {formatCurrency(product.price, product.currencyCode)}
                     </span>
                     {product.originalPrice && (
-                      <span className="text-white/40 line-through text-xs font-light">
+                      <span className="text-white/40 line-through text-xs">
                         {formatCurrency(product.originalPrice, product.currencyCode)}
                       </span>
                     )}
@@ -93,14 +93,14 @@ const ProductCard = ({ product, index, x, itemWidth, productsCount }: {
                     event.stopPropagation();
                     void addItem(product);
                   }}
-                  className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center hover:bg-primary/90 transition-all shadow-lg active:scale-95"
+                  className="w-10 h-10 rounded-md bg-primary text-primary-foreground flex items-center justify-center hover:bg-primary/90 transition-all shadow-lg active:scale-95"
                 >
                   <ShoppingBag className="w-4.5 h-4.5" />
                 </button>
               </div>
             )}
             {product.price === 0 && (
-              <h4 className="font-display text-xl text-white font-bold tracking-wide">
+              <h4 className="font-display text-lg md:text-xl text-white tracking-wide">
                 {product.name}
               </h4>
             )}
@@ -120,12 +120,12 @@ const SingleProductFeatured = ({ product }: { product: Product }) => {
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="relative group rounded-[2.5rem] overflow-hidden glass-card p-1 lg:p-2 border border-white/5"
+        className="relative group rounded-md overflow-hidden glass-card p-1 lg:p-2 border border-white/5"
       >
         <div className="grid lg:grid-cols-2 items-center gap-8 lg:gap-0">
           {/* Image Section */}
           <div 
-            className="aspect-square lg:aspect-[4/5] relative rounded-[2rem] overflow-hidden cursor-pointer group"
+            className="aspect-square lg:aspect-[4/5] relative rounded-sm overflow-hidden cursor-pointer group"
             onClick={() => navigate(`/product/${product.id}`)}
           >
             <img 
@@ -136,7 +136,7 @@ const SingleProductFeatured = ({ product }: { product: Product }) => {
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             
             {product.discount && (
-              <div className="absolute top-6 left-6 z-10 px-5 py-2 rounded-full bg-primary text-primary-foreground text-xs font-bold tracking-widest uppercase shadow-xl">
+              <div className="absolute top-6 left-6 z-10 px-4 py-1.5 rounded-md bg-primary text-primary-foreground text-[10px] font-semibold tracking-[0.2em] uppercase shadow-xl">
                 Exclusive {product.discount}% Off
               </div>
             )}
@@ -144,8 +144,8 @@ const SingleProductFeatured = ({ product }: { product: Product }) => {
             {product.price > 0 && (
               <>
                 <div className="absolute bottom-4 left-4 z-20 md:hidden flex flex-col items-start">
-                  <div className="flex items-baseline gap-2 bg-background/60 backdrop-blur-md px-3 py-2 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-                    <span className="font-sans text-2xl text-foreground font-bold">
+                  <div className="flex items-baseline gap-2 bg-background/60 backdrop-blur-md px-3 py-2 rounded-md shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+                    <span className="font-sans text-2xl text-foreground font-semibold tracking-tight">
                       {formatCurrency(product.price, product.currencyCode)}
                     </span>
                     {product.originalPrice && (
@@ -162,7 +162,7 @@ const SingleProductFeatured = ({ product }: { product: Product }) => {
                       e.stopPropagation();
                       void addItem(product);
                     }}
-                    className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg active:scale-95"
+                    className="w-12 h-12 rounded-md bg-primary text-primary-foreground flex items-center justify-center shadow-lg active:scale-95"
                   >
                     <ShoppingBag className="w-6 h-6" />
                   </button>
@@ -190,7 +190,7 @@ const SingleProductFeatured = ({ product }: { product: Product }) => {
             {product.price > 0 ? (
               <>
                 <div className="hidden md:flex items-baseline gap-4">
-                  <span className="text-3xl lg:text-5xl font-bold text-foreground">
+                  <span className="text-3xl lg:text-5xl font-semibold tracking-tight text-foreground">
                     {formatCurrency(product.price, product.currencyCode)}
                   </span>
                   {product.originalPrice && (
@@ -203,13 +203,13 @@ const SingleProductFeatured = ({ product }: { product: Product }) => {
                 <div className="hidden md:flex flex-col sm:flex-row items-center gap-4 pt-4">
                   <Button 
                     onClick={() => addItem(product)}
-                    className="w-full sm:w-auto h-14 px-12 rounded-full bg-primary text-primary-foreground font-bold tracking-widest uppercase text-xs hover:bg-primary/90 transition-all shadow-lg active:scale-95"
+                    className="w-full sm:w-auto h-12 px-10 rounded-md bg-primary text-primary-foreground font-semibold tracking-[0.2em] uppercase text-[11px] hover:bg-primary/90 transition-all shadow-lg active:scale-95"
                   >
                     Add to Bag
                   </Button>
                   <button 
                     onClick={() => navigate(`/product/${product.id}`)}
-                    className="w-full sm:w-auto h-14 px-10 rounded-full border border-white/10 hover:bg-white/5 text-foreground/80 hover:text-foreground font-bold tracking-widest uppercase text-[10px] transition-all"
+                    className="w-full sm:w-auto h-12 px-8 rounded-md border border-white/10 hover:bg-white/5 text-foreground/80 hover:text-foreground font-semibold tracking-[0.2em] uppercase text-[10px] transition-all"
                   >
                     View Details
                   </button>
@@ -219,7 +219,7 @@ const SingleProductFeatured = ({ product }: { product: Product }) => {
               <div className="pt-4">
                 <button 
                   onClick={() => navigate(`/product/${product.id}`)}
-                  className="w-full sm:w-auto h-14 px-10 rounded-full border border-white/10 hover:bg-white/5 text-foreground/80 hover:text-foreground font-bold tracking-widest uppercase text-[10px] transition-all"
+                  className="w-full sm:w-auto h-12 px-8 rounded-md border border-white/10 hover:bg-white/5 text-foreground/80 hover:text-foreground font-semibold tracking-[0.2em] uppercase text-[10px] transition-all"
                 >
                   View Details
                 </button>
@@ -328,13 +328,13 @@ const ProductGrid = () => {
           {/* Navigation Arrows - Desktop Only */}
           <button
             onClick={() => handleArrowClick("left")}
-            className="absolute left-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-surface-glass border border-white/10 hidden md:flex items-center justify-center text-foreground hover:bg-primary/20 transition-all opacity-0 group-hover:opacity-100"
+            className="absolute left-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-md bg-surface-glass border border-white/10 hidden md:flex items-center justify-center text-foreground hover:bg-primary/20 transition-all opacity-0 group-hover:opacity-100"
           >
             <ChevronLeft className="w-6 h-6" />
           </button>
           <button
             onClick={() => handleArrowClick("right")}
-            className="absolute right-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-surface-glass border border-white/10 hidden md:flex items-center justify-center text-foreground hover:bg-primary/20 transition-all opacity-0 group-hover:opacity-100"
+            className="absolute right-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-md bg-surface-glass border border-white/10 hidden md:flex items-center justify-center text-foreground hover:bg-primary/20 transition-all opacity-0 group-hover:opacity-100"
           >
             <ChevronRight className="w-6 h-6" />
           </button>
@@ -375,7 +375,7 @@ const ProductGrid = () => {
         <div className="mt-16 text-center px-4">
           <Link
             to="/products"
-            className="inline-flex items-center justify-center gap-3 border border-white/10 rounded-full px-10 py-3.5 text-[13px] font-medium text-foreground/70 hover:text-foreground hover:bg-white/5 transition-all tracking-wide"
+            className="inline-flex items-center justify-center gap-3 border border-white/10 rounded-md px-8 py-3 text-[12px] font-medium text-foreground/70 hover:text-foreground hover:bg-white/5 transition-all tracking-[0.15em] uppercase"
           >
             <ArrowRight className="w-4 h-4" />
             Browse Full Selection

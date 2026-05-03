@@ -7,7 +7,7 @@ const CTASection = () => (
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="max-w-3xl mx-auto relative rounded-3xl overflow-hidden aspect-[3/4] md:aspect-[16/10] flex flex-col items-center justify-center"
+      className="max-w-3xl mx-auto relative rounded-md overflow-hidden aspect-[3/4] md:aspect-[16/10] flex flex-col items-center justify-center"
     >
       {/* Background image */}
       <img
@@ -28,13 +28,13 @@ const CTASection = () => (
           </p>
         </div>
 
-        <h2 className="font-display text-3xl md:text-5xl text-foreground leading-tight mb-10">
+        <h2 className="font-display text-3xl md:text-5xl text-foreground leading-[1.1] tracking-tight mb-10">
           Ready to<br />Elevate Your<br />Drive?
         </h2>
 
         <a
           href="#collections"
-          className="inline-block px-10 py-4 bg-foreground text-background rounded-full text-sm tracking-wider font-medium hover:bg-foreground/90 transition-colors"
+          className="inline-block px-8 py-3.5 bg-foreground text-background rounded-md text-[11px] tracking-[0.2em] uppercase font-semibold hover:bg-foreground/90 transition-colors"
         >
           Explore All Collections
         </a>

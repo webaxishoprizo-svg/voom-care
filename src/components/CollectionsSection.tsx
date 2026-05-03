@@ -43,7 +43,7 @@ function CollectionTile({
     >
       <Link
         to={`/products?collection=${encodeURIComponent(collection.handle)}`}
-        className={`group relative block overflow-hidden rounded-xl ${className}`}
+        className={`group relative block overflow-hidden rounded-md ${className}`}
       >
         <img
           src={collection.image}
@@ -54,7 +54,7 @@ function CollectionTile({
         <div className="absolute inset-0 bg-background/30" />
         <div className={`absolute inset-0 flex ${titlePositionClassName}`}>
           <span
-            className={`bg-primary/20 px-6 py-2.5 font-display text-lg tracking-wider text-foreground uppercase backdrop-blur-sm border border-primary/30 rounded-md md:text-xl ${titleClassName}`}
+            className={`bg-primary/20 px-5 py-2 font-display text-base tracking-[0.15em] text-foreground uppercase backdrop-blur-sm border border-primary/30 rounded-md md:text-lg ${titleClassName}`}
           >
             {collection.title}
           </span>
@@ -80,11 +80,11 @@ const CollectionsSection = () => {
   return (
     <section className="px-4 py-10 md:py-12">
       <div className="mx-auto max-w-6xl">
-        <div className="mb-8 text-center md:mb-9">
-          <p className="mb-2 text-xs tracking-[0.3em] uppercase text-primary">
+        <div className="mb-10 text-center md:mb-12">
+          <p className="mb-3 text-[11px] tracking-[0.3em] uppercase text-primary font-medium">
             The Signature Series
           </p>
-          <h2 className="font-display text-4xl text-foreground md:text-5xl">
+          <h2 className="font-display text-3xl text-foreground md:text-5xl tracking-tight">
             Explore Our Collections
           </h2>
         </div>
