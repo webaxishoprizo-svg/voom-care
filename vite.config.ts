@@ -75,7 +75,7 @@ export default defineConfig(({ mode }) => {
                         return;
                       }
                     }
-                    res.end(JSON.stringify({ success: false, message: "Shopify error", error: data }));
+                    res.end(JSON.stringify({ success: false, message: "Subscription error", error: data }));
                   }
                 } catch (error) {
                   res.statusCode = 200;

@@ -16,13 +16,13 @@ export default async function handler(req, res) {
   const ACCESS_TOKEN = process.env.ADMIN_API_TOKEN;
 
   if (!SHOP || !ACCESS_TOKEN) {
-    console.error('Newsletter API Error: Missing environment variables', { 
-      hasShop: !!SHOP, 
-      hasToken: !!ACCESS_TOKEN 
+    console.error('Newsletter API Error: Missing environment variables', {
+      hasShop: !!SHOP,
+      hasToken: !!ACCESS_TOKEN
     });
-    return res.status(500).json({ 
-      success: false, 
-      message: 'Server configuration error. Please ensure SHOP and ADMIN_API_TOKEN are set in Vercel environment variables.' 
+    return res.status(500).json({
+      success: false,
+      message: 'Server configuration error. Please ensure SHOP and ADMIN_API_TOKEN are set in Vercel environment variables.'
     });
   }
 
@@ -51,11 +51,11 @@ export default async function handler(req, res) {
     console.log('Shopify API Response:', JSON.stringify(data));
 
     if (shopifyResponse.ok) {
-      return res.status(200).json({ success: true, message: 'Customer created successfully' });
+      return res.status(200).json({ success: true, message: 'Subscribed to Voom Private Circle' });
     } else {
       // Handle customer already exists error
       if (data.errors && data.errors.email) {
-        const isDuplicate = data.errors.email.some(err => 
+        const isDuplicate = data.errors.email.some(err =>
           err.includes('already been taken') || err.includes('exists')
         );
         if (isDuplicate) {
@@ -64,16 +64,16 @@ export default async function handler(req, res) {
       }
 
       console.error('Shopify Error Data:', data);
-      return res.status(200).json({ 
-        success: false, 
-        message: data.errors ? JSON.stringify(data.errors) : 'Shopify subscription failed',
+      return res.status(200).json({
+        success: false,
+        message: data.errors ? JSON.stringify(data.errors) : 'Subscription failed',
         error: data
       });
     }
   } catch (error) {
     console.error('Newsletter API Error:', error);
-    return res.status(200).json({ 
-      success: false, 
+    return res.status(200).json({
+      success: false,
       message: error.message || 'Internal server error',
       error: error
     });

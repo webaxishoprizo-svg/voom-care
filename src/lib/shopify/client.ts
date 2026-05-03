@@ -69,7 +69,7 @@ export async function shopifyCustomerQuery<T>(
       localStorage.removeItem("customer_token");
       window.location.replace("/login");
     }
-    throw new Error(`Shopify API Error: ${response.status}`);
+    throw new Error(`System API Error: ${response.status}`);
   }
 
   const payload = (await response.json()) as ShopifyGraphQLResponse<T>;

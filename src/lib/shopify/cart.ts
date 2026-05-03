@@ -302,7 +302,7 @@ function ensureCartPayload(payload?: ShopifyCartPayload) {
   }
 
   if (!payload?.cart) {
-    throw new Error("Shopify cart response was empty.");
+    throw new Error("Cart response was empty.");
   }
 
   return payload.cart;
@@ -312,7 +312,7 @@ export async function fetchShopifyCart(cartId: string) {
   const data = await shopifyQuery<ShopifyCartQueryResponse>(GET_CART_QUERY, { cartId });
 
   if (!data.cart) {
-    throw new Error("Shopify cart was not found.");
+    throw new Error("Cart was not found.");
   }
 
   return mapCartSnapshot(data.cart);

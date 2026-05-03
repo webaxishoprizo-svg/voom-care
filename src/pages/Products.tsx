@@ -32,8 +32,8 @@ const Products = () => {
   const description =
     selectedCollection?.description ||
     (collectionHandle
-      ? `Explore products from the ${heading} Shopify collection.`
-      : "Explore the live Shopify product catalog.");
+      ? `Explore products from the ${heading} collection.`
+      : "Explore the live product catalog.");
 
   return (
     <main className="min-h-screen bg-background">

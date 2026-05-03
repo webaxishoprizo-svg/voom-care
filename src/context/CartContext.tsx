@@ -112,7 +112,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const addItem = useCallback(
     async (product: Product, quantity = 1) => {
       if (!product.variantId) {
-        toast.error("This product is not ready for Shopify cart yet.");
+        toast.error("This product is not ready for the cart yet.");
         return;
       }
 
@@ -130,7 +130,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         trackAddToCart(product, quantity);
       } catch (error) {
         const message =
-          error instanceof Error ? error.message : "Unable to add this item to your Shopify cart.";
+          error instanceof Error ? error.message : "Unable to add this item to your cart.";
         toast.error(message);
       }
     },
@@ -196,7 +196,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       applyCartSnapshot(snapshot);
     } catch (error) {
       const message =
-        error instanceof Error ? error.message : "Unable to clear your Shopify cart.";
+        error instanceof Error ? error.message : "Unable to clear your cart.";
       toast.error(message);
     }
   }, [applyCartSnapshot, cartId, clearCartState, items]);
@@ -213,7 +213,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         applyCartSnapshot(snapshot);
       } catch (error) {
         const message =
-          error instanceof Error ? error.message : "Unable to refresh your Shopify cart.";
+          error instanceof Error ? error.message : "Unable to refresh your cart.";
         toast.error(message);
         return;
       }
@@ -222,7 +222,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     const targetUrl = checkoutUrl || (cartId ? (await fetchShopifyCart(cartId)).checkoutUrl : "");
 
     if (!targetUrl) {
-      toast.error("Shopify checkout URL is not available.");
+      toast.error("Checkout URL is not available.");
       return;
     }
 
