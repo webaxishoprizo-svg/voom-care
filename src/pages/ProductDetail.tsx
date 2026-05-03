@@ -25,7 +25,7 @@ import { trackViewContent } from "@/lib/meta-pixel";
 
 const testimonials = [
   {
-    text: "The Compo Voom kit is actually very good. The shampoo gives a lot of foam and the dash cleaner doesn't leave any oily feel. My car is looking like new again. Paisa vasool!",
+    text: "The Combo Voom kit is actually very good. The shampoo gives a lot of foam and the dash cleaner doesn't leave any oily feel. My car is looking like new again. Paisa vasool!",
     name: "Rajesh M.",
     rating: 5,
   },
@@ -51,7 +51,7 @@ const ProductDetail = () => {
   const navigate = useNavigate();
   const { addItem } = useCart();
   const [qty, setQty] = useState(1);
-  
+
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, skipSnaps: false });
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -76,8 +76,8 @@ const ProductDetail = () => {
   const catalogQuery = useHybridProducts();
   const product = productQuery.data;
   const catalog = catalogQuery.data || [];
-  const recommended = catalog.filter((item) => 
-    item.id !== product?.id && 
+  const recommended = catalog.filter((item) =>
+    item.id !== product?.id &&
     !(item.price === 0 && !item.availableForSale)
   ).slice(0, 3);
 
@@ -164,7 +164,7 @@ const ProductDetail = () => {
 
   return (
     <main className="min-h-screen bg-background text-foreground">
-      <SEO 
+      <SEO
         title={`${product.name} | Premium Car Care | VOOM`}
         description={product.description || `Discover ${product.name}, a premium professional car care solution from VOOM. High-performance formula for showroom results.`}
         keywords={`${product.name}, car care, car detailing, VOOM care, automotive cleaning`}
@@ -185,9 +185,9 @@ const ProductDetail = () => {
                   <p className="text-xs text-muted-foreground">This premium component is exclusively available as part of our signature collection.</p>
                 </div>
               </div>
-              <Button 
+              <Button
                 onClick={() => navigate('/products?collection=compo')}
-                variant="outline" 
+                variant="outline"
                 className="rounded-full px-8 border-primary/30 text-primary hover:bg-primary/5"
               >
                 View Full Kit
@@ -242,9 +242,8 @@ const ProductDetail = () => {
                   {allImages.map((_, idx) => (
                     <div
                       key={idx}
-                      className={`h-1.5 rounded-full transition-all duration-300 ${
-                        idx === selectedIndex ? "w-6 bg-primary" : "w-1.5 bg-white/40"
-                      }`}
+                      className={`h-1.5 rounded-full transition-all duration-300 ${idx === selectedIndex ? "w-6 bg-primary" : "w-1.5 bg-white/40"
+                        }`}
                     />
                   ))}
                 </div>
@@ -284,11 +283,10 @@ const ProductDetail = () => {
                   <button
                     key={idx}
                     onClick={() => scrollTo(idx)}
-                    className={`aspect-square rounded-xl overflow-hidden border-2 transition-all ${
-                      idx === selectedIndex 
-                        ? "border-primary opacity-100" 
-                        : "border-transparent opacity-40 hover:opacity-100"
-                    }`}
+                    className={`aspect-square rounded-xl overflow-hidden border-2 transition-all ${idx === selectedIndex
+                      ? "border-primary opacity-100"
+                      : "border-transparent opacity-40 hover:opacity-100"
+                      }`}
                   >
                     <img src={img} alt="" className="w-full h-full object-cover" />
                   </button>
@@ -363,7 +361,7 @@ const ProductDetail = () => {
                   onClick={() => navigate('/products?collection=compo')}
                   className="flex-1 h-12 gradient-gold text-primary-foreground font-semibold text-base rounded-full hover:opacity-90 transition-opacity gap-2"
                 >
-                  View Compo Kit
+                  View Combo Kit
                   <ArrowRight className="w-5 h-5" />
                 </Button>
               ) : (

@@ -71,39 +71,39 @@ const ProductCard = ({ product, index, x, itemWidth, productsCount }: {
         </button>
 
         <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent pt-20 pb-5 px-5">
-            {product.price > 0 && (
-              <div className="flex items-end justify-between w-full">
-                <div className="space-y-1">
-                  <h4 className="font-display text-lg md:text-xl text-white tracking-wide">
-                    {product.name}
-                  </h4>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-primary font-semibold text-base md:text-lg tracking-tight">
-                      {formatCurrency(product.price, product.currencyCode)}
+          {product.price > 0 && (
+            <div className="flex items-end justify-between w-full">
+              <div className="space-y-1">
+                <h4 className="font-display text-lg md:text-xl text-white tracking-wide">
+                  {product.name}
+                </h4>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-primary font-semibold text-base md:text-lg tracking-tight">
+                    {formatCurrency(product.price, product.currencyCode)}
+                  </span>
+                  {product.originalPrice && (
+                    <span className="text-white/40 line-through text-xs">
+                      {formatCurrency(product.originalPrice, product.currencyCode)}
                     </span>
-                    {product.originalPrice && (
-                      <span className="text-white/40 line-through text-xs">
-                        {formatCurrency(product.originalPrice, product.currencyCode)}
-                      </span>
-                    )}
-                  </div>
+                  )}
                 </div>
-                <button
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    void addItem(product);
-                  }}
-                  className="w-10 h-10 rounded-md bg-primary text-primary-foreground flex items-center justify-center hover:bg-primary/90 transition-all shadow-lg active:scale-95"
-                >
-                  <ShoppingBag className="w-4.5 h-4.5" />
-                </button>
               </div>
-            )}
-            {product.price === 0 && (
-              <h4 className="font-display text-lg md:text-xl text-white tracking-wide">
-                {product.name}
-              </h4>
-            )}
+              <button
+                onClick={(event) => {
+                  event.stopPropagation();
+                  void addItem(product);
+                }}
+                className="w-10 h-10 rounded-md bg-primary text-primary-foreground flex items-center justify-center hover:bg-primary/90 transition-all shadow-lg active:scale-95"
+              >
+                <ShoppingBag className="w-4.5 h-4.5" />
+              </button>
+            </div>
+          )}
+          {product.price === 0 && (
+            <h4 className="font-display text-lg md:text-xl text-white tracking-wide">
+              {product.name}
+            </h4>
+          )}
         </div>
       </div>
     </motion.div>
@@ -116,7 +116,7 @@ const SingleProductFeatured = ({ product }: { product: Product }) => {
 
   return (
     <div className="max-w-5xl mx-auto px-4">
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -124,17 +124,17 @@ const SingleProductFeatured = ({ product }: { product: Product }) => {
       >
         <div className="grid lg:grid-cols-2 items-center gap-8 lg:gap-0">
           {/* Image Section */}
-          <div 
+          <div
             className="aspect-square lg:aspect-[4/5] relative rounded-sm overflow-hidden cursor-pointer group"
             onClick={() => navigate(`/product/${product.id}`)}
           >
-            <img 
-              src={product.image} 
-              alt={product.name} 
+            <img
+              src={product.image}
+              alt={product.name}
               className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            
+
             {product.discount && (
               <div className="absolute top-6 left-6 z-10 px-4 py-1.5 rounded-md bg-primary text-primary-foreground text-[10px] font-semibold tracking-[0.2em] uppercase shadow-xl">
                 Exclusive {product.discount}% Off
@@ -201,13 +201,13 @@ const SingleProductFeatured = ({ product }: { product: Product }) => {
                 </div>
 
                 <div className="hidden md:flex flex-col sm:flex-row items-center gap-4 pt-4">
-                  <Button 
+                  <Button
                     onClick={() => addItem(product)}
                     className="w-full sm:w-auto h-12 px-10 rounded-md bg-primary text-primary-foreground font-semibold tracking-[0.2em] uppercase text-[11px] hover:bg-primary/90 transition-all shadow-lg active:scale-95"
                   >
                     Add to Bag
                   </Button>
-                  <button 
+                  <button
                     onClick={() => navigate(`/product/${product.id}`)}
                     className="w-full sm:w-auto h-12 px-8 rounded-md border border-white/10 hover:bg-white/5 text-foreground/80 hover:text-foreground font-semibold tracking-[0.2em] uppercase text-[10px] transition-all"
                   >
@@ -217,7 +217,7 @@ const SingleProductFeatured = ({ product }: { product: Product }) => {
               </>
             ) : (
               <div className="pt-4">
-                <button 
+                <button
                   onClick={() => navigate(`/product/${product.id}`)}
                   className="w-full sm:w-auto h-12 px-8 rounded-md border border-white/10 hover:bg-white/5 text-foreground/80 hover:text-foreground font-semibold tracking-[0.2em] uppercase text-[10px] transition-all"
                 >
@@ -307,7 +307,7 @@ const ProductGrid = () => {
   if (isLoading && !products.length) {
     return (
       <section className="py-24 text-center">
-        <div className="text-primary tracking-widest uppercase text-xs animate-pulse">Loading Compo...</div>
+        <div className="text-primary tracking-widest uppercase text-xs animate-pulse">Loading Combo...</div>
       </section>
     );
   }
@@ -317,7 +317,7 @@ const ProductGrid = () => {
       <div className="max-w-6xl mx-auto px-4 mb-16 text-center">
         <p className="text-[13px] tracking-wide font-medium text-primary mb-2">The Signature Series</p>
         <h2 className="font-display text-4xl md:text-6xl text-foreground font-bold tracking-normal uppercase italic">
-          Compo
+          Combo
         </h2>
       </div>
 

@@ -30,11 +30,7 @@ const Newsletter = () => {
   };
 
   return (
-    <section className="relative py-16 md:py-24 px-4 bg-background border-t border-white/5 overflow-hidden">
-      {/* Ambient glow */}
-      <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 blur-[140px] rounded-full" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,hsl(var(--background))_75%)]" />
-
+    <section className="relative py-12 md:py-16 px-4 bg-background border-t border-white/5 overflow-hidden">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -58,7 +54,7 @@ const Newsletter = () => {
           onSubmit={handleSubmit}
           className="group relative max-w-md mx-auto"
         >
-          <div className="relative flex items-center w-full h-14 bg-white/[0.03] border border-white/10 rounded-md backdrop-blur-md transition-all duration-300 focus-within:border-primary/50 focus-within:bg-white/[0.05] focus-within:shadow-[0_0_40px_-10px_hsl(var(--primary)/0.5)]">
+          <div className="relative flex items-center w-full h-14 bg-white/[0.03] border border-white/10 rounded-md backdrop-blur-md transition-all duration-300 focus-within:border-primary/50 focus-within:bg-white/[0.05]">
             <input
               type="email"
               value={email}

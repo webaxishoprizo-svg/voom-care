@@ -8,7 +8,7 @@ export interface Testimonial {
 
 export const testimonials: Testimonial[] = [
   {
-    text: "To be honest, I was a bit skeptical first but the Compo Voom kit is actually very good. The shampoo gives a lot of foam and the dash cleaner doesn't leave any oily feel. My car is looking like new again. Paisa vasool!",
+    text: "To be honest, I was a bit skeptical first but the Combo Voom kit is actually very good. The shampoo gives a lot of foam and the dash cleaner doesn't leave any oily feel. My car is looking like new again. Paisa vasool!",
     name: "Aditya S.",
     location: "Mumbai, India",
     initial: "A",
@@ -43,7 +43,7 @@ export const testimonials: Testimonial[] = [
     rating: 4,
   },
   {
-    text: "Impressive results on my luxury SUV. The Compo kit handles the tough road grime effortlessly. The dash cleaner has a very pleasant, professional scent too. Actually worth every rupee.",
+    text: "Impressive results on my luxury SUV. The Combo kit handles the tough road grime effortlessly. The dash cleaner has a very pleasant, professional scent too. Actually worth every rupee.",
     name: "Dr. Vivek Nair",
     location: "Kochi, India",
     initial: "V",

@@ -20,7 +20,7 @@ const FeaturedProducts = () => {
   if (isLoading && !products.length) {
     return (
       <div className="h-[60vh] flex items-center justify-center bg-black/20 backdrop-blur-sm">
-        <div className="text-primary tracking-widest uppercase text-xs animate-pulse">Loading Compo Details...</div>
+        <div className="text-primary tracking-widest uppercase text-xs animate-pulse">Loading Combo Details...</div>
       </div>
     );
   }
@@ -29,7 +29,7 @@ const FeaturedProducts = () => {
     return (
       <div className="h-[40vh] flex items-center justify-center bg-black/5 border-y border-white/5">
         <div className="text-muted-foreground/40 tracking-[0.2em] uppercase text-[10px]">
-          [ Breakdown Section: No products found in "what-is-insice-the-compo" ]
+          [ Breakdown Section: No products found in "what-is-insice-the-combo" ]
         </div>
       </div>
     );
@@ -70,7 +70,7 @@ const FeaturedProducts = () => {
               className="max-w-4xl"
             >
               <p className="text-primary text-[10px] md:text-xs tracking-[0.4em] uppercase mb-4 font-semibold">
-                The Compo Breakdown
+                The Combo Breakdown
               </p>
               <h2 className="font-display text-4xl md:text-7xl text-white italic mb-6 tracking-tight leading-[1.05]">
                 {currentProduct.name}

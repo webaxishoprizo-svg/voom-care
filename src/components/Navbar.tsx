@@ -33,7 +33,7 @@ const Navbar = () => {
 
   const menuItems = [
     { label: "Home", href: "/", external: false },
-    { label: "Compo", href: "/products?collection=compo", external: false },
+    { label: "Combo", href: "/products?collection=compo", external: false },
     { label: "About Us", href: "/about", external: false },
     { label: "FAQ", href: "/faq", external: false },
     { label: "Track My Order", href: "/track-order", external: false },
@@ -131,43 +131,43 @@ const Navbar = () => {
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
               className="fixed top-0 left-0 bottom-0 z-[61] w-[85%] max-w-[400px] bg-background flex flex-col"
             >
-              <div className="flex items-center justify-between p-6 border-b border-white/5">
-                <img src={logo} alt="VOOM" className="h-12 w-auto" />
-                <button onClick={() => setMenuOpen(false)} className="p-2">
-                  <X className="w-6 h-6 text-foreground" />
+              <div className="flex items-center justify-between p-5">
+                <img src={logo} alt="VOOM" className="h-10 w-auto" />
+                <button onClick={() => setMenuOpen(false)} className="p-2 -mr-2">
+                  <X className="w-5.5 h-5.5 text-foreground" />
                 </button>
               </div>
 
-              <div className="flex-1 overflow-y-auto py-8 px-6 space-y-2">
+              <div className="flex-1 overflow-y-auto py-6 px-6 space-y-1">
                 {menuItems.map((item) => (
                   <Link
                     key={item.label}
                     to={item.href}
                     onClick={() => setMenuOpen(false)}
-                    className="block text-3xl font-display italic text-foreground hover:text-primary transition-all py-3"
+                    className="block text-2xl font-semibold tracking-tight text-foreground hover:text-primary transition-all py-2.5"
                   >
                     {item.label}
                   </Link>
                 ))}
               </div>
 
-              <div className="p-6 border-t border-white/5 bg-secondary/20">
-                <div className="flex items-center gap-4 mb-8">
+              <div className="p-6 bg-secondary/10">
+                <div className="flex items-center gap-3 mb-6">
                   <button
                     onMouseDown={(e) => {
                       setMenuOpen(false);
                       handleAccountClick(e);
                     }}
-                    className="flex-1 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center gap-3 text-foreground font-medium"
+                    className="flex-1 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center gap-2.5 text-[13px] text-foreground font-medium"
                   >
-                    <User className="w-5 h-5" />
+                    <User className="w-4.5 h-4.5" />
                     Account
                   </button>
                   <a
                     href={SHOPIFY_ORDERS_URL}
-                    className="flex-1 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center gap-3 text-foreground font-medium"
+                    className="flex-1 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center gap-2.5 text-[13px] text-foreground font-medium"
                   >
-                    <Package className="w-5 h-5" />
+                    <Package className="w-4.5 h-4.5" />
                     Orders
                   </a>
                 </div>
@@ -178,7 +178,7 @@ const Navbar = () => {
                     if (isAuthenticated) logout();
                     else window.location.href = SHOPIFY_LOGIN_URL;
                   }}
-                  className="w-full h-14 rounded-2xl bg-primary text-primary-foreground font-bold tracking-widest uppercase text-xs"
+                  className="w-full h-12 rounded-xl bg-primary text-primary-foreground font-bold tracking-[0.2em] uppercase text-[10px]"
                 >
                   {isAuthenticated ? "Logout" : "Login / Register"}
                 </button>
