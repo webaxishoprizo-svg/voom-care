@@ -16,7 +16,14 @@ export default async function handler(req, res) {
   const ACCESS_TOKEN = process.env.ADMIN_API_TOKEN;
 
   if (!SHOP || !ACCESS_TOKEN) {
-    return res.status(200).json({ success: false, message: 'Server config missing' });
+    console.error('Newsletter API Error: Missing environment variables', { 
+      hasShop: !!SHOP, 
+      hasToken: !!ACCESS_TOKEN 
+    });
+    return res.status(500).json({ 
+      success: false, 
+      message: 'Server configuration error. Please ensure SHOP and ADMIN_API_TOKEN are set in Vercel environment variables.' 
+    });
   }
 
   try {

@@ -29,14 +29,14 @@ const CTASection = () => (
         </div>
 
         <h2 className="font-display text-3xl md:text-5xl text-foreground leading-[1.1] tracking-tight mb-10">
-          Ready to<br />Elevate Your<br />Drive?
+          Ready to<br />Shine Your<br />Car?
         </h2>
 
         <a
           href="#collections"
           className="inline-block px-8 py-3.5 bg-foreground text-background rounded-md text-[11px] tracking-[0.2em] uppercase font-semibold hover:bg-foreground/90 transition-colors"
         >
-          Explore All Collections
+          Explore Voom
         </a>
       </div>
     </motion.div>

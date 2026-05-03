@@ -54,10 +54,10 @@ const Contact = () => {
 
     try {
       const result = await emailjs.sendForm(
-        'service_iir7u3h',
-        'template_lfl0xrf',
+        'service_37tj7ed',
+        'template_4kjlguu',
         e.currentTarget as HTMLFormElement,
-        'F_puGs2xOh1E7o8_D'
+        'OOzYRuWeVztJwEhYd'
       );
 
       console.log('SUCCESS!', result.status, result.text);

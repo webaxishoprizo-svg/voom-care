@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { Sparkles, Award, ShieldCheck, Beaker } from "lucide-react";
 import SEO from "@/components/SEO";
 
+import frenzoLogo from "@/assets/frenzo-logo.jpeg";
+
 const values = [
   { icon: Sparkles, title: "Instant Results", desc: "See the difference from the very first use — no layering or buffing required." },
   { icon: ShieldCheck, title: "Paint Safe", desc: "pH balanced formulas safe for all paint types, ceramic coatings and trim." },
@@ -47,6 +49,25 @@ const AboutUs = () => (
           ensuring consistent, professional-grade results regardless of the surface or condition. Our vision
           is to become a leading premium car care brand known for innovation, quality and trust.
         </motion.p>
+
+        {/* Brand Showcase */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="mb-20 max-w-sm mx-auto"
+        >
+          <div className="bg-white/[0.03] border border-white/10 rounded-[32px] p-10 backdrop-blur-md">
+            <p className="text-[10px] tracking-[0.4em] uppercase text-primary/40 mb-8 font-semibold">Our Parent Group</p>
+            <div className="flex items-center justify-center">
+              <img 
+                src={frenzoLogo} 
+                alt="Frenzo Group" 
+                className="h-24 md:h-32 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity duration-500" 
+              />
+            </div>
+          </div>
+        </motion.div>
       </div>
 
       <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

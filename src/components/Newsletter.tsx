@@ -18,12 +18,25 @@ const Newsletter = () => {
 
     setIsLoading(true);
     try {
-      // Mock API call for demonstration if endpoint doesn't exist
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      toast.success("Welcome to the VOOM Private Circle.");
-      setEmail("");
+      const response = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: trimmed }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        toast.success(data.message || "Welcome to the VOOM Private Circle.");
+        setEmail("");
+      } else {
+        toast.error(data.message || "Failed to join. Please try again.");
+      }
     } catch (error) {
-      toast.error("Failed to join. Please try again.");
+      console.error("Newsletter subscription error:", error);
+      toast.error("An unexpected error occurred. Please try again later.");
     } finally {
       setIsLoading(false);
     }
@@ -43,7 +56,7 @@ const Newsletter = () => {
         </div>
 
         <h2 className="font-display text-4xl md:text-6xl text-foreground mb-6 italic tracking-tight leading-[1.05]">
-          Elite <em>Circle.</em>
+          Voom <em>Circle.</em>
         </h2>
 
         <p className="text-muted-foreground/80 text-sm md:text-base mb-10 max-w-md mx-auto leading-relaxed">
