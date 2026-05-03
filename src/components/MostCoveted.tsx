@@ -30,7 +30,7 @@ const MostCoveted = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1, duration: 0.4 }}
-                className="group cursor-pointer relative rounded-2xl overflow-hidden"
+                className="group cursor-pointer relative rounded-none overflow-hidden"
                 onClick={() => navigate(`/product/${product.id}`)}
               >
                 {/* Desktop Layout (2x2 with overlay) */}
@@ -44,7 +44,7 @@ const MostCoveted = () => {
                     />
 
                     {product.discount && (
-                      <span className="absolute top-4 right-4 z-10 bg-primary/80 backdrop-blur-sm text-primary-foreground text-[10px] tracking-[0.15em] px-4 py-1.5 rounded-full font-medium uppercase">
+                      <span className="absolute top-4 right-4 z-10 bg-primary/90 text-primary-foreground text-[10px] tracking-[0.2em] px-3 py-1 rounded-md font-semibold uppercase">
                         {product.discount}% OFF
                       </span>
                     )}
@@ -52,11 +52,11 @@ const MostCoveted = () => {
                     <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-background via-background/85 to-transparent pt-28 pb-6 px-5">
                       <div className="flex items-end justify-between">
                         <div>
-                          <h3 className="font-display text-2xl lg:text-3xl text-foreground tracking-wide mb-1">
+                          <h3 className="font-display text-xl lg:text-2xl text-foreground tracking-wide mb-1.5">
                             {product.name}
                           </h3>
                           <div className="flex items-baseline gap-3">
-                            <span className="text-foreground font-semibold text-xl">
+                            <span className="text-foreground font-semibold text-lg tracking-tight">
                               {formatCurrency(product.price, product.currencyCode)}
                             </span>
                             {product.originalPrice && (
@@ -72,7 +72,7 @@ const MostCoveted = () => {
                             event.stopPropagation();
                             void addItem(product);
                           }}
-                          className="px-6 py-2 rounded-full bg-primary text-primary-foreground text-xs font-bold flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-primary/90 shadow-lg transform translate-y-2 group-hover:translate-y-0"
+                          className="px-5 py-2 rounded-md bg-primary text-primary-foreground text-[11px] font-semibold tracking-[0.15em] uppercase flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-primary/90 shadow-lg transform translate-y-2 group-hover:translate-y-0"
                         >
                           <Plus className="w-4 h-4" />
                           Add
@@ -84,7 +84,7 @@ const MostCoveted = () => {
 
                 {/* Mobile Layout (Original style) */}
                 <div className="md:hidden">
-                  <div className="relative rounded-xl overflow-hidden aspect-square bg-card mb-3">
+                  <div className="relative rounded-none overflow-hidden aspect-square bg-card mb-3">
                     <img
                       src={product.image}
                       alt={product.name}
@@ -93,7 +93,7 @@ const MostCoveted = () => {
                     />
 
                     {product.discount && (
-                      <span className="absolute top-2.5 left-2.5 z-10 bg-primary text-primary-foreground text-[10px] font-semibold px-2.5 py-1 rounded-md">
+                      <span className="absolute top-2.5 left-2.5 z-10 bg-primary text-primary-foreground text-[10px] font-semibold px-2 py-0.5 rounded-md tracking-[0.15em] uppercase">
                         {product.discount}% OFF
                       </span>
                     )}
@@ -103,18 +103,18 @@ const MostCoveted = () => {
                         event.stopPropagation();
                         void addItem(product);
                       }}
-                      className="absolute bottom-2.5 right-2.5 z-10 bg-primary text-primary-foreground text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-primary/90"
+                      className="absolute bottom-2.5 right-2.5 z-10 bg-primary text-primary-foreground text-[11px] font-semibold px-3 py-1.5 rounded-md flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-primary/90 tracking-[0.1em] uppercase"
                     >
                       <Plus className="w-3.5 h-3.5" />
                       Add
                     </button>
                   </div>
 
-                  <h3 className="font-display text-base text-foreground tracking-wide uppercase">
+                  <h3 className="font-display text-sm text-foreground tracking-[0.05em] uppercase">
                     {product.name}
                   </h3>
                   <div className="flex items-baseline gap-2 mt-0.5">
-                    <span className="text-primary font-bold text-sm">
+                    <span className="text-primary font-semibold text-sm tracking-tight">
                       {formatCurrency(product.price, product.currencyCode)}
                     </span>
                     {product.originalPrice && (
