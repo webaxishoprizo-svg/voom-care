@@ -1,88 +1,102 @@
 import { Instagram, Facebook, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
 import logo from "@/assets/logo.png";
-import { useHybridCollections } from "@/lib/shopify/hooks";
+
+const companyLinks = [
+  { to: "/about", label: "About" },
+  { to: "/faq", label: "FAQ" },
+  { to: "/contact", label: "Contact" },
+  { to: "/track-order", label: "Track Order" },
+];
+
+const legalLinks = [
+  { to: "/privacy-policy", label: "Privacy" },
+  { to: "/terms-of-service", label: "Terms" },
+  { to: "/refund-policy", label: "Refund" },
+  { to: "/shipping-policy", label: "Shipping" },
+];
 
 const Footer = () => {
-  const { data: collections } = useHybridCollections();
-
-  // Filter out any internal collections like hero slider
-  const shopCollections = collections?.filter(c => 
-    !c.handle.toLowerCase().includes('hero') && 
-    !c.handle.toLowerCase().includes('hidden') &&
-    !c.handle.toLowerCase().includes('home') &&
-    !c.title.toLowerCase().includes('home')
-  ) || [];
-
   return (
-    <footer className="relative bg-[#080808] border-t border-white/5 pt-20 pb-10 overflow-hidden mt-20">
-      {/* Background Depth */}
+    <footer className="relative bg-[#080808] border-t border-white/5 mt-20 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black pointer-events-none" />
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] scale-50" />
+      <div className="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-primary/5 blur-[120px] rounded-full" />
 
-      <div className="max-w-7xl mx-auto px-4 relative z-10">
+      <div className="relative z-10 max-w-6xl mx-auto px-6 pt-14 pb-8">
+        {/* Top: Brand + Socials */}
+        <div className="flex flex-col md:flex-row items-center md:items-end justify-between gap-6 pb-10 border-b border-white/5">
+          <Link to="/" aria-label="VOOM home" className="inline-flex items-center gap-3 group">
+            <img src={logo} alt="VOOM" className="h-10 w-auto group-hover:scale-105 transition-transform duration-500" />
+          </Link>
 
-        <div className="grid md:grid-cols-4 gap-12 mb-16">
-          <div className="space-y-6">
-            <Link to="/" aria-label="VOOM home" className="inline-flex items-center gap-4 group">
-              <img src={logo} alt="VOOM" className="h-12 w-auto group-hover:scale-110 transition-transform duration-500" />
-            </Link>
-            <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">
-              Premium car care crafted in India by Frenzo Group. Professional-grade formulas for a true showroom finish.
-            </p>
-            <div className="flex gap-4 pt-2">
-              <a href="https://www.instagram.com/voom.care" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors duration-300">
-                <Instagram className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors duration-300">
-                <Facebook className="w-5 h-5" />
-              </a>
-              <a href="mailto:info.frenzogp@gmail.com" className="text-muted-foreground hover:text-primary transition-colors duration-300">
-                <Mail className="w-5 h-5" />
-              </a>
-            </div>
-          </div>
-
-          <div>
-            <h4 className="text-foreground font-semibold text-xs tracking-widest uppercase mb-6">Shop</h4>
-            <ul className="space-y-4 text-muted-foreground text-sm">
-              {shopCollections.map((collection) => (
-                <li key={collection.id}>
-                  <Link 
-                    to={`/products?collection=${collection.handle}`} 
-                    className="hover:text-primary transition-colors duration-300"
-                  >
-                    {collection.title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-foreground font-semibold text-xs tracking-widest uppercase mb-6">Company</h4>
-            <ul className="space-y-4 text-muted-foreground text-sm">
-              <li><Link to="/about" className="hover:text-primary transition-colors duration-300">About Us</Link></li>
-              <li><Link to="/faq" className="hover:text-primary transition-colors duration-300">FAQ</Link></li>
-              <li><Link to="/contact" className="hover:text-primary transition-colors duration-300">Contact</Link></li>
-              <li><Link to="/track-order" className="hover:text-primary transition-colors duration-300">Track Order</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-foreground font-semibold text-xs tracking-widest uppercase mb-6">Legal</h4>
-            <ul className="space-y-4 text-muted-foreground text-sm">
-              <li><Link to="/privacy-policy" className="hover:text-primary transition-colors duration-300">Privacy Policy</Link></li>
-              <li><Link to="/terms-of-service" className="hover:text-primary transition-colors duration-300">Terms of Service</Link></li>
-              <li><Link to="/refund-policy" className="hover:text-primary transition-colors duration-300">Refund Policy</Link></li>
-              <li><Link to="/shipping-policy" className="hover:text-primary transition-colors duration-300">Shipping Policy</Link></li>
-            </ul>
+          <div className="flex items-center gap-3">
+            <a
+              href="https://www.instagram.com/voom.care"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              className="w-9 h-9 rounded-md border border-white/10 flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-white/30 transition-all"
+            >
+              <Instagram className="w-4 h-4" />
+            </a>
+            <a
+              href="#"
+              aria-label="Facebook"
+              className="w-9 h-9 rounded-md border border-white/10 flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-white/30 transition-all"
+            >
+              <Facebook className="w-4 h-4" />
+            </a>
+            <a
+              href="mailto:info.frenzogp@gmail.com"
+              aria-label="Email"
+              className="w-9 h-9 rounded-md border border-white/10 flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-white/30 transition-all"
+            >
+              <Mail className="w-4 h-4" />
+            </a>
           </div>
         </div>
 
-        <div className="border-t border-border/20 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-muted-foreground text-[10px] tracking-wide uppercase">
-          <p>© {new Date().getFullYear()} VOOM by Frenzo Group. All rights reserved.</p>
-          <p>Shine beyond ordinary — Made in India</p>
+        {/* Link rows */}
+        <div className="py-10 space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-8">
+            <span className="text-[10px] tracking-[0.3em] uppercase text-primary/70 font-medium sm:w-24 shrink-0">
+              Company
+            </span>
+            <div className="flex flex-wrap gap-x-6 gap-y-2">
+              {companyLinks.map((link) => (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-8">
+            <span className="text-[10px] tracking-[0.3em] uppercase text-primary/70 font-medium sm:w-24 shrink-0">
+              Legal
+            </span>
+            <div className="flex flex-wrap gap-x-6 gap-y-2">
+              {legalLinks.map((link) => (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom bar */}
+        <div className="border-t border-white/5 pt-6 flex flex-col md:flex-row justify-between items-center gap-3 text-muted-foreground/70 text-[10px] tracking-[0.2em] uppercase">
+          <p>© {new Date().getFullYear()} VOOM · Frenzo Group</p>
+          <p>Shine Beyond Ordinary — Made in India</p>
         </div>
       </div>
     </footer>
