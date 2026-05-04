@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Tenor+Sans&family=Manrope:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Tenor+Sans&family=Hanken+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 @import "tailwindcss/base";
 @import "tailwindcss/components";
@@ -71,7 +71,7 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'InterNumbers', 'Manrope', 'Inter', system-ui, sans-serif;
+    font-family: 'InterNumbers', 'Inter', system-ui, sans-serif;
     font-variant-numeric: tabular-nums lining-nums;
     font-feature-settings: 'ss01', 'cv11', 'liga';
     -webkit-font-smoothing: antialiased;
@@ -86,10 +86,10 @@
   h4,
   h5,
   h6 {
-    font-family: 'InterNumbers', 'Manrope', 'Inter', sans-serif;
-    letter-spacing: -0.025em;
-    line-height: 1.1;
-    font-weight: 600;
+    font-family: 'Hanken Grotesk', 'InterNumbers', 'Inter', sans-serif;
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+    font-weight: 700;
   }
 
   p { letter-spacing: -0.003em; }
