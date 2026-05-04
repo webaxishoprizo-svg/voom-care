@@ -144,12 +144,12 @@ const SingleProductFeatured = ({ product }: { product: Product }) => {
             {product.price > 0 && (
               <>
                 <div className="absolute bottom-4 left-4 z-20 md:hidden flex flex-col items-start">
-                  <div className="flex items-baseline gap-2 bg-background/60 backdrop-blur-md px-3 py-2 rounded-md shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-                    <span className="font-sans text-2xl text-foreground font-semibold tracking-tight">
+                  <div className="flex items-baseline gap-2">
+                    <span className="font-sans text-2xl text-foreground font-semibold tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
                       {formatCurrency(product.price, product.currencyCode)}
                     </span>
                     {product.originalPrice && (
-                      <span className="text-muted-foreground line-through text-sm">
+                      <span className="text-white/60 line-through text-sm drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
                         {formatCurrency(product.originalPrice, product.currencyCode)}
                       </span>
                     )}
