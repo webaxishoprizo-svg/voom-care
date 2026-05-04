@@ -42,46 +42,57 @@ const Index = () => {
         schema={orgSchema}
       />
       <Navbar />
+
+      {/* 1. Hero */}
       <HeroCarousel />
+
+      {/* 2. Marquee */}
       <MarqueeBanner
         className="-rotate-[2deg] scale-[1] relative z-10 mt-10 mb-[-8px] py-4 shadow-none"
         items={["Premium Car Care", "Crafted in India", "Pro-Grade Formulas", "Paint Safe", "Shine Beyond Ordinary"]}
       />
 
-      <Reveal delay={0.1}>
+      {/* 3. Trust badges (compact) */}
+      <Reveal delay={0.05}>
         <TrustBadges />
       </Reveal>
-      
-      <Reveal delay={0.1} duration={1}>
+
+      {/* 4. Best Sellers — product first */}
+      <Reveal delay={0.05} duration={1}>
         <ProductGrid />
       </Reveal>
 
-      <Reveal delay={0.1}>
-        <FeaturedProducts />
-      </Reveal>
-
-      <Reveal delay={0.1}>
+      {/* 5. Collections */}
+      <Reveal delay={0.05}>
         <CollectionsSection />
       </Reveal>
 
-      <Reveal delay={0.1}>
-        <ComingSoonBanner />
+      {/* 6. Combo / Featured product showcase banner */}
+      <Reveal delay={0.05}>
+        <FeaturedProducts />
       </Reveal>
 
-
-      <Reveal delay={0.1}>
+      {/* 7. Experience / Brand quality */}
+      <Reveal delay={0.05}>
         <BrandQuality />
       </Reveal>
 
-      <Reveal delay={0.1}>
+      <Reveal delay={0.05}>
         <ExperienceSection />
       </Reveal>
 
-      <Reveal delay={0.1}>
+      {/* 8. Testimonials */}
+      <Reveal delay={0.05}>
         <TestimonialsSection />
       </Reveal>
 
-      <Reveal delay={0.1}>
+      {/* 9. Coming soon teaser */}
+      <Reveal delay={0.05}>
+        <ComingSoonBanner />
+      </Reveal>
+
+      {/* 10. CTA */}
+      <Reveal delay={0.05}>
         <CTASection />
       </Reveal>
 
