@@ -15,7 +15,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['InterNumbers', 'Manrope', 'Inter', 'system-ui', 'sans-serif'],
+        sans: ['InterNumbers', 'Inter', 'system-ui', 'sans-serif'],
         display: ['"Tenor Sans"', 'serif'],
       },
       colors: {
