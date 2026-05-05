@@ -29,7 +29,6 @@ const RefundPolicy = lazy(() => import("./pages/RefundPolicy.tsx"));
 const ShippingPolicy = lazy(() => import("./pages/ShippingPolicy.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 
-import CustomCursor from "@/components/CustomCursor";
 import { AnimatePresence } from "framer-motion";
 
 const Loading = () => (
@@ -48,7 +47,6 @@ const App = () => (
     <CustomerAuthProvider>
       <CartProvider>
         <TooltipProvider>
-          <CustomCursor />
           <Toaster />
           <Sonner />
           <CartDrawer />

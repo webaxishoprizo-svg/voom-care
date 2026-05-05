@@ -173,6 +173,7 @@ export function logout() {
   const idToken = localStorage.getItem(STORAGE.idToken);
   clearTokens();
   const params = new URLSearchParams({
+    client_id: CUSTOMER_OAUTH.clientId,
     post_logout_redirect_uri: window.location.origin,
   });
   if (idToken) params.set("id_token_hint", idToken);

@@ -38,7 +38,9 @@ const MobileVideoHero = () => {
         muted
         loop
         playsInline
+        preload="metadata"
         className="absolute inset-0 w-full h-full object-cover opacity-80"
+        style={{ transform: "translateZ(0)" }}
       >
         <source src={videoSrc} type="video/mp4" />
       </video>

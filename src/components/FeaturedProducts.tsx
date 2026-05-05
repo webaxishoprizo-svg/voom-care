@@ -1,21 +1,27 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useCallback } from "react";
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useCollectionProducts } from "@/lib/shopify/hooks";
+import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
 
 const FeaturedProducts = () => {
   const { data: products = [], isLoading } = useCollectionProducts("what-is-inside-the-compo");
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay({ delay: 4500, stopOnInteraction: false })]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setCurrentIndex(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
+
   useEffect(() => {
-    if (products.length <= 1) return;
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on("select", onSelect);
+  }, [emblaApi, onSelect]);
 
-    const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % products.length);
-    }, 4500);
-
-    return () => clearInterval(timer);
-  }, [products.length]);
+  const scrollTo = useCallback((index: number) => emblaApi && emblaApi.scrollTo(index), [emblaApi]);
 
   if (isLoading && !products.length) {
     return (
@@ -37,66 +43,61 @@ const FeaturedProducts = () => {
 
   if (!products.length) return null;
 
-  const currentProduct = products[currentIndex];
-
   return (
     <section className="relative w-full h-screen overflow-hidden bg-black">
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={currentProduct.id}
-          initial={{ opacity: 0, scale: 1.1 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.95 }}
-          transition={{ duration: 1.2, ease: [0.4, 0, 0.2, 1] }}
-          className="absolute inset-0 w-full h-full"
-        >
-          {/* Background Image */}
-          <div className="absolute inset-0">
-            <img
-              src={currentProduct.image}
-              alt={currentProduct.name}
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
-            <div className="absolute inset-0 bg-black/20" />
-          </div>
+      <div className="overflow-hidden h-full w-full" ref={emblaRef}>
+        <div className="flex h-full w-full">
+          {products.map((product) => (
+            <div key={product.id} className="relative flex-[0_0_100%] min-w-0 h-full">
+              {/* Background Image */}
+              <div className="absolute inset-0">
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+                <div className="absolute inset-0 bg-black/20" />
+              </div>
 
-          {/* Content Overlay */}
-          <div className="absolute inset-0 flex flex-col items-center justify-end pb-20 md:pb-32 px-6 text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.8 }}
-              className="max-w-4xl"
-            >
-              <p className="text-primary text-[10px] md:text-xs tracking-[0.4em] uppercase mb-4 font-semibold">
-                The Combo Breakdown
-              </p>
-              <h2 className="font-display text-4xl md:text-7xl text-white italic mb-6 tracking-tight leading-[1.05]">
-                {currentProduct.name}
-              </h2>
-              <p className="text-white/65 text-sm md:text-base max-w-2xl mx-auto mb-10 leading-relaxed">
-                <span className="md:hidden">{currentProduct.name} - Showroom grade finish.</span>
-                <span className="hidden md:inline">{currentProduct.description?.split('.')[0]}. Hand-selected for the ultimate showroom finish.</span>
-              </p>
+              {/* Content Overlay */}
+              <div className="absolute inset-0 flex flex-col items-center justify-end pb-20 md:pb-32 px-6 text-center">
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3, duration: 0.8 }}
+                  className="max-w-4xl"
+                >
+                  <p className="text-primary text-[10px] md:text-xs tracking-[0.4em] uppercase mb-4 font-semibold">
+                    The Combo Breakdown
+                  </p>
+                  <h2 className="font-display text-4xl md:text-7xl text-white italic mb-6 tracking-tight leading-[1.05]">
+                    {product.name}
+                  </h2>
+                  <p className="text-white/65 text-sm md:text-base max-w-2xl mx-auto mb-10 leading-relaxed">
+                    <span className="md:hidden">{product.name} - Showroom grade finish.</span>
+                    <span className="hidden md:inline">{product.description?.split('.')[0]}. Hand-selected for the ultimate showroom finish.</span>
+                  </p>
 
-              <Link
-                to="/products?collection=compo"
-                className="mt-4 px-10 py-3.5 glass-card rounded-md text-foreground text-[11px] font-semibold tracking-[0.2em] uppercase hover:bg-white/10 transition-all duration-500 backdrop-blur-md inline-block"
-              >
-                Explore Voom
-              </Link>
-            </motion.div>
-          </div>
-        </motion.div>
-      </AnimatePresence>
+                  <Link
+                    to="/products?collection=compo"
+                    className="mt-4 px-10 py-3.5 glass-card rounded-md text-foreground text-[11px] font-semibold tracking-[0.2em] uppercase hover:bg-white/10 transition-all duration-500 backdrop-blur-md inline-block"
+                  >
+                    Explore Voom
+                  </Link>
+                </motion.div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
 
       {/* Progress Indicators */}
       <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-3 z-30">
         {products.map((_, idx) => (
           <button
             key={idx}
-            onClick={() => setCurrentIndex(idx)}
+            onClick={() => scrollTo(idx)}
             className="group relative h-10 w-2 flex items-center justify-center"
           >
             <div
