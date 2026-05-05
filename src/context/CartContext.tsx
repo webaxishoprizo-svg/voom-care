@@ -99,15 +99,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       .catch(() => clearCartState());
   }, [applyCartSnapshot, clearCartState]);
 
-  useEffect(() => {
-    if (!cartId || !customerAccessToken) return;
-
-    void syncShopifyCartBuyerIdentity(cartId, undefined, customerAccessToken)
-      .then(applyCartSnapshot)
-      .catch(() => {
-        // Keep checkout usable even if buyer identity sync fails.
-      });
-  }, [applyCartSnapshot, cartId, customerAccessToken]);
+  // Buyer identity sync is currently not wired to the Customer Account OAuth
+  // token (different token type than Storefront API). Checkout still works
+  // unauthenticated; users can log in at checkout via Shopify's flow.
 
   const addItem = useCallback(
     async (product: Product, quantity = 1) => {
