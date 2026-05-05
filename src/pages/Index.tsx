@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import HeroCarousel from "@/components/HeroCarousel";
+import MobileVideoHero from "@/components/MobileVideoHero";
 import MarqueeBanner from "@/components/MarqueeBanner";
 import TrustBadges from "@/components/TrustBadges";
 import ProductGrid from "@/components/ProductGrid";
@@ -44,7 +45,10 @@ const Index = () => {
       <Navbar />
 
       {/* 1. Hero */}
-      <HeroCarousel />
+      <MobileVideoHero />
+      <div className="hidden lg:block">
+        <HeroCarousel />
+      </div>
 
       {/* 2. Marquee */}
       <MarqueeBanner
