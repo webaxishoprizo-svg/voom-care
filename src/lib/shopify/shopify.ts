@@ -346,7 +346,9 @@ function mapProduct(node: ShopifyProductNode): Product {
       node.heroMobileImage?.reference?.image?.url || undefined,
     heroDescription: parseMetafieldText(node.heroDescription?.value),
     heroMobileVideo:
-      node.heroMobileVideo?.reference?.sources?.[0]?.url || undefined,
+      node.heroMobileVideo?.reference?.sources?.[0]?.url ||
+      node.heroMobileVideo?.reference?.url ||
+      undefined,
     source: "shopify",
   };
 }
@@ -377,7 +379,9 @@ function mapCollection(node: ShopifyCollectionNode): CollectionCard {
         edge.node.heroMobileImage?.reference?.image?.url || undefined,
       heroDescription: parseMetafieldText(edge.node.heroDescription?.value),
       heroMobileVideo:
-        edge.node.heroMobileVideo?.reference?.sources?.[0]?.url || undefined,
+        edge.node.heroMobileVideo?.reference?.sources?.[0]?.url ||
+        edge.node.heroMobileVideo?.reference?.url ||
+        undefined,
     })),
     productHandles: node.products.edges.map((edge) => edge.node.handle),
     heroImage: heroImage?.reference?.image?.url || undefined,
@@ -385,7 +389,9 @@ function mapCollection(node: ShopifyCollectionNode): CollectionCard {
       heroMobileImage?.reference?.image?.url || undefined,
     heroDescription: parseMetafieldText(heroDescription?.value),
     heroMobileVideo:
-      heroMobileVideo?.reference?.sources?.[0]?.url || undefined,
+      heroMobileVideo?.reference?.sources?.[0]?.url ||
+      heroMobileVideo?.reference?.url ||
+      undefined,
   };
 }
 
