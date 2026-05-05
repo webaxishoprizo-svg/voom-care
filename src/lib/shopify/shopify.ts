@@ -25,6 +25,8 @@ interface ShopifyVariantNode {
 interface ShopifyMetafieldReference {
   image?: ShopifyImageNode;
   sources?: Array<{ url: string; mimeType: string }>;
+  url?: string;
+  mimeType?: string;
 }
 
 interface ShopifyMetafieldNode {
