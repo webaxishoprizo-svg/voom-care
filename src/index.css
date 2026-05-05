@@ -71,13 +71,14 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'InterNumbers', 'Inter', system-ui, sans-serif;
+    font-family: 'InterNumbers', 'Hanken Grotesk', 'Inter', system-ui, sans-serif;
     font-variant-numeric: tabular-nums lining-nums;
     font-feature-settings: 'ss01', 'cv11', 'liga';
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    letter-spacing: -0.005em;
-    line-height: 1.6;
+    letter-spacing: -0.01em;
+    line-height: 1.5;
+    font-weight: 400;
   }
 
   h1,
@@ -87,9 +88,9 @@
   h5,
   h6 {
     font-family: 'Hanken Grotesk', 'InterNumbers', 'Inter', sans-serif;
-    letter-spacing: -0.015em;
-    line-height: 1.15;
-    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    font-weight: 600;
   }
 
   p { letter-spacing: -0.003em; }
