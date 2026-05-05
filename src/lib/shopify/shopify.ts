@@ -138,6 +138,10 @@ const HERO_METAFIELDS = `
           mimeType
         }
       }
+      ... on GenericFile {
+        url
+        mimeType
+      }
     }
   }
   heroDescription: metafield(namespace: "custom", key: "hero_description") {
