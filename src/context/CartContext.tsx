@@ -42,7 +42,7 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
-  const { customerAccessToken, customer } = useCustomerAuth();
+  const { customerAccessToken } = useCustomerAuth();
   const [cartId, setCartId] = useState<string | null>(null);
   const [checkoutUrl, setCheckoutUrl] = useState<string>("");
   const [items, setItems] = useState<CartItem[]>([]);
@@ -100,14 +100,14 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   }, [applyCartSnapshot, clearCartState]);
 
   useEffect(() => {
-    if (!cartId || !customer?.email) return;
+    if (!cartId || !customerAccessToken) return;
 
-    void syncShopifyCartBuyerIdentity(cartId, customer?.email, customerAccessToken || undefined)
+    void syncShopifyCartBuyerIdentity(cartId, undefined, customerAccessToken)
       .then(applyCartSnapshot)
       .catch(() => {
         // Keep checkout usable even if buyer identity sync fails.
       });
-  }, [applyCartSnapshot, cartId, customer?.email, customerAccessToken]);
+  }, [applyCartSnapshot, cartId, customerAccessToken]);
 
   const addItem = useCallback(
     async (product: Product, quantity = 1) => {
