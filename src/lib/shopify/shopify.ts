@@ -335,16 +335,12 @@ function mapProduct(node: ShopifyProductNode): Product {
       howToUse: parseMetafieldText(metafields.how_to_use?.value),
       whatsInTheBox: parseMetafieldText(metafields.whats_in_the_box?.value),
     },
-    heroImage: node.heroImage?.reference?.image?.url || node.heroImage?.value || undefined,
+    heroImage: node.heroImage?.reference?.image?.url || undefined,
     heroMobileImage:
-      node.heroMobileImage?.reference?.image?.url ||
-      node.heroMobileImage?.value ||
-      undefined,
+      node.heroMobileImage?.reference?.image?.url || undefined,
     heroDescription: parseMetafieldText(node.heroDescription?.value),
     heroMobileVideo:
-      node.heroMobileVideo?.reference?.sources?.[0]?.url ||
-      node.heroMobileVideo?.value ||
-      undefined,
+      node.heroMobileVideo?.reference?.sources?.[0]?.url || undefined,
     source: "shopify",
   };
 }
@@ -370,26 +366,20 @@ function mapCollection(node: ShopifyCollectionNode): CollectionCard {
       title: edge.node.title,
       handle: edge.node.handle,
       heroImage:
-        edge.node.heroImage?.reference?.image?.url ||
-        edge.node.heroImage?.value ||
-        undefined,
+        edge.node.heroImage?.reference?.image?.url || undefined,
       heroMobileImage:
-        edge.node.heroMobileImage?.reference?.image?.url ||
-        edge.node.heroMobileImage?.value ||
-        undefined,
+        edge.node.heroMobileImage?.reference?.image?.url || undefined,
       heroDescription: parseMetafieldText(edge.node.heroDescription?.value),
       heroMobileVideo:
-        edge.node.heroMobileVideo?.reference?.sources?.[0]?.url ||
-        edge.node.heroMobileVideo?.value ||
-        undefined,
+        edge.node.heroMobileVideo?.reference?.sources?.[0]?.url || undefined,
     })),
     productHandles: node.products.edges.map((edge) => edge.node.handle),
-    heroImage: heroImage?.reference?.image?.url || heroImage?.value || undefined,
+    heroImage: heroImage?.reference?.image?.url || undefined,
     heroMobileImage:
-      heroMobileImage?.reference?.image?.url || heroMobileImage?.value || undefined,
+      heroMobileImage?.reference?.image?.url || undefined,
     heroDescription: parseMetafieldText(heroDescription?.value),
     heroMobileVideo:
-      heroMobileVideo?.reference?.sources?.[0]?.url || heroMobileVideo?.value || undefined,
+      heroMobileVideo?.reference?.sources?.[0]?.url || undefined,
   };
 }
 
