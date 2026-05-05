@@ -2,16 +2,16 @@ const DEFAULT_SHOPIFY_CONFIG = {
   domain: "shop.voomcare.com",
   apiVersion: "2024-04",
   accessToken: "59591aa3cb16515b8e0f371e63cc676c",
-  publicClientId: "d9d84aeb-8c67-483e-9cfe-a9bf59a8731f",
-  shopId: "77660979223",
+  publicClientId: "5d7f5bc8-8c63-40d0-b0ff-c373903ee7e1",
+  shopId: "80446095593",
 };
 
 export const SHOPIFY_CONFIG = {
   domain: import.meta.env.VITE_SHOPIFY_DOMAIN || DEFAULT_SHOPIFY_CONFIG.domain,
   apiVersion: import.meta.env.VITE_SHOPIFY_API_VERSION || DEFAULT_SHOPIFY_CONFIG.apiVersion,
   accessToken: import.meta.env.VITE_SHOPIFY_ACCESS_TOKEN || DEFAULT_SHOPIFY_CONFIG.accessToken,
-  publicClientId: DEFAULT_SHOPIFY_CONFIG.publicClientId,
-  shopId: DEFAULT_SHOPIFY_CONFIG.shopId,
+  publicClientId: import.meta.env.VITE_SHOPIFY_PUBLIC_CLIENT_ID || DEFAULT_SHOPIFY_CONFIG.publicClientId,
+  shopId: import.meta.env.VITE_SHOPIFY_SHOP_ID || DEFAULT_SHOPIFY_CONFIG.shopId,
 };
 
 export const SHOPIFY_STORE_URL = `https://${SHOPIFY_CONFIG.domain}`;
@@ -46,14 +46,16 @@ export async function shopifyQuery<T>(
 
 /**
  * 🔐 SHOPIFY CUSTOMER ACCOUNT API QUERY
+ * Note: Prefer the more robust customerQuery from customer-account.ts
  */
 export async function shopifyCustomerQuery<T>(
   query: string,
   variables: Record<string, unknown> = {},
   accessToken: string,
 ) {
-  // Use the standard high-performance endpoint
-  const url = `https://shopify.com/${SHOPIFY_CONFIG.shopId}/account/customer/api/${SHOPIFY_CONFIG.apiVersion}/graphql`;
+  // Customer Account API uses its own versioning, typically ahead of Storefront API
+  const CUSTOMER_API_VERSION = "2024-10";
+  const url = `https://shopify.com/${SHOPIFY_CONFIG.shopId}/account/customer/api/${CUSTOMER_API_VERSION}/graphql`;
 
   const response = await fetch(url, {
     method: "POST",

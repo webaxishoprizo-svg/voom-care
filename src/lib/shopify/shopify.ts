@@ -27,6 +27,7 @@ interface ShopifyMetafieldReference {
   sources?: Array<{ url: string; mimeType: string }>;
   url?: string;
   mimeType?: string;
+  id?: string;
 }
 
 interface ShopifyMetafieldNode {
@@ -119,6 +120,9 @@ const HERO_METAFIELDS = `
           url
         }
       }
+      ... on GenericFile {
+        url
+      }
     }
   }
   heroMobileImage: metafield(namespace: "custom", key: "hero_mobile_image") {
@@ -129,18 +133,24 @@ const HERO_METAFIELDS = `
           url
         }
       }
+      ... on GenericFile {
+        url
+      }
     }
   }
   heroMobileVideo: metafield(namespace: "custom", key: "hero_mobile_video") {
     value
     reference {
       ... on Video {
+        id
         sources {
           url
           mimeType
+          format
         }
       }
       ... on GenericFile {
+        id
         url
         mimeType
       }
@@ -300,6 +310,40 @@ function parseMetafieldText(raw?: string) {
   }
 }
 
+function parseMetafieldUrl(metafield?: Nullable<ShopifyMetafieldNode>) {
+  if (!metafield) return undefined;
+
+  // 1. Try Video reference sources
+  if (metafield.reference?.sources?.[0]?.url) {
+    return metafield.reference.sources[0].url;
+  }
+
+  // 2. Try GenericFile/MediaImage reference URL
+  if (metafield.reference?.image?.url) {
+    return metafield.reference.image.url;
+  }
+  if (metafield.reference?.url) {
+    return metafield.reference.url;
+  }
+
+  const value = metafield.value;
+  if (!value || value.startsWith("gid://")) return undefined;
+
+  // 3. Handle JSON strings (sometimes returned for complex metafields)
+  if (value.startsWith("{") || value.startsWith("[")) {
+    try {
+      const parsed = JSON.parse(value);
+      if (typeof parsed === "string") return parsed;
+      return parsed.url || parsed.image?.url || parsed[0]?.url || undefined;
+    } catch {
+      return undefined;
+    }
+  }
+
+  // 4. Default to raw value if it looks like a URL/path
+  return value;
+}
+
 function getMetafieldMap(metafields: Array<Nullable<ShopifyMetafieldNode>>) {
   return metafields.reduce<Record<string, ShopifyMetafieldNode>>((acc, metafield) => {
     if (metafield) {
@@ -341,14 +385,10 @@ function mapProduct(node: ShopifyProductNode): Product {
       howToUse: parseMetafieldText(metafields.how_to_use?.value),
       whatsInTheBox: parseMetafieldText(metafields.whats_in_the_box?.value),
     },
-    heroImage: node.heroImage?.reference?.image?.url || undefined,
-    heroMobileImage:
-      node.heroMobileImage?.reference?.image?.url || undefined,
+    heroImage: parseMetafieldUrl(node.heroImage),
+    heroMobileImage: parseMetafieldUrl(node.heroMobileImage),
     heroDescription: parseMetafieldText(node.heroDescription?.value),
-    heroMobileVideo:
-      node.heroMobileVideo?.reference?.sources?.[0]?.url ||
-      node.heroMobileVideo?.reference?.url ||
-      undefined,
+    heroMobileVideo: parseMetafieldUrl(node.heroMobileVideo),
     source: "shopify",
   };
 }
@@ -365,33 +405,24 @@ function mapCollection(node: ShopifyCollectionNode): CollectionCard {
     handle: node.handle,
     image:
       node.image?.url ||
-      heroImage?.reference?.image?.url ||
-      heroMobileImage?.reference?.image?.url ||
+      parseMetafieldUrl(heroImage) ||
+      parseMetafieldUrl(heroMobileImage) ||
       "",
     description: node.description || parseMetafieldText(heroDescription?.value),
     products: node.products.edges.map((edge) => ({
       id: edge.node.id,
       title: edge.node.title,
       handle: edge.node.handle,
-      heroImage:
-        edge.node.heroImage?.reference?.image?.url || undefined,
-      heroMobileImage:
-        edge.node.heroMobileImage?.reference?.image?.url || undefined,
+      heroImage: parseMetafieldUrl(edge.node.heroImage),
+      heroMobileImage: parseMetafieldUrl(edge.node.heroMobileImage),
       heroDescription: parseMetafieldText(edge.node.heroDescription?.value),
-      heroMobileVideo:
-        edge.node.heroMobileVideo?.reference?.sources?.[0]?.url ||
-        edge.node.heroMobileVideo?.reference?.url ||
-        undefined,
+      heroMobileVideo: parseMetafieldUrl(edge.node.heroMobileVideo),
     })),
     productHandles: node.products.edges.map((edge) => edge.node.handle),
-    heroImage: heroImage?.reference?.image?.url || undefined,
-    heroMobileImage:
-      heroMobileImage?.reference?.image?.url || undefined,
+    heroImage: parseMetafieldUrl(heroImage),
+    heroMobileImage: parseMetafieldUrl(heroMobileImage),
     heroDescription: parseMetafieldText(heroDescription?.value),
-    heroMobileVideo:
-      heroMobileVideo?.reference?.sources?.[0]?.url ||
-      heroMobileVideo?.reference?.url ||
-      undefined,
+    heroMobileVideo: parseMetafieldUrl(heroMobileVideo),
   };
 }
 

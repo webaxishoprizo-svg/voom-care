@@ -66,7 +66,7 @@ const HeroCarousel = () => {
                 className="w-full h-full object-cover"
                 poster={currentSlide.mobileImage || currentSlide.image}
               >
-                <source src={currentSlide.mobileVideo} />
+                <source src={currentSlide.mobileVideo} type="video/mp4" />
               </video>
             ) : (
               <img
