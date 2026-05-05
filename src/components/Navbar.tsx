@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
 import { useCustomerAuth } from "@/context/CustomerAuthContext";
-import { SHOPIFY_ACCOUNT_URL, SHOPIFY_ORDERS_URL, SHOPIFY_LOGIN_URL } from "@/lib/shopify/client";
 import logo from "@/assets/logo.png";
 import SearchDialog from "@/components/SearchDialog";
 
@@ -13,7 +12,7 @@ const Navbar = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { totalItems, setIsOpen } = useCart();
-  const { isAuthenticated, logout } = useCustomerAuth();
+  const { isAuthenticated, logout, login } = useCustomerAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -25,10 +24,9 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleAccountClick = (e: React.MouseEvent) => {
-    if (e.type === 'mousedown' || e.type === 'touchstart') {
-      window.location.href = isAuthenticated ? SHOPIFY_ACCOUNT_URL : SHOPIFY_LOGIN_URL;
-    }
+  const handleAccountClick = () => {
+    if (isAuthenticated) navigate("/account");
+    else login("/account");
   };
 
   const menuItems = [
@@ -86,7 +84,7 @@ const Navbar = () => {
             </button>
 
             <button
-              onMouseDown={handleAccountClick}
+              onClick={handleAccountClick}
               className="hidden md:flex p-2.5 rounded-full bg-white/5 hover:bg-white/10 border border-transparent backdrop-blur-xl text-foreground/80 hover:text-foreground transition-all"
               aria-label="Account"
             >
@@ -154,29 +152,30 @@ const Navbar = () => {
               <div className="p-6 bg-secondary/10">
                 <div className="flex items-center gap-3 mb-6">
                   <button
-                    onMouseDown={(e) => {
+                    onClick={() => {
                       setMenuOpen(false);
-                      handleAccountClick(e);
+                      handleAccountClick();
                     }}
                     className="flex-1 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center gap-2.5 text-[13px] text-foreground font-medium"
                   >
                     <User className="w-4.5 h-4.5" />
                     Account
                   </button>
-                  <a
-                    href={SHOPIFY_ORDERS_URL}
+                  <Link
+                    to="/orders"
+                    onClick={() => setMenuOpen(false)}
                     className="flex-1 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center gap-2.5 text-[13px] text-foreground font-medium"
                   >
                     <Package className="w-4.5 h-4.5" />
                     Orders
-                  </a>
+                  </Link>
                 </div>
 
                 <button
                   onClick={() => {
                     setMenuOpen(false);
                     if (isAuthenticated) logout();
-                    else window.location.href = SHOPIFY_LOGIN_URL;
+                    else login("/account");
                   }}
                   className="w-full h-12 rounded-xl bg-primary text-primary-foreground font-bold tracking-[0.2em] uppercase text-[10px]"
                 >

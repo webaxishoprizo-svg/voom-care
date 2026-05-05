@@ -42,7 +42,7 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
-  const { customerAccessToken, customer } = useCustomerAuth();
+  const { customerAccessToken } = useCustomerAuth();
   const [cartId, setCartId] = useState<string | null>(null);
   const [checkoutUrl, setCheckoutUrl] = useState<string>("");
   const [items, setItems] = useState<CartItem[]>([]);
@@ -99,15 +99,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       .catch(() => clearCartState());
   }, [applyCartSnapshot, clearCartState]);
 
-  useEffect(() => {
-    if (!cartId || !customer?.email) return;
-
-    void syncShopifyCartBuyerIdentity(cartId, customer?.email, customerAccessToken || undefined)
-      .then(applyCartSnapshot)
-      .catch(() => {
-        // Keep checkout usable even if buyer identity sync fails.
-      });
-  }, [applyCartSnapshot, cartId, customer?.email, customerAccessToken]);
+  // Buyer identity sync is currently not wired to the Customer Account OAuth
+  // token (different token type than Storefront API). Checkout still works
+  // unauthenticated; users can log in at checkout via Shopify's flow.
 
   const addItem = useCallback(
     async (product: Product, quantity = 1) => {

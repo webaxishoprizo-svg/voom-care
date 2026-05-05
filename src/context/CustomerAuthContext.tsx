@@ -4,83 +4,71 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
   type ReactNode,
 } from "react";
-import { SHOPIFY_STORE_URL } from "@/lib/shopify/client";
-
-export const CUSTOMER_TOKEN_STORAGE_KEY = "customer_token";
+import {
+  beginLogin,
+  clearTokens,
+  getAccessToken,
+  isAuthenticated as checkAuth,
+  logout as oauthLogout,
+} from "@/lib/shopify/customer-account";
 
 interface CustomerAuthContextType {
-  customer: any | null;
   customerAccessToken: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  login: () => void;
+  login: (returnTo?: string) => void;
   logout: () => void;
-  refreshCustomer: () => Promise<void>;
+  signalAuthenticated: () => void;
 }
 
 const CustomerAuthContext = createContext<CustomerAuthContextType | undefined>(undefined);
 
 export const CustomerAuthProvider = ({ children }: { children: ReactNode }) => {
-  const [customer, setCustomer] = useState<any | null>(null);
-  const [customerAccessToken, setCustomerAccessToken] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  const loadCustomer = useCallback(async (token: string) => {
-    // In a pure storefront API setup, we would fetch the customer here
-    // For now, we'll just set the token to indicate authentication
-    setCustomerAccessToken(token);
-    setIsLoading(false);
-  }, []);
+  const [token, setToken] = useState<string | null>(() => getAccessToken());
+  const [authed, setAuthed] = useState<boolean>(() => checkAuth());
 
   useEffect(() => {
-    const savedToken = localStorage.getItem(CUSTOMER_TOKEN_STORAGE_KEY);
-    if (savedToken) {
-      void loadCustomer(savedToken);
-    } else {
-      setIsLoading(false);
-    }
-  }, [loadCustomer]);
+    setToken(getAccessToken());
+    setAuthed(checkAuth());
+  }, []);
 
-  const login = useCallback(() => {
-    window.location.href = `${SHOPIFY_STORE_URL}/account/login`;
+  const login = useCallback((returnTo?: string) => {
+    void beginLogin(returnTo);
   }, []);
 
   const logout = useCallback(() => {
-    localStorage.removeItem(CUSTOMER_TOKEN_STORAGE_KEY);
-    setCustomer(null);
-    setCustomerAccessToken(null);
-    window.location.href = `${SHOPIFY_STORE_URL}/account/logout`;
+    clearTokens();
+    setToken(null);
+    setAuthed(false);
+    oauthLogout();
   }, []);
 
-  const refreshCustomer = useCallback(async () => {
-    const token = localStorage.getItem(CUSTOMER_TOKEN_STORAGE_KEY);
-    if (token) await loadCustomer(token);
-  }, [loadCustomer]);
+  const signalAuthenticated = useCallback(() => {
+    setToken(getAccessToken());
+    setAuthed(checkAuth());
+  }, []);
 
-  return (
-    <CustomerAuthContext.Provider
-      value={{
-        customer,
-        customerAccessToken,
-        isAuthenticated: !!customerAccessToken,
-        isLoading,
-        login,
-        logout,
-        refreshCustomer,
-      }}
-    >
-      {children}
-    </CustomerAuthContext.Provider>
+  const value = useMemo(
+    () => ({
+      customerAccessToken: token,
+      isAuthenticated: authed,
+      isLoading: false,
+      login,
+      logout,
+      signalAuthenticated,
+    }),
+    [token, authed, login, logout, signalAuthenticated],
   );
+
+  return <CustomerAuthContext.Provider value={value}>{children}</CustomerAuthContext.Provider>;
 };
 
 export const useCustomerAuth = () => {
-  const context = useContext(CustomerAuthContext);
-  if (!context) {
-    throw new Error("useCustomerAuth must be used within CustomerAuthProvider");
-  }
-  return context;
+  const ctx = useContext(CustomerAuthContext);
+  if (!ctx) throw new Error("useCustomerAuth must be used within CustomerAuthProvider");
+  return ctx;
 };
