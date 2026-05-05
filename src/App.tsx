@@ -19,6 +19,10 @@ const AboutUs = lazy(() => import("./pages/AboutUs.tsx"));
 const Contact = lazy(() => import("./pages/Contact.tsx"));
 const FAQ = lazy(() => import("./pages/FAQ.tsx"));
 const TrackOrder = lazy(() => import("./pages/TrackOrder.tsx"));
+const Account = lazy(() => import("./pages/Account.tsx"));
+const Orders = lazy(() => import("./pages/Orders.tsx"));
+const Login = lazy(() => import("./pages/Login.tsx"));
+const AuthCallback = lazy(() => import("./pages/AuthCallback.tsx"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy.tsx"));
 const TermsOfService = lazy(() => import("./pages/TermsOfService.tsx"));
 const RefundPolicy = lazy(() => import("./pages/RefundPolicy.tsx"));
@@ -62,6 +66,10 @@ const App = () => (
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/faq" element={<FAQ />} />
                 <Route path="/track-order" element={<TrackOrder />} />
+                <Route path="/account" element={<Account />} />
+                <Route path="/orders" element={<Orders />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/auth/callback" element={<AuthCallback />} />
                 <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 <Route path="/terms-of-service" element={<TermsOfService />} />
                 <Route path="/refund-policy" element={<RefundPolicy />} />
