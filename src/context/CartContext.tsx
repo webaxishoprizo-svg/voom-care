@@ -1,7 +1,4 @@
-/* eslint-disable react-refresh/only-export-components */
 import {
-  createContext,
-  useContext,
   useState,
   type ReactNode,
   useCallback,
@@ -14,32 +11,18 @@ import {
   createShopifyCart,
   fetchShopifyCart,
   removeShopifyCartLines,
-  syncShopifyCartBuyerIdentity,
   updateShopifyCartLines,
-  type ShopifyCartItem,
 } from "@/lib/shopify/cart";
 import { useCustomerAuth } from "@/context/CustomerAuthContext";
 import { trackAddToCart, trackInitiateCheckout } from "@/lib/meta-pixel";
+import {
+  CART_STORAGE_KEY,
+  CartContext,
+  type CartItem,
+} from "@/context/cart-context-internal";
 
-export const CART_STORAGE_KEY = "voom-shopify-cart-id";
-
-export type CartItem = ShopifyCartItem;
-
-interface CartContextType {
-  items: CartItem[];
-  addItem: (product: Product, quantity?: number) => Promise<void>;
-  removeItem: (productId: string) => Promise<void>;
-  updateQuantity: (productId: string, quantity: number) => Promise<void>;
-  clearCart: () => Promise<void>;
-  checkout: () => Promise<void>;
-  totalItems: number;
-  totalPrice: number;
-  isOpen: boolean;
-  isCheckingOut: boolean;
-  setIsOpen: (open: boolean) => void;
-}
-
-const CartContext = createContext<CartContextType | undefined>(undefined);
+export { CART_STORAGE_KEY };
+export type { CartItem };
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const { customerAccessToken } = useCustomerAuth();
@@ -250,8 +233,4 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export const useCart = () => {
-  const ctx = useContext(CartContext);
-  if (!ctx) throw new Error("useCart must be used within CartProvider");
-  return ctx;
-};
+export { useCart } from "@/hooks/use-cart";
