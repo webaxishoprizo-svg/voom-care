@@ -2,7 +2,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ShoppingBag } from "lucide-react";
 import { motion } from "framer-motion";
-import { useCart } from "@/context/CartContext";
+import { useCart } from "@/hooks/use-cart";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useCollectionProducts, useHybridCollections, useHybridProducts } from "@/lib/shopify/hooks";
 import { formatCurrency } from "@/lib/utils";

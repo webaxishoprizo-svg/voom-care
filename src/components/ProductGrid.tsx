@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { motion, useAnimation, useMotionValue, useTransform, MotionValue } from "framer-motion";
 import { Bookmark, ArrowRight, ShoppingBag, ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { useCart } from "@/context/CartContext";
+import { useCart } from "@/hooks/use-cart";
 import { useCollectionProducts } from "@/lib/shopify/hooks";
 import { formatCurrency } from "@/lib/utils";
 import { Product } from "@/data/products";

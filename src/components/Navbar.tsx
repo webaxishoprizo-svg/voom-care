@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Menu, Search, User, ShoppingBag, X, Package, Bookmark } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useCart } from "@/context/CartContext";
+import { useCart } from "@/hooks/use-cart";
 import { useCustomerAuth } from "@/context/CustomerAuthContext";
 import logo from "@/assets/logo.png";
 import SearchDialog from "@/components/SearchDialog";
