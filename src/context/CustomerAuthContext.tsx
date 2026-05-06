@@ -10,7 +10,6 @@ import {
 } from "react";
 import {
   beginLogin,
-  clearTokens,
   getAccessToken,
   isAuthenticated as checkAuth,
   logout as oauthLogout,
@@ -41,7 +40,6 @@ export const CustomerAuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const logout = useCallback(() => {
-    clearTokens();
     setToken(null);
     setAuthed(false);
     oauthLogout();
