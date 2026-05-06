@@ -11,7 +11,7 @@ declare global {
 }
 
 import { Product } from "@/data/products";
-import { CartItem } from "@/context/CartContext";
+import type { CartItem } from "@/context/cart-context-internal";
 
 // Pixel ID placeholder (User to update this)
 export const PIXEL_ID = "827163549102837"; 
