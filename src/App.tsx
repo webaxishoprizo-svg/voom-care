@@ -57,27 +57,27 @@ const App = () => (
             <Suspense fallback={<Loading />}>
               <AnimatePresence mode="wait">
                 <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/products" element={<Products />} />
-                <Route path="/product/:id" element={<ProductDetail />} />
-                <Route path="/about" element={<AboutUs />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/faq" element={<FAQ />} />
-                <Route path="/track-order" element={<TrackOrder />} />
-                <Route path="/account" element={<Account />} />
-                <Route path="/orders" element={<Orders />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/auth/callback" element={<AuthCallback />} />
-                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-                <Route path="/terms-of-service" element={<TermsOfService />} />
-                <Route path="/refund-policy" element={<RefundPolicy />} />
-                <Route path="/shipping-policy" element={<ShippingPolicy />} />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </AnimatePresence>
-          </Suspense>
-        </BrowserRouter>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/products" element={<Products />} />
+                  <Route path="/product/:id" element={<ProductDetail />} />
+                  <Route path="/about" element={<AboutUs />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/faq" element={<FAQ />} />
+                  <Route path="/track-order" element={<TrackOrder />} />
+                  <Route path="/account" element={<Account />} />
+                  <Route path="/orders" element={<Orders />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/auth/callback" element={<AuthCallback />} />
+                  <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                  <Route path="/terms-of-service" element={<TermsOfService />} />
+                  <Route path="/refund-policy" element={<RefundPolicy />} />
+                  <Route path="/shipping-policy" element={<ShippingPolicy />} />
+                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </AnimatePresence>
+            </Suspense>
+          </BrowserRouter>
         </TooltipProvider>
       </CartProvider>
     </CustomerAuthProvider>
