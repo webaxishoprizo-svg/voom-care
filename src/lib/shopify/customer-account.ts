@@ -128,6 +128,10 @@ function persistTokens(data: TokenResponse) {
   localStorage.setItem(STORAGE.expiresAt, String(expiresAt));
 }
 
+function getLogoutRedirectUri() {
+  return `${window.location.origin}/`;
+}
+
 export function clearTokens() {
   Object.values(STORAGE).forEach((k) => {
     localStorage.removeItem(k);
@@ -172,11 +176,16 @@ export async function refreshAccessToken(): Promise<string | null> {
 export function logout() {
   const idToken = localStorage.getItem(STORAGE.idToken);
   clearTokens();
+  if (!idToken) {
+    window.location.assign("/");
+    return;
+  }
+
   const params = new URLSearchParams({
     client_id: CUSTOMER_OAUTH.clientId,
-    post_logout_redirect_uri: window.location.origin,
+    post_logout_redirect_uri: getLogoutRedirectUri(),
   });
-  if (idToken) params.set("id_token_hint", idToken);
+  params.set("id_token_hint", idToken);
   window.location.href = `${CUSTOMER_OAUTH.logout}?${params.toString()}`;
 }
 
