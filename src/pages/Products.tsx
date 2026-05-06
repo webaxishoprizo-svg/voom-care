@@ -6,6 +6,7 @@ import { useCart } from "@/hooks/use-cart";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useCollectionProducts, useHybridCollections, useHybridProducts } from "@/lib/shopify/hooks";
 import { formatCurrency } from "@/lib/utils";
+import SEO from "@/components/SEO";
 
 const Products = () => {
   const { addItem } = useCart();
@@ -37,6 +38,11 @@ const Products = () => {
 
   return (
     <main className="min-h-screen bg-background">
+      <SEO
+        title={heading}
+        description={`Shop ${heading} - ${description}. Discover premium carcare products, car shampoo, and detailing kits from VOOM.`}
+        keywords={`${heading}, carcare products, car shampoo, detailing products, VOOM, car wash kit`}
+      />
       <Navbar />
       <section className="pt-28 pb-16 px-4">
         <div className="max-w-6xl mx-auto">

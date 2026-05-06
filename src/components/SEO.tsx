@@ -7,78 +7,88 @@ interface SEOProps {
   ogImage?: string;
   ogType?: string;
   canonical?: string;
-  schema?: Record<string, unknown>;
+  schema?: object;
 }
 
 const SEO = ({
-  title = "VOOM | Premium Car Care | Shine Beyond Ordinary",
-  description = "VOOM by Frenzo Group — professional-grade car wash, polish and detailing formulas crafted in India. Showroom finish for enthusiasts who demand the best.",
-  keywords = "VOOM, voomcare, car shampoo, tyre polish, dash clean, car care India, premium car wash, car detailing, Frenzo Group",
-  ogImage = "/og-image.jpg",
+  title,
+  description,
+  keywords,
+  ogImage,
   ogType = "website",
-  canonical = "https://voomcare.com",
-  schema
+  canonical,
+  schema,
 }: SEOProps) => {
+  const baseTitle = "VOOM | Premium Car Care";
+  const fullTitle = title ? `${title} | ${baseTitle}` : baseTitle;
+
   useEffect(() => {
-    // Basic Meta Tags
-    document.title = title;
-    
-    const updateMeta = (name: string, content: string, attr: "name" | "property" = "name") => {
-      let element = document.querySelector(`meta[${attr}="${name}"]`);
-      if (!element) {
-        element = document.createElement("meta");
-        element.setAttribute(attr, name);
-        document.head.appendChild(element);
-      }
-      element.setAttribute("content", content);
-    };
+    // Update Title
+    document.title = fullTitle;
 
-    updateMeta("description", description);
-    updateMeta("keywords", keywords);
-    
-    // Open Graph
-    updateMeta("og:title", title, "property");
-    updateMeta("og:description", description, "property");
-    updateMeta("og:image", ogImage, "property");
-    updateMeta("og:type", ogType, "property");
-    updateMeta("og:url", window.location.href, "property");
-    updateMeta("og:site_name", "VOOM Care");
-
-    // Twitter
-    updateMeta("twitter:card", "summary_large_image");
-    updateMeta("twitter:title", title);
-    updateMeta("twitter:description", description);
-    updateMeta("twitter:image", ogImage);
-
-    // Canonical
-    let linkCanonical = document.querySelector('link[rel="canonical"]');
-    if (!linkCanonical) {
-      linkCanonical = document.createElement("link");
-      linkCanonical.setAttribute("rel", "canonical");
-      document.head.appendChild(linkCanonical);
+    // Update Meta Description
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute(
+        "content",
+        description || "VOOM by Frenzo Group — Premium car care products and professional-grade car detailing formulas. Crafted in India."
+      );
     }
-    linkCanonical.setAttribute("href", canonical || window.location.href);
 
-    // Schema.org (JSON-LD)
+    // Update Meta Keywords
+    const metaKeywords = document.querySelector('meta[name="keywords"]');
+    if (metaKeywords) {
+      if (keywords) {
+        metaKeywords.setAttribute("content", keywords);
+      }
+    }
+
+    // Update OG Tags
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.setAttribute("content", fullTitle);
+
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+    if (ogDesc) {
+      ogDesc.setAttribute(
+        "content",
+        description || "Professional-grade car wash, polish and detailing formulas."
+      );
+    }
+
+    if (ogImage) {
+      const ogImg = document.querySelector('meta[property="og:image"]');
+      if (ogImg) ogImg.setAttribute("content", ogImage);
+    }
+
+    const ogTypeTag = document.querySelector('meta[property="og:type"]');
+    if (ogTypeTag) ogTypeTag.setAttribute("content", ogType);
+
+    // Update Canonical
+    if (canonical) {
+      let linkCanonical = document.querySelector('link[rel="canonical"]');
+      if (linkCanonical) {
+        linkCanonical.setAttribute("href", canonical);
+      } else {
+        linkCanonical = document.createElement("link");
+        linkCanonical.setAttribute("rel", "canonical");
+        linkCanonical.setAttribute("href", canonical);
+        document.head.appendChild(linkCanonical);
+      }
+    }
+
+    // Update Schema
     if (schema) {
-      let scriptSchema = document.getElementById("json-ld-schema");
-      if (!scriptSchema) {
-        scriptSchema = document.createElement("script");
-        scriptSchema.id = "json-ld-schema";
-        scriptSchema.setAttribute("type", "application/ld+json");
-        document.head.appendChild(scriptSchema);
+      const scriptId = "json-ld-schema";
+      let script = document.getElementById(scriptId) as HTMLScriptElement;
+      if (!script) {
+        script = document.createElement("script");
+        script.id = scriptId;
+        script.type = "application/ld+json";
+        document.head.appendChild(script);
       }
-      scriptSchema.textContent = JSON.stringify(schema);
+      script.text = JSON.stringify(schema);
     }
-
-    return () => {
-      // Cleanup schema on unmount if necessary
-      const scriptSchema = document.getElementById("json-ld-schema");
-      if (scriptSchema) {
-        // We keep it or clear it depending on page transitions
-      }
-    };
-  }, [title, description, keywords, ogImage, ogType, canonical, schema]);
+  }, [title, description, keywords, ogImage, ogType, canonical, fullTitle, schema]);
 
   return null;
 };

@@ -85,7 +85,8 @@ const Contact = () => {
     <main className="min-h-screen bg-background text-foreground">
       <SEO
         title="Contact Us | VOOM Premium Car Care"
-        description="Get in touch with the VOOM team for order inquiries, damage claims, or product questions. We respond to all messages within 24 hours."
+        description="Get in touch with VOOM for support on the best carcare products and car shampoo. Our team is here to help with your detailing questions."
+        keywords="contact VOOM, car care support, car shampoo help, detailing products India, car wash kit support"
       />
       <Navbar />
 

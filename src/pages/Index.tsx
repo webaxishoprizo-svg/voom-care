@@ -38,8 +38,9 @@ const Index = () => {
   return (
     <main id="main-content" className="min-h-screen bg-background">
       <SEO
-        title="VOOM | Premium Car Care | Shine Beyond Ordinary"
-        description="VOOM by Frenzo Group — professional-grade car wash, polish and detailing formulas crafted in India. Showroom finish for enthusiasts."
+        title="VOOM | Best Car Care Products & Premium Car Shampoo"
+        description="Shop VOOM for the best carcare products in India. From professional car shampoo to detailing kits, achieve a showroom finish. Top-rated auto detailing formulas."
+        keywords="carcare products, car shampoo, best car shampoo India, car detailing products, premium car care, VOOM, auto detailing, car wash kit, tyre polish"
         schema={orgSchema}
       />
       <Navbar />

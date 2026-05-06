@@ -241,7 +241,8 @@ const FAQ = () => {
     <main className="min-h-screen bg-background text-foreground">
       <SEO 
         title="FAQ | VOOM Premium Car Care | Help Centre"
-        description="Find answers to common questions about VOOM car care products, delivery times, usage instructions and return policies."
+        description="Find answers to common questions about VOOM carcare products, premium car shampoo, delivery times, and detailing usage instructions."
+        keywords="car care FAQ, car shampoo help, carcare products India, VOOM support, detailing instructions, car wash tips"
         schema={faqSchema}
       />
       <Navbar />

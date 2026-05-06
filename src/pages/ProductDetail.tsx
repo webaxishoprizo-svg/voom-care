@@ -166,8 +166,8 @@ const ProductDetail = () => {
     <main className="min-h-screen bg-background text-foreground">
       <SEO
         title={`${product.name} | Premium Car Care | VOOM`}
-        description={product.description || `Discover ${product.name}, a premium professional car care solution from VOOM. High-performance formula for showroom results.`}
-        keywords={`${product.name}, car care, car detailing, VOOM care, automotive cleaning`}
+        description={product.description || `Discover ${product.name}, a premium professional carcare product from VOOM. High-performance formula for showroom results.`}
+        keywords={`${product.name}, carcare products, car shampoo, car detailing, VOOM care, automotive cleaning, premium car wash`}
         schema={productSchema}
       />
       <Navbar />
