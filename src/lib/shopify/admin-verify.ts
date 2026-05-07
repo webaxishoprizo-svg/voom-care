@@ -4,6 +4,42 @@
 
 const SHOP = process.env.VITE_SHOPIFY_DOMAIN || process.env.SHOP;
 const ADMIN_API_TOKEN = process.env.ADMIN_API_TOKEN;
+const SHOP_ID = process.env.VITE_SHOPIFY_SHOP_ID;
+
+/**
+ * Resolves a Customer GID from an access token using the Customer Account API.
+ */
+export async function getCustomerIdFromToken(accessToken: string): Promise<string | null> {
+  if (!SHOP_ID) {
+    console.error('VITE_SHOPIFY_SHOP_ID is missing');
+    return null;
+  }
+
+  const query = `
+    query {
+      customer {
+        id
+      }
+    }
+  `;
+
+  try {
+    const response = await fetch(`https://shopify.com/${SHOP_ID}/account/customer/api/2024-10/graphql`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': accessToken,
+      },
+      body: JSON.stringify({ query }),
+    });
+
+    const result = await response.json();
+    return result.data?.customer?.id || null;
+  } catch (error) {
+    console.error('Error resolving customer ID:', error);
+    return null;
+  }
+}
 
 /**
  * Verifies if a customer has purchased a specific product.

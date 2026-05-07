@@ -1,6 +1,6 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { supabaseAdmin } from '../../src/lib/supabase';
-import { verifyPurchase, verifyOrderProduct } from '../../src/lib/shopify/admin-verify';
+import { verifyPurchase, getCustomerIdFromToken } from '../../src/lib/shopify/admin-verify';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
@@ -46,8 +46,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     } 
     // 2. Authenticated user validation
     else if (customerId) {
+      // The customerId passed from frontend is the accessToken
+      const resolvedId = await getCustomerIdFromToken(customerId);
+      if (!resolvedId) {
+        return res.status(401).json({ error: 'Invalid or expired session' });
+      }
+      finalCustomerId = resolvedId;
+
       // Verify purchase using Shopify Admin API
-      const verifiedOrderId = await verifyPurchase(customerId, productId);
+      const verifiedOrderId = await verifyPurchase(finalCustomerId, productId);
       if (!verifiedOrderId) {
         return res.status(403).json({ error: 'No verified purchase found for this product' });
       }
