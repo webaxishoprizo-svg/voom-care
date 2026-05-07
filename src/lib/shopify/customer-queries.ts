@@ -41,7 +41,7 @@ export interface CustomerOrder {
       image?: { url: string; altText?: string | null } | null;
       variantTitle?: string;
       price?: { amount: string; currencyCode: string } | null;
-      product?: { id: string } | null;
+      productId?: string | null;
     }>;
   };
   shippingAddress?: CustomerAddress | null;
@@ -114,7 +114,7 @@ const ORDERS_QUERY = /* GraphQL */ `
               variantTitle
               image { url altText }
               price { amount currencyCode }
-              product { id }
+              productId
             }
           }
           shippingAddress { formatted }
