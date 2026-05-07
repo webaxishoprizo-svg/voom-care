@@ -27,6 +27,7 @@ const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy.tsx"));
 const TermsOfService = lazy(() => import("./pages/TermsOfService.tsx"));
 const RefundPolicy = lazy(() => import("./pages/RefundPolicy.tsx"));
 const ShippingPolicy = lazy(() => import("./pages/ShippingPolicy.tsx"));
+const ReviewSubmission = lazy(() => import("./pages/ReviewSubmission.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 
 import { AnimatePresence } from "framer-motion";
@@ -72,6 +73,7 @@ const App = () => (
                   <Route path="/terms-of-service" element={<TermsOfService />} />
                   <Route path="/refund-policy" element={<RefundPolicy />} />
                   <Route path="/shipping-policy" element={<ShippingPolicy />} />
+                  <Route path="/review" element={<ReviewSubmission />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>

@@ -22,6 +22,8 @@ import { useHybridProduct, useHybridProducts, useCollectionProducts } from "@/li
 import { formatCurrency } from "@/lib/utils";
 import SEO from "@/components/SEO";
 import { trackViewContent } from "@/lib/meta-pixel";
+import { ReviewSection } from "@/components/reviews/ReviewSection";
+import { useCustomerAuth } from "@/context/CustomerAuthContext";
 
 const testimonials = [
   {
@@ -50,6 +52,7 @@ const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addItem } = useCart();
+  const { isAuthenticated, customerAccessToken } = useCustomerAuth();
   const [qty, setQty] = useState(1);
 
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, skipSnaps: false });
@@ -413,45 +416,11 @@ const ProductDetail = () => {
         </div>
       </section>
 
-      {!isNotForSale && (
-        <section className="px-4 py-16">
-          <div className="max-w-6xl mx-auto">
-            <p className="text-xs tracking-[0.3em] uppercase text-primary text-center mb-2">
-              Reviews
-            </p>
-            <h2 className="font-display text-3xl md:text-4xl text-foreground text-center mb-10">
-              What Customers Say
-            </h2>
-            <div className="grid md:grid-cols-3 gap-6">
-              {testimonials.map((testimonial, index) => (
-                <motion.div
-                  key={testimonial.name}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="bg-card border border-border rounded-xl p-6"
-                >
-                  <div className="flex gap-0.5 mb-3">
-                    {[...Array(5)].map((_, ratingIndex) => (
-                      <Star
-                        key={ratingIndex}
-                        className={`w-3.5 h-3.5 ${ratingIndex < testimonial.rating ? "fill-primary text-primary" : "fill-muted/20 text-muted/20"}`}
-                      />
-                    ))}
-                  </div>
-                  <p className="text-foreground/90 text-sm italic leading-relaxed mb-4">
-                    {testimonial.text}
-                  </p>
-                  <p className="text-muted-foreground text-xs font-semibold">
-                    - {testimonial.name}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
+      <ReviewSection 
+        productId={product.id} 
+        customerId={customerAccessToken || undefined} 
+        canWriteReview={isAuthenticated}
+      />
 
       {recommended.length > 0 && (
         <section className="px-4 py-16 border-t border-border">

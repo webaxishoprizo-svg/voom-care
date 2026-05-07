@@ -144,6 +144,12 @@ const Orders = () => {
                             <p className="text-xs text-muted-foreground">{line.variantTitle}</p>
                           )}
                           <p className="text-xs text-muted-foreground">Qty {line.quantity}</p>
+                          <Link 
+                            to={`/product/${line.product?.id?.split('/').pop()}?writeReview=true`}
+                            className="inline-block mt-2 text-[10px] font-bold uppercase tracking-widest text-primary hover:underline"
+                          >
+                            Write a Review
+                          </Link>
                         </div>
                         <p className="text-sm tabular-nums">
                           {formatMoney(line.price?.amount, line.price?.currencyCode)}
