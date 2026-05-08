@@ -16,32 +16,38 @@ const SHOP_ID =
  */
 export async function getCustomerIdFromToken(accessToken: string): Promise<string | null> {
   if (!SHOP_ID) {
-    console.error('VITE_SHOPIFY_SHOP_ID is missing');
+    console.error('[getCustomerIdFromToken] SHOPIFY_SHOP_ID is missing');
+    return null;
+  }
+  if (!accessToken) {
+    console.error('[getCustomerIdFromToken] No access token provided');
     return null;
   }
 
-  const query = `
-    query {
-      customer {
-        id
-      }
-    }
-  `;
+  const query = `query { customer { id } }`;
 
   try {
-    const response = await fetch(`https://shopify.com/${SHOP_ID}/account/customer/api/2024-10/graphql`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': accessToken,
+    const response = await fetch(
+      `https://shopify.com/${SHOP_ID}/account/customer/api/2024-10/graphql`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: accessToken,
+        },
+        body: JSON.stringify({ query }),
       },
-      body: JSON.stringify({ query }),
-    });
+    );
 
     const result = await response.json();
-    return result.data?.customer?.id || null;
+    if (result.errors) {
+      console.error('[getCustomerIdFromToken] GraphQL errors:', JSON.stringify(result.errors));
+    }
+    const id = result.data?.customer?.id || null;
+    if (!id) console.warn('[getCustomerIdFromToken] No customer id resolved');
+    return id;
   } catch (error) {
-    console.error('Error resolving customer ID:', error);
+    console.error('[getCustomerIdFromToken] Error:', error);
     return null;
   }
 }
