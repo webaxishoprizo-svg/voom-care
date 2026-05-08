@@ -90,7 +90,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       .insert([
         {
           user_id: finalCustomerId,
-          product_id: productId,
+          product_id: gidProduct,
           order_id: finalOrderId,
           rating,
           review,
