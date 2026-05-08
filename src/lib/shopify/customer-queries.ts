@@ -42,7 +42,6 @@ export interface CustomerOrder {
       variantTitle?: string;
       price?: { amount: string; currencyCode: string } | null;
       productId?: string | null;
-      product?: { handle: string } | null;
     }>;
   };
   shippingAddress?: CustomerAddress | null;
