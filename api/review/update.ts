@@ -1,5 +1,6 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { supabaseAdmin } from '../../src/lib/supabase';
+import { getCustomerIdFromToken } from '../../src/lib/shopify/admin-verify';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'PUT') {
@@ -13,7 +14,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    // 1. Verify ownership
+    // 1. Resolve accessToken to GID
+    const resolvedId = await getCustomerIdFromToken(customerId);
+    if (!resolvedId) {
+      return res.status(401).json({ error: 'Invalid session' });
+    }
+
+    // 2. Verify ownership
     const { data: existingReview, error: fetchError } = await supabaseAdmin
       .from('reviews')
       .select('user_id')
@@ -24,7 +31,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(404).json({ error: 'Review not found' });
     }
 
-    if (existingReview.user_id !== customerId) {
+    if (existingReview.user_id !== resolvedId) {
       return res.status(403).json({ error: 'You are not authorized to edit this review' });
     }
 

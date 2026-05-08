@@ -5,14 +5,7 @@ import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
-
-interface Review {
-  id: string;
-  rating: number;
-  review: string;
-  user_id: string;
-  created_at: string;
-}
+import { getMockReviewsForProduct, Review } from '@/data/mockReviews';
 
 interface ReviewSectionProps {
   productId: string;
@@ -20,46 +13,118 @@ interface ReviewSectionProps {
   canWriteReview?: boolean;
 }
 
-export const ReviewSection = ({ productId, customerId, canWriteReview }: ReviewSectionProps) => {
+export const ReviewSection = ({ productId, customerId, canWriteReview: initialCanWriteReview }: ReviewSectionProps) => {
   const location = useLocation();
   const [reviews, setReviews] = useState<Review[]>([]);
   const [stats, setStats] = useState({ averageRating: 0, totalReviews: 0 });
   const [pagination, setPagination] = useState({ page: 1, pages: 1 });
   const [isLoading, setIsLoading] = useState(true);
+  const [isCheckingEligibility, setIsCheckingEligibility] = useState(false);
   const [showForm, setShowForm] = useState(false);
-
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    if (params.get('writeReview') === 'true' && canWriteReview) {
-      setShowForm(true);
-      // Scroll to form after a short delay to ensure rendering
-      setTimeout(() => {
-        const form = document.getElementById('review-form-anchor');
-        if (form) form.scrollIntoView({ behavior: 'smooth' });
-      }, 500);
-    }
-  }, [location.search, canWriteReview]);
+  
+  // New eligibility states
+  const [isEligible, setIsEligible] = useState(false);
+  const [hasReviewed, setHasReviewed] = useState(false);
+  const [resolvedCustomerId, setResolvedCustomerId] = useState<string | null>(null);
 
   const fetchReviews = async (page = 1) => {
     setIsLoading(true);
     try {
+      // 1. Get real reviews from API
       const res = await fetch(`/api/reviews?product_id=${encodeURIComponent(productId)}&page=${page}`);
-      const data = await res.json();
-      if (data.reviews) {
-        setReviews(data.reviews);
-        setStats(data.stats);
-        setPagination(data.pagination);
+      let apiData = { reviews: [], stats: { averageRating: 0, totalReviews: 0 }, pagination: { page: 1, pages: 1 } };
+      
+      if (res.ok) {
+        apiData = await res.json();
       }
+
+      // 2. Get mock reviews from local data
+      const localMockReviews = getMockReviewsForProduct(productId);
+
+      // 3. Combine and sort (if API failed, we just use local mocks)
+      // Note: If API worked, it already has mocks in the current implementation, 
+      // but we'll merge them here to be safe and ensure they show up in local dev.
+      const apiReviews = apiData.reviews || [];
+      
+      // Filter out mocks from API to avoid double-counting if API is already including them
+      const realApiReviews = apiReviews.filter((r: any) => !r.id.startsWith('mock-'));
+      
+      const allCombined = [...realApiReviews, ...localMockReviews].sort(
+        (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      );
+
+      // 4. Update stats based on combined data
+      const total = allCombined.length;
+      const avg = total > 0 
+        ? (allCombined.reduce((acc, r) => acc + r.rating, 0) / total).toFixed(1) 
+        : 0;
+
+      // 5. Apply frontend pagination for now to ensure local dev works perfectly
+      const limit = 10;
+      const pCount = Math.ceil(total / limit);
+      const paginated = allCombined.slice((page - 1) * limit, page * limit);
+
+      setReviews(paginated);
+      setStats({
+        averageRating: parseFloat(avg as string),
+        totalReviews: total
+      });
+      setPagination({
+        page,
+        pages: pCount
+      });
     } catch (error) {
       console.error('Error fetching reviews:', error);
+      // Fallback to only mock reviews if API fails completely
+      const localMockReviews = getMockReviewsForProduct(productId);
+      const total = localMockReviews.length;
+      const avg = total > 0 ? (localMockReviews.reduce((acc, r) => acc + r.rating, 0) / total).toFixed(1) : 0;
+      
+      setReviews(localMockReviews.slice(0, 10));
+      setStats({ averageRating: parseFloat(avg as string), totalReviews: total });
+      setPagination({ page: 1, pages: Math.ceil(total / 10) });
     } finally {
       setIsLoading(false);
     }
   };
 
+  const checkEligibility = async () => {
+    if (!customerId) {
+      setIsEligible(false);
+      setHasReviewed(false);
+      setResolvedCustomerId(null);
+      return;
+    }
+
+    setIsCheckingEligibility(true);
+    try {
+      const res = await fetch(`/api/review/eligibility?product_id=${encodeURIComponent(productId)}&customer_id=${encodeURIComponent(customerId)}`);
+      const data = await res.json();
+      setIsEligible(data.eligible);
+      setHasReviewed(data.hasReviewed);
+      setResolvedCustomerId(data.resolvedId);
+    } catch (error) {
+      console.error('Error checking eligibility:', error);
+    } finally {
+      setIsCheckingEligibility(false);
+    }
+  };
+
   useEffect(() => {
     fetchReviews();
-  }, [productId]);
+    checkEligibility();
+  }, [productId, customerId]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (params.get('writeReview') === 'true' && isEligible && !hasReviewed) {
+      setShowForm(true);
+      setTimeout(() => {
+        const form = document.getElementById('review-form-anchor');
+        if (form) form.scrollIntoView({ behavior: 'smooth' });
+      }, 500);
+    }
+  }, [location.search, isEligible, hasReviewed]);
 
   const handleDelete = async (reviewId: string) => {
     if (!confirm('Are you sure you want to delete this review?')) return;
@@ -74,6 +139,7 @@ export const ReviewSection = ({ productId, customerId, canWriteReview }: ReviewS
       if (res.ok) {
         toast.success('Review deleted');
         fetchReviews();
+        checkEligibility(); // Refresh eligibility
       } else {
         const error = await res.json();
         toast.error(error.error || 'Failed to delete review');
@@ -82,6 +148,10 @@ export const ReviewSection = ({ productId, customerId, canWriteReview }: ReviewS
       toast.error('Network error');
     }
   };
+
+  const [editingReview, setEditingReview] = useState<Review | null>(null);
+
+  const canShowButton = isEligible && !hasReviewed;
 
   return (
     <section className="py-16 px-4 bg-background">
@@ -108,11 +178,12 @@ export const ReviewSection = ({ productId, customerId, canWriteReview }: ReviewS
             </div>
           </div>
 
-          {canWriteReview && (
+          {canShowButton && (
             <Button 
               onClick={() => setShowForm(!showForm)}
               variant="outline"
               className="rounded-full border-primary/30 text-primary hover:bg-primary/5 px-8"
+              disabled={isCheckingEligibility}
             >
               {showForm ? 'Cancel' : 'Write a Review'}
             </Button>
@@ -120,7 +191,7 @@ export const ReviewSection = ({ productId, customerId, canWriteReview }: ReviewS
         </div>
 
         <AnimatePresence>
-          {showForm && (
+          {(showForm || editingReview) && (
             <motion.div
               id="review-form-anchor"
               initial={{ opacity: 0, height: 0 }}
@@ -131,9 +202,12 @@ export const ReviewSection = ({ productId, customerId, canWriteReview }: ReviewS
               <ReviewForm 
                 productId={productId} 
                 customerId={customerId} 
+                initialData={editingReview || undefined}
                 onSuccess={() => {
                   setShowForm(false);
+                  setEditingReview(null);
                   fetchReviews();
+                  checkEligibility();
                 }} 
               />
             </motion.div>
@@ -179,8 +253,20 @@ export const ReviewSection = ({ productId, customerId, canWriteReview }: ReviewS
                   {review.review}
                 </p>
 
-                {customerId === review.user_id && (
+                {resolvedCustomerId === review.user_id && (
                   <div className="absolute bottom-6 right-6 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button 
+                      onClick={() => {
+                        setEditingReview(review);
+                        setTimeout(() => {
+                          const form = document.getElementById('review-form-anchor');
+                          if (form) form.scrollIntoView({ behavior: 'smooth' });
+                        }, 100);
+                      }}
+                      className="p-2 text-muted-foreground hover:text-primary transition-colors"
+                    >
+                      <Edit2 className="w-4 h-4" />
+                    </button>
                     <button 
                       onClick={() => handleDelete(review.id)}
                       className="p-2 text-muted-foreground hover:text-red-500 transition-colors"

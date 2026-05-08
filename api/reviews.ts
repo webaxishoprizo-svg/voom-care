@@ -12,32 +12,33 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(400).json({ error: 'Product ID is required' });
   }
 
+  const productIdStr = product_id as string;
   const p = parseInt(page as string);
   const l = parseInt(limit as string);
   const from = (p - 1) * l;
   const to = from + l - 1;
 
   try {
-    // 1. Get reviews
+    // 1. Get real reviews from Supabase
     const { data: reviews, error, count } = await supabaseAdmin
       .from('reviews')
       .select('*', { count: 'exact' })
-      .eq('product_id', product_id)
+      .eq('product_id', productIdStr)
       .order('created_at', { ascending: false })
       .range(from, to);
 
     if (error) throw error;
 
-    // 2. Get average rating
-    const { data: stats, error: statsError } = await supabaseAdmin
+    // 2. Get stats
+    const { data: statsData, error: statsError } = await supabaseAdmin
       .from('reviews')
       .select('rating')
-      .eq('product_id', product_id);
+      .eq('product_id', productIdStr);
 
     if (statsError) throw statsError;
 
-    const totalRating = stats.reduce((acc: number, curr: any) => acc + curr.rating, 0);
-    const averageRating = stats.length > 0 ? (totalRating / stats.length).toFixed(1) : 0;
+    const totalRating = statsData.reduce((acc: number, curr: any) => acc + curr.rating, 0);
+    const averageRating = statsData.length > 0 ? (totalRating / statsData.length).toFixed(1) : 0;
 
     return res.status(200).json({
       reviews,
@@ -49,10 +50,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       },
       stats: {
         averageRating: parseFloat(averageRating as string),
-        totalReviews: stats.length
+        totalReviews: count || 0
       }
     });
   } catch (error: any) {
+    console.error('Reviews API Error:', error);
     return res.status(500).json({ error: error.message });
   }
 }
