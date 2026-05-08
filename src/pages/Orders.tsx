@@ -145,7 +145,7 @@ const Orders = () => {
                           )}
                           <p className="text-xs text-muted-foreground">Qty {line.quantity}</p>
                           <Link 
-                            to={`/product/${line.product?.handle || line.productId?.split('/').pop()}?writeReview=true`}
+                            to={`/product/${line.productId?.split('/').pop()}?writeReview=true`}
                             className="inline-block mt-2 text-[10px] font-bold uppercase tracking-widest text-primary hover:underline"
                           >
                             Write a Review
