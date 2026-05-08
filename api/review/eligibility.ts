@@ -20,22 +20,29 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(200).json({ eligible: false, reason: 'Invalid session' });
     }
 
-    // 2. Check for existing review
+    // Normalize product id – store reviews against the GID consistently
+    const rawProduct = product_id as string;
+    const numericProduct = rawProduct.includes('/') ? rawProduct.split('/').pop()! : rawProduct;
+    const gidProduct = rawProduct.startsWith('gid://')
+      ? rawProduct
+      : `gid://shopify/Product/${numericProduct}`;
+
+    // 2. Check for existing review (match either format that may have been stored)
     const { data: existingReview } = await supabaseAdmin
       .from('reviews')
       .select('*')
       .eq('user_id', resolvedId)
-      .eq('product_id', product_id)
+      .in('product_id', [gidProduct, numericProduct])
       .maybeSingle();
 
     // 3. Verify purchase history
-    const verifiedOrderId = await verifyPurchase(resolvedId, product_id as string);
-    
+    const verifiedOrderId = await verifyPurchase(resolvedId, gidProduct);
+
     return res.status(200).json({
       eligible: !!verifiedOrderId,
       hasReviewed: !!existingReview,
       existingReview,
-      resolvedId // Return the GID so frontend can use it for edit/delete checks
+      resolvedId
     });
   } catch (error: any) {
     console.error('Eligibility check error:', error);
