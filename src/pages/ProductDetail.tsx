@@ -417,7 +417,7 @@ const ProductDetail = () => {
       </section>
 
       <ReviewSection 
-        productId={product.id} 
+        productId={product.shopifyId || product.id} 
         customerId={customerAccessToken || undefined} 
         canWriteReview={isAuthenticated}
       />
