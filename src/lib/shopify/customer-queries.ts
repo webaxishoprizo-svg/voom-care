@@ -116,7 +116,6 @@ const ORDERS_QUERY = /* GraphQL */ `
               image { url altText }
               price { amount currencyCode }
               productId
-              product { handle }
             }
           }
           shippingAddress { formatted }
