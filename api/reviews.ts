@@ -12,18 +12,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(400).json({ error: 'Product ID is required' });
   }
 
-  const productIdStr = product_id as string;
+  const rawProduct = product_id as string;
+  const numericProduct = rawProduct.includes('/') ? rawProduct.split('/').pop()! : rawProduct;
+  const gidProduct = rawProduct.startsWith('gid://')
+    ? rawProduct
+    : `gid://shopify/Product/${numericProduct}`;
+  const productIds = [gidProduct, numericProduct];
+
   const p = parseInt(page as string);
   const l = parseInt(limit as string);
   const from = (p - 1) * l;
   const to = from + l - 1;
 
   try {
-    // 1. Get real reviews from Supabase
+    // 1. Get real reviews from Supabase (match either GID or numeric storage)
     const { data: reviews, error, count } = await supabaseAdmin
       .from('reviews')
       .select('*', { count: 'exact' })
-      .eq('product_id', productIdStr)
+      .in('product_id', productIds)
       .order('created_at', { ascending: false })
       .range(from, to);
 
@@ -33,7 +39,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const { data: statsData, error: statsError } = await supabaseAdmin
       .from('reviews')
       .select('rating')
-      .eq('product_id', productIdStr);
+      .in('product_id', productIds);
 
     if (statsError) throw statsError;
 

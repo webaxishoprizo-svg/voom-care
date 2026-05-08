@@ -17,6 +17,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     let finalCustomerId = customerId;
     let finalOrderId = orderId;
 
+    // Normalize productId to GID for consistent storage
+    const numericProduct = String(productId).includes('/')
+      ? String(productId).split('/').pop()!
+      : String(productId);
+    const gidProduct = String(productId).startsWith('gid://')
+      ? String(productId)
+      : `gid://shopify/Product/${numericProduct}`;
+
     // 1. Token-based validation (Non-logged users)
     if (token) {
       const { data: tokenData, error: tokenError } = await supabaseAdmin
@@ -37,24 +45,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(401).json({ error: 'Token expired' });
       }
 
-      if (tokenData.product_id !== productId) {
+      const tokenProductNumeric = String(tokenData.product_id).includes('/')
+        ? String(tokenData.product_id).split('/').pop()
+        : String(tokenData.product_id);
+      if (tokenProductNumeric !== numericProduct) {
         return res.status(400).json({ error: 'Token does not match product' });
       }
 
       finalCustomerId = tokenData.user_id;
       finalOrderId = tokenData.order_id;
-    } 
+    }
     // 2. Authenticated user validation
     else if (customerId) {
-      // The customerId passed from frontend is the accessToken
       const resolvedId = await getCustomerIdFromToken(customerId);
       if (!resolvedId) {
         return res.status(401).json({ error: 'Invalid or expired session' });
       }
       finalCustomerId = resolvedId;
 
-      // Verify purchase using Shopify Admin API
-      const verifiedOrderId = await verifyPurchase(finalCustomerId, productId);
+      const verifiedOrderId = await verifyPurchase(finalCustomerId, gidProduct);
       if (!verifiedOrderId) {
         return res.status(403).json({ error: 'No verified purchase found for this product' });
       }
@@ -63,13 +72,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(401).json({ error: 'Authentication or token required' });
     }
 
-    // 3. Prevent duplicate reviews
+    // 3. Prevent duplicate reviews (any stored format)
     const { data: existingReview } = await supabaseAdmin
       .from('reviews')
       .select('id')
       .eq('user_id', finalCustomerId)
-      .eq('product_id', productId)
-      .single();
+      .in('product_id', [gidProduct, numericProduct])
+      .maybeSingle();
 
     if (existingReview) {
       return res.status(400).json({ error: 'You have already reviewed this product' });
@@ -81,7 +90,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       .insert([
         {
           user_id: finalCustomerId,
-          product_id: productId,
+          product_id: gidProduct,
           order_id: finalOrderId,
           rating,
           review,
