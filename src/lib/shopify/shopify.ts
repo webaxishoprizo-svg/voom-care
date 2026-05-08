@@ -440,19 +440,40 @@ export async function fetchHybridCollections(limit = 20) {
 }
 
 export async function fetchHybridProduct(idOrHandle: string) {
-  if (!idOrHandle) {
-    return undefined;
-  }
+  if (!idOrHandle) return undefined;
 
-  const data = await shopifyQuery<ShopifyProductByHandleResponse>(GET_PRODUCT_BY_HANDLE_QUERY, {
+  // 1. Try fetching by handle
+  const handleData = await shopifyQuery<ShopifyProductByHandleResponse>(GET_PRODUCT_BY_HANDLE_QUERY, {
     handle: idOrHandle,
   });
 
-  if (!data.product) {
-    return undefined;
+  if (handleData.product) {
+    return mapProduct(handleData.product);
   }
 
-  return mapProduct(data.product);
+  // 2. If not found and it looks like an ID, try fetching by ID
+  // Shopify GIDs start with gid://, but numerical IDs don't.
+  const isGid = idOrHandle.startsWith("gid://");
+  const isNumeric = /^\d+$/.test(idOrHandle);
+
+  if (isGid || isNumeric) {
+    const gid = isGid ? idOrHandle : `gid://shopify/Product/${idOrHandle}`;
+    const GET_PRODUCT_BY_ID_QUERY = `
+      query GetProductById($id: ID!) {
+        product(id: $id) {
+          ${PRODUCT_FIELDS}
+        }
+      }
+    `;
+    const idData = await shopifyQuery<ShopifyProductByHandleResponse>(GET_PRODUCT_BY_ID_QUERY, {
+      id: gid,
+    });
+    if (idData.product) {
+      return mapProduct(idData.product);
+    }
+  }
+
+  return undefined;
 }
 
 export function buildHeroSlides(_products: Product[], collections: CollectionCard[]): HeroSlide[] {

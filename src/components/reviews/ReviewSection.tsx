@@ -90,6 +90,7 @@ export const ReviewSection = ({ productId, customerId, canWriteReview: initialCa
 
   const checkEligibility = async () => {
     if (!customerId) {
+      console.log('[ReviewSection] No customerId, hiding button');
       setIsEligible(false);
       setHasReviewed(false);
       setResolvedCustomerId(null);
@@ -100,11 +101,12 @@ export const ReviewSection = ({ productId, customerId, canWriteReview: initialCa
     try {
       const res = await fetch(`/api/review/eligibility?product_id=${encodeURIComponent(productId)}&customer_id=${encodeURIComponent(customerId)}`);
       const data = await res.json();
+      console.log('[ReviewSection] Eligibility data:', data);
       setIsEligible(data.eligible);
       setHasReviewed(data.hasReviewed);
       setResolvedCustomerId(data.resolvedId);
     } catch (error) {
-      console.error('Error checking eligibility:', error);
+      console.error('[ReviewSection] Error checking eligibility:', error);
     } finally {
       setIsCheckingEligibility(false);
     }
