@@ -6,6 +6,7 @@ import { useCart } from "@/hooks/use-cart";
 import { useCollectionProducts } from "@/lib/shopify/hooks";
 import { formatCurrency } from "@/lib/utils";
 import { Product } from "@/data/products";
+import { Button } from "@/components/ui/button";
 
 const ProductCard = ({ product, index, x, itemWidth, productsCount }: {
   product: Product;
@@ -387,5 +388,3 @@ const ProductGrid = () => {
 };
 
 export default ProductGrid;
-
-import { Button } from "@/components/ui/button";

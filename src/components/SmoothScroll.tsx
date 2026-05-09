@@ -8,8 +8,10 @@ import Lenis from "lenis";
  */
 const SmoothScroll = () => {
   useEffect(() => {
-    // Only return if the user explicitly prefers reduced motion
+    // Skip on reduced-motion, touch devices, and small screens — native scroll is faster there
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (window.matchMedia("(hover: none), (pointer: coarse)").matches) return;
+    if (window.innerWidth < 1024) return;
 
     const lenis = new Lenis({
       duration: 1.1,
