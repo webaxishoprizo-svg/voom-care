@@ -24,6 +24,7 @@ import SEO from "@/components/SEO";
 import { trackViewContent } from "@/lib/meta-pixel";
 import { ReviewSection } from "@/components/reviews/ReviewSection";
 import { useCustomerAuth } from "@/context/CustomerAuthContext";
+import { getAccessToken } from "@/lib/shopify/customer-account";
 
 const testimonials = [
   {
@@ -418,7 +419,7 @@ const ProductDetail = () => {
 
       <ReviewSection 
         productId={product.shopifyId || product.id} 
-        customerId={customerAccessToken || undefined} 
+        customerId={(getAccessToken() || customerAccessToken) || undefined} 
         canWriteReview={isAuthenticated}
       />
 
