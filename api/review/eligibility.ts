@@ -16,19 +16,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const customerToken = customer_id as string;
 
-    // 1. Prefer Customer Account API order verification. Fall back to Admin API.
-    const tokenPurchase = await verifyPurchaseFromToken(customerToken, gidProduct);
-    const resolvedId = tokenPurchase?.customerId || await getCustomerIdFromToken(customerToken);
-    if (!resolvedId) {
-      return res.status(200).json({ eligible: false, reason: 'Invalid session' });
-    }
-
     // Normalize product id – store reviews against the GID consistently
     const rawProduct = product_id as string;
     const numericProduct = rawProduct.includes('/') ? rawProduct.split('/').pop()! : rawProduct;
     const gidProduct = rawProduct.startsWith('gid://')
       ? rawProduct
       : `gid://shopify/Product/${numericProduct}`;
+
+    // 1. Prefer Customer Account API order verification. Fall back to Admin API.
+    const tokenPurchase = await verifyPurchaseFromToken(customerToken, gidProduct);
+    const resolvedId = tokenPurchase?.customerId || await getCustomerIdFromToken(customerToken);
+    if (!resolvedId) {
+      return res.status(200).json({ eligible: false, reason: 'Invalid session' });
+    }
 
     // 2. Check for existing review (match either format that may have been stored)
     const { data: existingReview } = await supabaseAdmin
