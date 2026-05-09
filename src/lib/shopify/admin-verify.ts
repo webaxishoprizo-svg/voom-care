@@ -101,10 +101,7 @@ export async function verifyPurchase(customerId: string, productId: string): Pro
   }
 
   // Normalize productId so both numeric and GID inputs match.
-  const numericProductId = productId.includes('/') ? productId.split('/').pop()! : productId;
-  const gidProductId = productId.startsWith('gid://')
-    ? productId
-    : `gid://shopify/Product/${numericProductId}`;
+  const { numeric: numericProductId, gid: gidProductId } = normalizeProductId(productId);
 
   // Query for ANY order (paid, pending, fulfilled) – review eligibility shouldn't
   // require the order to be shipped. We just need a confirmed purchase.
@@ -178,6 +175,71 @@ export async function verifyPurchase(customerId: string, productId: string): Pro
     return null;
   } catch (error) {
     console.error('[verifyPurchase] Error:', error);
+    return null;
+  }
+}
+
+/**
+ * Verifies a purchase directly from the logged-in customer's Customer Account API.
+ * This is the primary path used for showing the review button because it does not
+ * depend on Admin API customer/order lookup permissions.
+ */
+export async function verifyPurchaseFromToken(accessToken: string, productId: string): Promise<{ customerId: string; orderId: string } | null> {
+  if (!accessToken || !productId) return null;
+
+  const { numeric: numericProductId, gid: gidProductId } = normalizeProductId(productId);
+  const query = `
+    query CustomerReviewEligibility {
+      customer {
+        id
+        orders(first: 50, sortKey: PROCESSED_AT, reverse: true) {
+          nodes {
+            id
+            financialStatus
+            lineItems(first: 50) {
+              nodes {
+                productId
+              }
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  try {
+    const data = await customerAccountRequest<{
+      customer?: {
+        id?: string;
+        orders?: {
+          nodes?: Array<{
+            id: string;
+            financialStatus?: string | null;
+            lineItems?: { nodes?: Array<{ productId?: string | null }> };
+          }>;
+        };
+      };
+    }>(accessToken, query);
+
+    const customerId = data?.customer?.id;
+    const orders = data?.customer?.orders?.nodes || [];
+    if (!customerId) return null;
+
+    for (const order of orders) {
+      if (!isReviewableOrderStatus(order.financialStatus)) continue;
+      const hasProduct = (order.lineItems?.nodes || []).some((item) => {
+        const lineProductId = item.productId;
+        return lineProductId === gidProductId || lineProductId?.endsWith(`/${numericProductId}`);
+      });
+
+      if (hasProduct) {
+        return { customerId, orderId: order.id };
+      }
+    }
+
+    return null;
+  } catch (error) {
+    console.error('[verifyPurchaseFromToken] Error:', error);
     return null;
   }
 }
