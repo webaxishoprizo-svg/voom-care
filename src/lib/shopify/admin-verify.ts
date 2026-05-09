@@ -155,8 +155,7 @@ export async function verifyPurchase(customerId: string, productId: string): Pro
     for (const orderEdge of orders) {
       const order = orderEdge.node;
       // Reject voided/refunded-only purchases
-      const status = (order.displayFinancialStatus || '').toUpperCase();
-      if (status === 'VOIDED' || status === 'REFUNDED') continue;
+      if (!isReviewableOrderStatus(order.displayFinancialStatus)) continue;
 
       const lineItems = order.lineItems?.edges || [];
       const hasProduct = lineItems.some((item: any) => {
