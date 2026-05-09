@@ -1,6 +1,6 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { supabaseAdmin } from '../../src/lib/supabase';
-import { verifyPurchase, getCustomerIdFromToken } from '../../src/lib/shopify/admin-verify';
+import { verifyPurchase, getCustomerIdFromToken, verifyPurchaseFromToken } from '../../src/lib/shopify/admin-verify';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'GET') {
@@ -14,8 +14,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    // 1. Resolve accessToken to GID
-    const resolvedId = await getCustomerIdFromToken(customer_id as string);
+    const customerToken = customer_id as string;
+
+    // 1. Prefer Customer Account API order verification. Fall back to Admin API.
+    const tokenPurchase = await verifyPurchaseFromToken(customerToken, gidProduct);
+    const resolvedId = tokenPurchase?.customerId || await getCustomerIdFromToken(customerToken);
     if (!resolvedId) {
       return res.status(200).json({ eligible: false, reason: 'Invalid session' });
     }
@@ -36,13 +39,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       .maybeSingle();
 
     // 3. Verify purchase history
-    const verifiedOrderId = await verifyPurchase(resolvedId, gidProduct);
+    const verifiedOrderId = tokenPurchase?.orderId || await verifyPurchase(resolvedId, gidProduct);
 
     return res.status(200).json({
       eligible: !!verifiedOrderId,
       hasReviewed: !!existingReview,
       existingReview,
-      resolvedId
+      resolvedId,
+      verifiedOrderId
     });
   } catch (error: any) {
     console.error('Eligibility check error:', error);
