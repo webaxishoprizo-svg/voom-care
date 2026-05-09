@@ -1,6 +1,6 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { supabaseAdmin } from '../../src/lib/supabase';
-import { verifyPurchase, getCustomerIdFromToken } from '../../src/lib/shopify/admin-verify';
+import { verifyPurchase, getCustomerIdFromToken, verifyPurchaseFromToken } from '../../src/lib/shopify/admin-verify';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'GET') {
@@ -14,11 +14,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    // 1. Resolve accessToken to GID
-    const resolvedId = await getCustomerIdFromToken(customer_id as string);
-    if (!resolvedId) {
-      return res.status(200).json({ eligible: false, reason: 'Invalid session' });
-    }
+    const customerToken = customer_id as string;
 
     // Normalize product id – store reviews against the GID consistently
     const rawProduct = product_id as string;
@@ -26,6 +22,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const gidProduct = rawProduct.startsWith('gid://')
       ? rawProduct
       : `gid://shopify/Product/${numericProduct}`;
+
+    // 1. Prefer Customer Account API order verification. Fall back to Admin API.
+    const tokenPurchase = await verifyPurchaseFromToken(customerToken, gidProduct);
+    const resolvedId = tokenPurchase?.customerId || await getCustomerIdFromToken(customerToken);
+    if (!resolvedId) {
+      return res.status(200).json({ eligible: false, reason: 'Invalid session' });
+    }
 
     // 2. Check for existing review (match either format that may have been stored)
     const { data: existingReview } = await supabaseAdmin
@@ -36,13 +39,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       .maybeSingle();
 
     // 3. Verify purchase history
-    const verifiedOrderId = await verifyPurchase(resolvedId, gidProduct);
+    const verifiedOrderId = tokenPurchase?.orderId || await verifyPurchase(resolvedId, gidProduct);
 
     return res.status(200).json({
       eligible: !!verifiedOrderId,
       hasReviewed: !!existingReview,
       existingReview,
-      resolvedId
+      resolvedId,
+      verifiedOrderId
     });
   } catch (error: any) {
     console.error('Eligibility check error:', error);

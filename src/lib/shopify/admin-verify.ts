@@ -5,11 +5,56 @@
 const SHOP =
   process.env.SHOPIFY_DOMAIN ||
   process.env.VITE_SHOPIFY_DOMAIN ||
-  process.env.SHOP;
+  process.env.SHOP ||
+  'shop.voomcare.com';
 const ADMIN_API_TOKEN =
   process.env.SHOPIFY_ADMIN_API_TOKEN || process.env.ADMIN_API_TOKEN;
 const SHOP_ID =
-  process.env.SHOPIFY_SHOP_ID || process.env.VITE_SHOPIFY_SHOP_ID;
+  process.env.SHOPIFY_SHOP_ID || process.env.VITE_SHOPIFY_SHOP_ID || '80446095593';
+
+function normalizeProductId(productId: string) {
+  const numeric = productId.includes('/') ? productId.split('/').pop()! : productId;
+  const gid = productId.startsWith('gid://') ? productId : `gid://shopify/Product/${numeric}`;
+  return { numeric, gid };
+}
+
+function isReviewableOrderStatus(status?: string | null) {
+  const normalized = (status || '').toUpperCase();
+  return normalized !== 'VOIDED' && normalized !== 'REFUNDED' && normalized !== 'CANCELLED';
+}
+
+async function customerAccountRequest<T>(accessToken: string, query: string): Promise<T | null> {
+  const token = accessToken.trim();
+  const authorizationHeaders = token.toLowerCase().startsWith('bearer ')
+    ? [token]
+    : [token, `Bearer ${token}`];
+
+  for (const authorization of authorizationHeaders) {
+    const response = await fetch(
+      `https://shopify.com/${SHOP_ID}/account/customer/api/2024-10/graphql`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: authorization,
+        },
+        body: JSON.stringify({ query }),
+      },
+    );
+
+    const result = await response.json();
+    if (response.status === 401 || response.status === 403) continue;
+    if (result.errors) {
+      console.error('[customerAccountRequest] GraphQL errors:', JSON.stringify(result.errors));
+      return null;
+    }
+
+    return result.data as T;
+  }
+
+  console.warn('[customerAccountRequest] Customer token was rejected');
+  return null;
+}
 
 /**
  * Resolves a Customer GID from an access token using the Customer Account API.
@@ -27,23 +72,8 @@ export async function getCustomerIdFromToken(accessToken: string): Promise<strin
   const query = `query { customer { id } }`;
 
   try {
-    const response = await fetch(
-      `https://shopify.com/${SHOP_ID}/account/customer/api/2024-10/graphql`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: accessToken,
-        },
-        body: JSON.stringify({ query }),
-      },
-    );
-
-    const result = await response.json();
-    if (result.errors) {
-      console.error('[getCustomerIdFromToken] GraphQL errors:', JSON.stringify(result.errors));
-    }
-    const id = result.data?.customer?.id || null;
+    const data = await customerAccountRequest<{ customer?: { id?: string } }>(accessToken, query);
+    const id = data?.customer?.id || null;
     if (!id) console.warn('[getCustomerIdFromToken] No customer id resolved');
     return id;
   } catch (error) {
@@ -71,10 +101,7 @@ export async function verifyPurchase(customerId: string, productId: string): Pro
   }
 
   // Normalize productId so both numeric and GID inputs match.
-  const numericProductId = productId.includes('/') ? productId.split('/').pop()! : productId;
-  const gidProductId = productId.startsWith('gid://')
-    ? productId
-    : `gid://shopify/Product/${numericProductId}`;
+  const { numeric: numericProductId, gid: gidProductId } = normalizeProductId(productId);
 
   // Query for ANY order (paid, pending, fulfilled) – review eligibility shouldn't
   // require the order to be shipped. We just need a confirmed purchase.
@@ -128,8 +155,7 @@ export async function verifyPurchase(customerId: string, productId: string): Pro
     for (const orderEdge of orders) {
       const order = orderEdge.node;
       // Reject voided/refunded-only purchases
-      const status = (order.displayFinancialStatus || '').toUpperCase();
-      if (status === 'VOIDED' || status === 'REFUNDED') continue;
+      if (!isReviewableOrderStatus(order.displayFinancialStatus)) continue;
 
       const lineItems = order.lineItems?.edges || [];
       const hasProduct = lineItems.some((item: any) => {
@@ -148,6 +174,71 @@ export async function verifyPurchase(customerId: string, productId: string): Pro
     return null;
   } catch (error) {
     console.error('[verifyPurchase] Error:', error);
+    return null;
+  }
+}
+
+/**
+ * Verifies a purchase directly from the logged-in customer's Customer Account API.
+ * This is the primary path used for showing the review button because it does not
+ * depend on Admin API customer/order lookup permissions.
+ */
+export async function verifyPurchaseFromToken(accessToken: string, productId: string): Promise<{ customerId: string; orderId: string } | null> {
+  if (!accessToken || !productId) return null;
+
+  const { numeric: numericProductId, gid: gidProductId } = normalizeProductId(productId);
+  const query = `
+    query CustomerReviewEligibility {
+      customer {
+        id
+        orders(first: 50, sortKey: PROCESSED_AT, reverse: true) {
+          nodes {
+            id
+            financialStatus
+            lineItems(first: 50) {
+              nodes {
+                productId
+              }
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  try {
+    const data = await customerAccountRequest<{
+      customer?: {
+        id?: string;
+        orders?: {
+          nodes?: Array<{
+            id: string;
+            financialStatus?: string | null;
+            lineItems?: { nodes?: Array<{ productId?: string | null }> };
+          }>;
+        };
+      };
+    }>(accessToken, query);
+
+    const customerId = data?.customer?.id;
+    const orders = data?.customer?.orders?.nodes || [];
+    if (!customerId) return null;
+
+    for (const order of orders) {
+      if (!isReviewableOrderStatus(order.financialStatus)) continue;
+      const hasProduct = (order.lineItems?.nodes || []).some((item) => {
+        const lineProductId = item.productId;
+        return lineProductId === gidProductId || lineProductId?.endsWith(`/${numericProductId}`);
+      });
+
+      if (hasProduct) {
+        return { customerId, orderId: order.id };
+      }
+    }
+
+    return null;
+  } catch (error) {
+    console.error('[verifyPurchaseFromToken] Error:', error);
     return null;
   }
 }
