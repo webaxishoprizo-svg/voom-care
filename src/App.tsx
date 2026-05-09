@@ -1,5 +1,6 @@
 import { lazy, Suspense } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import ErrorBoundary from "@/components/ErrorBoundary";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
@@ -41,9 +42,19 @@ const Loading = () => (
   </div>
 );
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5,
+      gcTime: 1000 * 60 * 30,
+      refetchOnWindowFocus: false,
+      retry: 1,
+    },
+  },
+});
 
 const App = () => (
+  <ErrorBoundary>
   <QueryClientProvider client={queryClient}>
     <CustomerAuthProvider>
       <CartProvider>
@@ -84,6 +95,7 @@ const App = () => (
       </CartProvider>
     </CustomerAuthProvider>
   </QueryClientProvider>
+  </ErrorBoundary>
 );
 
 export default App;
