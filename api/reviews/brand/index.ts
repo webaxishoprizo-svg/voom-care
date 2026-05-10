@@ -24,7 +24,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ error: 'Method not allowed' });
   } catch (err: any) {
     console.error('[api/reviews/brand] fatal:', err);
-    return res.status(500).json({ error: err?.message || 'Internal server error' });
+    const hasUrl = !!process.env.SUPABASE_URL;
+    const hasKey = !!process.env.SUPABASE_SERVICE_ROLE_KEY;
+    return res.status(500).json({
+      error: err?.message || 'Internal server error',
+      code: err?.code,
+      details: err?.details,
+      hint: err?.hint,
+      env: { hasUrl, hasKey },
+    });
   }
 }
 
