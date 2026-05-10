@@ -1,5 +1,5 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
-import { supabaseAdmin } from '../../../src/lib/supabase';
+import { supabaseAdmin } from '../../../src/lib/supabase.js';
 
 let cached: { value: any; ts: number } | null = null;
 const TTL_MS = 60_000;

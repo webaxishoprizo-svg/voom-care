@@ -1,6 +1,6 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
-import { supabaseAdmin } from '../../../src/lib/supabase';
-import { getCustomerIdFromToken } from '../../../src/lib/shopify/admin-verify';
+import { supabaseAdmin } from '../../../src/lib/supabase.js';
+import { getCustomerIdFromToken } from '../../../src/lib/shopify/admin-verify.js';
 
 const MAX_REVIEW_LENGTH = 1000;
 const MIN_REVIEW_LENGTH = 10;

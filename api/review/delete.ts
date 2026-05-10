@@ -1,6 +1,6 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
-import { supabaseAdmin } from '../../src/lib/supabase';
-import { getCustomerIdFromToken } from '../../src/lib/shopify/admin-verify';
+import { supabaseAdmin } from '../../src/lib/supabase.js';
+import { getCustomerIdFromToken } from '../../src/lib/shopify/admin-verify.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'DELETE') {
