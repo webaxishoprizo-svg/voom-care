@@ -14,6 +14,57 @@ export type Database = {
   }
   public: {
     Tables: {
+      brand_reviews: {
+        Row: {
+          created_at: string
+          delivery_rating: number | null
+          display_name: string | null
+          id: string
+          is_featured: boolean
+          is_hidden: boolean
+          is_verified: boolean
+          overall_rating: number | null
+          rating: number
+          review_text: string
+          source: string
+          support_rating: number | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          delivery_rating?: number | null
+          display_name?: string | null
+          id?: string
+          is_featured?: boolean
+          is_hidden?: boolean
+          is_verified?: boolean
+          overall_rating?: number | null
+          rating: number
+          review_text: string
+          source: string
+          support_rating?: number | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          delivery_rating?: number | null
+          display_name?: string | null
+          id?: string
+          is_featured?: boolean
+          is_hidden?: boolean
+          is_verified?: boolean
+          overall_rating?: number | null
+          rating?: number
+          review_text?: string
+          source?: string
+          support_rating?: number | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       categories: {
         Row: {
           created_at: string | null
