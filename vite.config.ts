@@ -14,9 +14,7 @@ export default defineConfig(({ mode }) => {
         overlay: false,
       },
     },
-    build: {
-      oxc: true,
-    },
+    build: {},
     plugins: [
       react(),
       {
