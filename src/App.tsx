@@ -11,6 +11,7 @@ import CartDrawer from "@/components/CartDrawer";
 import ScrollToTop from "@/components/ScrollToTop";
 import ScrollToTopOnNavigation from "@/components/ScrollToTopOnNavigation";
 import SmoothScroll from "@/components/SmoothScroll";
+import InitialLoader from "@/components/InitialLoader";
 
 // Lazy-load pages for performance
 const Index = lazy(() => import("./pages/Index.tsx"));
@@ -55,6 +56,7 @@ const queryClient = new QueryClient({
 
 const App = () => (
   <ErrorBoundary>
+  <InitialLoader />
   <QueryClientProvider client={queryClient}>
     <CustomerAuthProvider>
       <CartProvider>
