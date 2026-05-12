@@ -57,16 +57,7 @@ const TestimonialsSection = () => {
 
   const cards: CardData[] = useMemo(() => {
     const apiReviews = reviewsQuery.data?.reviews || [];
-    if (apiReviews.length > 0) return apiReviews.map(mapBrandReview);
-    return fallbackTestimonials.map((t, i) => ({
-      id: `fallback-${i}`,
-      text: t.text,
-      name: t.name,
-      location: t.location,
-      initial: t.initial,
-      rating: t.rating,
-      source: 'curated' as const,
-    }));
+    return apiReviews.map(mapBrandReview);
   }, [reviewsQuery.data]);
 
   const items = useMemo(() => [...cards, ...cards, ...cards], [cards]);
