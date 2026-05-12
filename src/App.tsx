@@ -56,6 +56,7 @@ const queryClient = new QueryClient({
 
 const App = () => (
   <ErrorBoundary>
+  <InitialLoader />
   <QueryClientProvider client={queryClient}>
     <CustomerAuthProvider>
       <CartProvider>
