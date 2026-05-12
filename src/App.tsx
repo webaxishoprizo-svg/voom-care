@@ -31,7 +31,7 @@ const ShippingPolicy = lazy(() => import("./pages/ShippingPolicy.tsx"));
 const ReviewSubmission = lazy(() => import("./pages/ReviewSubmission.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 
-import { AnimatePresence } from "framer-motion";
+
 
 const Loading = () => (
   <div className="min-h-screen bg-[#050505] flex items-center justify-center">
@@ -67,28 +67,26 @@ const App = () => (
             <ScrollToTop />
             <ScrollToTopOnNavigation />
             <Suspense fallback={<Loading />}>
-              <AnimatePresence mode="wait">
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/products" element={<Products />} />
-                  <Route path="/product/:id" element={<ProductDetail />} />
-                  <Route path="/about" element={<AboutUs />} />
-                  <Route path="/contact" element={<Contact />} />
-                  <Route path="/faq" element={<FAQ />} />
-                  <Route path="/track-order" element={<TrackOrder />} />
-                  <Route path="/account" element={<Account />} />
-                  <Route path="/orders" element={<Orders />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/auth/callback" element={<AuthCallback />} />
-                  <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-                  <Route path="/terms-of-service" element={<TermsOfService />} />
-                  <Route path="/refund-policy" element={<RefundPolicy />} />
-                  <Route path="/shipping-policy" element={<ShippingPolicy />} />
-                  <Route path="/review" element={<ReviewSubmission />} />
-                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </AnimatePresence>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/products" element={<Products />} />
+                <Route path="/product/:id" element={<ProductDetail />} />
+                <Route path="/about" element={<AboutUs />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/faq" element={<FAQ />} />
+                <Route path="/track-order" element={<TrackOrder />} />
+                <Route path="/account" element={<Account />} />
+                <Route path="/orders" element={<Orders />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/auth/callback" element={<AuthCallback />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                <Route path="/terms-of-service" element={<TermsOfService />} />
+                <Route path="/refund-policy" element={<RefundPolicy />} />
+                <Route path="/shipping-policy" element={<ShippingPolicy />} />
+                <Route path="/review" element={<ReviewSubmission />} />
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
             </Suspense>
           </BrowserRouter>
         </TooltipProvider>

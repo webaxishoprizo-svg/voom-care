@@ -1,22 +1,24 @@
-import { useEffect } from "react";
+import { lazy, Suspense } from "react";
 import Navbar from "@/components/Navbar";
 import HeroCarousel from "@/components/HeroCarousel";
 import MobileVideoHero from "@/components/MobileVideoHero";
-import MarqueeBanner from "@/components/MarqueeBanner";
 import TrustBadges from "@/components/TrustBadges";
 import ProductGrid from "@/components/ProductGrid";
-import FeaturedProducts from "@/components/FeaturedProducts";
-import BrandQuality from "@/components/BrandQuality";
-import CollectionsSection from "@/components/CollectionsSection";
-import ExperienceSection from "@/components/ExperienceSection";
-import TestimonialsSection from "@/components/TestimonialsSection";
-import CTASection from "@/components/CTASection";
-import Newsletter from "@/components/Newsletter";
-import Footer from "@/components/Footer";
-import ComingSoonBanner from "@/components/ComingSoonBanner";
 import { Reveal } from "@/components/ScrollReveal";
-
 import SEO from "@/components/SEO";
+
+// Below-the-fold: lazy-load to keep first paint fast
+const FeaturedProducts = lazy(() => import("@/components/FeaturedProducts"));
+const BrandQuality = lazy(() => import("@/components/BrandQuality"));
+const CollectionsSection = lazy(() => import("@/components/CollectionsSection"));
+const ExperienceSection = lazy(() => import("@/components/ExperienceSection"));
+const TestimonialsSection = lazy(() => import("@/components/TestimonialsSection"));
+const CTASection = lazy(() => import("@/components/CTASection"));
+const Newsletter = lazy(() => import("@/components/Newsletter"));
+const Footer = lazy(() => import("@/components/Footer"));
+const ComingSoonBanner = lazy(() => import("@/components/ComingSoonBanner"));
+
+const SectionFallback = () => <div className="h-32" aria-hidden />;
 
 const Index = () => {
   const orgSchema = {
@@ -52,57 +54,49 @@ const Index = () => {
       </div>
 
       {/* 2. Marquee (temporarily hidden) */}
-      {/* <MarqueeBanner
-        className="-rotate-[2deg] scale-[1] relative z-10 mt-10 mb-[-8px] py-4 shadow-none"
-        items={["Premium Car Care", "Crafted in India", "Pro-Grade Formulas", "Paint Safe", "Shine Beyond Ordinary"]}
-      /> */}
 
-      {/* 3. Trust badges (compact) */}
+      {/* 3. Trust badges */}
       <Reveal delay={0.05}>
         <TrustBadges />
       </Reveal>
 
-      {/* 4. Best Sellers — product first */}
+      {/* 4. Best Sellers */}
       <Reveal delay={0.05} duration={1}>
         <ProductGrid />
       </Reveal>
 
-      {/* 5. Collections */}
-      <Reveal delay={0.05}>
-        <CollectionsSection />
-      </Reveal>
+      <Suspense fallback={<SectionFallback />}>
+        <Reveal delay={0.05}>
+          <CollectionsSection />
+        </Reveal>
 
-      {/* 6. Combo / Featured product showcase banner */}
-      <Reveal delay={0.05}>
-        <FeaturedProducts />
-      </Reveal>
+        <Reveal delay={0.05}>
+          <FeaturedProducts />
+        </Reveal>
 
-      {/* 7. Experience / Brand quality */}
-      <Reveal delay={0.05}>
-        <BrandQuality />
-      </Reveal>
+        <Reveal delay={0.05}>
+          <BrandQuality />
+        </Reveal>
 
-      <Reveal delay={0.05}>
-        <ExperienceSection />
-      </Reveal>
+        <Reveal delay={0.05}>
+          <ExperienceSection />
+        </Reveal>
 
-      {/* 8. Testimonials */}
-      <Reveal delay={0.05}>
-        <TestimonialsSection />
-      </Reveal>
+        <Reveal delay={0.05}>
+          <TestimonialsSection />
+        </Reveal>
 
-      {/* 9. Coming soon teaser */}
-      <Reveal delay={0.05}>
-        <ComingSoonBanner />
-      </Reveal>
+        <Reveal delay={0.05}>
+          <ComingSoonBanner />
+        </Reveal>
 
-      {/* 10. CTA */}
-      <Reveal delay={0.05}>
-        <CTASection />
-      </Reveal>
+        <Reveal delay={0.05}>
+          <CTASection />
+        </Reveal>
 
-      <Newsletter />
-      <Footer />
+        <Newsletter />
+        <Footer />
+      </Suspense>
     </main>
   );
 };
