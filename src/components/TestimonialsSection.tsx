@@ -2,7 +2,6 @@ import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { motion, useAnimation, useMotionValue } from "framer-motion";
 import { Star, ChevronLeft, ChevronRight, BadgeCheck, Sparkles, MessageSquare } from "lucide-react";
-import { testimonials as fallbackTestimonials } from "@/data/testimonials";
 import { fetchBrandReviews, fetchBrandSummary, type BrandReview } from "@/lib/brand-reviews";
 import { Button } from "@/components/ui/button";
 import BrandReviewForm from "@/components/reviews/BrandReviewForm";
@@ -58,16 +57,7 @@ const TestimonialsSection = () => {
 
   const cards: CardData[] = useMemo(() => {
     const apiReviews = reviewsQuery.data?.reviews || [];
-    if (apiReviews.length > 0) return apiReviews.map(mapBrandReview);
-    return fallbackTestimonials.map((t, i) => ({
-      id: `fallback-${i}`,
-      text: t.text,
-      name: t.name,
-      location: t.location,
-      initial: t.initial,
-      rating: t.rating,
-      source: 'curated' as const,
-    }));
+    return apiReviews.map(mapBrandReview);
   }, [reviewsQuery.data]);
 
   const items = useMemo(() => [...cards, ...cards, ...cards], [cards]);
