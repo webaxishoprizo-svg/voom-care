@@ -31,7 +31,7 @@ const ShippingPolicy = lazy(() => import("./pages/ShippingPolicy.tsx"));
 const ReviewSubmission = lazy(() => import("./pages/ReviewSubmission.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 
-import { AnimatePresence } from "framer-motion";
+
 
 const Loading = () => (
   <div className="min-h-screen bg-[#050505] flex items-center justify-center">
