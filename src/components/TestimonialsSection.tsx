@@ -2,7 +2,6 @@ import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { motion, useAnimation, useMotionValue } from "framer-motion";
 import { Star, ChevronLeft, ChevronRight, BadgeCheck, Sparkles, MessageSquare } from "lucide-react";
-import { testimonials as fallbackTestimonials } from "@/data/testimonials";
 import { fetchBrandReviews, fetchBrandSummary, type BrandReview } from "@/lib/brand-reviews";
 import { Button } from "@/components/ui/button";
 import BrandReviewForm from "@/components/reviews/BrandReviewForm";
