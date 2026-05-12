@@ -51,11 +51,11 @@ const Index = () => {
         <HeroCarousel />
       </div>
 
-      {/* 2. Marquee */}
-      <MarqueeBanner
+      {/* 2. Marquee (temporarily hidden) */}
+      {/* <MarqueeBanner
         className="-rotate-[2deg] scale-[1] relative z-10 mt-10 mb-[-8px] py-4 shadow-none"
         items={["Premium Car Care", "Crafted in India", "Pro-Grade Formulas", "Paint Safe", "Shine Beyond Ordinary"]}
-      />
+      /> */}
 
       {/* 3. Trust badges (compact) */}
       <Reveal delay={0.05}>
