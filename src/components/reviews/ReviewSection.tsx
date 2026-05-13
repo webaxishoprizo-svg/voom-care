@@ -242,7 +242,9 @@ export const ReviewSection = ({ productId, customerId, canWriteReview: initialCa
                       ))}
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-sm font-bold text-foreground">Verified Buyer</span>
+                      <span className="text-sm font-bold text-foreground">
+                        {review.display_name || 'Verified Buyer'}
+                      </span>
                       <ShieldCheck className="w-3.5 h-3.5 text-primary" />
                     </div>
                   </div>
