@@ -14,7 +14,34 @@ export default defineConfig(({ mode }) => {
         overlay: false,
       },
     },
-    build: {},
+    build: {
+      target: "es2020",
+      cssCodeSplit: true,
+      sourcemap: false,
+      reportCompressedSize: false,
+      chunkSizeWarningLimit: 1000,
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            "react-vendor": ["react", "react-dom", "react-router-dom"],
+            "query-vendor": ["@tanstack/react-query"],
+            "motion-vendor": ["framer-motion"],
+            "icons-vendor": ["lucide-react"],
+            "ui-vendor": [
+              "@radix-ui/react-dialog",
+              "@radix-ui/react-popover",
+              "@radix-ui/react-tooltip",
+              "@radix-ui/react-dropdown-menu",
+              "@radix-ui/react-label",
+              "@radix-ui/react-scroll-area",
+              "@radix-ui/react-separator",
+              "@radix-ui/react-toast",
+              "sonner",
+            ],
+          },
+        },
+      },
+    },
     plugins: [
       react(),
       {
