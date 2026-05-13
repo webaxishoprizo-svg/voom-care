@@ -248,8 +248,8 @@ export const ReviewSection = ({ productId, customerId, canWriteReview: initialCa
                       <ShieldCheck className="w-3.5 h-3.5 text-primary" />
                     </div>
                   </div>
-                  <span className="text-xs text-muted-foreground">
-                    {format(new Date(review.created_at), 'MMM dd, yyyy')}
+                  <span className="text-[11px] tracking-[0.2em] uppercase font-bold text-primary">
+                    Verified Buyer
                   </span>
                 </div>
                 
