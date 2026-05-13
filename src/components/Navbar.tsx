@@ -67,9 +67,9 @@ const Navbar = () => {
           </div>
 
           {/* Center: Logo */}
-          <div className="shrink-0 flex items-center justify-center relative w-32 md:w-52 h-10 md:h-12">
+          <div className="shrink-0 flex items-center justify-center relative w-40 md:w-64 h-12 md:h-14">
             <Link to="/" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-              <img src={logo} alt="VOOM" className="h-16 md:h-22 w-auto object-contain max-w-none" />
+              <img src={logo} alt="VOOM" className="h-20 md:h-28 w-auto object-contain max-w-none" />
             </Link>
           </div>
 
