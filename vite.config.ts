@@ -22,22 +22,14 @@ export default defineConfig(({ mode }) => {
       chunkSizeWarningLimit: 1000,
       rollupOptions: {
         output: {
-          manualChunks: {
-            "react-vendor": ["react", "react-dom", "react-router-dom"],
-            "query-vendor": ["@tanstack/react-query"],
-            "motion-vendor": ["framer-motion"],
-            "icons-vendor": ["lucide-react"],
-            "ui-vendor": [
-              "@radix-ui/react-dialog",
-              "@radix-ui/react-popover",
-              "@radix-ui/react-tooltip",
-              "@radix-ui/react-dropdown-menu",
-              "@radix-ui/react-label",
-              "@radix-ui/react-scroll-area",
-              "@radix-ui/react-separator",
-              "@radix-ui/react-toast",
-              "sonner",
-            ],
+          manualChunks(id: string) {
+            if (!id.includes("node_modules")) return;
+            if (id.includes("react-router")) return "react-vendor";
+            if (id.match(/node_modules\/(react|react-dom|scheduler)\//)) return "react-vendor";
+            if (id.includes("@tanstack")) return "query-vendor";
+            if (id.includes("framer-motion")) return "motion-vendor";
+            if (id.includes("lucide-react")) return "icons-vendor";
+            if (id.includes("@radix-ui") || id.includes("sonner")) return "ui-vendor";
           },
         },
       },
