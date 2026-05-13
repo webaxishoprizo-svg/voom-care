@@ -14,7 +14,26 @@ export default defineConfig(({ mode }) => {
         overlay: false,
       },
     },
-    build: {},
+    build: {
+      target: "es2020",
+      cssCodeSplit: true,
+      sourcemap: false,
+      reportCompressedSize: false,
+      chunkSizeWarningLimit: 1000,
+      rollupOptions: {
+        output: {
+          manualChunks(id: string) {
+            if (!id.includes("node_modules")) return;
+            if (id.includes("react-router")) return "react-vendor";
+            if (id.match(/node_modules\/(react|react-dom|scheduler)\//)) return "react-vendor";
+            if (id.includes("@tanstack")) return "query-vendor";
+            if (id.includes("framer-motion")) return "motion-vendor";
+            if (id.includes("lucide-react")) return "icons-vendor";
+            if (id.includes("@radix-ui") || id.includes("sonner")) return "ui-vendor";
+          },
+        },
+      },
+    },
     plugins: [
       react(),
       {
