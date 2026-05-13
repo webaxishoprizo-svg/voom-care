@@ -331,12 +331,14 @@ interface ReviewFormProps {
 export const ReviewForm = ({ productId, customerId, token, onSuccess, initialData }: ReviewFormProps) => {
   const [rating, setRating] = useState(initialData?.rating || 5);
   const [review, setReview] = useState(initialData?.review || '');
+  const [name, setName] = useState(initialData?.display_name || '');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!name.trim()) return toast.error('Please enter your name');
     if (!review.trim()) return toast.error('Please write a review');
-    
+
     setIsSubmitting(true);
     try {
       const url = initialData ? '/api/review/update' : '/api/review/submit';
@@ -351,7 +353,8 @@ export const ReviewForm = ({ productId, customerId, token, onSuccess, initialDat
           review,
           productId,
           customerId,
-          token
+          token,
+          displayName: name.trim(),
         })
       });
 
@@ -389,6 +392,19 @@ export const ReviewForm = ({ productId, customerId, token, onSuccess, initialDat
             </button>
           ))}
         </div>
+      </div>
+
+      <div className="space-y-2">
+        <label className="text-xs font-bold text-muted-foreground uppercase tracking-widest ml-1">Your Name</label>
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value.slice(0, 60))}
+          placeholder="e.g. Rahul Sharma"
+          className="w-full h-12 bg-background border border-border rounded-2xl px-4 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
+          required
+          maxLength={60}
+        />
       </div>
 
       <div className="space-y-2">
