@@ -40,9 +40,9 @@ const Index = () => {
   return (
     <main id="main-content" className="min-h-screen bg-background">
       <SEO
-        title="VOOM | Best Car Care Products & Premium Car Shampoo"
-        description="Shop VOOM for the best carcare products in India. From professional car shampoo to detailing kits, achieve a showroom finish. Top-rated auto detailing formulas."
-        keywords="carcare products, car shampoo, best car shampoo India, car detailing products, premium car care, VOOM, auto detailing, car wash kit, tyre polish"
+        title="VOOM® | #1 Best Car Care Products & Premium Detailing"
+        description="Official VOOM® Store. Shop India's best car care products, professional car shampoo, and detailing kits. Engineered for excellence, trusted by professionals. Shine Beyond Ordinary."
+        keywords="VOOM, VOOM Care, best car shampoo India, car detailing products, premium car care, auto detailing, car wash kit, tyre polish, professional car care"
         schema={orgSchema}
       />
       <Navbar />

@@ -1,4 +1,10 @@
 User-agent: *
 Allow: /
 
+# Disallow sensitive paths
+Disallow: /account
+Disallow: /orders
+Disallow: /auth/callback
+Disallow: /review
+
 Sitemap: https://voomcare.com/sitemap.xml

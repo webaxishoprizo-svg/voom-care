@@ -19,8 +19,8 @@ const SEO = ({
   canonical,
   schema,
 }: SEOProps) => {
-  const baseTitle = "VOOM | Premium Car Care";
-  const fullTitle = title ? `${title} | ${baseTitle}` : baseTitle;
+  const baseTitle = "VOOM® | Premium Car Care";
+  const fullTitle = title ? `${title} | VOOM® Official` : baseTitle;
 
   useEffect(() => {
     // Update Title
