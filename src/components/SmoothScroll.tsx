@@ -17,11 +17,11 @@ const SmoothScroll = () => {
       duration: 1.5,
       easing: (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-      // Enable Lenis touch smoothing for extreme smoothness on mobile
-      syncTouch: true,
+      // Touch: disable syncTouch to allow native OS hardware-accelerated momentum scrolling
+      syncTouch: false,
       wheelMultiplier: 1.05,
       touchMultiplier: 2,
-      lerp: 0.07,
+      lerp: 0.1,
       infinite: false,
     });
 
