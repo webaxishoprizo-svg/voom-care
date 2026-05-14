@@ -55,6 +55,7 @@ const queryClient = new QueryClient({
 
 const App = () => (
   <ErrorBoundary>
+  <div className="ambient-bg" aria-hidden><div className="blob" /></div>
   <QueryClientProvider client={queryClient}>
     <CustomerAuthProvider>
       <CartProvider>

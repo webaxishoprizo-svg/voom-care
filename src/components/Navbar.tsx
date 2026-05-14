@@ -40,9 +40,9 @@ const Navbar = () => {
   return (
     <>
       <nav
-        className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-transparent py-3 px-4 md:px-10"
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-3 px-4 md:px-10 ${scrolled ? "lg:py-2" : ""}`}
       >
-        <div className="max-w-7xl mx-auto flex items-center justify-between lg:rounded-full lg:px-10 lg:py-1.5 bg-transparent">
+        <div className={`max-w-7xl mx-auto flex items-center justify-between lg:rounded-full lg:px-6 lg:py-1.5 transition-all duration-500 ${scrolled ? "lg:liquid-glass-strong" : "lg:liquid-glass"}`}>
           {/* Desktop Left: Nav Links */}
           <div className="hidden lg:flex items-center gap-2 flex-1">
             {menuItems.slice(0, 3).map((item) => (
@@ -127,7 +127,7 @@ const Navbar = () => {
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed top-0 left-0 bottom-0 z-[61] w-[85%] max-w-[400px] bg-background flex flex-col"
+              className="fixed top-0 left-0 bottom-0 z-[61] w-[85%] max-w-[400px] liquid-glass-strong flex flex-col"
             >
               <div className="flex items-center justify-between p-5">
                 <img src={logo} alt="VOOM" className="h-10 w-auto" />

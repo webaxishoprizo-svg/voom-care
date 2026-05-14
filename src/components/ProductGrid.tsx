@@ -45,7 +45,7 @@ const ProductCard = ({ product, index, x, itemWidth, productsCount }: {
   return (
     <motion.div
       style={{ scale, opacity: brightness, zIndex }}
-      className="w-[280px] md:w-[350px] bg-card/40 backdrop-blur-sm border border-border/50 rounded-none overflow-hidden group select-none flex-shrink-0 relative transition-shadow duration-500 hover:shadow-[0_0_40px_rgba(255,255,255,0.05)] will-change-transform"
+      className="w-[280px] md:w-[350px] glass-card overflow-hidden group select-none flex-shrink-0 relative transition-shadow duration-500 hover:shadow-[0_20px_60px_rgba(255,255,255,0.08)] will-change-transform"
     >
       <div
         className="aspect-[3/4] relative cursor-pointer overflow-hidden"
