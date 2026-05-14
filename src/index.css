@@ -72,6 +72,9 @@
   html, body {
     width: 100%;
     position: relative;
+    scroll-behavior: smooth;
+    overscroll-behavior-y: none;
+    -webkit-overflow-scrolling: touch;
   }
 
   body {
@@ -84,6 +87,7 @@
     -moz-osx-font-smoothing: grayscale;
     letter-spacing: -0.005em;
     line-height: 1.6;
+    text-rendering: optimizeSpeed;
   }
 
   h1,
