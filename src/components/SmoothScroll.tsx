@@ -14,14 +14,14 @@ const SmoothScroll = () => {
 
     const lenis = new Lenis({
       // Slightly longer duration with a buttery exponential ease for premium feel
-      duration: 1.35,
-      easing: (t) => (t === 1 ? 1 : 1 - Math.pow(2, -12 * t)),
+      duration: 1.5,
+      easing: (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-      // Touch: keep native momentum (Lenis touch smoothing fights iOS rubber-band)
-      syncTouch: false,
-      wheelMultiplier: isTouch ? 1 : 1.05,
-      touchMultiplier: 1.8,
-      lerp: 0.09,
+      // Enable Lenis touch smoothing for extreme smoothness on mobile
+      syncTouch: true,
+      wheelMultiplier: 1.05,
+      touchMultiplier: 2,
+      lerp: 0.07,
       infinite: false,
     });
 

@@ -50,7 +50,7 @@ const Newsletter = () => {
         viewport={{ once: true }}
         className="max-w-2xl mx-auto text-center relative z-10"
       >
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-md bg-primary/10 border border-primary/30 text-primary text-[10px] font-semibold tracking-[0.3em] uppercase mb-8">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/30 text-primary text-[10px] font-semibold tracking-[0.3em] uppercase mb-8">
           <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
           The Private Circle
         </div>
@@ -67,7 +67,7 @@ const Newsletter = () => {
           onSubmit={handleSubmit}
           className="group relative max-w-md mx-auto"
         >
-          <div className="relative flex items-center w-full h-14 bg-white/[0.03] border border-white/10 rounded-md backdrop-blur-md transition-all duration-300 focus-within:border-primary/50 focus-within:bg-white/[0.05]">
+          <div className="relative flex items-center w-full h-14 bg-white/[0.03] border border-white/10 rounded-full backdrop-blur-md transition-all duration-300 focus-within:border-primary/50 focus-within:bg-white/[0.05]">
             <input
               type="email"
               value={email}
@@ -80,7 +80,7 @@ const Newsletter = () => {
               type="submit"
               disabled={isLoading}
               aria-label="Join the Private Circle"
-              className="mr-1.5 shrink-0 flex items-center gap-2 h-[44px] px-5 rounded-md bg-primary text-primary-foreground font-semibold tracking-[0.2em] uppercase text-[10px] hover:bg-primary/90 transition-all disabled:opacity-50 active:scale-95"
+              className="mr-1.5 shrink-0 flex items-center gap-2 h-[44px] px-5 rounded-full bg-primary text-primary-foreground font-semibold tracking-[0.2em] uppercase text-[10px] hover:bg-primary/90 transition-all disabled:opacity-50 active:scale-95"
             >
               {isLoading ? (
                 <Loader2 className="w-4 h-4 animate-spin" />

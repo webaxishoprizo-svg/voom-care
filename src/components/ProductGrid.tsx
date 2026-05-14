@@ -202,12 +202,12 @@ const SingleProductFeatured = ({ product }: { product: Product }) => {
                 </div>
 
                 <div className="hidden md:flex flex-col sm:flex-row items-center gap-4 pt-4">
-                  <Button
+                  <button
                     onClick={() => addItem(product)}
                     className="w-full sm:w-auto h-12 px-10 rounded-md bg-primary text-primary-foreground font-semibold tracking-[0.2em] uppercase text-[11px] hover:bg-primary/90 transition-all shadow-lg active:scale-95"
                   >
                     Add to Bag
-                  </Button>
+                  </button>
                   <button
                     onClick={() => navigate(`/product/${product.id}`)}
                     className="w-full sm:w-auto h-12 px-8 rounded-md border border-white/10 hover:bg-white/5 text-foreground/80 hover:text-foreground font-semibold tracking-[0.2em] uppercase text-[10px] transition-all"
