@@ -8,24 +8,24 @@ import Lenis from "lenis";
  */
 const SmoothScroll = () => {
   useEffect(() => {
-    // Skip on reduced-motion, touch devices, and small screens — native scroll is faster there
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    if (window.matchMedia("(hover: none), (pointer: coarse)").matches) return;
-    if (window.innerWidth < 1024) return;
+
+    const isTouch = window.matchMedia("(hover: none), (pointer: coarse)").matches;
 
     const lenis = new Lenis({
-      duration: 1.1,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      // Slightly longer duration with a buttery exponential ease for premium feel
+      duration: 1.35,
+      easing: (t) => (t === 1 ? 1 : 1 - Math.pow(2, -12 * t)),
       smoothWheel: true,
-      wheelMultiplier: 1.1,
-      touchMultiplier: 1.5,
+      // Touch: keep native momentum (Lenis touch smoothing fights iOS rubber-band)
+      syncTouch: false,
+      wheelMultiplier: isTouch ? 1 : 1.05,
+      touchMultiplier: 1.8,
+      lerp: 0.09,
       infinite: false,
     });
 
-    // Keep Lenis in sync with layout changes (fixes "stuck" scroll)
-    const resizeObserver = new ResizeObserver(() => {
-      lenis.resize();
-    });
+    const resizeObserver = new ResizeObserver(() => lenis.resize());
     resizeObserver.observe(document.body);
 
     let rafId: number;
