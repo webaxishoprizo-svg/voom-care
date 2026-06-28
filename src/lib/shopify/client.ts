@@ -61,7 +61,8 @@ export async function shopifyCustomerQuery<T>(
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${accessToken}`,
+      // Shopify Customer Account API requires the raw token (no "Bearer " prefix)
+      "Authorization": accessToken,
     },
     body: JSON.stringify({ query, variables }),
   });
