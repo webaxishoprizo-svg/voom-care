@@ -67,20 +67,20 @@ const Newsletter = () => {
           onSubmit={handleSubmit}
           className="group relative max-w-md mx-auto"
         >
-          <div className="relative flex items-center w-full h-14 bg-white/[0.03] border border-white/10 rounded-full backdrop-blur-md transition-all duration-300 focus-within:border-primary/50 focus-within:bg-white/[0.05]">
+          <div className="relative flex items-center w-full bg-white/[0.03] border border-white/10 rounded-full backdrop-blur-md transition-all duration-300 focus-within:border-primary/50 focus-within:bg-white/[0.05] p-[6px]">
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email address"
               maxLength={255}
-              className="flex-1 h-full bg-transparent pl-5 pr-2 text-foreground placeholder:text-muted-foreground/50 text-sm outline-none"
+              className="flex-1 h-[44px] bg-transparent pl-4 pr-2 text-foreground placeholder:text-muted-foreground/50 text-sm outline-none"
             />
             <button
               type="submit"
               disabled={isLoading}
               aria-label="Join the Private Circle"
-              className="mr-1.5 shrink-0 flex items-center gap-2 h-[44px] px-5 rounded-full bg-primary text-primary-foreground font-semibold tracking-[0.2em] uppercase text-[10px] hover:bg-primary/90 transition-all disabled:opacity-50 active:scale-95"
+              className="shrink-0 flex items-center gap-2 h-[44px] px-5 rounded-full bg-primary text-primary-foreground font-semibold tracking-[0.2em] uppercase text-[10px] hover:bg-primary/90 transition-all disabled:opacity-50 active:scale-95"
             >
               {isLoading ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
