@@ -5,6 +5,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useCustomerAuth } from "@/context/CustomerAuthContext";
 import { fetchCustomerProfile, type CustomerProfile } from "@/lib/shopify/customer-queries";
+import { CustomerAuthError } from "@/lib/shopify/customer-account";
+import { toast } from "sonner";
 
 const Account = () => {
   const { isAuthenticated, login, logout } = useCustomerAuth();
@@ -20,9 +22,18 @@ const Account = () => {
     }
     fetchCustomerProfile()
       .then(setProfile)
-      .catch((e) => setError(e instanceof Error ? e.message : "Failed to load profile"))
+      .catch((e) => {
+        if (e instanceof CustomerAuthError) {
+          toast.error(e.message);
+          logout();
+          login("/account");
+          return;
+        }
+        setError(e instanceof Error ? e.message : "Failed to load profile");
+      })
       .finally(() => setLoading(false));
-  }, [isAuthenticated, login]);
+  }, [isAuthenticated, login, logout]);
+
 
   if (!isAuthenticated || loading) {
     return (
