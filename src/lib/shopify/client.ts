@@ -1,9 +1,9 @@
 const DEFAULT_SHOPIFY_CONFIG = {
-  domain: "shop.voomcare.com",
+  domain: "voom-9527.myshopify.com",
   apiVersion: "2024-04",
-  accessToken: "59591aa3cb16515b8e0f371e63cc676c",
-  publicClientId: "5d7f5bc8-8c63-40d0-b0ff-c373903ee7e1",
-  shopId: "80446095593",
+  accessToken: "c67fc2fdbc1bc842d1ca4c21ee42d0fa",
+  publicClientId: "ae0f4ee2-8964-414b-b3dd-3326933d83bc",
+  shopId: "",
 };
 
 export const SHOPIFY_CONFIG = {
