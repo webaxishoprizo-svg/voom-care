@@ -5,6 +5,9 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useCustomerAuth } from "@/context/CustomerAuthContext";
 import { fetchCustomerOrders, type CustomerOrder } from "@/lib/shopify/customer-queries";
+import { CustomerAuthError } from "@/lib/shopify/customer-account";
+import { toast } from "sonner";
+
 
 function formatMoney(amount?: string, currency?: string) {
   if (!amount) return "—";
