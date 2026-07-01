@@ -191,7 +191,24 @@ export function logout() {
 
 interface GqlResponse<T> {
   data?: T;
-  errors?: Array<{ message: string }>;
+  errors?: Array<{ message: string; extensions?: { code?: string } }>;
+}
+
+/** Thrown when the customer session is missing, expired, or rejected by Shopify. */
+export class CustomerAuthError extends Error {
+  constructor(
+    message = "Your session has expired. Please sign in again.",
+    public readonly cause?: unknown,
+  ) {
+    super(message);
+    this.name = "CustomerAuthError";
+  }
+}
+
+function isAuthErrorMessage(msg: string) {
+  return /unauthorized|unauthenticated|access\s*token|not\s*authenticated|invalid\s*token|expired/i.test(
+    msg,
+  );
 }
 
 /** Customer Account API GraphQL query, with auto-refresh on 401. */
@@ -199,8 +216,8 @@ export async function customerQuery<T>(
   query: string,
   variables: Record<string, unknown> = {},
 ): Promise<T> {
-  let token = getAccessToken();
-  if (!token) throw new Error("Not authenticated");
+  const token = getAccessToken();
+  if (!token) throw new CustomerAuthError("You're signed out. Please sign in to continue.");
 
   const doFetch = (t: string) =>
     fetch(CUSTOMER_OAUTH.graphql, {
@@ -212,13 +229,48 @@ export async function customerQuery<T>(
       body: JSON.stringify({ query, variables }),
     });
 
-  let res = await doFetch(token);
-  if (res.status === 401) {
-    const refreshed = await refreshAccessToken();
-    if (!refreshed) throw new Error("Session expired");
-    res = await doFetch(refreshed);
+  let res: Response;
+  try {
+    res = await doFetch(token);
+  } catch (e) {
+    throw new Error("Network error – please check your connection and try again.");
   }
-  const payload = (await res.json()) as GqlResponse<T>;
-  if (payload.errors?.length) throw new Error(payload.errors[0].message);
+
+  if (res.status === 401 || res.status === 403) {
+    const refreshed = await refreshAccessToken();
+    if (!refreshed) {
+      clearTokens();
+      throw new CustomerAuthError();
+    }
+    try {
+      res = await doFetch(refreshed);
+    } catch {
+      throw new Error("Network error – please check your connection and try again.");
+    }
+    if (res.status === 401 || res.status === 403) {
+      clearTokens();
+      throw new CustomerAuthError();
+    }
+  }
+
+  if (!res.ok) {
+    throw new Error(`We couldn't load your account right now (${res.status}). Please try again.`);
+  }
+
+  let payload: GqlResponse<T>;
+  try {
+    payload = (await res.json()) as GqlResponse<T>;
+  } catch {
+    throw new Error("Unexpected response from server. Please try again.");
+  }
+
+  if (payload.errors?.length) {
+    const first = payload.errors[0];
+    if (first.extensions?.code === "UNAUTHENTICATED" || isAuthErrorMessage(first.message)) {
+      clearTokens();
+      throw new CustomerAuthError();
+    }
+    throw new Error(first.message);
+  }
   return payload.data!;
 }
