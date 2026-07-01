@@ -5,6 +5,9 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useCustomerAuth } from "@/context/CustomerAuthContext";
 import { fetchCustomerOrders, type CustomerOrder } from "@/lib/shopify/customer-queries";
+import { CustomerAuthError } from "@/lib/shopify/customer-account";
+import { toast } from "sonner";
+
 
 function formatMoney(amount?: string, currency?: string) {
   if (!amount) return "—";
@@ -35,7 +38,7 @@ function statusPill(label?: string) {
 }
 
 const Orders = () => {
-  const { isAuthenticated, login } = useCustomerAuth();
+  const { isAuthenticated, login, logout } = useCustomerAuth();
   const [orders, setOrders] = useState<CustomerOrder[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -47,9 +50,18 @@ const Orders = () => {
     }
     fetchCustomerOrders(25)
       .then(setOrders)
-      .catch((e) => setError(e instanceof Error ? e.message : "Failed to load orders"))
+      .catch((e) => {
+        if (e instanceof CustomerAuthError) {
+          toast.error(e.message);
+          logout();
+          login("/orders");
+          return;
+        }
+        setError(e instanceof Error ? e.message : "Failed to load orders");
+      })
       .finally(() => setLoading(false));
-  }, [isAuthenticated, login]);
+  }, [isAuthenticated, login, logout]);
+
 
   if (!isAuthenticated || loading) {
     return (
