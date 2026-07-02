@@ -46,9 +46,11 @@ async function handleGet(req: VercelRequest, res: VercelResponse) {
     .from('brand_reviews')
     .select('id, display_name, rating, review_text, delivery_rating, support_rating, overall_rating, source, is_featured, is_verified, created_at', { count: 'exact' })
     .eq('is_hidden', false)
+    .eq('status', 'approved')
     .order('is_featured', { ascending: false })
     .order('created_at', { ascending: false })
     .range(from, to);
+
 
   if (error) throw error;
 
