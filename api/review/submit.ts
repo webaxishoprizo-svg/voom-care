@@ -1,118 +1,94 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { supabaseAdmin } from '../../src/lib/supabase.js';
-import { verifyPurchase, getCustomerIdFromToken, verifyPurchaseFromToken } from '../../src/lib/shopify/admin-verify.js';
+import { verifyPurchaseFromToken } from '../../src/lib/shopify/admin-verify.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { rating, review, productId, orderId, token, customerId } = req.body;
-
+  const { rating, review, productId, customerId, displayName, token } = req.body || {};
   if (!rating || !review || !productId) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
+  const r = Number(rating);
+  if (!Number.isInteger(r) || r < 1 || r > 5) {
+    return res.status(400).json({ error: 'Rating must be 1-5' });
+  }
+  const text = String(review).trim().slice(0, 1500);
+  if (text.length < 5) return res.status(400).json({ error: 'Review too short' });
+  const name = displayName ? String(displayName).trim().slice(0, 60) : null;
+
+  const numericProduct = String(productId).includes('/')
+    ? String(productId).split('/').pop()!
+    : String(productId);
+  const gidProduct = String(productId).startsWith('gid://')
+    ? String(productId)
+    : `gid://shopify/Product/${numericProduct}`;
 
   try {
-    let finalCustomerId = customerId;
-    let finalOrderId = orderId;
+    let finalCustomerId: string | null = null;
+    let finalOrderId: string | null = null;
 
-    // Normalize productId to GID for consistent storage
-    const numericProduct = String(productId).includes('/')
-      ? String(productId).split('/').pop()!
-      : String(productId);
-    const gidProduct = String(productId).startsWith('gid://')
-      ? String(productId)
-      : `gid://shopify/Product/${numericProduct}`;
-
-    // 1. Token-based validation (Non-logged users)
+    // 1) One-time review token path (email link)
     if (token) {
-      const { data: tokenData, error: tokenError } = await supabaseAdmin
+      const { data: tokenData } = await supabaseAdmin
         .from('review_tokens')
         .select('*')
         .eq('token', token)
-        .single();
-
-      if (tokenError || !tokenData) {
-        return res.status(401).json({ error: 'Invalid or expired token' });
-      }
-
-      if (tokenData.used) {
-        return res.status(401).json({ error: 'Token already used' });
-      }
-
-      if (new Date(tokenData.expires_at) < new Date()) {
-        return res.status(401).json({ error: 'Token expired' });
-      }
-
-      const tokenProductNumeric = String(tokenData.product_id).includes('/')
+        .maybeSingle();
+      if (!tokenData) return res.status(401).json({ error: 'Invalid or expired token' });
+      if (tokenData.used) return res.status(401).json({ error: 'Token already used' });
+      if (new Date(tokenData.expires_at) < new Date()) return res.status(401).json({ error: 'Token expired' });
+      const tp = String(tokenData.product_id).includes('/')
         ? String(tokenData.product_id).split('/').pop()
         : String(tokenData.product_id);
-      if (tokenProductNumeric !== numericProduct) {
-        return res.status(400).json({ error: 'Token does not match product' });
-      }
-
+      if (tp !== numericProduct) return res.status(400).json({ error: 'Token does not match product' });
       finalCustomerId = tokenData.user_id;
       finalOrderId = tokenData.order_id;
     }
-    // 2. Authenticated user validation
+    // 2) Logged-in customer path (Customer Account API — must be fulfilled)
     else if (customerId) {
-      const tokenPurchase = await verifyPurchaseFromToken(customerId, gidProduct);
-      const resolvedId = tokenPurchase?.customerId || await getCustomerIdFromToken(customerId);
-      if (!resolvedId) {
-        return res.status(401).json({ error: 'Invalid or expired session' });
-      }
-      finalCustomerId = resolvedId;
-
-      const verifiedOrderId = tokenPurchase?.orderId || await verifyPurchase(finalCustomerId, gidProduct);
-      if (!verifiedOrderId) {
-        return res.status(403).json({ error: 'No verified purchase found for this product' });
-      }
-      finalOrderId = verifiedOrderId;
+      const purchase = await verifyPurchaseFromToken(customerId, gidProduct);
+      if (!purchase) return res.status(403).json({ error: 'Only customers with a fulfilled order for this product can review' });
+      finalCustomerId = purchase.customerId;
+      finalOrderId = purchase.orderId;
     } else {
-      return res.status(401).json({ error: 'Authentication or token required' });
+      return res.status(401).json({ error: 'Authentication required' });
     }
 
-    // 3. Prevent duplicate reviews (any stored format)
-    const { data: existingReview } = await supabaseAdmin
+    // Prevent duplicates
+    const { data: existing } = await supabaseAdmin
       .from('reviews')
       .select('id')
       .eq('user_id', finalCustomerId)
       .in('product_id', [gidProduct, numericProduct])
       .maybeSingle();
+    if (existing) return res.status(400).json({ error: 'You have already reviewed this product' });
 
-    if (existingReview) {
-      return res.status(400).json({ error: 'You have already reviewed this product' });
-    }
-
-    // 4. Store review in Supabase
     const { data, error } = await supabaseAdmin
       .from('reviews')
-      .insert([
-        {
-          user_id: finalCustomerId,
-          product_id: gidProduct,
-          order_id: finalOrderId,
-          rating,
-          review,
-        }
-      ])
+      .insert([{
+        user_id: finalCustomerId,
+        display_name: name,
+        product_id: gidProduct,
+        order_id: finalOrderId,
+        rating: r,
+        review: text,
+        status: 'approved',
+        source: 'user',
+        is_verified: true,
+      }])
       .select()
       .single();
 
     if (error) throw error;
 
-    // 5. Mark token as used if applicable
     if (token) {
-      await supabaseAdmin
-        .from('review_tokens')
-        .update({ used: true })
-        .eq('token', token);
+      await supabaseAdmin.from('review_tokens').update({ used: true }).eq('token', token);
     }
 
     return res.status(201).json(data);
-  } catch (error: any) {
-    console.error('Submit review error:', error);
-    return res.status(500).json({ error: error.message || 'Internal server error' });
+  } catch (err: any) {
+    console.error('Submit review error:', err);
+    return res.status(500).json({ error: err.message || 'Internal server error' });
   }
 }

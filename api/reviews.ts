@@ -25,23 +25,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const to = from + l - 1;
 
   try {
-    // 1. Get real reviews from Supabase (match either GID or numeric storage)
+    // Only approved reviews are visible publicly
     const { data: reviews, error, count } = await supabaseAdmin
       .from('reviews')
       .select('*', { count: 'exact' })
       .in('product_id', productIds)
+      .eq('status', 'approved')
       .order('created_at', { ascending: false })
       .range(from, to);
 
     if (error) throw error;
 
-    // 2. Get stats
     const { data: statsData, error: statsError } = await supabaseAdmin
       .from('reviews')
       .select('rating')
-      .in('product_id', productIds);
+      .in('product_id', productIds)
+      .eq('status', 'approved');
 
     if (statsError) throw statsError;
+
 
     const totalRating = statsData.reduce((acc: number, curr: any) => acc + curr.rating, 0);
     const averageRating = statsData.length > 0 ? (totalRating / statsData.length).toFixed(1) : 0;
