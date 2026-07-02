@@ -3,7 +3,7 @@ const DEFAULT_SHOPIFY_CONFIG = {
   apiVersion: "2024-04",
   accessToken: "c67fc2fdbc1bc842d1ca4c21ee42d0fa",
   publicClientId: "ae0f4ee2-8964-414b-b3dd-3326933d83bc",
-  shopId: "",
+  shopId: "72008532077",
 };
 
 export const SHOPIFY_CONFIG = {
