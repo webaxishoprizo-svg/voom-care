@@ -195,9 +195,13 @@ export async function verifyPurchaseFromToken(accessToken: string, productId: st
           nodes {
             id
             financialStatus
-            lineItems(first: 50) {
-              nodes {
-                productId
+            fulfillments(first: 10) {
+              status
+              fulfillmentLineItems(first: 50) {
+                nodes {
+                  quantity
+                  lineItem { productId }
+                }
               }
             }
           }
@@ -214,7 +218,10 @@ export async function verifyPurchaseFromToken(accessToken: string, productId: st
           nodes?: Array<{
             id: string;
             financialStatus?: string | null;
-            lineItems?: { nodes?: Array<{ productId?: string | null }> };
+            fulfillments?: Array<{
+              status?: string | null;
+              fulfillmentLineItems?: { nodes?: Array<{ quantity?: number; lineItem?: { productId?: string | null } }> };
+            }>;
           }>;
         };
       };
@@ -224,15 +231,19 @@ export async function verifyPurchaseFromToken(accessToken: string, productId: st
     const orders = data?.customer?.orders?.nodes || [];
     if (!customerId) return null;
 
+    const matchesProduct = (pid?: string | null) =>
+      !!pid && (pid === gidProductId || pid.endsWith(`/${numericProductId}`));
+
     for (const order of orders) {
       if (!isReviewableOrderStatus(order.financialStatus)) continue;
-      const hasProduct = (order.lineItems?.nodes || []).some((item) => {
-        const lineProductId = item.productId;
-        return lineProductId === gidProductId || lineProductId?.endsWith(`/${numericProductId}`);
-      });
-
-      if (hasProduct) {
-        return { customerId, orderId: order.id };
+      const fulfillments = order.fulfillments || [];
+      for (const f of fulfillments) {
+        const status = (f.status || '').toUpperCase();
+        if (status !== 'SUCCESS' && status !== 'FULFILLED') continue;
+        const items = f.fulfillmentLineItems?.nodes || [];
+        if (items.some((it) => matchesProduct(it.lineItem?.productId))) {
+          return { customerId, orderId: order.id };
+        }
       }
     }
 
@@ -242,6 +253,7 @@ export async function verifyPurchaseFromToken(accessToken: string, productId: st
     return null;
   }
 }
+
 
 /**
  * Validates a specific order directly if we have the order ID.
