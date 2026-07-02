@@ -10,7 +10,7 @@ const SHOP =
 const ADMIN_API_TOKEN =
   process.env.SHOPIFY_ADMIN_API_TOKEN || process.env.ADMIN_API_TOKEN;
 const SHOP_ID =
-  process.env.SHOPIFY_SHOP_ID || process.env.VITE_SHOPIFY_SHOP_ID || '80446095593';
+  process.env.SHOPIFY_SHOP_ID || process.env.VITE_SHOPIFY_SHOP_ID || '72008532077';
 
 function normalizeProductId(productId: string) {
   const numeric = productId.includes('/') ? productId.split('/').pop()! : productId;
