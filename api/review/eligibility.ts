@@ -1,6 +1,6 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { supabaseAdmin } from '../../src/lib/supabase.js';
-import { verifyPurchase, getCustomerIdFromToken, verifyPurchaseFromToken } from '../../src/lib/shopify/admin-verify.js';
+import { verifyPurchaseFromToken } from '../../src/lib/shopify/admin-verify.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'GET') {
@@ -8,45 +8,39 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const { product_id, customer_id } = req.query;
-
   if (!product_id || !customer_id) {
     return res.status(200).json({ eligible: false, reason: 'Auth required' });
   }
 
   try {
-    const customerToken = customer_id as string;
-
-    // Normalize product id – store reviews against the GID consistently
     const rawProduct = product_id as string;
     const numericProduct = rawProduct.includes('/') ? rawProduct.split('/').pop()! : rawProduct;
     const gidProduct = rawProduct.startsWith('gid://')
       ? rawProduct
       : `gid://shopify/Product/${numericProduct}`;
 
-    // 1. Prefer Customer Account API order verification. Fall back to Admin API.
-    const tokenPurchase = await verifyPurchaseFromToken(customerToken, gidProduct);
-    const resolvedId = tokenPurchase?.customerId || await getCustomerIdFromToken(customerToken);
-    if (!resolvedId) {
-      return res.status(200).json({ eligible: false, reason: 'Invalid session' });
+    // Customer Account API — must be fulfilled to be eligible
+    const purchase = await verifyPurchaseFromToken(customer_id as string, gidProduct);
+    if (!purchase) {
+      return res.status(200).json({
+        eligible: false,
+        reason: 'No fulfilled order for this product',
+      });
     }
 
-    // 2. Check for existing review (match either format that may have been stored)
     const { data: existingReview } = await supabaseAdmin
       .from('reviews')
       .select('*')
-      .eq('user_id', resolvedId)
+      .eq('user_id', purchase.customerId)
       .in('product_id', [gidProduct, numericProduct])
       .maybeSingle();
 
-    // 3. Verify purchase history
-    const verifiedOrderId = tokenPurchase?.orderId || await verifyPurchase(resolvedId, gidProduct);
-
     return res.status(200).json({
-      eligible: !!verifiedOrderId,
+      eligible: true,
       hasReviewed: !!existingReview,
       existingReview,
-      resolvedId,
-      verifiedOrderId
+      resolvedId: purchase.customerId,
+      verifiedOrderId: purchase.orderId,
     });
   } catch (error: any) {
     console.error('Eligibility check error:', error);
