@@ -14,7 +14,9 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
     const { data, error, count } = await supabaseAdmin
       .from('brand_reviews')
       .select('rating', { count: 'exact' })
-      .eq('is_hidden', false);
+      .eq('is_hidden', false)
+      .eq('status', 'approved');
+
 
     if (error) throw error;
 
