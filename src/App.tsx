@@ -29,6 +29,8 @@ const TermsOfService = lazy(() => import("./pages/TermsOfService.tsx"));
 const RefundPolicy = lazy(() => import("./pages/RefundPolicy.tsx"));
 const ShippingPolicy = lazy(() => import("./pages/ShippingPolicy.tsx"));
 const ReviewSubmission = lazy(() => import("./pages/ReviewSubmission.tsx"));
+const VoomAdminControlPanel = lazy(() => import("./pages/VoomAdminControlPanel.tsx"));
+
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 
 
