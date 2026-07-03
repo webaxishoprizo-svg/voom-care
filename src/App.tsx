@@ -29,6 +29,8 @@ const TermsOfService = lazy(() => import("./pages/TermsOfService.tsx"));
 const RefundPolicy = lazy(() => import("./pages/RefundPolicy.tsx"));
 const ShippingPolicy = lazy(() => import("./pages/ShippingPolicy.tsx"));
 const ReviewSubmission = lazy(() => import("./pages/ReviewSubmission.tsx"));
+const VoomAdminControlPanel = lazy(() => import("./pages/VoomAdminControlPanel.tsx"));
+
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 
 
@@ -85,6 +87,8 @@ const App = () => (
                 <Route path="/refund-policy" element={<RefundPolicy />} />
                 <Route path="/shipping-policy" element={<ShippingPolicy />} />
                 <Route path="/review" element={<ReviewSubmission />} />
+                <Route path="/voomadmincontrolpanel" element={<VoomAdminControlPanel />} />
+
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
