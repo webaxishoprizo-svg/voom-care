@@ -87,6 +87,8 @@ const App = () => (
                 <Route path="/refund-policy" element={<RefundPolicy />} />
                 <Route path="/shipping-policy" element={<ShippingPolicy />} />
                 <Route path="/review" element={<ReviewSubmission />} />
+                <Route path="/voomadmincontrolpanel" element={<VoomAdminControlPanel />} />
+
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
