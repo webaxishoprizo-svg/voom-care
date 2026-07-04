@@ -80,6 +80,17 @@ const HeroCarousel = () => {
                       className="w-full h-full object-cover"
                     />
                   )
+                ) : (slide as any).desktopVideo ? (
+                  <video
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="w-full h-full object-cover"
+                    poster={slide.image}
+                  >
+                    <source src={(slide as any).desktopVideo} type="video/mp4" />
+                  </video>
                 ) : (
                   <img
                     src={slide.image}
@@ -87,6 +98,7 @@ const HeroCarousel = () => {
                     className="w-full h-full object-cover"
                   />
                 )}
+
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
               </div>
 
