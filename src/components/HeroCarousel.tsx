@@ -1,10 +1,12 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useHeroSlides } from "@/lib/shopify/hooks";
+import { useSiteMedia } from "@/lib/site-media";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
+
 
 const HeroCarousel = () => {
   const { data: slides, isLoading } = useHeroSlides();
