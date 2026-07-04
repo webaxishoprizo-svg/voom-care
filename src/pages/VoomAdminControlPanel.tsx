@@ -55,7 +55,7 @@ export default function VoomAdminControlPanel() {
   }, [token]);
 
   const load = useCallback(async () => {
-    if (!token) return;
+    if (!token || section !== 'reviews') return;
     setLoading(true);
     try {
       const res = await authedFetch(`/api/admin/reviews?type=${type}&status=${status}`);
@@ -71,9 +71,10 @@ export default function VoomAdminControlPanel() {
     } finally {
       setLoading(false);
     }
-  }, [type, status, token, authedFetch]);
+  }, [type, status, token, authedFetch, section]);
 
   useEffect(() => { load(); }, [load]);
+
 
   const login = async () => {
     setLoggingIn(true);
