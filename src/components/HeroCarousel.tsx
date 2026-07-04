@@ -1,13 +1,16 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useHeroSlides } from "@/lib/shopify/hooks";
+import { useSiteMedia } from "@/lib/site-media";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 
+
 const HeroCarousel = () => {
-  const { data: slides, isLoading } = useHeroSlides();
+  const { data: shopifySlides, isLoading } = useHeroSlides();
+  const { data: media } = useSiteMedia();
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay({ delay: 5000, stopOnInteraction: false })]);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -21,11 +24,35 @@ const HeroCarousel = () => {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
+  // Admin-managed desktop hero. If provided, it becomes the primary slide.
+  const adminDesktopVideo = media?.hero_desktop_video?.media_type === 'video' ? media.hero_desktop_video : null;
+  const adminDesktopImage = media?.hero_desktop_image?.media_type === 'image' ? media.hero_desktop_image : null;
+  const adminMobileImage = media?.hero_mobile_image?.media_type === 'image' ? media.hero_mobile_image : null;
+  const adminMobileVideo = media?.hero_mobile_video?.media_type === 'video' ? media.hero_mobile_video : null;
+
+  const slides = useMemo(() => {
+    const list = [...(shopifySlides || [])];
+    if (adminDesktopVideo || adminDesktopImage) {
+      list.unshift({
+        id: 'admin-hero',
+        title: adminDesktopImage?.alt || adminDesktopVideo?.alt || 'Signature Series',
+        description: '',
+        image: adminDesktopImage?.url || adminDesktopVideo?.poster_url || '',
+        mobileImage: adminMobileImage?.url || adminDesktopImage?.url || '',
+        mobileVideo: adminMobileVideo?.url || adminDesktopVideo?.url || '',
+        desktopVideo: adminDesktopVideo?.url || '',
+        link: '/products',
+      } as any);
+    }
+    return list;
+  }, [shopifySlides, adminDesktopVideo, adminDesktopImage, adminMobileImage, adminMobileVideo]);
+
   if (isLoading && !slides.length) {
     return <section className="relative h-screen w-full overflow-hidden bg-background" />;
   }
 
   if (!slides.length) return null;
+
 
   return (
     <section className="relative h-screen w-full overflow-hidden group">
@@ -53,6 +80,17 @@ const HeroCarousel = () => {
                       className="w-full h-full object-cover"
                     />
                   )
+                ) : (slide as any).desktopVideo ? (
+                  <video
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="w-full h-full object-cover"
+                    poster={slide.image}
+                  >
+                    <source src={(slide as any).desktopVideo} type="video/mp4" />
+                  </video>
                 ) : (
                   <img
                     src={slide.image}
@@ -60,6 +98,7 @@ const HeroCarousel = () => {
                     className="w-full h-full object-cover"
                   />
                 )}
+
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
               </div>
 
