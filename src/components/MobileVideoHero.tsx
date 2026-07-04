@@ -42,16 +42,19 @@ const MobileVideoHero = () => {
     <section className="relative h-screen w-full overflow-hidden lg:hidden bg-black">
       {/* Background Video */}
       <video
+        key={videoSrc}
         autoPlay
         muted
         loop
         playsInline
         preload="metadata"
+        poster={posterSrc}
         className="absolute inset-0 w-full h-full object-cover opacity-80"
         style={{ transform: "translateZ(0)" }}
       >
         <source src={videoSrc} type="video/mp4" />
       </video>
+
 
       {/* Dark Overlay for better text readability */}
       <div className="absolute inset-0 bg-black/20" />
