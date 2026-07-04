@@ -2,6 +2,11 @@ import { useEffect, useState, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { Loader2, Trash2, Check, X, Plus, Edit3, Star, LogOut } from 'lucide-react';
+import HeroMediaTab from '@/components/admin/HeroMediaTab';
+import BlogTab from '@/components/admin/BlogTab';
+
+type Section = 'reviews' | 'hero' | 'blog';
+
 
 type ReviewType = 'product' | 'brand';
 type StatusFilter = 'all' | 'approved' | 'pending' | 'rejected';
