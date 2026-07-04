@@ -24,6 +24,11 @@ const positions = [
 
 const MobileVideoHero = () => {
   const [index, setIndex] = useState(0);
+  const { data: media } = useSiteMedia();
+  const heroVideo = media?.hero_mobile_video?.media_type === 'video' ? media.hero_mobile_video : null;
+  const heroImage = media?.hero_mobile_image?.media_type === 'image' ? media.hero_mobile_image : null;
+  const videoSrc = heroVideo?.url || fallbackVideo;
+  const posterSrc = heroVideo?.poster_url || heroImage?.url || undefined;
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -31,6 +36,7 @@ const MobileVideoHero = () => {
     }, 3000);
     return () => clearInterval(timer);
   }, []);
+
 
   return (
     <section className="relative h-screen w-full overflow-hidden lg:hidden bg-black">
