@@ -17,6 +17,8 @@ const CTASection = lazy(() => import("@/components/CTASection"));
 const Newsletter = lazy(() => import("@/components/Newsletter"));
 const Footer = lazy(() => import("@/components/Footer"));
 const ComingSoonBanner = lazy(() => import("@/components/ComingSoonBanner"));
+const HomeBlogSection = lazy(() => import("@/components/HomeBlogSection"));
+
 
 const SectionFallback = () => <div className="h-32" aria-hidden />;
 
