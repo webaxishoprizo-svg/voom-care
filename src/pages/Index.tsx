@@ -89,6 +89,11 @@ const Index = () => {
         </Reveal>
 
         <Reveal delay={0.05}>
+          <HomeBlogSection />
+        </Reveal>
+
+
+        <Reveal delay={0.05}>
           <ComingSoonBanner />
         </Reveal>
 
