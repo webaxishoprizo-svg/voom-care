@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import videoSrc from "@/assets/voom hero veo.mp4";
+import fallbackVideo from "@/assets/voom hero veo.mp4";
+import { useSiteMedia } from "@/lib/site-media";
+
 
 const phrases = [
   "Showroom Finish",
