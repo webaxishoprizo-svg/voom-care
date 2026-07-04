@@ -34,12 +34,14 @@ export default function VoomAdminControlPanel() {
   const [password, setPassword] = useState('');
   const [loggingIn, setLoggingIn] = useState(false);
 
+  const [section, setSection] = useState<Section>('reviews');
   const [type, setType] = useState<ReviewType>('product');
   const [status, setStatus] = useState<StatusFilter>('all');
   const [reviews, setReviews] = useState<AnyReview[]>([]);
   const [loading, setLoading] = useState(false);
   const [showAdd, setShowAdd] = useState(false);
   const [editing, setEditing] = useState<AnyReview | null>(null);
+
 
   const authedFetch = useCallback(async (url: string, init: RequestInit = {}) => {
     return fetch(url, {
