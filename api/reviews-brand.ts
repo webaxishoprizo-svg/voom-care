@@ -1,6 +1,6 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
-import { supabaseAdmin } from '../../../src/lib/supabase.js';
-import { getCustomerIdFromToken } from '../../../src/lib/shopify/admin-verify.js';
+import { supabaseAdmin } from '../src/lib/supabase.js';
+import { getCustomerIdFromToken } from '../src/lib/shopify/admin-verify.js';
 
 const MAX_REVIEW_LENGTH = 1000;
 const MIN_REVIEW_LENGTH = 10;
@@ -16,27 +16,76 @@ function sanitizeText(input: unknown, max = MAX_REVIEW_LENGTH): string {
   return input.trim().slice(0, max);
 }
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
-  try {
-    if (req.method === 'GET') return handleGet(req, res);
-    if (req.method === 'POST') return handlePost(req, res);
-    if (req.method === 'PUT') return handlePut(req, res);
-    return res.status(405).json({ error: 'Method not allowed' });
-  } catch (err: any) {
-    console.error('[api/reviews/brand] fatal:', err);
-    const hasUrl = !!process.env.SUPABASE_URL;
-    const hasKey = !!process.env.SUPABASE_SERVICE_ROLE_KEY;
-    return res.status(500).json({
-      error: err?.message || 'Internal server error',
-      code: err?.code,
-      details: err?.details,
-      hint: err?.hint,
-      env: { hasUrl, hasKey },
-    });
+// ==========================================
+// ELIGIBILITY LOGIC
+// ==========================================
+async function handleEligibility(req: VercelRequest, res: VercelResponse) {
+  if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
+
+  const accessToken = (req.query.token as string) || '';
+  if (!accessToken) {
+    return res.status(200).json({ canSubmit: false, reason: 'unauthenticated', existingReview: null });
   }
+
+  const customerGid = await getCustomerIdFromToken(accessToken);
+  if (!customerGid) {
+    return res.status(200).json({ canSubmit: false, reason: 'invalid_session', existingReview: null });
+  }
+
+  const { data: existing } = await supabaseAdmin
+    .from('brand_reviews')
+    .select('id, rating, review_text, delivery_rating, support_rating, overall_rating, display_name, source, created_at')
+    .eq('user_id', customerGid)
+    .maybeSingle();
+
+  if (existing) {
+    return res.status(200).json({ canSubmit: false, reason: 'already_reviewed', existingReview: existing, customerGid });
+  }
+
+  return res.status(200).json({ canSubmit: true, existingReview: null, customerGid });
 }
 
-async function handleGet(req: VercelRequest, res: VercelResponse) {
+// ==========================================
+// SUMMARY LOGIC
+// ==========================================
+let summaryCached: { value: any; ts: number } | null = null;
+const TTL_MS = 60_000;
+
+async function handleSummary(req: VercelRequest, res: VercelResponse) {
+  if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
+
+  if (summaryCached && Date.now() - summaryCached.ts < TTL_MS) {
+    res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=300');
+    return res.status(200).json(summaryCached.value);
+  }
+
+  const { data, error, count } = await supabaseAdmin
+    .from('brand_reviews')
+    .select('rating', { count: 'exact' })
+    .eq('is_hidden', false)
+    .eq('status', 'approved');
+
+  if (error) throw error;
+
+  const total = count || 0;
+  const sum = (data || []).reduce((acc, r: any) => acc + (r.rating || 0), 0);
+  const average = total > 0 ? Number((sum / total).toFixed(1)) : 0;
+
+  const breakdown = [1, 2, 3, 4, 5].reduce<Record<number, number>>((acc, n) => {
+    acc[n] = (data || []).filter((r: any) => r.rating === n).length;
+    return acc;
+  }, {});
+
+  const value = { averageRating: average, totalReviews: total, breakdown };
+  summaryCached = { value, ts: Date.now() };
+  res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=300');
+  return res.status(200).json(value);
+}
+
+// ==========================================
+// INDEX (GET, POST, PUT) LOGIC
+// ==========================================
+async function handleIndexGet(req: VercelRequest, res: VercelResponse) {
   const page = Math.max(1, parseInt((req.query.page as string) || '1', 10));
   const limit = Math.min(50, Math.max(1, parseInt((req.query.limit as string) || '12', 10)));
   const from = (page - 1) * limit;
@@ -51,7 +100,6 @@ async function handleGet(req: VercelRequest, res: VercelResponse) {
     .order('created_at', { ascending: false })
     .range(from, to);
 
-
   if (error) throw error;
 
   res.setHeader('Cache-Control', 's-maxage=30, stale-while-revalidate=120');
@@ -61,7 +109,7 @@ async function handleGet(req: VercelRequest, res: VercelResponse) {
   });
 }
 
-async function handlePost(req: VercelRequest, res: VercelResponse) {
+async function handleIndexPost(req: VercelRequest, res: VercelResponse) {
   const { customerId: accessToken, rating, review, deliveryRating, supportRating, overallRating, displayName } = req.body || {};
 
   if (!accessToken) return res.status(401).json({ error: 'Authentication required' });
@@ -105,7 +153,7 @@ async function handlePost(req: VercelRequest, res: VercelResponse) {
   return res.status(201).json(data);
 }
 
-async function handlePut(req: VercelRequest, res: VercelResponse) {
+async function handleIndexPut(req: VercelRequest, res: VercelResponse) {
   const { customerId: accessToken, rating, review, deliveryRating, supportRating, overallRating, displayName } = req.body || {};
   if (!accessToken) return res.status(401).json({ error: 'Authentication required' });
 
@@ -143,4 +191,38 @@ async function handlePut(req: VercelRequest, res: VercelResponse) {
 
   if (error) throw error;
   return res.status(200).json(data);
+}
+
+// ==========================================
+// MAIN HANDLER ROUTER
+// ==========================================
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  const route = req.query.route || req.body?.route;
+
+  try {
+    if (route === 'eligibility') {
+      return await handleEligibility(req, res);
+    }
+    if (route === 'summary') {
+      return await handleSummary(req, res);
+    }
+    if (route === 'index' || !route) {
+      if (req.method === 'GET') return await handleIndexGet(req, res);
+      if (req.method === 'POST') return await handleIndexPost(req, res);
+      if (req.method === 'PUT') return await handleIndexPut(req, res);
+      return res.status(405).json({ error: 'Method not allowed' });
+    }
+    return res.status(400).json({ error: 'Invalid or missing route parameter' });
+  } catch (err: any) {
+    console.error(`[api/reviews-brand?route=${route}] fatal:`, err);
+    const hasUrl = !!process.env.SUPABASE_URL;
+    const hasKey = !!process.env.SUPABASE_SERVICE_ROLE_KEY;
+    return res.status(500).json({
+      error: err?.message || 'Internal server error',
+      code: err?.code,
+      details: err?.details,
+      hint: err?.hint,
+      env: { hasUrl, hasKey },
+    });
+  }
 }

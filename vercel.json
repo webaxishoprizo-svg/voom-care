@@ -1,6 +1,50 @@
 {
   "rewrites": [
     {
+      "source": "/api/admin/blog",
+      "destination": "/api/admin.ts?route=blog"
+    },
+    {
+      "source": "/api/admin/reviews",
+      "destination": "/api/admin.ts?route=reviews"
+    },
+    {
+      "source": "/api/admin/site-media",
+      "destination": "/api/admin.ts?route=site-media"
+    },
+    {
+      "source": "/api/review/delete",
+      "destination": "/api/review.ts?route=delete"
+    },
+    {
+      "source": "/api/review/eligibility",
+      "destination": "/api/review.ts?route=eligibility"
+    },
+    {
+      "source": "/api/review/submit",
+      "destination": "/api/review.ts?route=submit"
+    },
+    {
+      "source": "/api/review/update",
+      "destination": "/api/review.ts?route=update"
+    },
+    {
+      "source": "/api/review/validate-token",
+      "destination": "/api/review.ts?route=validate-token"
+    },
+    {
+      "source": "/api/reviews/brand/eligibility",
+      "destination": "/api/reviews-brand.ts?route=eligibility"
+    },
+    {
+      "source": "/api/reviews/brand/summary",
+      "destination": "/api/reviews-brand.ts?route=summary"
+    },
+    {
+      "source": "/api/reviews/brand",
+      "destination": "/api/reviews-brand.ts?route=index"
+    },
+    {
       "source": "/api/:path*",
       "destination": "/api/:path*"
     },
