@@ -72,7 +72,7 @@
     "@types/node": "^22.16.5",
     "@types/react": "^18.3.23",
     "@types/react-dom": "^18.3.7",
-    "@vercel/node": "^5.7.15",
+    "@vercel/node": "^5.8.22",
     "@vitejs/plugin-react-swc": "^4.3.0",
     "autoprefixer": "^10.4.19",
     "eslint": "^9.32.0",
@@ -88,6 +88,18 @@
     "vitest": "^4.1.5"
   },
   "overrides": {
-    "glob": "^13.0.0"
+    "glob": "^13.0.0",
+    "js-yaml": "^4.2.0",
+    "@vercel/node": {
+      "undici": "^6.27.0",
+      "path-to-regexp": "^6.3.0"
+    },
+    "@vercel/static-config": {
+      "ajv": "^8.18.0"
+    },
+    "@vercel/python-analysis": {
+      "minimatch": "^10.2.3",
+      "smol-toml": "^1.6.1"
+    }
   }
 }
