@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useCollectionProducts } from "@/lib/shopify/hooks";
 import { Clock, Bell } from "lucide-react";
+import { Reveal } from "@/components/ScrollReveal";
 
 const ComingSoonBanner = () => {
   const { data: products = [], isLoading } = useCollectionProducts("coming-soon");
@@ -11,7 +12,8 @@ const ComingSoonBanner = () => {
   const product = products[0];
 
   return (
-    <section className="relative py-24 px-4 overflow-hidden">
+    <Reveal>
+      <section className="relative py-24 px-4 overflow-hidden">
       <div className="max-w-6xl mx-auto">
         <motion.div 
           initial={{ opacity: 0, y: 50 }}
@@ -69,6 +71,7 @@ const ComingSoonBanner = () => {
         </motion.div>
       </div>
     </section>
+  </Reveal>
   );
 };
 

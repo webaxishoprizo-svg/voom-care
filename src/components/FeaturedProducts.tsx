@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useCollectionProducts } from "@/lib/shopify/hooks";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
+import { Reveal } from "@/components/ScrollReveal";
 
 const FeaturedProducts = () => {
   const { data: products = [], isLoading } = useCollectionProducts("what-is-inside-the-compo");
@@ -44,7 +45,8 @@ const FeaturedProducts = () => {
   if (!products.length) return null;
 
   return (
-    <section className="relative w-full h-screen overflow-hidden bg-black">
+    <Reveal>
+      <section className="relative w-full h-screen overflow-hidden bg-black">
       <div className="overflow-hidden h-full w-full" ref={emblaRef}>
         <div className="flex h-full w-full">
           {products.map((product) => (
@@ -83,7 +85,7 @@ const FeaturedProducts = () => {
                     to="/products?collection=compo"
                     className="mt-4 px-10 py-3.5 glass-card rounded-md text-foreground text-[11px] font-semibold tracking-[0.2em] uppercase hover:bg-white/10 transition-all duration-500 backdrop-blur-md inline-block"
                   >
-                    Explore Voom
+                    Shop the Combo
                   </Link>
                 </motion.div>
               </div>
@@ -114,6 +116,7 @@ const FeaturedProducts = () => {
         <span className="text-white/20 text-xs font-bold">/ {products.length.toString().padStart(2, '0')}</span>
       </div>
     </section>
+  </Reveal>
   );
 };
 

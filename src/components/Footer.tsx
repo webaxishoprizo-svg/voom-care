@@ -94,10 +94,10 @@ const Footer = () => {
           </div>
 
           <div className="flex flex-col md:items-end gap-1">
-            <p className="text-[10px] text-white/20 tracking-[0.2em] uppercase">
+            <p className="text-[10px] text-white/55 tracking-[0.2em] uppercase">
               © {new Date().getFullYear()} VOOM · Frenzo Group
             </p>
-            <p className="text-[9px] text-white/10 tracking-[0.1em] uppercase text-center md:text-right">
+            <p className="text-[9px] text-white/35 tracking-[0.1em] uppercase text-center md:text-right">
               Handcrafted Car Care · Made in India
             </p>
           </div>

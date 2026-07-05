@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, PlayCircle } from "lucide-react";
 import { useBlogPosts } from "@/lib/blog";
+import { Reveal } from "@/components/ScrollReveal";
 
 const HomeBlogSection = () => {
   const { data: posts, isLoading } = useBlogPosts(3);
@@ -9,7 +10,8 @@ const HomeBlogSection = () => {
   if (!posts || posts.length === 0) return null;
 
   return (
-    <section className="py-20 md:py-28 px-4 md:px-8 bg-background">
+    <Reveal>
+      <section className="py-20 md:py-28 px-4 md:px-8 bg-background">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-end justify-between mb-12 gap-4">
           <div>
@@ -87,6 +89,7 @@ const HomeBlogSection = () => {
         </div>
       </div>
     </section>
+  </Reveal>
   );
 };
 

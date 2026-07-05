@@ -114,6 +114,23 @@ const ProductCard = ({ product, index, x, itemWidth, productsCount }: {
 const SingleProductFeatured = ({ product }: { product: Product }) => {
   const navigate = useNavigate();
   const { addItem } = useCart();
+  const [timeLeft, setTimeLeft] = useState({ hours: 4, minutes: 12, seconds: 30 });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = new Date();
+      const midnight = new Date();
+      midnight.setHours(24, 0, 0, 0);
+      const diff = midnight.getTime() - now.getTime();
+      
+      const hours = Math.max(0, Math.floor(diff / (1000 * 60 * 60)));
+      const minutes = Math.max(0, Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)));
+      const seconds = Math.max(0, Math.floor((diff % (1000 * 60)) / 1000));
+      
+      setTimeLeft({ hours, minutes, seconds });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="max-w-5xl mx-auto px-4">
@@ -121,7 +138,7 @@ const SingleProductFeatured = ({ product }: { product: Product }) => {
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="relative group rounded-md overflow-hidden glass-card p-1 lg:p-2 border border-white/5"
+        className="relative group rounded-md overflow-hidden glass-card p-1 lg:p-2 border border-white/5 bg-[#0a0a0a]"
       >
         <div className="grid lg:grid-cols-2 items-center gap-8 lg:gap-0">
           {/* Image Section */}
@@ -173,24 +190,45 @@ const SingleProductFeatured = ({ product }: { product: Product }) => {
           </div>
 
           {/* Content Section */}
-          <div className="p-8 lg:p-16 space-y-8">
+          <div className="p-8 lg:p-16 space-y-6">
             <div className="space-y-4">
-              <div className="flex items-center gap-1">
-                <Star className="w-3.5 h-3.5 fill-primary text-primary" />
-                <span className="text-muted-foreground text-[10px] uppercase tracking-widest ml-1">Showroom Grade</span>
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="inline-flex items-center gap-1 text-muted-foreground text-[10px] uppercase tracking-widest bg-white/5 border border-white/10 rounded-full px-2.5 py-0.5">
+                  <Star className="w-3 h-3 fill-primary text-primary" />
+                  Showroom Grade
+                </span>
+
+                {/* Real-time Countdown Timer */}
+                <span className="inline-flex items-center gap-1.5 text-red-400 text-[10px] uppercase tracking-wider bg-red-500/10 border border-red-500/20 rounded-full px-2.5 py-0.5 font-mono">
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse" />
+                  Ends in: {timeLeft.hours.toString().padStart(2, '0')}:{timeLeft.minutes.toString().padStart(2, '0')}:{timeLeft.seconds.toString().padStart(2, '0')}
+                </span>
               </div>
+
               <h3 className="font-display text-4xl lg:text-6xl text-foreground italic tracking-tight leading-[1.1]">
                 {product.name}
               </h3>
+              
               <p className="text-muted-foreground text-sm lg:text-base leading-relaxed max-w-sm">
                 <span className="md:hidden">Professional kit for a perfect showroom finish.</span>
                 <span className="hidden md:inline">The ultimate comprehensive car care kit. Professional formulas combined for a perfect, long-lasting showroom finish.</span>
               </p>
+
+              {/* Stock Urgency Progress Bar */}
+              <div className="space-y-1.5 max-w-xs pt-2">
+                <div className="flex justify-between text-[10px] font-semibold uppercase tracking-widest">
+                  <span className="text-primary font-bold animate-pulse">Low Stock Warning</span>
+                  <span className="text-muted-foreground">Only 14 bundles left</span>
+                </div>
+                <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
+                  <div className="w-[12%] h-full bg-primary rounded-full" />
+                </div>
+              </div>
             </div>
 
             {product.price > 0 ? (
-              <>
-                <div className="hidden md:flex items-baseline gap-4">
+              <div className="space-y-4">
+                <div className="hidden md:flex items-baseline gap-4 pt-2">
                   <span className="text-3xl lg:text-5xl font-semibold tracking-tight text-foreground">
                     {formatCurrency(product.price, product.currencyCode)}
                   </span>
@@ -201,7 +239,7 @@ const SingleProductFeatured = ({ product }: { product: Product }) => {
                   )}
                 </div>
 
-                <div className="hidden md:flex flex-col sm:flex-row items-center gap-4 pt-4">
+                <div className="hidden md:flex flex-col sm:flex-row items-center gap-4 pt-2">
                   <button
                     onClick={() => addItem(product)}
                     className="w-full sm:w-auto h-12 px-10 rounded-md bg-primary text-primary-foreground font-semibold tracking-[0.2em] uppercase text-[11px] hover:bg-primary/90 transition-all shadow-lg active:scale-95"
@@ -215,7 +253,16 @@ const SingleProductFeatured = ({ product }: { product: Product }) => {
                     View Details
                   </button>
                 </div>
-              </>
+
+                {/* Trust Badges */}
+                <div className="flex items-center gap-3 text-muted-foreground/60 text-[9px] uppercase tracking-[0.15em] font-semibold pt-2">
+                  <span>UPI Payment</span>
+                  <span className="w-1 h-1 bg-white/20 rounded-full" />
+                  <span>Visa / Mastercard</span>
+                  <span className="w-1 h-1 bg-white/20 rounded-full" />
+                  <span>COD Available</span>
+                </div>
+              </div>
             ) : (
               <div className="pt-4">
                 <button

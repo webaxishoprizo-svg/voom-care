@@ -31,8 +31,8 @@ function CollectionTile({
   collection: ShopifyCollectionCard;
   index: number;
   className: string;
-  titleClassName: string;
-  titlePositionClassName: string;
+  titleClassName?: string;
+  titlePositionClassName?: string;
 }) {
   return (
     <motion.div
@@ -51,11 +51,9 @@ function CollectionTile({
           loading="lazy"
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-background/30" />
-        <div className={`absolute inset-0 flex ${titlePositionClassName}`}>
-          <span
-            className={`bg-primary/20 px-5 py-2 font-display text-base tracking-[0.15em] text-foreground uppercase backdrop-blur-sm border border-primary/30 rounded-md md:text-lg ${titleClassName}`}
-          >
+        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/35 transition-colors duration-500" />
+        <div className="absolute bottom-0 left-0 right-0 bg-black/60 backdrop-blur-md border-t border-white/10 p-3.5 text-center transition-colors duration-500 group-hover:bg-black/75">
+          <span className="font-display text-xs md:text-sm tracking-[0.2em] text-white uppercase font-bold">
             {collection.title}
           </span>
         </div>

@@ -9,8 +9,8 @@ import SEO from "@/components/SEO";
 
 // Below-the-fold: lazy-load to keep first paint fast
 const FeaturedProducts = lazy(() => import("@/components/FeaturedProducts"));
-const BrandQuality = lazy(() => import("@/components/BrandQuality"));
 const CollectionsSection = lazy(() => import("@/components/CollectionsSection"));
+const IndividualProducts = lazy(() => import("@/components/IndividualProducts"));
 const ExperienceSection = lazy(() => import("@/components/ExperienceSection"));
 const TestimonialsSection = lazy(() => import("@/components/TestimonialsSection"));
 const CTASection = lazy(() => import("@/components/CTASection"));
@@ -18,6 +18,7 @@ const Newsletter = lazy(() => import("@/components/Newsletter"));
 const Footer = lazy(() => import("@/components/Footer"));
 const ComingSoonBanner = lazy(() => import("@/components/ComingSoonBanner"));
 const HomeBlogSection = lazy(() => import("@/components/HomeBlogSection"));
+const WhatsAppButton = lazy(() => import("@/components/WhatsAppButton"));
 
 
 const SectionFallback = () => <div className="h-32" aria-hidden />;
@@ -110,41 +111,17 @@ const Index = () => {
       </Reveal>
 
       <Suspense fallback={<SectionFallback />}>
-        <Reveal delay={0.05}>
-          <CollectionsSection />
-        </Reveal>
-
-        <Reveal delay={0.05}>
-          <FeaturedProducts />
-        </Reveal>
-
-        <Reveal delay={0.05}>
-          <BrandQuality />
-        </Reveal>
-
-        <Reveal delay={0.05}>
-          <ExperienceSection />
-        </Reveal>
-
-        <Reveal delay={0.05}>
-          <TestimonialsSection />
-        </Reveal>
-
-        <Reveal delay={0.05}>
-          <HomeBlogSection />
-        </Reveal>
-
-
-        <Reveal delay={0.05}>
-          <ComingSoonBanner />
-        </Reveal>
-
-        <Reveal delay={0.05}>
-          <CTASection />
-        </Reveal>
-
+        <IndividualProducts />
+        <CollectionsSection />
+        <FeaturedProducts />
+        <ExperienceSection />
+        <TestimonialsSection />
+        <HomeBlogSection />
+        <ComingSoonBanner />
+        <CTASection />
         <Newsletter />
         <Footer />
+        <WhatsAppButton />
       </Suspense>
     </main>
   );
