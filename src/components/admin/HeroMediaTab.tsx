@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { Loader2, Trash2, Save, Eye, EyeOff, Upload } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
+import { createClient } from '@supabase/supabase-js';
 
 const SLOTS: { key: string; label: string; type: 'video' | 'image'; hint: string }[] = [
   { key: 'hero_mobile_video', label: 'Hero — Mobile Video', type: 'video', hint: 'MP4 URL shown on phones' },
@@ -18,6 +18,15 @@ interface MediaRow {
   poster_url: string | null;
   alt: string | null;
   is_enabled: boolean;
+}
+
+function getSupabaseClient() {
+  const url = import.meta.env.VITE_SUPABASE_URL || '';
+  const key = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || '';
+  if (!url || !key) {
+    throw new Error('Supabase client-side credentials (VITE_SUPABASE_URL / VITE_SUPABASE_PUBLISHABLE_KEY) are missing in environment.');
+  }
+  return createClient(url, key);
 }
 
 export default function HeroMediaTab({ authedFetch }: { authedFetch: (u: string, i?: RequestInit) => Promise<Response> }) {
@@ -39,16 +48,17 @@ export default function HeroMediaTab({ authedFetch }: { authedFetch: (u: string,
     const toastId = toast.loading(`Uploading ${file.name}...`);
 
     try {
-      const { data: buckets } = await supabase.storage.listBuckets();
+      const client = getSupabaseClient();
+      const { data: buckets } = await client.storage.listBuckets();
       const hasBucket = buckets?.some(b => b.name === 'site-media');
       if (!hasBucket) {
-        await supabase.storage.createBucket('site-media', { public: true });
+        await client.storage.createBucket('site-media', { public: true });
       }
 
       const fileExt = file.name.split('.').pop();
       const fileName = `${slotKey}_${Date.now()}.${fileExt}`;
 
-      const { error } = await supabase.storage
+      const { error } = await client.storage
         .from('site-media')
         .upload(fileName, file, {
           cacheControl: '3600',
@@ -57,7 +67,7 @@ export default function HeroMediaTab({ authedFetch }: { authedFetch: (u: string,
 
       if (error) throw error;
 
-      const { data: { publicUrl } } = supabase.storage
+      const { data: { publicUrl } } = client.storage
         .from('site-media')
         .getPublicUrl(fileName);
 

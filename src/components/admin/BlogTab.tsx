@@ -2,7 +2,16 @@ import { useEffect, useState, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { Loader2, Plus, Trash2, Edit3, Eye, EyeOff, Upload } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
+import { createClient } from '@supabase/supabase-js';
+
+function getSupabaseClient() {
+  const url = import.meta.env.VITE_SUPABASE_URL || '';
+  const key = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || '';
+  if (!url || !key) {
+    throw new Error('Supabase client-side credentials (VITE_SUPABASE_URL / VITE_SUPABASE_PUBLISHABLE_KEY) are missing in environment.');
+  }
+  return createClient(url, key);
+}
 
 interface BlogPost {
   id: string;
@@ -132,16 +141,17 @@ function PostEditor({ initial, onClose, onSaved, authedFetch }: {
     const toastId = toast.loading(`Uploading ${file.name}...`);
 
     try {
-      const { data: buckets } = await supabase.storage.listBuckets();
+      const client = getSupabaseClient();
+      const { data: buckets } = await client.storage.listBuckets();
       const hasBucket = buckets?.some(b => b.name === 'site-media');
       if (!hasBucket) {
-        await supabase.storage.createBucket('site-media', { public: true });
+        await client.storage.createBucket('site-media', { public: true });
       }
 
       const fileExt = file.name.split('.').pop();
       const fileName = `blog_${key}_${Date.now()}.${fileExt}`;
 
-      const { error } = await supabase.storage
+      const { error } = await client.storage
         .from('site-media')
         .upload(fileName, file, {
           cacheControl: '3600',
@@ -150,7 +160,7 @@ function PostEditor({ initial, onClose, onSaved, authedFetch }: {
 
       if (error) throw error;
 
-      const { data: { publicUrl } } = supabase.storage
+      const { data: { publicUrl } } = client.storage
         .from('site-media')
         .getPublicUrl(fileName);
 
