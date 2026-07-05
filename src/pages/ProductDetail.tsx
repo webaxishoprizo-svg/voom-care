@@ -29,22 +29,22 @@ import { getAccessToken } from "@/lib/shopify/customer-account";
 const testimonials = [
   {
     text: "The Combo Voom kit is actually very good. The shampoo gives a lot of foam and the dash cleaner doesn't leave any oily feel. My car is looking like new again. Paisa vasool!",
-    name: "Rajesh M.",
+    name: "Rajesh",
     rating: 5,
   },
   {
     text: "Everything you need is in this one kit only. Very easy to use also, no need to go to detailing shops every time. The tyre polish shine stays for a long time even in this heat.",
-    name: "Sneha Gupta",
+    name: "Sneha",
     rating: 4,
   },
   {
     text: "The quality is top notch. I used it on my sedan and the finish is just wow. Glad to see an Indian brand making such high quality products. Must buy for every car owner.",
-    name: "Amit Sharma",
+    name: "Gokul",
     rating: 5,
   },
   {
     text: "Actually the best car care kit I've used till now. Packaging was very professional and delivery was fast also. Results on my SUV are amazing. Finally a product that actually works.",
-    name: "Dr. Vivek Nair",
+    name: "Vivek",
     rating: 4,
   },
 ];
