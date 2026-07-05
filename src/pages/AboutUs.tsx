@@ -13,12 +13,34 @@ const values = [
   { icon: Beaker, title: "Engineered in India", desc: "Precision-engineered by Frenzo Group with chemical engineers and pro detailers." },
 ];
 
+const aboutSchema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    name: "About VOOM Care",
+    url: "https://voomcare.com/about",
+    inLanguage: "en-IN",
+    mainEntity: { "@id": "https://voomcare.com/#organization" },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://voomcare.com/" },
+      { "@type": "ListItem", position: 2, name: "About", item: "https://voomcare.com/about" },
+    ],
+  },
+];
+
 const AboutUs = () => (
   <main className="min-h-screen bg-background text-foreground">
-    <SEO 
+    <SEO
       title="About VOOM | Premium Car Care by Frenzo Group"
-      description="The story of VOOM by Frenzo Group. Professional-grade car care formulas crafted in India by enthusiasts, for enthusiasts."
+      description="VOOM Care is a premium car care brand by Frenzo Group, engineered in Kozhikode, Kerala. Learn the story behind India's showroom-finish detailing formulas."
+      canonical="/about"
+      schema={aboutSchema}
     />
+
     <Navbar />
     <section className="pt-28 pb-16 px-4">
       <div className="max-w-4xl mx-auto text-center">
