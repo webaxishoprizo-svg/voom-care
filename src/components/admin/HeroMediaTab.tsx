@@ -1,7 +1,8 @@
 import { useEffect, useState, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { Loader2, Trash2, Save, Eye, EyeOff } from 'lucide-react';
+import { Loader2, Trash2, Save, Eye, EyeOff, Upload } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 const SLOTS: { key: string; label: string; type: 'video' | 'image'; hint: string }[] = [
   { key: 'hero_mobile_video', label: 'Hero — Mobile Video', type: 'video', hint: 'MP4 URL shown on phones' },
@@ -23,6 +24,57 @@ export default function HeroMediaTab({ authedFetch }: { authedFetch: (u: string,
   const [rows, setRows] = useState<Record<string, MediaRow>>({});
   const [loading, setLoading] = useState(false);
   const [savingSlot, setSavingSlot] = useState<string | null>(null);
+  const [uploadingSlot, setUploadingSlot] = useState<string | null>(null);
+
+  const handleFileUpload = async (slotKey: string, e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    e.target.value = '';
+
+    const isPoster = slotKey.endsWith('-poster');
+    const baseSlot = isPoster ? slotKey.replace('-poster', '') : slotKey;
+
+    setUploadingSlot(slotKey);
+    const toastId = toast.loading(`Uploading ${file.name}...`);
+
+    try {
+      const { data: buckets } = await supabase.storage.listBuckets();
+      const hasBucket = buckets?.some(b => b.name === 'site-media');
+      if (!hasBucket) {
+        await supabase.storage.createBucket('site-media', { public: true });
+      }
+
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${slotKey}_${Date.now()}.${fileExt}`;
+
+      const { error } = await supabase.storage
+        .from('site-media')
+        .upload(fileName, file, {
+          cacheControl: '3600',
+          upsert: true
+        });
+
+      if (error) throw error;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('site-media')
+        .getPublicUrl(fileName);
+
+      if (isPoster) {
+        update(baseSlot, { poster_url: publicUrl });
+      } else {
+        update(baseSlot, { url: publicUrl });
+      }
+
+      toast.success('File uploaded successfully!', { id: toastId });
+    } catch (err: any) {
+      console.error(err);
+      toast.error(`Upload failed: ${err.message || err}`, { id: toastId });
+    } finally {
+      setUploadingSlot(null);
+    }
+  };
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -116,19 +168,63 @@ export default function HeroMediaTab({ authedFetch }: { authedFetch: (u: string,
                 </Button>
               </div>
             </div>
-            <input
-              value={row.url}
-              onChange={(e) => update(s.key, { url: e.target.value })}
-              placeholder={`https://.../${s.type === 'video' ? 'hero.mp4' : 'hero.jpg'}`}
-              className="w-full h-10 rounded-lg bg-background border border-border px-3 text-sm outline-none focus:border-primary"
-            />
-            {s.type === 'video' && (
+            <div className="flex gap-2">
               <input
-                value={row.poster_url || ''}
-                onChange={(e) => update(s.key, { poster_url: e.target.value })}
-                placeholder="Poster image URL (optional)"
-                className="w-full h-10 rounded-lg bg-background border border-border px-3 text-sm outline-none focus:border-primary"
+                value={row.url}
+                onChange={(e) => update(s.key, { url: e.target.value })}
+                placeholder={`https://.../${s.type === 'video' ? 'hero.mp4' : 'hero.jpg'}`}
+                className="flex-1 h-10 rounded-lg bg-background border border-border px-3 text-sm outline-none focus:border-primary"
               />
+              <Button
+                type="button"
+                variant="outline"
+                disabled={uploadingSlot === s.key}
+                onClick={() => document.getElementById(`file-upload-${s.key}`)?.click()}
+                className="h-10 rounded-lg whitespace-nowrap gap-1 border-dashed hover:border-primary"
+              >
+                {uploadingSlot === s.key ? (
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                ) : (
+                  <><Upload className="w-3.5 h-3.5" /> Upload File</>
+                )}
+              </Button>
+              <input
+                type="file"
+                id={`file-upload-${s.key}`}
+                accept={s.type === 'video' ? 'video/*' : 'image/*'}
+                className="hidden"
+                onChange={(e) => handleFileUpload(s.key, e)}
+              />
+            </div>
+            {s.type === 'video' && (
+              <div className="flex gap-2">
+                <input
+                  value={row.poster_url || ''}
+                  onChange={(e) => update(s.key, { poster_url: e.target.value })}
+                  placeholder="Poster image URL (optional)"
+                  className="flex-1 h-10 rounded-lg bg-background border border-border px-3 text-sm outline-none focus:border-primary"
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={uploadingSlot === `${s.key}-poster`}
+                  onClick={() => document.getElementById(`file-upload-${s.key}-poster`)?.click()}
+                  className="h-10 rounded-lg whitespace-nowrap gap-1 border-dashed hover:border-primary"
+                >
+                  {uploadingSlot === `${s.key}-poster` ? (
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                  ) : (
+                    <><Upload className="w-3.5 h-3.5" /> Upload Poster</>
+                  )}
+                </Button>
+                <input
+                  type="file"
+                  id={`file-upload-${s.key}-poster`}
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => handleFileUpload(`${s.key}-poster`, e)}
+                />
+              </div>
             )}
             <input
               value={row.alt || ''}

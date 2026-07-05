@@ -1,7 +1,8 @@
 import { useEffect, useState, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { Loader2, Plus, Trash2, Edit3, Eye, EyeOff } from 'lucide-react';
+import { Loader2, Plus, Trash2, Edit3, Eye, EyeOff, Upload } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 interface BlogPost {
   id: string;
@@ -118,8 +119,50 @@ function PostEditor({ initial, onClose, onSaved, authedFetch }: {
   const [form, setForm] = useState<Partial<BlogPost>>(initial);
   const [saving, setSaving] = useState(false);
   const [tagsText, setTagsText] = useState((initial.tags || []).join(', '));
+  const [uploadingKey, setUploadingKey] = useState<string | null>(null);
 
   const set = <K extends keyof BlogPost>(k: K, v: BlogPost[K]) => setForm((f) => ({ ...f, [k]: v }));
+
+  const handleFileUpload = async (key: 'cover_image_url' | 'video_url', e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    e.target.value = '';
+    setUploadingKey(key);
+    const toastId = toast.loading(`Uploading ${file.name}...`);
+
+    try {
+      const { data: buckets } = await supabase.storage.listBuckets();
+      const hasBucket = buckets?.some(b => b.name === 'site-media');
+      if (!hasBucket) {
+        await supabase.storage.createBucket('site-media', { public: true });
+      }
+
+      const fileExt = file.name.split('.').pop();
+      const fileName = `blog_${key}_${Date.now()}.${fileExt}`;
+
+      const { error } = await supabase.storage
+        .from('site-media')
+        .upload(fileName, file, {
+          cacheControl: '3600',
+          upsert: true
+        });
+
+      if (error) throw error;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('site-media')
+        .getPublicUrl(fileName);
+
+      set(key, publicUrl);
+      toast.success('Uploaded successfully!', { id: toastId });
+    } catch (err: any) {
+      console.error(err);
+      toast.error(`Upload failed: ${err.message || err}`, { id: toastId });
+    } finally {
+      setUploadingKey(null);
+    }
+  };
 
   const save = async () => {
     if (!form.title) { toast.error('Title required'); return; }
@@ -161,8 +204,56 @@ function PostEditor({ initial, onClose, onSaved, authedFetch }: {
           <Field label="Author"><input value={form.author || ''} onChange={(e) => set('author', e.target.value)} className={inputCls} /></Field>
           <Field label="Tags (comma separated)"><input value={tagsText} onChange={(e) => setTagsText(e.target.value)} className={inputCls} /></Field>
         </div>
-        <Field label="Cover image URL"><input value={form.cover_image_url || ''} onChange={(e) => set('cover_image_url', e.target.value)} className={inputCls} placeholder="https://..." /></Field>
-        <Field label="Video URL (optional)"><input value={form.video_url || ''} onChange={(e) => set('video_url', e.target.value)} className={inputCls} placeholder="https://.../post.mp4" /></Field>
+        <Field label="Cover image URL">
+          <div className="flex gap-2">
+            <input value={form.cover_image_url || ''} onChange={(e) => set('cover_image_url', e.target.value)} className="flex-1 h-10 rounded-lg bg-background border border-border px-3 text-sm outline-none focus:border-primary" placeholder="https://..." />
+            <Button
+              type="button"
+              variant="outline"
+              disabled={uploadingKey === 'cover_image_url'}
+              onClick={() => document.getElementById('blog-cover-upload')?.click()}
+              className="h-10 rounded-lg whitespace-nowrap gap-1 border-dashed hover:border-primary"
+            >
+              {uploadingKey === 'cover_image_url' ? (
+                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+              ) : (
+                <><Upload className="w-3.5 h-3.5" /> Upload Image</>
+              )}
+            </Button>
+            <input
+              type="file"
+              id="blog-cover-upload"
+              accept="image/*"
+              className="hidden"
+              onChange={(e) => handleFileUpload('cover_image_url', e)}
+            />
+          </div>
+        </Field>
+        <Field label="Video URL (optional)">
+          <div className="flex gap-2">
+            <input value={form.video_url || ''} onChange={(e) => set('video_url', e.target.value)} className="flex-1 h-10 rounded-lg bg-background border border-border px-3 text-sm outline-none focus:border-primary" placeholder="https://.../post.mp4" />
+            <Button
+              type="button"
+              variant="outline"
+              disabled={uploadingKey === 'video_url'}
+              onClick={() => document.getElementById('blog-video-upload')?.click()}
+              className="h-10 rounded-lg whitespace-nowrap gap-1 border-dashed hover:border-primary"
+            >
+              {uploadingKey === 'video_url' ? (
+                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+              ) : (
+                <><Upload className="w-3.5 h-3.5" /> Upload Video</>
+              )}
+            </Button>
+            <input
+              type="file"
+              id="blog-video-upload"
+              accept="video/*"
+              className="hidden"
+              onChange={(e) => handleFileUpload('video_url', e)}
+            />
+          </div>
+        </Field>
         <Field label="Excerpt">
           <textarea value={form.excerpt || ''} onChange={(e) => set('excerpt', e.target.value)} className="w-full min-h-[60px] rounded-lg bg-background border border-border p-3 text-sm outline-none focus:border-primary" />
         </Field>
