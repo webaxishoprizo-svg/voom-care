@@ -19,13 +19,14 @@
     <link rel="canonical" href="https://voomcare.com" />
 
     <!-- Geo tags (GEO / local SEO) -->
-    <meta name="geo.region" content="IN" />
-    <meta name="geo.placename" content="India" />
-    <meta name="geo.position" content="20.5937;78.9629" />
-    <meta name="ICBM" content="20.5937, 78.9629" />
+    <meta name="geo.region" content="IN-KL" />
+    <meta name="geo.placename" content="Kozhikode, Kerala, India" />
+    <meta name="geo.position" content="11.2588;75.7804" />
+    <meta name="ICBM" content="11.2588, 75.7804" />
     <meta name="language" content="English" />
     <meta name="distribution" content="global" />
     <meta name="rating" content="general" />
+
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="theme-color" content="#050505" />
 
@@ -78,34 +79,60 @@
           ],
           "address": {
             "@type": "PostalAddress",
-            "addressCountry": "IN",
-            "addressRegion": "India"
+            "streetAddress": "R Square Building, Kannur Road, NH 66",
+            "addressLocality": "Kozhikode",
+            "addressRegion": "Kerala",
+            "postalCode": "673021",
+            "addressCountry": "IN"
           },
-          "contactPoint": {
-            "@type": "ContactPoint",
-            "email": "care@voomcare.com",
-            "contactType": "customer service",
-            "areaServed": "IN",
-            "availableLanguage": ["en", "hi"]
-          }
+          "contactPoint": [
+            {
+              "@type": "ContactPoint",
+              "email": "info.frenzogp@gmail.com",
+              "telephone": "+91-9187331513",
+              "contactType": "customer service",
+              "areaServed": "IN",
+              "availableLanguage": ["en", "hi", "ml"]
+            }
+          ]
         },
         {
           "@context": "https://schema.org",
-          "@type": "OnlineStore",
+          "@type": ["OnlineStore", "LocalBusiness"],
           "@id": "https://voomcare.com/#store",
           "name": "VOOM Care",
           "url": "https://voomcare.com",
           "image": "https://voomcare.com/og-image.jpg",
           "logo": "https://voomcare.com/voom-logo.png",
+          "telephone": "+91-9187331513",
+          "email": "info.frenzogp@gmail.com",
           "priceRange": "₹₹",
           "areaServed": { "@type": "Country", "name": "India" },
           "currenciesAccepted": "INR",
           "paymentAccepted": "UPI, Credit Card, Debit Card, Net Banking",
+          "openingHoursSpecification": [
+            {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+              "opens": "09:00",
+              "closes": "19:00"
+            }
+          ],
           "address": {
             "@type": "PostalAddress",
+            "streetAddress": "R Square Building, Kannur Road, NH 66",
+            "addressLocality": "Kozhikode",
+            "addressRegion": "Kerala",
+            "postalCode": "673021",
             "addressCountry": "IN"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 11.2588,
+            "longitude": 75.7804
           }
         },
+
         {
           "@context": "https://schema.org",
           "@type": "Brand",
