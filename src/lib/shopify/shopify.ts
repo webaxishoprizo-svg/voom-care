@@ -359,22 +359,8 @@ function mapProduct(node: ShopifyProductNode): Product {
     node.variants.edges[0]?.node;
   const metafields = getMetafieldMap(node.metafields);
   
-  let price = parseMoney(variant?.price) ?? parseMoney(node.priceRange.minVariantPrice) ?? 0;
-  let originalPrice = parseMoney(variant?.compareAtPrice);
-
-  // Fallback mock prices for individual items if they are 0.0 on Shopify
-  if (price === 0) {
-    if (node.handle === 'car-shampoo') {
-      price = 149;
-      originalPrice = 249;
-    } else if (node.handle === '324njnro35') { // Tyre polish
-      price = 199;
-      originalPrice = 299;
-    } else if (node.handle === 'untitled-20apr_15-18') { // Dash clean
-      price = 179;
-      originalPrice = 279;
-    }
-  }
+  const price = parseMoney(variant?.price) ?? parseMoney(node.priceRange.minVariantPrice) ?? 0;
+  const originalPrice = parseMoney(variant?.compareAtPrice);
 
   const images = node.images.edges
     .map((edge) => edge.node.url)

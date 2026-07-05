@@ -25,92 +25,92 @@ const sourceLabel: Record<CardData['source'], { label: string; Icon: typeof Badg
 const SEEDED_REVIEWS: CardData[] = [
   {
     id: "seed-1",
-    name: "Aarav Mehta",
+    name: "Rahul Sharma",
     location: "Verified buyer",
-    initial: "A",
+    initial: "R",
     rating: 5,
-    text: "Best car wash shampoo I've ever used. The foam is incredibly thick and it easily cut through all the road grime from my weekend drive. Paint looks shiny and brand new!",
+    text: "Excellent car shampoo. Gives lot of foam and clean all dirt easily. Paint looking brand new.",
     source: "user"
   },
   {
     id: "seed-2",
-    name: "Priya Sharma",
+    name: "Amit Patel",
     location: "Verified buyer",
-    initial: "P",
+    initial: "A",
     rating: 5,
-    text: "The combo kit is complete value for money. The tyre polish gives a rich, dark black finish that lasts for days, not that oily fake shine. Highly recommended!",
+    text: "Tyre polish is very good. Tyre looking black and shiny for many days. Not sticky like other cheap polish.",
     source: "user"
   },
   {
     id: "seed-3",
-    name: "Rohan Deshmukh",
+    name: "Rajesh Kumar",
     location: "Verified buyer",
     initial: "R",
     rating: 4,
-    text: "Excellent dashboard cleaner. Doesn't leave any sticky residue and has a very pleasant, premium fragrance. The microfibre cloth included is also high quality.",
+    text: "Dash cleaner working perfectly. Dashboard looks clean and matte. Good smell also.",
     source: "user"
   },
   {
     id: "seed-4",
-    name: "Ananya Iyer",
+    name: "Sandeep Singh",
     location: "Verified buyer",
-    initial: "A",
+    initial: "S",
     rating: 5,
-    text: "Absolutely thrilled with the results. Safely cleaned my ceramic-coated sedan without leaving any water spots. Truly pro-grade standard.",
+    text: "Superb combo kit! Very happy with results. Shampoo is safe for ceramic coating.",
     source: "user"
   },
   {
     id: "seed-5",
-    name: "Vikram Singh",
+    name: "Sunil Rao",
     location: "Verified buyer",
-    initial: "V",
+    initial: "S",
     rating: 5,
-    text: "Fast shipping and superb packaging. Tried the shampoo on my SUV today and the hydrophobic gloss effect is outstanding. Water just slides right off!",
+    text: "Fast delivery and very nice packing. Wash my car today and gloss is amazing.",
     source: "user"
   },
   {
     id: "seed-6",
-    name: "Sneha Patel",
+    name: "Sneha Gupta",
     location: "Verified buyer",
     initial: "S",
     rating: 4,
-    text: "Great product range. The dashboard spray restored the original matte look of my dashboard perfectly. Will buy the combo set next time.",
+    text: "Shampoo quality is top class. Dash clean spray restored dashboard shine. Must buy.",
     source: "user"
   },
   {
     id: "seed-7",
-    name: "Arjun Rao",
+    name: "Arjun Nair",
     location: "Verified buyer",
     initial: "A",
     rating: 5,
-    text: "VOOM Care has set a new standard. pH-balanced shampoo gives peace of mind. Very little quantity is needed for a full bucket wash.",
+    text: "VOOM Care is best car care brand. Suds last long time and clean properly.",
     source: "user"
   },
   {
     id: "seed-8",
-    name: "Karan Johar",
+    name: "Vijay Sharma",
     location: "Verified buyer",
-    initial: "K",
+    initial: "V",
     rating: 5,
-    text: "Showroom finish at home indeed! The tyre polish didn't fling off onto the paint when driving. Outstanding formulation.",
+    text: "Showroom finish at home. Tyre polish shine lasts long time and not flinging on doors.",
     source: "user"
   },
   {
     id: "seed-9",
-    name: "Meera Nair",
+    name: "Deepak Verma",
     location: "Verified buyer",
-    initial: "M",
+    initial: "D",
     rating: 5,
-    text: "The customer service was super helpful when I asked about coating safety. The shampoo is very slick and smells amazing. A premium brand!",
+    text: "Very helpful customer support. Shampoo smells good and wash car very slick.",
     source: "user"
   },
   {
     id: "seed-10",
-    name: "Rahul Verma",
+    name: "Rohan Sen",
     location: "Verified buyer",
     initial: "R",
     rating: 4,
-    text: "Solid performance. Safe on my matte wrap. The suds lasted throughout the entire wash process. Very satisfied.",
+    text: "Nice product. Suds are very thick. Matte finish dashboard look is perfect.",
     source: "user"
   }
 ];
@@ -174,7 +174,7 @@ const TestimonialsSection = () => {
 
   return (
     <Reveal>
-      <section className="py-16 md:py-24 overflow-hidden relative bg-black">
+      <section className="py-16 md:py-24 overflow-hidden relative bg-background border-y border-white/5">
         <div className="max-w-6xl mx-auto px-4 mb-12 md:mb-16 text-center">
           <p className="text-xs tracking-[0.3em] uppercase text-primary mb-2">Customer Love</p>
           <h2 className="font-display text-3xl md:text-5xl text-foreground font-bold tracking-tight">
@@ -201,7 +201,7 @@ const TestimonialsSection = () => {
           </div>
         </div>
 
-        <div className="relative max-w-[320px] md:max-w-[460px] mx-auto group px-2">
+        <div className="relative max-w-[320px] md:max-w-6xl mx-auto group px-2 md:px-12">
           {/* Arrow Buttons - Repositioned outside of the clipped container */}
           <button
             onClick={() => handleArrowClick("left")}
@@ -229,7 +229,7 @@ const TestimonialsSection = () => {
               return (
                 <div
                   key={`${t.id}-${i}`}
-                  className="w-[280px] md:w-[400px] bg-card/40 backdrop-blur-sm border border-border/50 rounded-2xl p-6 md:p-8 flex-shrink-0 select-none snap-center flex flex-col justify-between"
+                  className="w-[280px] md:w-[350px] lg:w-[360px] bg-card/40 backdrop-blur-sm border border-border/50 rounded-2xl p-6 md:p-8 flex-shrink-0 select-none snap-center flex flex-col justify-between"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-4 md:mb-5 gap-3">
