@@ -10,10 +10,33 @@ const Footer = lazy(() => import("@/components/Footer"));
 const Blog = () => {
   const { data: posts, isLoading } = useBlogPosts(50);
 
+  const blogSchema = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    name: "VOOM Care Journal",
+    url: "https://voomcare.com/blog",
+    description: "Car care guides, detailing tips, and stories from India's premium car care brand VOOM.",
+    publisher: { "@type": "Organization", name: "VOOM Care", logo: { "@type": "ImageObject", url: "https://voomcare.com/voom-logo.png" } },
+    blogPost: (posts || []).slice(0, 10).map((p) => ({
+      "@type": "BlogPosting",
+      headline: p.title,
+      url: `https://voomcare.com/blog/${p.slug}`,
+      image: p.cover_image_url || undefined,
+      datePublished: new Date(p.published_at || p.created_at).toISOString(),
+      author: { "@type": "Person", name: p.author || "VOOM Care" },
+    })),
+  };
+
   return (
     <main className="min-h-screen bg-background">
-      <SEO title="Journal | VOOM Care" description="Guides, stories, and tips from VOOM Care — India's premium car care brand." />
+      <SEO
+        title="Car Care Journal — Detailing Guides & Tips"
+        description="Guides, stories, and detailing tips from VOOM Care — India's premium car care brand."
+        canonical="/blog"
+        schema={blogSchema}
+      />
       <Navbar />
+
       <div className="pt-32 pb-20 px-4 md:px-8">
         <div className="max-w-6xl mx-auto">
           <header className="mb-14 text-center">

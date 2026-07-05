@@ -32,13 +32,58 @@ const BlogPostPage = () => {
     );
   }
 
+  const canonical = `/blog/${post.slug}`;
+  const url = `https://voomcare.com${canonical}`;
+  const image = post.cover_image_url || "https://voomcare.com/og-image.jpg";
+  const publishedISO = new Date(post.published_at || post.created_at).toISOString();
+  const modifiedISO = new Date(post.updated_at || post.published_at || post.created_at).toISOString();
+  const plainDesc = (post.excerpt || (post.content || "").replace(/\s+/g, " ").slice(0, 155) || post.title).trim();
+
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: plainDesc,
+    image: [image],
+    datePublished: publishedISO,
+    dateModified: modifiedISO,
+    author: { "@type": "Person", name: post.author || "VOOM Care" },
+    publisher: {
+      "@type": "Organization",
+      name: "VOOM Care",
+      logo: { "@type": "ImageObject", url: "https://voomcare.com/voom-logo.png" },
+    },
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    keywords: (post.tags || []).join(", ") || undefined,
+    inLanguage: "en-IN",
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://voomcare.com/" },
+      { "@type": "ListItem", position: 2, name: "Journal", item: "https://voomcare.com/blog" },
+      { "@type": "ListItem", position: 3, name: post.title, item: url },
+    ],
+  };
+
   return (
     <main className="min-h-screen bg-background">
       <SEO
-        title={`${post.title} | VOOM Care Journal`}
-        description={post.excerpt || post.title}
+        title={post.title}
+        description={plainDesc}
+        canonical={canonical}
+        ogImage={image}
+        ogType="article"
+        author={post.author || "VOOM Care"}
+        publishedTime={publishedISO}
+        modifiedTime={modifiedISO}
+        keywords={(post.tags || []).join(", ")}
+        schema={[articleSchema, breadcrumbSchema]}
       />
       <Navbar />
+
       <article className="pt-32 pb-20 px-4 md:px-8">
         <div className="max-w-3xl mx-auto">
           <Link to="/blog" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-8">
