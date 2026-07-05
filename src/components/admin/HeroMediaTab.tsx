@@ -21,11 +21,27 @@ interface MediaRow {
 }
 
 function getSupabaseClient() {
-  const url = import.meta.env.VITE_SUPABASE_URL || '';
-  const key = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || '';
+  let url = (import.meta.env.VITE_SUPABASE_URL || '').trim();
+  let key = (import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || '').trim();
+
+  // Strip wrapping quotes if any
+  if (url.startsWith('"') && url.endsWith('"')) url = url.slice(1, -1).trim();
+  if (url.startsWith("'") && url.endsWith("'")) url = url.slice(1, -1).trim();
+  if (key.startsWith('"') && key.endsWith('"')) key = key.slice(1, -1).trim();
+  if (key.startsWith("'") && key.endsWith("'")) key = key.slice(1, -1).trim();
+
+  // Handle common stringified placeholders
+  if (url === 'undefined' || url === 'null' || url === 'placeholder' || !url) url = '';
+  if (key === 'undefined' || key === 'null' || key === 'placeholder' || !key) key = '';
+
   if (!url || !key) {
-    throw new Error('Supabase client-side credentials (VITE_SUPABASE_URL / VITE_SUPABASE_PUBLISHABLE_KEY) are missing in environment.');
+    throw new Error('Supabase client-side credentials (VITE_SUPABASE_URL / VITE_SUPABASE_PUBLISHABLE_KEY) are missing or invalid in environment.');
   }
+
+  if (!url.startsWith('http://') && !url.startsWith('https://')) {
+    throw new Error(`Invalid Supabase URL: "${url}". It must start with http:// or https:// (please check for typos or unwanted quotes in your .env file).`);
+  }
+
   return createClient(url, key);
 }
 
