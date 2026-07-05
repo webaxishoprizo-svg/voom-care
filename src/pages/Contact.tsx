@@ -81,13 +81,57 @@ const Contact = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const contactSchema = [
+    {
+      "@context": "https://schema.org",
+      "@type": "ContactPage",
+      name: "Contact VOOM Care",
+      url: "https://voomcare.com/contact",
+      inLanguage: "en-IN",
+      about: { "@id": "https://voomcare.com/#organization" },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "@id": "https://voomcare.com/#localbusiness",
+      name: "VOOM Care — Frenzo Group",
+      image: "https://voomcare.com/og-image.jpg",
+      url: "https://voomcare.com",
+      email: "info.frenzogp@gmail.com",
+      telephone: "+91-9187331513",
+      priceRange: "₹₹",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "R Square Building, Kannur Road, NH 66",
+        addressLocality: "Kozhikode",
+        addressRegion: "Kerala",
+        postalCode: "673021",
+        addressCountry: "IN",
+      },
+      geo: { "@type": "GeoCoordinates", latitude: 11.2588, longitude: 75.7804 },
+      openingHoursSpecification: [
+        {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+          opens: "09:00",
+          closes: "19:00",
+        },
+      ],
+      areaServed: { "@type": "Country", name: "India" },
+      sameAs: ["https://instagram.com/voom.care"],
+    },
+  ];
+
   return (
     <main className="min-h-screen bg-background text-foreground">
       <SEO
         title="Contact Us | VOOM Premium Car Care"
-        description="Get in touch with VOOM for support on the best carcare products and car shampoo. Our team is here to help with your detailing questions."
-        keywords="contact VOOM, car care support, car shampoo help, detailing products India, car wash kit support"
+        description="Contact VOOM Care in Kozhikode, Kerala. Email info.frenzogp@gmail.com or call +91 91873 31513, Mon–Sat 9 AM–7 PM. We help with orders, detailing tips, and product support across India."
+        keywords="contact VOOM, VOOM Care Kozhikode, car care support Kerala, car shampoo help India, detailing products contact"
+        canonical="/contact"
+        schema={contactSchema}
       />
+
       <Navbar />
 
       <section className="pt-32 pb-20 px-4">

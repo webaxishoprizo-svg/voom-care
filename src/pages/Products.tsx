@@ -36,13 +36,41 @@ const Products = () => {
       ? `Explore products from the ${heading} collection.`
       : "Explore the live product catalog.");
 
+  const canonicalPath = collectionHandle ? `/products?collection=${collectionHandle}` : "/products";
+  const itemListSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: heading,
+    numberOfItems: products.length,
+    itemListElement: products.slice(0, 20).map((p, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      url: `https://voomcare.com/product/${p.id}`,
+      name: p.name,
+    })),
+  };
+  const breadcrumb = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://voomcare.com/" },
+      { "@type": "ListItem", position: 2, name: "Products", item: "https://voomcare.com/products" },
+      ...(collectionHandle
+        ? [{ "@type": "ListItem", position: 3, name: heading, item: `https://voomcare.com${canonicalPath}` }]
+        : []),
+    ],
+  };
+
   return (
     <main className="min-h-screen bg-background">
       <SEO
-        title={heading}
-        description={`Shop ${heading} - ${description}. Discover premium carcare products, car shampoo, and detailing kits from VOOM.`}
-        keywords={`${heading}, carcare products, car shampoo, detailing products, VOOM, car wash kit`}
+        title={`${heading} — Premium Car Care India`}
+        description={`Shop ${heading} — ${description} Premium car shampoo, tyre polish, and detailing kits from VOOM Care. Free shipping across India on orders above ₹999.`}
+        keywords={`${heading}, carcare products India, car shampoo, detailing products, VOOM, car wash kit, tyre polish India`}
+        canonical={canonicalPath}
+        schema={[itemListSchema, breadcrumb]}
       />
+
       <Navbar />
       <section className="pt-28 pb-16 px-4">
         <div className="max-w-6xl mx-auto">
