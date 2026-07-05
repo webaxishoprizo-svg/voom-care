@@ -34,10 +34,12 @@ const TrackOrder = () => {
 
   return (
     <main className="min-h-screen bg-background text-foreground selection:bg-primary/20">
-      <SEO 
+      <SEO
         title="Track Your Order | VOOM Premium Car Care"
-        description="Track your VOOM order in real-time. Follow your premium car care essentials from our studio to your doorstep."
+        description="Track your VOOM Care order in real-time across India. Follow your premium car care essentials from our Kozhikode studio to your doorstep."
+        canonical="/track-order"
       />
+
       <Navbar />
       
       <div className="pt-32 pb-24 px-4">

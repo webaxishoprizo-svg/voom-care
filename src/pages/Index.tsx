@@ -17,25 +17,67 @@ const CTASection = lazy(() => import("@/components/CTASection"));
 const Newsletter = lazy(() => import("@/components/Newsletter"));
 const Footer = lazy(() => import("@/components/Footer"));
 const ComingSoonBanner = lazy(() => import("@/components/ComingSoonBanner"));
+const HomeBlogSection = lazy(() => import("@/components/HomeBlogSection"));
+
 
 const SectionFallback = () => <div className="h-32" aria-hidden />;
 
 const Index = () => {
-  const orgSchema = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "VOOM Care",
-    "url": "https://voomcare.com",
-    "logo": "https://voomcare.com/voom-favicon.png",
-    "description": "VOOM by Frenzo Group — premium car care formulas crafted in India.",
-    "sameAs": [
-      "https://instagram.com/voom.care"
-    ],
-    "address": {
-      "@type": "PostalAddress",
-      "addressCountry": "India"
-    }
-  };
+  const homeSchemas = [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": "https://voomcare.com/#webpage",
+      url: "https://voomcare.com/",
+      name: "VOOM® | Premium Car Care India",
+      inLanguage: "en-IN",
+      isPartOf: { "@id": "https://voomcare.com/#website" },
+      about: { "@id": "https://voomcare.com/#organization" },
+      primaryImageOfPage: "https://voomcare.com/og-image.jpg",
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: ["h1", "h2", "meta[name='description']"],
+      },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "What is VOOM Care?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "VOOM is a premium car care brand by Frenzo Group, based in Kozhikode, Kerala, India. VOOM makes professional-grade car shampoo, tyre polish, and dash cleaner for a true showroom finish at home.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Where is VOOM Care available?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "VOOM Care ships to all locations across India. Orders above ₹999 include free shipping and most orders arrive within 4–7 business days.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Is VOOM safe for ceramic coating and all paint types?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Yes. VOOM formulas are pH balanced and safe on wax, sealants, ceramic coatings, and all types of delicate paint finishes.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Which is the best car shampoo in India?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "VOOM Car Shampoo is a top-rated premium car shampoo in India — a high-foam, pH-balanced cleaner designed to remove dirt and road grime while protecting wax, sealant, and ceramic coatings.",
+          },
+        },
+      ],
+    },
+  ];
 
   return (
     <main id="main-content" className="min-h-screen bg-background">
@@ -43,8 +85,10 @@ const Index = () => {
         title="VOOM® | #1 Best Car Care Products & Premium Detailing"
         description="Official VOOM® Store. Shop India's best car care products, professional car shampoo, and detailing kits. Engineered for excellence, trusted by professionals. Shine Beyond Ordinary."
         keywords="VOOM, VOOM Care, best car shampoo India, car detailing products, premium car care, auto detailing, car wash kit, tyre polish, professional car care"
-        schema={orgSchema}
+        canonical="/"
+        schema={homeSchemas}
       />
+
       <Navbar />
 
       {/* 1. Hero */}
@@ -85,6 +129,11 @@ const Index = () => {
         <Reveal delay={0.05}>
           <TestimonialsSection />
         </Reveal>
+
+        <Reveal delay={0.05}>
+          <HomeBlogSection />
+        </Reveal>
+
 
         <Reveal delay={0.05}>
           <ComingSoonBanner />

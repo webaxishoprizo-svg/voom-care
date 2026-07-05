@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import videoSrc from "@/assets/voom hero veo.mp4";
+import fallbackVideo from "@/assets/voom hero veo.mp4";
+import { useSiteMedia } from "@/lib/site-media";
+
 
 const phrases = [
   "Showroom Finish",
@@ -22,6 +24,11 @@ const positions = [
 
 const MobileVideoHero = () => {
   const [index, setIndex] = useState(0);
+  const { data: media } = useSiteMedia();
+  const heroVideo = media?.hero_mobile_video?.media_type === 'video' ? media.hero_mobile_video : null;
+  const heroImage = media?.hero_mobile_image?.media_type === 'image' ? media.hero_mobile_image : null;
+  const videoSrc = heroVideo?.url || fallbackVideo;
+  const posterSrc = heroVideo?.poster_url || heroImage?.url || undefined;
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -30,20 +37,24 @@ const MobileVideoHero = () => {
     return () => clearInterval(timer);
   }, []);
 
+
   return (
     <section className="relative h-screen w-full overflow-hidden lg:hidden bg-black">
       {/* Background Video */}
       <video
+        key={videoSrc}
         autoPlay
         muted
         loop
         playsInline
         preload="metadata"
+        poster={posterSrc}
         className="absolute inset-0 w-full h-full object-cover opacity-80"
         style={{ transform: "translateZ(0)" }}
       >
         <source src={videoSrc} type="video/mp4" />
       </video>
+
 
       {/* Dark Overlay for better text readability */}
       <div className="absolute inset-0 bg-black/20" />

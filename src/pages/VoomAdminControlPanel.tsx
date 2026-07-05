@@ -2,6 +2,11 @@ import { useEffect, useState, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { Loader2, Trash2, Check, X, Plus, Edit3, Star, LogOut } from 'lucide-react';
+import HeroMediaTab from '@/components/admin/HeroMediaTab';
+import BlogTab from '@/components/admin/BlogTab';
+
+type Section = 'reviews' | 'hero' | 'blog';
+
 
 type ReviewType = 'product' | 'brand';
 type StatusFilter = 'all' | 'approved' | 'pending' | 'rejected';
@@ -29,12 +34,14 @@ export default function VoomAdminControlPanel() {
   const [password, setPassword] = useState('');
   const [loggingIn, setLoggingIn] = useState(false);
 
+  const [section, setSection] = useState<Section>('reviews');
   const [type, setType] = useState<ReviewType>('product');
   const [status, setStatus] = useState<StatusFilter>('all');
   const [reviews, setReviews] = useState<AnyReview[]>([]);
   const [loading, setLoading] = useState(false);
   const [showAdd, setShowAdd] = useState(false);
   const [editing, setEditing] = useState<AnyReview | null>(null);
+
 
   const authedFetch = useCallback(async (url: string, init: RequestInit = {}) => {
     return fetch(url, {
@@ -48,7 +55,7 @@ export default function VoomAdminControlPanel() {
   }, [token]);
 
   const load = useCallback(async () => {
-    if (!token) return;
+    if (!token || section !== 'reviews') return;
     setLoading(true);
     try {
       const res = await authedFetch(`/api/admin/reviews?type=${type}&status=${status}`);
@@ -64,9 +71,10 @@ export default function VoomAdminControlPanel() {
     } finally {
       setLoading(false);
     }
-  }, [type, status, token, authedFetch]);
+  }, [type, status, token, authedFetch, section]);
 
   useEffect(() => { load(); }, [load]);
+
 
   const login = async () => {
     setLoggingIn(true);
@@ -140,86 +148,114 @@ export default function VoomAdminControlPanel() {
         <header className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h1 className="font-display text-2xl md:text-3xl">Admin Control Panel</h1>
-            <p className="text-xs text-muted-foreground">Moderate customer & brand reviews</p>
+            <p className="text-xs text-muted-foreground">Reviews · Hero media · Blog</p>
           </div>
           <div className="flex gap-2">
-            <Button onClick={() => setShowAdd(true)} className="rounded-full h-10"><Plus className="w-4 h-4 mr-1" /> Add review</Button>
+            {section === 'reviews' && (
+              <Button onClick={() => setShowAdd(true)} className="rounded-full h-10"><Plus className="w-4 h-4 mr-1" /> Add review</Button>
+            )}
             <Button onClick={logout} variant="outline" className="rounded-full h-10"><LogOut className="w-4 h-4 mr-1" /> Logout</Button>
           </div>
         </header>
 
-        <div className="flex flex-wrap gap-2">
-          {(['product', 'brand'] as ReviewType[]).map((t) => (
-            <button key={t} onClick={() => setType(t)}
-              className={`px-4 h-9 rounded-full text-xs font-bold uppercase tracking-wider border ${type === t ? 'bg-primary text-primary-foreground border-primary' : 'bg-card border-border text-muted-foreground'}`}>
-              {t === 'product' ? 'Product Reviews' : 'Brand Reviews'}
-            </button>
-          ))}
-          <span className="w-px bg-border mx-2" />
-          {(['all', 'approved', 'pending', 'rejected'] as StatusFilter[]).map((s) => (
-            <button key={s} onClick={() => setStatus(s)}
-              className={`px-3 h-9 rounded-full text-xs font-medium capitalize border ${status === s ? 'bg-foreground text-background border-foreground' : 'bg-card border-border text-muted-foreground'}`}>
-              {s}
+        <div className="flex gap-2 border-b border-border">
+          {([
+            { key: 'reviews', label: 'Reviews' },
+            { key: 'hero', label: 'Hero Media' },
+            { key: 'blog', label: 'Blog' },
+          ] as { key: Section; label: string }[]).map((s) => (
+            <button
+              key={s.key}
+              onClick={() => setSection(s.key)}
+              className={`px-4 h-11 text-sm font-bold uppercase tracking-wider border-b-2 -mb-px transition-colors ${
+                section === s.key ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              {s.label}
             </button>
           ))}
         </div>
 
-        {loading ? (
-          <div className="flex justify-center py-20"><Loader2 className="w-6 h-6 animate-spin text-primary" /></div>
-        ) : reviews.length === 0 ? (
-          <div className="text-center text-muted-foreground py-16 border border-dashed border-border rounded-2xl">No reviews found</div>
-        ) : (
-          <div className="space-y-3">
-            {reviews.map((r) => (
-              <div key={r.id} className="bg-card border border-border rounded-2xl p-4 md:p-5 space-y-3">
-                <div className="flex flex-wrap justify-between gap-3">
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-2">
-                      <span className="font-bold text-sm">{r.display_name || 'Anonymous'}</span>
-                      <span className={`text-[10px] px-2 py-0.5 rounded-full uppercase font-bold ${
-                        r.status === 'approved' ? 'bg-green-500/10 text-green-500'
-                        : r.status === 'pending' ? 'bg-yellow-500/10 text-yellow-500'
-                        : 'bg-red-500/10 text-red-500'
-                      }`}>{r.status}</span>
-                      <span className="text-[10px] text-muted-foreground uppercase">{r.source}</span>
+        {section === 'hero' && <HeroMediaTab authedFetch={authedFetch} />}
+        {section === 'blog' && <BlogTab authedFetch={authedFetch} />}
+
+        {section === 'reviews' && (
+          <>
+            <div className="flex flex-wrap gap-2">
+              {(['product', 'brand'] as ReviewType[]).map((t) => (
+                <button key={t} onClick={() => setType(t)}
+                  className={`px-4 h-9 rounded-full text-xs font-bold uppercase tracking-wider border ${type === t ? 'bg-primary text-primary-foreground border-primary' : 'bg-card border-border text-muted-foreground'}`}>
+                  {t === 'product' ? 'Product Reviews' : 'Brand Reviews'}
+                </button>
+              ))}
+              <span className="w-px bg-border mx-2" />
+              {(['all', 'approved', 'pending', 'rejected'] as StatusFilter[]).map((s) => (
+                <button key={s} onClick={() => setStatus(s)}
+                  className={`px-3 h-9 rounded-full text-xs font-medium capitalize border ${status === s ? 'bg-foreground text-background border-foreground' : 'bg-card border-border text-muted-foreground'}`}>
+                  {s}
+                </button>
+              ))}
+            </div>
+
+            {loading ? (
+              <div className="flex justify-center py-20"><Loader2 className="w-6 h-6 animate-spin text-primary" /></div>
+            ) : reviews.length === 0 ? (
+              <div className="text-center text-muted-foreground py-16 border border-dashed border-border rounded-2xl">No reviews found</div>
+            ) : (
+              <div className="space-y-3">
+                {reviews.map((r) => (
+                  <div key={r.id} className="bg-card border border-border rounded-2xl p-4 md:p-5 space-y-3">
+                    <div className="flex flex-wrap justify-between gap-3">
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-2">
+                          <span className="font-bold text-sm">{r.display_name || 'Anonymous'}</span>
+                          <span className={`text-[10px] px-2 py-0.5 rounded-full uppercase font-bold ${
+                            r.status === 'approved' ? 'bg-green-500/10 text-green-500'
+                            : r.status === 'pending' ? 'bg-yellow-500/10 text-yellow-500'
+                            : 'bg-red-500/10 text-red-500'
+                          }`}>{r.status}</span>
+                          <span className="text-[10px] text-muted-foreground uppercase">{r.source}</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          {[...Array(5)].map((_, i) => (
+                            <Star key={i} className={`w-3.5 h-3.5 ${i < r.rating ? 'fill-primary text-primary' : 'text-muted-foreground/30'}`} />
+                          ))}
+                        </div>
+                        <div className="text-[11px] text-muted-foreground">
+                          {new Date(r.created_at).toLocaleString()}
+                          {r.product_id && <> · Product: {r.product_id.split('/').pop()}</>}
+                          {r.user_id && <> · User: {r.user_id.split('/').pop()}</>}
+                        </div>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {r.status !== 'approved' && (
+                          <Button size="sm" onClick={() => setReviewStatus(r.id, 'approved')} className="h-8 rounded-full bg-green-600 hover:bg-green-700 text-white">
+                            <Check className="w-3.5 h-3.5 mr-1" /> Approve
+                          </Button>
+                        )}
+                        {r.status !== 'rejected' && (
+                          <Button size="sm" variant="outline" onClick={() => setReviewStatus(r.id, 'rejected')} className="h-8 rounded-full">
+                            <X className="w-3.5 h-3.5 mr-1" /> Reject
+                          </Button>
+                        )}
+                        <Button size="sm" variant="outline" onClick={() => setEditing(r)} className="h-8 rounded-full">
+                          <Edit3 className="w-3.5 h-3.5" />
+                        </Button>
+                        <Button size="sm" variant="outline" onClick={() => deleteReview(r.id)} className="h-8 rounded-full text-red-500 hover:bg-red-500/10">
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </Button>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-1">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className={`w-3.5 h-3.5 ${i < r.rating ? 'fill-primary text-primary' : 'text-muted-foreground/30'}`} />
-                      ))}
-                    </div>
-                    <div className="text-[11px] text-muted-foreground">
-                      {new Date(r.created_at).toLocaleString()}
-                      {r.product_id && <> · Product: {r.product_id.split('/').pop()}</>}
-                      {r.user_id && <> · User: {r.user_id.split('/').pop()}</>}
-                    </div>
+                    <p className="text-sm text-foreground/90 leading-relaxed whitespace-pre-wrap">
+                      {r.review || r.review_text}
+                    </p>
                   </div>
-                  <div className="flex flex-wrap gap-2">
-                    {r.status !== 'approved' && (
-                      <Button size="sm" onClick={() => setReviewStatus(r.id, 'approved')} className="h-8 rounded-full bg-green-600 hover:bg-green-700 text-white">
-                        <Check className="w-3.5 h-3.5 mr-1" /> Approve
-                      </Button>
-                    )}
-                    {r.status !== 'rejected' && (
-                      <Button size="sm" variant="outline" onClick={() => setReviewStatus(r.id, 'rejected')} className="h-8 rounded-full">
-                        <X className="w-3.5 h-3.5 mr-1" /> Reject
-                      </Button>
-                    )}
-                    <Button size="sm" variant="outline" onClick={() => setEditing(r)} className="h-8 rounded-full">
-                      <Edit3 className="w-3.5 h-3.5" />
-                    </Button>
-                    <Button size="sm" variant="outline" onClick={() => deleteReview(r.id)} className="h-8 rounded-full text-red-500 hover:bg-red-500/10">
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </Button>
-                  </div>
-                </div>
-                <p className="text-sm text-foreground/90 leading-relaxed whitespace-pre-wrap">
-                  {r.review || r.review_text}
-                </p>
+                ))}
               </div>
-            ))}
-          </div>
+            )}
+          </>
         )}
+
 
         {(showAdd || editing) && (
           <ReviewEditor

@@ -8,3 +8,5 @@ Disallow: /auth/callback
 Disallow: /review
 
 Sitemap: https://voomcare.com/sitemap.xml
+Sitemap: https://voomcare.com/api/sitemap-blog.xml
+

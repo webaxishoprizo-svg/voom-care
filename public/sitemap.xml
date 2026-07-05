@@ -13,6 +13,13 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://voomcare.com/blog</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
     <loc>https://voomcare.com/about</loc>
     <lastmod>2026-05-13</lastmod>
     <changefreq>monthly</changefreq>
