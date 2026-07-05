@@ -100,9 +100,14 @@ const Navbar = () => {
 
             <button
               onClick={() => setIsOpen(true)}
-              className="flex items-center gap-2 p-2.5 md:px-4 md:py-2 rounded-full bg-white/5 hover:bg-white/10 border border-transparent backdrop-blur-xl transition-all group"
+              className="flex items-center gap-2 p-2.5 md:px-4 md:py-2 rounded-full bg-white/5 hover:bg-white/10 border border-transparent backdrop-blur-xl transition-all group relative"
             >
               <ShoppingBag className="w-5 h-5 text-foreground/80 group-hover:text-foreground transition-colors" />
+              {totalItems > 0 && (
+                <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-[9px] font-bold w-4.5 h-4.5 rounded-full flex items-center justify-center border border-background">
+                  {totalItems}
+                </span>
+              )}
               <span className="hidden md:inline text-[12px] font-bold tracking-wider text-foreground/80 group-hover:text-foreground">
                 {totalItems}
               </span>

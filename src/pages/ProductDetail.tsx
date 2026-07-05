@@ -276,32 +276,6 @@ const ProductDetail = () => {
                 </div>
               )}
 
-              {!isNotForSale && !isInsideCompo && (
-                <div className="absolute bottom-4 left-4 z-20 md:hidden">
-                  <div className="flex items-baseline gap-2 bg-background/60 backdrop-blur-md px-3 py-2 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-                    <span className="font-sans text-2xl text-foreground font-bold">
-                      {formatCurrency(product.price, product.currencyCode)}
-                    </span>
-                    {product.originalPrice && (
-                      <span className="text-muted-foreground line-through text-sm">
-                        {formatCurrency(product.originalPrice, product.currencyCode)}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              )}
-
-              {!isNotForSale && !isInsideCompo && (
-                <div className="absolute bottom-4 right-4 z-20 md:hidden">
-                  <button
-                    onClick={handleAddToCart}
-                    disabled={!product.availableForSale}
-                    className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg active:scale-95 disabled:opacity-50"
-                  >
-                    <ShoppingBag className="w-6 h-6" />
-                  </button>
-                </div>
-              )}
             </div>
 
             {allImages.length > 1 && (
@@ -365,7 +339,7 @@ const ProductDetail = () => {
                 </p>
               </div>
             ) : !isInsideCompo && (
-              <div className="hidden md:flex items-baseline gap-3 mb-8">
+              <div className="flex items-baseline gap-3 mb-6 md:mb-8">
                 <span className="font-sans text-3xl text-foreground font-semibold">
                   {formatCurrency(product.price, product.currencyCode)}
                 </span>
@@ -382,7 +356,7 @@ const ProductDetail = () => {
               </div>
             )}
 
-            <div className="hidden md:flex items-center gap-4 mb-6">
+            <div className="flex items-center gap-4 mb-6">
               {(isInsideCompo || isNotForSale) ? (
                 <Button
                   onClick={() => navigate('/products?collection=compo')}
