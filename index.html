@@ -18,9 +18,30 @@
     <meta name="author" content="VOOM Care" />
     <link rel="canonical" href="https://voomcare.com" />
 
+    <!-- Geo tags (GEO / local SEO) -->
+    <meta name="geo.region" content="IN" />
+    <meta name="geo.placename" content="India" />
+    <meta name="geo.position" content="20.5937;78.9629" />
+    <meta name="ICBM" content="20.5937, 78.9629" />
+    <meta name="language" content="English" />
+    <meta name="distribution" content="global" />
+    <meta name="rating" content="general" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="theme-color" content="#050505" />
+
     <!-- Open Graph / Facebook -->
     <meta property="og:title" content="VOOM® | #1 Premium Car Care & Professional Detailing" />
     <meta
+      property="og:description"
+      content="Professional-grade car care formulas. Achieve a showroom finish with VOOM's premium products. Official Brand Store."
+    />
+    <meta property="og:image" content="https://voomcare.com/og-image.jpg" />
+    <meta property="og:image:alt" content="VOOM Care — Premium Car Care India" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://voomcare.com" />
+    <meta property="og:site_name" content="VOOM Care" />
+    <meta property="og:locale" content="en_IN" />
+
       property="og:description"
       content="Professional-grade car care formulas. Achieve a showroom finish with VOOM's premium products. Official Brand Store."
     />
@@ -37,34 +58,71 @@
     />
     <meta name="twitter:image" content="https://voomcare.com/og-image.jpg" />
 
-    <!-- Structured Data (JSON-LD) for SEO -->
+    <!-- Structured Data (JSON-LD) for SEO / AEO / GEO -->
     <script type="application/ld+json">
       [
         {
           "@context": "https://schema.org",
           "@type": "Organization",
+          "@id": "https://voomcare.com/#organization",
           "name": "VOOM",
           "legalName": "VOOM Care by Frenzo Group",
           "url": "https://voomcare.com",
           "logo": "https://voomcare.com/voom-logo.png",
+          "image": "https://voomcare.com/og-image.jpg",
           "description": "India's leading premium car care and professional detailing brand.",
+          "foundingDate": "2023",
           "sameAs": [
             "https://facebook.com/voomcare",
             "https://instagram.com/voom.care"
           ],
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "IN",
+            "addressRegion": "India"
+          },
           "contactPoint": {
             "@type": "ContactPoint",
-            "telephone": "+91-XXXXXXXXXX",
+            "email": "care@voomcare.com",
             "contactType": "customer service",
             "areaServed": "IN",
-            "availableLanguage": "en"
+            "availableLanguage": ["en", "hi"]
           }
         },
         {
           "@context": "https://schema.org",
-          "@type": "WebSite",
+          "@type": "OnlineStore",
+          "@id": "https://voomcare.com/#store",
           "name": "VOOM Care",
           "url": "https://voomcare.com",
+          "image": "https://voomcare.com/og-image.jpg",
+          "logo": "https://voomcare.com/voom-logo.png",
+          "priceRange": "₹₹",
+          "areaServed": { "@type": "Country", "name": "India" },
+          "currenciesAccepted": "INR",
+          "paymentAccepted": "UPI, Credit Card, Debit Card, Net Banking",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "IN"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Brand",
+          "@id": "https://voomcare.com/#brand",
+          "name": "VOOM",
+          "logo": "https://voomcare.com/voom-logo.png",
+          "slogan": "Shine Beyond Ordinary",
+          "url": "https://voomcare.com"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "@id": "https://voomcare.com/#website",
+          "name": "VOOM Care",
+          "url": "https://voomcare.com",
+          "inLanguage": "en-IN",
+          "publisher": { "@id": "https://voomcare.com/#organization" },
           "potentialAction": {
             "@type": "SearchAction",
             "target": "https://voomcare.com/products?q={search_term_string}",
@@ -73,6 +131,7 @@
         }
       ]
     </script>
+
 
     <!-- Meta Pixel Code — deferred until browser idle so it doesn't block first paint -->
     <script>
