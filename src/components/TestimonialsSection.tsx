@@ -25,7 +25,7 @@ const sourceLabel: Record<CardData['source'], { label: string; Icon: typeof Badg
 const SEEDED_REVIEWS: CardData[] = [
   {
     id: "seed-1",
-    name: "Rahul Sharma",
+    name: "Rahul",
     location: "Verified buyer",
     initial: "R",
     rating: 5,
@@ -34,7 +34,7 @@ const SEEDED_REVIEWS: CardData[] = [
   },
   {
     id: "seed-2",
-    name: "Amit Patel",
+    name: "Amit",
     location: "Verified buyer",
     initial: "A",
     rating: 5,
@@ -43,7 +43,7 @@ const SEEDED_REVIEWS: CardData[] = [
   },
   {
     id: "seed-3",
-    name: "Rajesh Kumar",
+    name: "Rajesh",
     location: "Verified buyer",
     initial: "R",
     rating: 4,
@@ -52,7 +52,7 @@ const SEEDED_REVIEWS: CardData[] = [
   },
   {
     id: "seed-4",
-    name: "Sandeep Singh",
+    name: "Sandeep",
     location: "Verified buyer",
     initial: "S",
     rating: 5,
@@ -61,7 +61,7 @@ const SEEDED_REVIEWS: CardData[] = [
   },
   {
     id: "seed-5",
-    name: "Sunil Rao",
+    name: "Sunil",
     location: "Verified buyer",
     initial: "S",
     rating: 5,
@@ -70,7 +70,7 @@ const SEEDED_REVIEWS: CardData[] = [
   },
   {
     id: "seed-6",
-    name: "Sneha Gupta",
+    name: "Sneha",
     location: "Verified buyer",
     initial: "S",
     rating: 4,
@@ -79,7 +79,7 @@ const SEEDED_REVIEWS: CardData[] = [
   },
   {
     id: "seed-7",
-    name: "Arjun Nair",
+    name: "Anas",
     location: "Verified buyer",
     initial: "A",
     rating: 5,
@@ -88,7 +88,7 @@ const SEEDED_REVIEWS: CardData[] = [
   },
   {
     id: "seed-8",
-    name: "Vijay Sharma",
+    name: "Vijay",
     location: "Verified buyer",
     initial: "V",
     rating: 5,
@@ -97,16 +97,16 @@ const SEEDED_REVIEWS: CardData[] = [
   },
   {
     id: "seed-9",
-    name: "Deepak Verma",
+    name: "Faizal",
     location: "Verified buyer",
-    initial: "D",
+    initial: "F",
     rating: 5,
     text: "Very helpful customer support. Shampoo smells good and wash car very slick.",
     source: "user"
   },
   {
     id: "seed-10",
-    name: "Rohan Sen",
+    name: "Rohan",
     location: "Verified buyer",
     initial: "R",
     rating: 4,
