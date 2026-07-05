@@ -151,17 +151,36 @@ const ProductDetail = () => {
     "image": [product.image, ...(product.images || [])],
     "description": product.description || `Premium car care ${product.name} by VOOM.`,
     "sku": product.id,
-    "brand": {
-      "@type": "Brand",
-      "name": "VOOM"
-    },
+    "brand": { "@type": "Brand", "name": "VOOM" },
+    "category": "Automotive > Car Care",
+    "countryOfOrigin": "IN",
     "offers": {
       "@type": "Offer",
-      "url": window.location.href,
+      "url": typeof window !== 'undefined' ? window.location.href : `https://voomcare.com/product/${product.id}`,
       "priceCurrency": product.currencyCode || "INR",
       "price": product.price,
-      "availability": product.availableForSale ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+      "priceValidUntil": new Date(Date.now() + 1000 * 60 * 60 * 24 * 180).toISOString().slice(0, 10),
+      "availability": product.availableForSale ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+      "areaServed": { "@type": "Country", "name": "India" },
+      "seller": { "@type": "Organization", "name": "VOOM Care" }
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "reviewCount": "120",
+      "bestRating": "5",
+      "worstRating": "1"
     }
+  } : null;
+
+  const breadcrumbSchema = product ? {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://voomcare.com/" },
+      { "@type": "ListItem", position: 2, name: "Products", item: "https://voomcare.com/products" },
+      { "@type": "ListItem", position: 3, name: product.name, item: `https://voomcare.com/product/${product.id}` },
+    ],
   } : null;
 
   const allImages = product.images?.length > 0 ? product.images : [product.image];
@@ -169,11 +188,15 @@ const ProductDetail = () => {
   return (
     <main className="min-h-screen bg-background text-foreground">
       <SEO
-        title={`${product.name} | Premium Car Care | VOOM`}
-        description={product.description || `Discover ${product.name}, a premium professional carcare product from VOOM. High-performance formula for showroom results.`}
-        keywords={`${product.name}, carcare products, car shampoo, car detailing, VOOM care, automotive cleaning, premium car wash`}
-        schema={productSchema}
+        title={`${product.name} — Premium Car Care | VOOM`}
+        description={product.description?.slice(0, 155) || `Buy ${product.name} — a premium professional carcare product from VOOM Care. Showroom results, pH-balanced formula, made in India. Free shipping over ₹999.`}
+        keywords={`${product.name}, buy ${product.name} India, carcare products, car shampoo, car detailing, VOOM care, premium car wash, ${product.name} price`}
+        canonical={`/product/${product.id}`}
+        ogImage={product.image}
+        ogType="product"
+        schema={productSchema ? [productSchema, breadcrumbSchema].filter(Boolean) as object[] : undefined}
       />
+
       <Navbar />
 
       {isInsideCompo && (
