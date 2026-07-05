@@ -58,34 +58,71 @@
     />
     <meta name="twitter:image" content="https://voomcare.com/og-image.jpg" />
 
-    <!-- Structured Data (JSON-LD) for SEO -->
+    <!-- Structured Data (JSON-LD) for SEO / AEO / GEO -->
     <script type="application/ld+json">
       [
         {
           "@context": "https://schema.org",
           "@type": "Organization",
+          "@id": "https://voomcare.com/#organization",
           "name": "VOOM",
           "legalName": "VOOM Care by Frenzo Group",
           "url": "https://voomcare.com",
           "logo": "https://voomcare.com/voom-logo.png",
+          "image": "https://voomcare.com/og-image.jpg",
           "description": "India's leading premium car care and professional detailing brand.",
+          "foundingDate": "2023",
           "sameAs": [
             "https://facebook.com/voomcare",
             "https://instagram.com/voom.care"
           ],
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "IN",
+            "addressRegion": "India"
+          },
           "contactPoint": {
             "@type": "ContactPoint",
-            "telephone": "+91-XXXXXXXXXX",
+            "email": "care@voomcare.com",
             "contactType": "customer service",
             "areaServed": "IN",
-            "availableLanguage": "en"
+            "availableLanguage": ["en", "hi"]
           }
         },
         {
           "@context": "https://schema.org",
-          "@type": "WebSite",
+          "@type": "OnlineStore",
+          "@id": "https://voomcare.com/#store",
           "name": "VOOM Care",
           "url": "https://voomcare.com",
+          "image": "https://voomcare.com/og-image.jpg",
+          "logo": "https://voomcare.com/voom-logo.png",
+          "priceRange": "₹₹",
+          "areaServed": { "@type": "Country", "name": "India" },
+          "currenciesAccepted": "INR",
+          "paymentAccepted": "UPI, Credit Card, Debit Card, Net Banking",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "IN"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Brand",
+          "@id": "https://voomcare.com/#brand",
+          "name": "VOOM",
+          "logo": "https://voomcare.com/voom-logo.png",
+          "slogan": "Shine Beyond Ordinary",
+          "url": "https://voomcare.com"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "@id": "https://voomcare.com/#website",
+          "name": "VOOM Care",
+          "url": "https://voomcare.com",
+          "inLanguage": "en-IN",
+          "publisher": { "@id": "https://voomcare.com/#organization" },
           "potentialAction": {
             "@type": "SearchAction",
             "target": "https://voomcare.com/products?q={search_term_string}",
@@ -94,6 +131,7 @@
         }
       ]
     </script>
+
 
     <!-- Meta Pixel Code — deferred until browser idle so it doesn't block first paint -->
     <script>
