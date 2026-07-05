@@ -158,7 +158,7 @@ export default function VoomAdminControlPanel() {
           </div>
         </header>
 
-        <div className="flex gap-2 border-b border-border">
+        <div className="flex gap-2 border-b border-border overflow-x-auto scrollbar-none snap-x -mx-4 px-4 md:mx-0 md:px-0" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           {([
             { key: 'reviews', label: 'Reviews' },
             { key: 'hero', label: 'Hero Media' },
@@ -167,9 +167,8 @@ export default function VoomAdminControlPanel() {
             <button
               key={s.key}
               onClick={() => setSection(s.key)}
-              className={`px-4 h-11 text-sm font-bold uppercase tracking-wider border-b-2 -mb-px transition-colors ${
-                section === s.key ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:text-foreground'
-              }`}
+              className="px-4 h-11 text-sm font-bold uppercase tracking-wider border-b-2 -mb-px transition-colors flex-shrink-0 snap-start border-transparent text-muted-foreground hover:text-foreground"
+              style={{ borderColor: section === s.key ? 'var(--primary)' : 'transparent', color: section === s.key ? 'var(--foreground)' : '' }}
             >
               {s.label}
             </button>
@@ -181,20 +180,24 @@ export default function VoomAdminControlPanel() {
 
         {section === 'reviews' && (
           <>
-            <div className="flex flex-wrap gap-2">
-              {(['product', 'brand'] as ReviewType[]).map((t) => (
-                <button key={t} onClick={() => setType(t)}
-                  className={`px-4 h-9 rounded-full text-xs font-bold uppercase tracking-wider border ${type === t ? 'bg-primary text-primary-foreground border-primary' : 'bg-card border-border text-muted-foreground'}`}>
-                  {t === 'product' ? 'Product Reviews' : 'Brand Reviews'}
-                </button>
-              ))}
-              <span className="w-px bg-border mx-2" />
-              {(['all', 'approved', 'pending', 'rejected'] as StatusFilter[]).map((s) => (
-                <button key={s} onClick={() => setStatus(s)}
-                  className={`px-3 h-9 rounded-full text-xs font-medium capitalize border ${status === s ? 'bg-foreground text-background border-foreground' : 'bg-card border-border text-muted-foreground'}`}>
-                  {s}
-                </button>
-              ))}
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="flex gap-2">
+                {(['product', 'brand'] as ReviewType[]).map((t) => (
+                  <button key={t} onClick={() => setType(t)}
+                    className={`px-4 h-9 rounded-full text-xs font-bold uppercase tracking-wider border ${type === t ? 'bg-primary text-primary-foreground border-primary' : 'bg-card border-border text-muted-foreground'}`}>
+                    {t === 'product' ? 'Product Reviews' : 'Brand Reviews'}
+                  </button>
+                ))}
+              </div>
+              <span className="hidden sm:inline w-px h-6 bg-border mx-1" />
+              <div className="flex flex-wrap gap-1.5">
+                {(['all', 'approved', 'pending', 'rejected'] as StatusFilter[]).map((s) => (
+                  <button key={s} onClick={() => setStatus(s)}
+                    className={`px-3 h-9 rounded-full text-xs font-medium capitalize border ${status === s ? 'bg-foreground text-background border-foreground' : 'bg-card border-border text-muted-foreground'}`}>
+                    {s}
+                  </button>
+                ))}
+              </div>
             </div>
 
             {loading ? (

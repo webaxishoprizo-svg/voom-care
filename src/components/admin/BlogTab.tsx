@@ -231,14 +231,14 @@ function PostEditor({ initial, onClose, onSaved, authedFetch }: {
           <Field label="Tags (comma separated)"><input value={tagsText} onChange={(e) => setTagsText(e.target.value)} className={inputCls} /></Field>
         </div>
         <Field label="Cover image URL">
-          <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row gap-2">
             <input value={form.cover_image_url || ''} onChange={(e) => set('cover_image_url', e.target.value)} className="flex-1 h-10 rounded-lg bg-background border border-border px-3 text-sm outline-none focus:border-primary" placeholder="https://..." />
             <Button
               type="button"
               variant="outline"
               disabled={uploadingKey === 'cover_image_url'}
               onClick={() => document.getElementById('blog-cover-upload')?.click()}
-              className="h-10 rounded-lg whitespace-nowrap gap-1 border-dashed hover:border-primary"
+              className="h-10 rounded-lg whitespace-nowrap gap-1 border-dashed hover:border-primary w-full sm:w-auto justify-center"
             >
               {uploadingKey === 'cover_image_url' ? (
                 <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -256,14 +256,14 @@ function PostEditor({ initial, onClose, onSaved, authedFetch }: {
           </div>
         </Field>
         <Field label="Video URL (optional)">
-          <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row gap-2">
             <input value={form.video_url || ''} onChange={(e) => set('video_url', e.target.value)} className="flex-1 h-10 rounded-lg bg-background border border-border px-3 text-sm outline-none focus:border-primary" placeholder="https://.../post.mp4" />
             <Button
               type="button"
               variant="outline"
               disabled={uploadingKey === 'video_url'}
               onClick={() => document.getElementById('blog-video-upload')?.click()}
-              className="h-10 rounded-lg whitespace-nowrap gap-1 border-dashed hover:border-primary"
+              className="h-10 rounded-lg whitespace-nowrap gap-1 border-dashed hover:border-primary w-full sm:w-auto justify-center"
             >
               {uploadingKey === 'video_url' ? (
                 <Loader2 className="w-3.5 h-3.5 animate-spin" />

@@ -194,7 +194,7 @@ export default function HeroMediaTab({ authedFetch }: { authedFetch: (u: string,
                 </Button>
               </div>
             </div>
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2">
               <input
                 value={row.url}
                 onChange={(e) => update(s.key, { url: e.target.value })}
@@ -206,7 +206,7 @@ export default function HeroMediaTab({ authedFetch }: { authedFetch: (u: string,
                 variant="outline"
                 disabled={uploadingSlot === s.key}
                 onClick={() => document.getElementById(`file-upload-${s.key}`)?.click()}
-                className="h-10 rounded-lg whitespace-nowrap gap-1 border-dashed hover:border-primary"
+                className="h-10 rounded-lg whitespace-nowrap gap-1 border-dashed hover:border-primary w-full sm:w-auto justify-center"
               >
                 {uploadingSlot === s.key ? (
                   <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -223,7 +223,7 @@ export default function HeroMediaTab({ authedFetch }: { authedFetch: (u: string,
               />
             </div>
             {s.type === 'video' && (
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row gap-2">
                 <input
                   value={row.poster_url || ''}
                   onChange={(e) => update(s.key, { poster_url: e.target.value })}
@@ -235,7 +235,7 @@ export default function HeroMediaTab({ authedFetch }: { authedFetch: (u: string,
                   variant="outline"
                   disabled={uploadingSlot === `${s.key}-poster`}
                   onClick={() => document.getElementById(`file-upload-${s.key}-poster`)?.click()}
-                  className="h-10 rounded-lg whitespace-nowrap gap-1 border-dashed hover:border-primary"
+                  className="h-10 rounded-lg whitespace-nowrap gap-1 border-dashed hover:border-primary w-full sm:w-auto justify-center"
                 >
                   {uploadingSlot === `${s.key}-poster` ? (
                     <Loader2 className="w-3.5 h-3.5 animate-spin" />
