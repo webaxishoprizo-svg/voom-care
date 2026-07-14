@@ -196,7 +196,7 @@ const FAQItem = ({ item }: { item: FAQItemData }) => {
               )}
 
               {item.note && (
-                <p className="text-[13px] italic text-muted-foreground/60 border-l-2 border-primary/20 pl-4 py-1">
+                <p className="text-[13px]  text-muted-foreground/60 border-l-2 border-primary/20 pl-4 py-1">
                   {item.note}
                 </p>
               )}

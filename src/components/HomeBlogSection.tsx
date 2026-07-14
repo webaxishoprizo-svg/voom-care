@@ -16,7 +16,7 @@ const HomeBlogSection = () => {
         <div className="flex items-end justify-between mb-12 gap-4">
           <div>
             <p className="text-[10px] uppercase tracking-[0.4em] text-muted-foreground mb-3">The Journal</p>
-            <h2 className="font-display italic text-[clamp(2rem,5vw,3.5rem)] text-foreground leading-tight">
+            <h2 className="font-display  text-[clamp(2rem,5vw,3.5rem)] text-foreground leading-tight">
               Stories & Guides
             </h2>
           </div>

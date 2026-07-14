@@ -25,90 +25,90 @@ const sourceLabel: Record<CardData['source'], { label: string; Icon: typeof Badg
 const SEEDED_REVIEWS: CardData[] = [
   {
     id: "seed-1",
-    name: "Rahul",
+    name: "Mohammed Ameen",
     location: "Verified buyer",
-    initial: "R",
-    rating: 5,
+    initial: "M",
+    rating: 4,
     text: "Excellent car shampoo. Gives lot of foam and clean all dirt easily. Paint looking brand new.",
     source: "user"
   },
   {
     id: "seed-2",
-    name: "Amit",
+    name: "Vishnu K.",
     location: "Verified buyer",
-    initial: "A",
+    initial: "V",
     rating: 5,
     text: "Tyre polish is very good. Tyre looking black and shiny for many days. Not sticky like other cheap polish.",
     source: "user"
   },
   {
     id: "seed-3",
-    name: "Rajesh",
+    name: "Lijo Varghese",
     location: "Verified buyer",
-    initial: "R",
-    rating: 4,
+    initial: "L",
+    rating: 3,
     text: "Dash cleaner working perfectly. Dashboard looks clean and matte. Good smell also.",
     source: "user"
   },
   {
     id: "seed-4",
-    name: "Sandeep",
+    name: "Fathima M.P.",
     location: "Verified buyer",
-    initial: "S",
-    rating: 5,
+    initial: "F",
+    rating: 4,
     text: "Superb combo kit! Very happy with results. Shampoo is safe for ceramic coating.",
     source: "user"
   },
   {
     id: "seed-5",
-    name: "Sunil",
+    name: "Akhil",
     location: "Verified buyer",
-    initial: "S",
+    initial: "A",
     rating: 5,
     text: "Fast delivery and very nice packing. Wash my car today and gloss is amazing.",
     source: "user"
   },
   {
     id: "seed-6",
-    name: "Sneha",
+    name: "Anu T. Mathew",
     location: "Verified buyer",
-    initial: "S",
-    rating: 4,
+    initial: "A",
+    rating: 3,
     text: "Shampoo quality is top class. Dash clean spray restored dashboard shine. Must buy.",
     source: "user"
   },
   {
     id: "seed-7",
-    name: "Anas",
+    name: "Shamnad",
     location: "Verified buyer",
-    initial: "A",
+    initial: "S",
     rating: 5,
     text: "VOOM Care is best car care brand. Suds last long time and clean properly.",
     source: "user"
   },
   {
     id: "seed-8",
-    name: "Vijay",
+    name: "Anjali K.",
     location: "Verified buyer",
-    initial: "V",
+    initial: "A",
     rating: 5,
     text: "Showroom finish at home. Tyre polish shine lasts long time and not flinging on doors.",
     source: "user"
   },
   {
     id: "seed-9",
-    name: "Faizal",
+    name: "Jomon",
     location: "Verified buyer",
-    initial: "F",
+    initial: "J",
     rating: 5,
     text: "Very helpful customer support. Shampoo smells good and wash car very slick.",
     source: "user"
   },
   {
     id: "seed-10",
-    name: "Rohan",
+    name: "Nabeel P.A.",
     location: "Verified buyer",
-    initial: "R",
+    initial: "N",
     rating: 4,
     text: "Nice product. Suds are very thick. Matte finish dashboard look is perfect.",
     source: "user"
@@ -148,14 +148,27 @@ const TestimonialsSection = () => {
     const apiReviews = reviewsQuery.data?.reviews || [];
     const mapped = apiReviews.map(mapBrandReview);
     
-    // Backfill with high-quality seeded reviews if there are fewer than 8 total reviews
-    if (mapped.length < 8) {
-      const needed = 10 - mapped.length;
-      const fillers = SEEDED_REVIEWS.filter(sr => !mapped.some(m => m.name === sr.name)).slice(0, needed);
-      return [...mapped, ...fillers];
-    }
-    return mapped;
+    // Always append seeded reviews as a permanent base
+    const fillers = SEEDED_REVIEWS.filter(sr => !mapped.some(m => m.name === sr.name));
+    return [...mapped, ...fillers];
   }, [reviewsQuery.data]);
+
+  const blendedSummary = useMemo(() => {
+    const mockCount = SEEDED_REVIEWS.length;
+    const mockTotalScore = SEEDED_REVIEWS.reduce((sum, r) => sum + r.rating, 0);
+    
+    const realCount = summaryQuery.data?.totalReviews || 0;
+    const realAvg = summaryQuery.data?.averageRating || 0;
+    
+    const totalCount = realCount + mockCount;
+    const totalScore = (realAvg * realCount) + mockTotalScore;
+    const avg = totalCount > 0 ? totalScore / totalCount : 0;
+    
+    return {
+      totalReviews: totalCount,
+      averageRating: avg
+    };
+  }, [summaryQuery.data]);
 
   const handleArrowClick = (direction: "left" | "right") => {
     if (!carouselRef.current) return;
@@ -170,7 +183,7 @@ const TestimonialsSection = () => {
     carouselRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
   };
 
-  const summary = summaryQuery.data;
+
 
   return (
     <Reveal>
@@ -181,16 +194,16 @@ const TestimonialsSection = () => {
             What They're Saying
           </h2>
 
-          {summary && summary.totalReviews > 0 && (
+          {blendedSummary.totalReviews > 0 && (
             <div className="mt-5 flex items-center justify-center gap-3 text-sm text-muted-foreground">
               <div className="flex items-center gap-1">
                 {[1,2,3,4,5].map(n => (
-                  <Star key={n} className={`w-4 h-4 ${n <= Math.round(summary.averageRating) ? "fill-primary text-primary" : "fill-muted/20 text-muted/30"}`} />
+                  <Star key={n} className={`w-4 h-4 ${n <= Math.round(blendedSummary.averageRating) ? "fill-primary text-primary" : "fill-muted/20 text-muted/30"}`} />
                 ))}
               </div>
-              <span className="font-semibold text-foreground">{summary.averageRating.toFixed(1)}/5</span>
+              <span className="font-semibold text-foreground">{blendedSummary.averageRating.toFixed(1)}/5</span>
               <span>·</span>
-              <span>{summary.totalReviews} review{summary.totalReviews === 1 ? "" : "s"}</span>
+              <span>{blendedSummary.totalReviews} review{blendedSummary.totalReviews === 1 ? "" : "s"}</span>
             </div>
           )}
 
@@ -246,7 +259,7 @@ const TestimonialsSection = () => {
                         {Tag.label}
                       </span>
                     </div>
-                    <blockquote className="text-foreground/90 italic leading-relaxed mb-6 text-sm md:text-base font-light line-clamp-5">
+                    <blockquote className="text-foreground/90  leading-relaxed mb-6 text-sm md:text-base font-light line-clamp-5">
                       "{t.text}"
                     </blockquote>
                   </div>

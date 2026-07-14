@@ -83,7 +83,7 @@ const Index = () => {
   return (
     <main id="main-content" className="min-h-screen bg-background">
       <SEO
-        title="VOOM® | #1 Best Car Care Products & Premium Detailing"
+        title="VOOM | Best Car Care Products & Premium Detailing"
         description="Official VOOM® Store. Shop India's best car care products, professional car shampoo, and detailing kits. Engineered for excellence, trusted by professionals. Shine Beyond Ordinary."
         keywords="VOOM, VOOM Care, best car shampoo India, car detailing products, premium car care, auto detailing, car wash kit, tyre polish, professional car care"
         canonical="/"

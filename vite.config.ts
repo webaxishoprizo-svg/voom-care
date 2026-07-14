@@ -49,7 +49,7 @@ export default defineConfig(({ mode }) => {
               req.on("end", async () => {
                 try {
                   const { email } = JSON.parse(body);
-                  const SHOP = env.VITE_SHOPIFY_DOMAIN || "voomcare.myshopify.com";
+                  const SHOP = env.VITE_SHOPIFY_DOMAIN || "voom-9527.myshopify.com";
                   const ACCESS_TOKEN = env.ADMIN_API_TOKEN;
                   if (!ACCESS_TOKEN) {
                     res.statusCode = 200;
@@ -80,12 +80,12 @@ export default defineConfig(({ mode }) => {
               const customerId = url?.searchParams.get("customer_id");
               res.statusCode = 200;
               res.setHeader("Content-Type", "application/json");
-              
+
               // In local dev, we'll allow the button if logged in
-              res.end(JSON.stringify({ 
-                eligible: !!customerId, 
-                hasReviewed: false, 
-                resolvedId: "local-dev-id" 
+              res.end(JSON.stringify({
+                eligible: !!customerId,
+                hasReviewed: false,
+                resolvedId: "local-dev-id"
               }));
               return;
             }

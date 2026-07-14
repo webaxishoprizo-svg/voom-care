@@ -91,12 +91,13 @@ const Navbar = () => {
               <User className={`w-5 h-5 ${isAuthenticated ? "text-primary" : ""}`} />
             </button>
 
-            <button
+            <Link
+              to="/wishlist"
               className="hidden md:flex p-2.5 rounded-full bg-white/5 hover:bg-white/10 border border-transparent backdrop-blur-xl text-foreground/80 hover:text-foreground transition-all"
               aria-label="Save"
             >
               <Bookmark className="w-5 h-5" />
-            </button>
+            </Link>
 
             <button
               onClick={() => setIsOpen(true)}
@@ -104,7 +105,7 @@ const Navbar = () => {
             >
               <ShoppingBag className="w-5 h-5 text-foreground/80 group-hover:text-foreground transition-colors" />
               {totalItems > 0 && (
-                <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-[9px] font-bold w-4.5 h-4.5 rounded-full flex items-center justify-center border border-background">
+                <span className="md:hidden absolute -top-1 -right-1 bg-transparent text-white text-[10px] font-bold w-4.5 h-4.5 rounded-full flex items-center justify-center">
                   {totalItems}
                 </span>
               )}

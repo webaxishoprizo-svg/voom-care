@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
-import { ShoppingBag, ArrowRight, Star } from "lucide-react";
+import { Bookmark, ShoppingBag, ArrowRight, Star } from "lucide-react";
 import { useCollectionProducts } from "@/lib/shopify/hooks";
+import { useWishlist } from "@/hooks/use-wishlist";
 import { useCart } from "@/hooks/use-cart";
 import { formatCurrency } from "@/lib/utils";
 import { Reveal } from "@/components/ScrollReveal";
@@ -9,9 +10,12 @@ import { Reveal } from "@/components/ScrollReveal";
 const IndividualProducts = () => {
   const navigate = useNavigate();
   const { addItem } = useCart();
-  const { data: products = [], isLoading } = useCollectionProducts("what-is-inside-the-compo");
+  const { toggleWishlist, isInWishlist } = useWishlist();
+  const { data = [], isLoading } = useCollectionProducts("what-is-inside-the-compo");
+  
+  const products = data.filter(product => product.price > 0);
 
-  if (isLoading && !products.length) {
+  if (isLoading && !data.length) {
     return (
       <section className="py-24 text-center bg-card/20 border-t border-white/5">
         <div className="text-primary tracking-widest uppercase text-xs animate-pulse">
@@ -66,6 +70,20 @@ const IndividualProducts = () => {
                       {product.discount}% OFF
                     </span>
                   )}
+
+                  <button
+                    className={`absolute top-4 right-4 z-10 w-9 h-9 rounded-md backdrop-blur-sm flex items-center justify-center transition-all ${
+                      isInWishlist(product.id)
+                        ? "bg-primary/20 text-primary opacity-100"
+                        : "bg-background/40 text-foreground/70 hover:text-foreground hover:bg-background/60 opacity-0 group-hover:opacity-100"
+                    }`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleWishlist(product);
+                    }}
+                  >
+                    <Bookmark className={`w-4 h-4 ${isInWishlist(product.id) ? "fill-primary" : ""}`} />
+                  </button>
                 </div>
 
                 <div className="p-6 space-y-4">

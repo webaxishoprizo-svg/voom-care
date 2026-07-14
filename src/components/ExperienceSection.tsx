@@ -52,7 +52,7 @@ const ExperienceSection = () => (
         <div className="text-center mb-16">
           <p className="text-xs tracking-[0.3em] uppercase text-primary mb-3">Why VOOM</p>
           <h2 className="font-display text-4xl md:text-5xl text-foreground">
-            More Than <em>Just a Wash.</em>
+            More Than Just a Wash.
           </h2>
           <p className="mt-6 text-muted-foreground/80 max-w-2xl mx-auto leading-relaxed text-sm md:text-base">
             Our formulas aren&apos;t just soap. They&apos;re precision-engineered to protect and enhance your vehicle&apos;s finish — built for enthusiasts, trusted by professionals.

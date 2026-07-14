@@ -124,7 +124,7 @@ const Newsletter = () => {
             </div>
 
             <div className="space-y-1">
-              <h3 className="font-display text-2xl text-foreground italic leading-tight">
+              <h3 className="font-display text-2xl text-foreground  leading-tight">
                 Voom Circle
               </h3>
               <p className="text-muted-foreground/80 text-xs md:text-sm leading-relaxed">

@@ -54,7 +54,7 @@ const TrackOrder = () => {
               <span className="text-primary text-[11px] font-bold tracking-[0.3em] uppercase mb-4 block">
                 Order Tracking
               </span>
-              <h1 className="font-display text-4xl md:text-6xl text-white mb-6 italic">
+              <h1 className="font-display text-4xl md:text-6xl text-white mb-6 ">
                 Track Your Shipment
               </h1>
               <p className="text-white/60 text-sm md:text-base max-w-xl mx-auto leading-relaxed">
@@ -141,7 +141,7 @@ const TrackOrder = () => {
                   {/* Timeline Card */}
                   <div className="bg-white/[0.02] border border-white/5 rounded-[32px] overflow-hidden">
                     <div className="p-8 md:p-10 border-b border-white/5 bg-white/[0.02] flex items-center justify-between">
-                      <h3 className="font-display text-2xl text-white italic">Journey Timeline</h3>
+                      <h3 className="font-display text-2xl text-white ">Journey Timeline</h3>
                       <div className="flex items-center gap-2 text-white/40 text-xs">
                         <MapPin className="w-3.5 h-3.5" />
                         <span>Kochi Hub, Kerala</span>

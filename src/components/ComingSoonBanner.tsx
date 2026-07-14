@@ -35,7 +35,7 @@ const ComingSoonBanner = () => {
               </div>
 
               <div className="space-y-4">
-                <h2 className="font-display text-4xl md:text-6xl text-white tracking-tight leading-[1.05] italic">
+                <h2 className="font-display text-4xl md:text-6xl text-white tracking-tight leading-[1.05] ">
                   {product.name}
                 </h2>
                 <p className="text-white/55 text-sm md:text-base leading-relaxed max-w-md">

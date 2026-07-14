@@ -51,7 +51,7 @@ const PrivacyPolicy = () => {
             <div className="prose prose-invert prose-sm md:prose-base max-w-none space-y-16">
 
               <div className="space-y-4">
-                <p className="text-muted-foreground leading-relaxed text-lg font-light italic">
+                <p className="text-muted-foreground leading-relaxed text-lg font-light ">
                   VOOM ("we," "us," or "our") is committed to protecting your personal information. This Privacy Policy outlines our strict protocols for data collection, usage, and security under Indian digital privacy standards.
                 </p>
               </div>
@@ -161,7 +161,7 @@ const PrivacyPolicy = () => {
               <div className="pt-20 border-t border-white/5 text-center space-y-8">
                 <div className="space-y-2">
                   <h2 className="font-display text-3xl text-foreground m-0 uppercase tracking-widest">Legal & Privacy</h2>
-                  <p className="text-xs text-muted-foreground/60 max-w-sm mx-auto font-light italic">Direct all privacy-related enquiries to our official compliance channel.</p>
+                  <p className="text-xs text-muted-foreground/60 max-w-sm mx-auto font-light ">Direct all privacy-related enquiries to our official compliance channel.</p>
                 </div>
                 <div className="inline-flex flex-col gap-2">
                   <a href="mailto:info.frenzogp@gmail.com" className="text-primary font-medium hover:underline text-lg">info.frenzogp@gmail.com</a>

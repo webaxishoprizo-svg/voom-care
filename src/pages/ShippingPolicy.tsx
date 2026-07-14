@@ -51,7 +51,7 @@ const ShippingPolicy = () => {
             <div className="prose prose-invert prose-sm md:prose-base max-w-none space-y-16">
 
               <div className="space-y-4">
-                <p className="text-muted-foreground leading-relaxed text-lg font-light italic text-center">
+                <p className="text-muted-foreground leading-relaxed text-lg font-light  text-center">
                   VOOM utilizes professional-grade logistics for all domestic shipments. By placing an order, you agree to our delivery protocols and liability disclaimers.
                 </p>
               </div>
@@ -102,7 +102,7 @@ const ShippingPolicy = () => {
                 <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">
                   The customer holds sole responsibility for providing accurate delivery data. In cases of failed delivery due to:
                 </p>
-                <ul className="list-disc pl-5 space-y-2 text-xs text-muted-foreground/60 italic">
+                <ul className="list-disc pl-5 space-y-2 text-xs text-muted-foreground/60 ">
                   <li>Incorrect or incomplete addresses.</li>
                   <li>Recipient unavailability during multiple delivery attempts.</li>
                   <li>Refusal of the shipment upon arrival.</li>
@@ -131,7 +131,7 @@ const ShippingPolicy = () => {
                   <Info className="w-5 h-5" />
                   <h3 className="font-display uppercase tracking-widest text-[10px] m-0 font-bold">Unboxing Requirement</h3>
                 </div>
-                <p className="text-xs text-muted-foreground/80 font-light leading-relaxed italic">
+                <p className="text-xs text-muted-foreground/80 font-light leading-relaxed ">
                   Reminder: All claims for transit damage must be supported by a continuous unboxing video. Refer to our Refund Policy for strict submission criteria.
                 </p>
               </div>
@@ -140,7 +140,7 @@ const ShippingPolicy = () => {
               <div className="pt-20 border-t border-white/5 text-center space-y-8">
                 <div className="space-y-2">
                   <h2 className="font-display text-3xl text-foreground m-0 uppercase tracking-widest">Logistics</h2>
-                  <p className="text-xs text-muted-foreground/60 max-w-sm mx-auto font-light italic">Managing the flow of professional care products.</p>
+                  <p className="text-xs text-muted-foreground/60 max-w-sm mx-auto font-light ">Managing the flow of professional care products.</p>
                 </div>
                 <div className="inline-flex flex-col gap-2">
                   <a href="mailto:info.frenzogp@gmail.com" className="text-primary font-medium hover:underline text-lg">info.frenzogp@gmail.com</a>

@@ -51,7 +51,7 @@ const RefundPolicy = () => {
             <div className="prose prose-invert prose-sm md:prose-base max-w-none space-y-16">
 
               <div className="space-y-4">
-                <p className="text-muted-foreground leading-relaxed text-lg font-light italic text-center">
+                <p className="text-muted-foreground leading-relaxed text-lg font-light  text-center">
                   VOOM operates a strict <strong>Replacement-Only</strong> policy. Due to the high-performance chemical nature of our products, all transactions are final. No monetary refunds will be issued under any circumstances.
                 </p>
               </div>
@@ -78,7 +78,7 @@ const RefundPolicy = () => {
                   <h2 className="font-display text-2xl text-foreground m-0">2. Verification Protocol</h2>
                 </div>
                 <div className="p-8 bg-primary/5 border border-primary/10 rounded-3xl space-y-4">
-                  <p className="text-sm md:text-base leading-relaxed text-foreground italic">
+                  <p className="text-sm md:text-base leading-relaxed text-foreground ">
                     "A continuous, unedited unboxing video starting from the sealed outer package is <strong>strictly mandatory</strong> for all claims. Claims submitted without this video, or with edited footage, will be rejected immediately without further review."
                   </p>
                 </div>
@@ -99,7 +99,7 @@ const RefundPolicy = () => {
                     <li>Catastrophic container failure (cracked bottles).</li>
                     <li>Verified manufacturing defects in dispensing mechanisms (sprayers/pumps).</li>
                   </ul>
-                  <p className="text-xs italic">Minor surface imperfections, dented outer boxes, or label scuffs do not qualify for replacement.</p>
+                  <p className="text-xs ">Minor surface imperfections, dented outer boxes, or label scuffs do not qualify for replacement.</p>
                 </div>
               </div>
 
@@ -134,7 +134,7 @@ const RefundPolicy = () => {
                 <div className="space-y-4">
                   <PackageX className="w-10 h-10 text-primary/40 mx-auto" />
                   <h3 className="font-display text-2xl text-foreground m-0">Zero Refund Commitment</h3>
-                  <p className="text-sm text-muted-foreground/60 font-light italic max-w-xl mx-auto">
+                  <p className="text-sm text-muted-foreground/60 font-light  max-w-xl mx-auto">
                     By completing a purchase on voomcare.com, you explicitly acknowledge and agree that no monetary refunds will be provided for any reason.
                   </p>
                 </div>

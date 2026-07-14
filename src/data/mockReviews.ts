@@ -13,7 +13,7 @@ export const mockReviews: Review[] = [
     rating: 5,
     review: "Very good product. My car is shining now. Value for money. Packaging was also very good.",
     user_id: "mock-user-1",
-    display_name: "Gokul",
+    display_name: "Mohammed Ameen",
     created_at: "2024-03-15T10:00:00Z"
   },
   {
@@ -21,7 +21,7 @@ export const mockReviews: Review[] = [
     rating: 5,
     review: "I tried many products but this one is best. The dash cleaner doesn't leave any oily feel. Good for daily use.",
     user_id: "mock-user-2",
-    display_name: "Athira",
+    display_name: "Vishnu K.",
     created_at: "2024-03-20T14:30:00Z"
   },
   {
@@ -29,7 +29,7 @@ export const mockReviews: Review[] = [
     rating: 4,
     review: "Delivery was a bit late but product is awesome. Highly recommend for car lovers.",
     user_id: "mock-user-3",
-    display_name: "Faizal",
+    display_name: "Lijo Varghese",
     created_at: "2024-03-25T09:15:00Z"
   },
   {
@@ -37,7 +37,7 @@ export const mockReviews: Review[] = [
     rating: 5,
     review: "Using for my Baleno, dashboard looks like new. Smells very fresh and premium. Best in this price range.",
     user_id: "mock-user-4",
-    display_name: "Anjali",
+    display_name: "Fathima M.P.",
     created_at: "2024-04-02T11:45:00Z"
   },
   {
@@ -45,7 +45,7 @@ export const mockReviews: Review[] = [
     rating: 5,
     review: "Best car care kit at this price. Better than expensive brands I used before. Must buy item.",
     user_id: "mock-user-5",
-    display_name: "Mathew",
+    display_name: "Akhil",
     created_at: "2024-04-05T16:20:00Z"
   },
   {
@@ -53,7 +53,7 @@ export const mockReviews: Review[] = [
     rating: 5,
     review: "Happy with the results. Tyre polish is very effective and shine stays for many days. Glad I found Voom.",
     user_id: "mock-user-6",
-    display_name: "Shaji",
+    display_name: "Anu T. Mathew",
     created_at: "2024-04-10T08:00:00Z"
   },
   {
@@ -61,7 +61,7 @@ export const mockReviews: Review[] = [
     rating: 5,
     review: "Good quality, simple to use. My husband is very happy with this gift for his new Creta.",
     user_id: "mock-user-7",
-    display_name: "Sandra",
+    display_name: "Shamnad",
     created_at: "2024-04-15T13:10:00Z"
   },
   {
@@ -69,7 +69,7 @@ export const mockReviews: Review[] = [
     rating: 5,
     review: "Awesome shine on my black Thar. No oily sticky feel. 10/10 from my side.",
     user_id: "mock-user-8",
-    display_name: "Niyas",
+    display_name: "Sneha K.",
     created_at: "2024-04-20T17:50:00Z"
   },
   {
@@ -77,7 +77,7 @@ export const mockReviews: Review[] = [
     rating: 4,
     review: "Fast delivery and genuine product. Voom care is doing great job for Indian market. Keep it up.",
     user_id: "mock-user-9",
-    display_name: "Jobin",
+    display_name: "Jomon",
     created_at: "2024-04-25T10:30:00Z"
   },
   {
@@ -85,7 +85,7 @@ export const mockReviews: Review[] = [
     rating: 5,
     review: "Cleaned my old Santro and it looks much better now. Paisa vasool item for every car owner.",
     user_id: "mock-user-10",
-    display_name: "Sajith",
+    display_name: "Nabeel P.A.",
     created_at: "2024-05-01T12:00:00Z"
   },
   {
@@ -93,7 +93,7 @@ export const mockReviews: Review[] = [
     rating: 5,
     review: "Must buy for all car enthusiasts. Small quantity also works well. I used it on my bike also, results are great.",
     user_id: "mock-user-11",
-    display_name: "Anas",
+    display_name: "Sreejith Kumar",
     created_at: "2024-05-03T15:40:00Z"
   },
   {
@@ -101,7 +101,7 @@ export const mockReviews: Review[] = [
     rating: 5,
     review: "Good packaging and very useful kit. Everything included in one box. Very convenient for Sunday wash.",
     user_id: "mock-user-12",
-    display_name: "Toby",
+    display_name: "Kevin Joseph",
     created_at: "2024-05-04T09:20:00Z"
   },
   {
@@ -109,7 +109,7 @@ export const mockReviews: Review[] = [
     rating: 4,
     review: "Really impressed with the quality of microfibre cloth and polish. Will order again definitely when this finish.",
     user_id: "mock-user-13",
-    display_name: "Manoj",
+    display_name: "Rameez M.",
     created_at: "2024-05-05T14:10:00Z"
   },
   {
@@ -117,7 +117,7 @@ export const mockReviews: Review[] = [
     rating: 5,
     review: "Finally found a good Indian brand for car care. Superb results on my Honda City. Full satisfaction.",
     user_id: "mock-user-14",
-    display_name: "Nimisha",
+    display_name: "Anjali Nair",
     created_at: "2024-05-06T11:30:00Z"
   },
   {
@@ -125,7 +125,7 @@ export const mockReviews: Review[] = [
     rating: 5,
     review: "Using it every Sunday now. Best part of my weekend. Five stars for the quality and shine!",
     user_id: "mock-user-15",
-    display_name: "Jinto",
+    display_name: "Mathews C.",
     created_at: "2024-05-07T16:00:00Z"
   }
 ];

@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { CartProvider } from "@/context/CartContext";
 import { CustomerAuthProvider } from "@/context/CustomerAuthContext";
+import { WishlistProvider } from "@/context/WishlistContext";
 import CartDrawer from "@/components/CartDrawer";
 import ScrollToTop from "@/components/ScrollToTop";
 import ScrollToTopOnNavigation from "@/components/ScrollToTopOnNavigation";
@@ -30,6 +31,7 @@ const RefundPolicy = lazy(() => import("./pages/RefundPolicy.tsx"));
 const ShippingPolicy = lazy(() => import("./pages/ShippingPolicy.tsx"));
 const ReviewSubmission = lazy(() => import("./pages/ReviewSubmission.tsx"));
 const VoomAdminControlPanel = lazy(() => import("./pages/VoomAdminControlPanel.tsx"));
+const Wishlist = lazy(() => import("./pages/Wishlist.tsx"));
 const Blog = lazy(() => import("./pages/Blog.tsx"));
 const BlogPost = lazy(() => import("./pages/BlogPost.tsx"));
 
@@ -63,7 +65,8 @@ const App = () => (
   <div className="ambient-bg" aria-hidden><div className="blob" /></div>
   <QueryClientProvider client={queryClient}>
     <CustomerAuthProvider>
-      <CartProvider>
+      <WishlistProvider>
+        <CartProvider>
         <TooltipProvider>
           <Toaster />
           <Sonner />
@@ -93,6 +96,7 @@ const App = () => (
                 <Route path="/blog" element={<Blog />} />
                 <Route path="/blog/:slug" element={<BlogPost />} />
                 <Route path="/voomadmincontrolpanel" element={<VoomAdminControlPanel />} />
+                <Route path="/wishlist" element={<Wishlist />} />
 
 
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
@@ -101,7 +105,8 @@ const App = () => (
             </Suspense>
           </BrowserRouter>
         </TooltipProvider>
-      </CartProvider>
+        </CartProvider>
+      </WishlistProvider>
     </CustomerAuthProvider>
   </QueryClientProvider>
   </ErrorBoundary>

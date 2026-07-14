@@ -11,7 +11,7 @@ You must add the following environment variables in your Vercel Dashboard (`Sett
 
 | Variable | Description | Source |
 | :--- | :--- | :--- |
-| `SHOP` | Your Shopify store domain (e.g., `shop.voomcare.com`) | Shopify Admin |
+| `SHOP` | Your Shopify store domain (e.g., `checkout.voomcare.com`) | Shopify Admin |
 | `ADMIN_API_TOKEN` | Shopify Admin API Access Token | Shopify App Settings |
 | `PUBLIC_STORE_DOMAIN` | Your public domain (e.g., `voomcare.com`) | Domain Provider |
 | `PUBLIC_STOREFRONT_ACCESS_TOKEN` | Shopify Storefront API Token | Shopify App Settings |

@@ -51,7 +51,7 @@ const TermsOfService = () => {
             <div className="prose prose-invert prose-sm md:prose-base max-w-none space-y-16">
               
               <div className="space-y-4">
-                <p className="text-muted-foreground leading-relaxed text-lg font-light italic text-center">
+                <p className="text-muted-foreground leading-relaxed text-lg font-light  text-center">
                   By accessing <span className="text-foreground font-medium underline underline-offset-4 decoration-primary/30">voomcare.com</span>, you entering into a legally binding agreement with VOOM. Failure to comply with these terms may result in immediate suspension of access and legal action.
                 </p>
               </div>
@@ -156,7 +156,7 @@ const TermsOfService = () => {
                   <h2 className="font-display text-2xl text-foreground m-0">7. Governing Law</h2>
                 </div>
                 <div className="p-8 bg-card border border-white/5 rounded-3xl space-y-4">
-                  <p className="text-sm text-muted-foreground/80 font-light leading-relaxed italic">
+                  <p className="text-sm text-muted-foreground/80 font-light leading-relaxed ">
                     "If any provision of these Terms is found to be unenforceable or invalid under any applicable law, such unenforceability or invalidity shall not render these Terms unenforceable or invalid as a whole."
                   </p>
                   <p className="text-xs text-muted-foreground/60">
@@ -169,7 +169,7 @@ const TermsOfService = () => {
               <div className="pt-20 border-t border-white/5 text-center space-y-8">
                 <div className="space-y-2">
                   <h2 className="font-display text-3xl text-foreground m-0 uppercase tracking-widest">Compliance</h2>
-                  <p className="text-xs text-muted-foreground/60 max-w-sm mx-auto font-light italic">Strict adherence to these terms is mandatory for all transactions.</p>
+                  <p className="text-xs text-muted-foreground/60 max-w-sm mx-auto font-light ">Strict adherence to these terms is mandatory for all transactions.</p>
                 </div>
                 <div className="inline-flex flex-col gap-2">
                   <a href="mailto:info.frenzogp@gmail.com" className="text-primary font-medium hover:underline text-lg">info.frenzogp@gmail.com</a>

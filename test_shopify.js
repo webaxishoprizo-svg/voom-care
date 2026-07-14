@@ -1,6 +1,6 @@
 
 const SHOPIFY_CONFIG = {
-  domain: "shop.voomcare.com",
+  domain: "checkout.voomcare.com",
   apiVersion: "2024-01",
   accessToken: "504cccb325162a0091bcf2bea3c35d16",
 };

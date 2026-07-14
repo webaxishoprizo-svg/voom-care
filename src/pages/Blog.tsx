@@ -41,7 +41,7 @@ const Blog = () => {
         <div className="max-w-6xl mx-auto">
           <header className="mb-14 text-center">
             <p className="text-[10px] uppercase tracking-[0.4em] text-muted-foreground mb-3">The Journal</p>
-            <h1 className="font-display italic text-[clamp(2.5rem,6vw,4.5rem)] text-foreground leading-tight">
+            <h1 className="font-display  text-[clamp(2.5rem,6vw,4.5rem)] text-foreground leading-tight">
               Stories, Guides & News
             </h1>
           </header>

@@ -3,6 +3,7 @@ import { motion, useAnimation, useMotionValue, useTransform, MotionValue } from 
 import { Bookmark, ArrowRight, ShoppingBag, ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "@/hooks/use-cart";
+import { useWishlist } from "@/hooks/use-wishlist";
 import { useCollectionProducts } from "@/lib/shopify/hooks";
 import { formatCurrency } from "@/lib/utils";
 import { Product } from "@/data/products";
@@ -17,6 +18,7 @@ const ProductCard = ({ product, index, x, itemWidth, productsCount }: {
 }) => {
   const navigate = useNavigate();
   const { addItem } = useCart();
+  const { toggleWishlist, isInWishlist } = useWishlist();
 
   // Calculate relative position to screen center
   const scale = useTransform(x, (val: number) => {
@@ -65,10 +67,17 @@ const ProductCard = ({ product, index, x, itemWidth, productsCount }: {
         )}
 
         <button
-          className="absolute top-4 right-4 z-10 w-9 h-9 rounded-md bg-background/40 backdrop-blur-sm flex items-center justify-center text-foreground/70 hover:text-foreground hover:bg-background/60 transition-all opacity-0 group-hover:opacity-100"
-          onClick={(e) => e.stopPropagation()}
+          className={`absolute top-4 right-4 z-10 w-9 h-9 rounded-md backdrop-blur-sm flex items-center justify-center transition-all ${
+            isInWishlist(product.id)
+              ? "bg-primary/20 text-primary opacity-100"
+              : "bg-background/40 text-foreground/70 hover:text-foreground hover:bg-background/60 opacity-0 group-hover:opacity-100"
+          }`}
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleWishlist(product);
+          }}
         >
-          <Bookmark className="w-4 h-4" />
+          <Bookmark className={`w-4 h-4 ${isInWishlist(product.id) ? "fill-primary" : ""}`} />
         </button>
 
         <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent pt-20 pb-5 px-5">
@@ -205,7 +214,7 @@ const SingleProductFeatured = ({ product }: { product: Product }) => {
                 </span>
               </div>
 
-              <h3 className="font-display text-4xl lg:text-6xl text-foreground italic tracking-tight leading-[1.1]">
+              <h3 className="font-display text-4xl lg:text-6xl text-foreground  tracking-tight leading-[1.1]">
                 {product.name}
               </h3>
               
@@ -287,7 +296,8 @@ const ProductGrid = () => {
   const x = useMotionValue(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const { data: products = [], isLoading } = useCollectionProducts("compo");
+  const { data = [], isLoading } = useCollectionProducts("compo");
+  const products = data.filter(product => product.price > 0);
 
   // Multi-duplicate for infinite effect
   const items = useMemo(() => {
@@ -352,7 +362,7 @@ const ProductGrid = () => {
     }, 1500);
   };
 
-  if (isLoading && !products.length) {
+  if (isLoading && !data.length) {
     return (
       <section className="py-24 text-center">
         <div className="text-primary tracking-widest uppercase text-xs animate-pulse">Loading Combo...</div>
@@ -360,11 +370,15 @@ const ProductGrid = () => {
     );
   }
 
+  if (!isLoading && !products.length) {
+    return null;
+  }
+
   return (
     <section id="collections" className="py-24 overflow-hidden relative">
       <div className="max-w-6xl mx-auto px-4 mb-16 text-center">
         <p className="text-[13px] tracking-wide font-medium text-primary mb-2">The Signature Series</p>
-        <h2 className="font-display text-4xl md:text-6xl text-foreground font-bold tracking-normal uppercase italic">
+        <h2 className="font-display text-4xl md:text-6xl text-foreground font-bold tracking-normal uppercase ">
           Combo
         </h2>
       </div>

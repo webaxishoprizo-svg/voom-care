@@ -76,7 +76,7 @@ const MobileVideoHero = () => {
             {/* Background Blur Glow */}
             <div className="absolute -inset-4 bg-primary/10 blur-2xl rounded-full opacity-50" />
             
-            <h2 className="relative font-display italic text-[3rem] md:text-[4rem] text-white leading-tight tracking-tighter drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
+            <h2 className="relative font-display  text-[3rem] md:text-[4rem] text-white leading-tight tracking-tighter drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
               {phrases[index].split(" ").map((word, i) => (
                 <span key={i} className="block first:ml-0 last:ml-8">
                   {word}

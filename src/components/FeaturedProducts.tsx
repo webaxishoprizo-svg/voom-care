@@ -73,7 +73,7 @@ const FeaturedProducts = () => {
                   <p className="text-primary text-[10px] md:text-xs tracking-[0.4em] uppercase mb-4 font-semibold">
                     The Combo Breakdown
                   </p>
-                  <h2 className="font-display text-4xl md:text-7xl text-white italic mb-6 tracking-tight leading-[1.05]">
+                  <h2 className="font-display text-4xl md:text-7xl text-white  mb-6 tracking-tight leading-[1.05]">
                     {product.name}
                   </h2>
                   <p className="text-white/65 text-sm md:text-base max-w-2xl mx-auto mb-10 leading-relaxed">
@@ -112,7 +112,7 @@ const FeaturedProducts = () => {
 
       {/* Slide Counter */}
       <div className="absolute top-10 right-10 z-30 hidden md:flex items-baseline gap-1">
-        <span className="text-white text-2xl font-display italic">{(currentIndex + 1).toString().padStart(2, '0')}</span>
+        <span className="text-white text-2xl font-display ">{(currentIndex + 1).toString().padStart(2, '0')}</span>
         <span className="text-white/20 text-xs font-bold">/ {products.length.toString().padStart(2, '0')}</span>
       </div>
     </section>

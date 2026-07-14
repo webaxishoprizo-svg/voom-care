@@ -42,7 +42,7 @@ Open **`src/lib/shopify/client.ts`** and update the constants inside
 
 ```ts
 const DEFAULT_SHOPIFY_CONFIG = {
-  domain: "shop.voomcare.com",
+  domain: "checkout.voomcare.com",
   apiVersion: "2024-04",
   accessToken: "<storefront-api-token>",
   publicClientId: "<PASTE CUSTOMER ACCOUNT API CLIENT ID HERE>",
@@ -63,7 +63,7 @@ For multi-environment deploys, prefer `.env` overrides so prod and preview can
 use different clients. Add to `.env.local` (and Vercel env vars):
 
 ```
-VITE_SHOPIFY_DOMAIN=shop.voomcare.com
+VITE_SHOPIFY_DOMAIN=checkout.voomcare.com
 VITE_SHOPIFY_ACCESS_TOKEN=<storefront-api-token>
 ```
 

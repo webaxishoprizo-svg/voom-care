@@ -6,7 +6,7 @@ const SHOP =
   process.env.SHOPIFY_DOMAIN ||
   process.env.VITE_SHOPIFY_DOMAIN ||
   process.env.SHOP ||
-  'shop.voomcare.com';
+  'checkout.voomcare.com';
 const ADMIN_API_TOKEN =
   process.env.SHOPIFY_ADMIN_API_TOKEN || process.env.ADMIN_API_TOKEN;
 const SHOP_ID =
@@ -292,7 +292,7 @@ export async function verifyOrderProduct(orderId: string, productId: string): Pr
 
     const result = await response.json();
     const lineItems = result.data?.order?.lineItems?.edges || [];
-    
+
     return lineItems.some((item: any) => item.node.product?.id === productId);
   } catch (error) {
     return false;

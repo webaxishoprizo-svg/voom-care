@@ -98,7 +98,7 @@ const BlogPostPage = () => {
                 ))}
               </div>
             )}
-            <h1 className="font-display italic text-[clamp(2rem,5vw,4rem)] text-foreground leading-tight">
+            <h1 className="font-display  text-[clamp(2rem,5vw,4rem)] text-foreground leading-tight">
               {post.title}
             </h1>
             <div className="flex items-center gap-3 text-sm text-muted-foreground">
@@ -117,7 +117,7 @@ const BlogPostPage = () => {
           ) : null}
 
           {post.excerpt && (
-            <p className="text-lg text-muted-foreground italic mb-8 leading-relaxed">{post.excerpt}</p>
+            <p className="text-lg text-muted-foreground  mb-8 leading-relaxed">{post.excerpt}</p>
           )}
 
           {post.content && (
