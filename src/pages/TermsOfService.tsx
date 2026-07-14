@@ -98,9 +98,10 @@ const TermsOfService = () => {
                 </div>
                 <div className="p-8 bg-white/[0.02] border border-white/5 rounded-3xl space-y-4">
                   <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">
-                    VOOM operates a <strong>Prepaid-Only</strong> model. All transactions must be cleared before shipment. Under our automated fulfillment protocol:
+                    VOOM operates a strict <strong>100% Prepaid-Only</strong> model. All transactions must be cleared through our secure payment gateway before shipment. Under our automated fulfillment protocol:
                   </p>
                   <ul className="list-disc pl-5 space-y-2 text-xs text-primary/70">
+                    <li><strong>We NEVER provide Cash on Delivery (COD) services.</strong> Any claims suggesting COD options are void.</li>
                     <li>Orders cannot be cancelled once payment is processed.</li>
                     <li>Addresses cannot be modified once the order enters "Processing" status.</li>
                     <li>Chargebacks without prior communication will be treated as fraudulent.</li>

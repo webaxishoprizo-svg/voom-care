@@ -76,7 +76,22 @@ const ShippingPolicy = () => {
                 </div>
               </div>
 
-              {/* 2. Risk of Loss & Liability */}
+              {/* 2. Strict Payment & COD Policy */}
+              <div className="space-y-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                    <CreditCard className="w-5 h-5" />
+                  </div>
+                  <h2 className="font-display text-2xl text-foreground m-0">2. No Cash on Delivery (COD)</h2>
+                </div>
+                <div className="p-8 bg-red-500/5 border border-red-500/10 rounded-3xl space-y-4">
+                  <p className="text-sm text-foreground font-medium leading-relaxed">
+                    VOOM strictly operates on a 100% prepaid model to ensure faster processing and prevent logistical fraud. <strong>We do NOT provide Cash on Delivery (COD) services under any circumstances.</strong> All orders must be fully paid upfront through our secure payment gateway before they are dispatched.
+                  </p>
+                </div>
+              </div>
+
+              {/* 3. Risk of Loss & Liability */}
               <div className="space-y-6">
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
@@ -91,13 +106,13 @@ const ShippingPolicy = () => {
                 </div>
               </div>
 
-              {/* 3. Address Accuracy & Non-Delivery */}
+              {/* 4. Address Accuracy & Non-Delivery */}
               <div className="space-y-6">
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
                     <MapPin className="w-5 h-5" />
                   </div>
-                  <h2 className="font-display text-2xl text-foreground m-0">3. Delivery Accuracy</h2>
+                  <h2 className="font-display text-2xl text-foreground m-0">4. Delivery Accuracy</h2>
                 </div>
                 <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">
                   The customer holds sole responsibility for providing accurate delivery data. In cases of failed delivery due to:
@@ -112,13 +127,13 @@ const ShippingPolicy = () => {
                 </p>
               </div>
 
-              {/* 4. Domestic Only Policy */}
+              {/* 5. Domestic Only Policy */}
               <div className="space-y-6">
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
                     <ShieldCheck className="w-5 h-5" />
                   </div>
-                  <h2 className="font-display text-2xl text-foreground m-0">4. Regional Restrictions</h2>
+                  <h2 className="font-display text-2xl text-foreground m-0">5. Regional Restrictions</h2>
                 </div>
                 <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">
                   VOOM currently offers shipping services strictly within India. We do not provide international shipping or delivery to restricted zones (e.g., military bases) without prior authorization.

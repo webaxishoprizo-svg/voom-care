@@ -52,7 +52,7 @@ const RefundPolicy = () => {
 
               <div className="space-y-4">
                 <p className="text-muted-foreground leading-relaxed text-lg font-light  text-center">
-                  VOOM operates a strict <strong>Replacement-Only</strong> policy. Due to the high-performance chemical nature of our products, all transactions are final. No monetary refunds will be issued under any circumstances.
+                  VOOM operates a strict <strong>Replacement-Only</strong> policy. Because we operate strictly on a 100% Prepaid model with <strong>NO Cash on Delivery (COD)</strong>, all completed transactions are final. No monetary refunds will be issued under any circumstances.
                 </p>
               </div>
 
