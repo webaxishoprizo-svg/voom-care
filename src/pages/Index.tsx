@@ -1,6 +1,5 @@
 import { lazy, Suspense } from "react";
 import Navbar from "@/components/Navbar";
-import HeroCarousel from "@/components/HeroCarousel";
 import MobileVideoHero from "@/components/MobileVideoHero";
 import TrustBadges from "@/components/TrustBadges";
 import ProductGrid from "@/components/ProductGrid";
@@ -94,9 +93,6 @@ const Index = () => {
 
       {/* 1. Hero */}
       <MobileVideoHero />
-      <div className="hidden lg:block">
-        <HeroCarousel />
-      </div>
 
       {/* 2. Marquee (temporarily hidden) */}
 

@@ -1,28 +1,18 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useHeroSlides } from "@/lib/shopify/hooks";
 import { useSiteMedia } from "@/lib/site-media";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 
 
 const HeroCarousel = () => {
-  const { data: shopifySlides, isLoading } = useHeroSlides();
-  const { data: media } = useSiteMedia();
+  const { data: media, isLoading } = useSiteMedia();
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay({ delay: 5000, stopOnInteraction: false })]);
-  const [isMobile, setIsMobile] = useState(false);
 
   const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
 
   // Admin-managed desktop hero. If provided, it becomes the primary slide.
   const adminDesktopVideo = media?.hero_desktop_video?.media_type === 'video' ? media.hero_desktop_video : null;
@@ -31,9 +21,9 @@ const HeroCarousel = () => {
   const adminMobileVideo = media?.hero_mobile_video?.media_type === 'video' ? media.hero_mobile_video : null;
 
   const slides = useMemo(() => {
-    const list = [...(shopifySlides || [])];
+    const list = [];
     if (adminDesktopVideo || adminDesktopImage) {
-      list.unshift({
+      list.push({
         id: 'admin-hero',
         title: adminDesktopImage?.alt || adminDesktopVideo?.alt || 'Signature Series',
         description: '',
@@ -45,7 +35,7 @@ const HeroCarousel = () => {
       } as any);
     }
     return list;
-  }, [shopifySlides, adminDesktopVideo, adminDesktopImage, adminMobileImage, adminMobileVideo]);
+  }, [adminDesktopVideo, adminDesktopImage, adminMobileImage, adminMobileVideo]);
 
   if (isLoading && !slides.length) {
     return <section className="relative h-screen w-full overflow-hidden bg-background" />;
@@ -61,39 +51,20 @@ const HeroCarousel = () => {
           {slides.map((slide) => (
             <div key={slide.id} className="relative flex-[0_0_100%] min-w-0 h-full">
               <div className="absolute inset-0">
-                {isMobile ? (
-                  slide.mobileVideo ? (
-                    <video
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      className="w-full h-full object-cover"
-                      poster={slide.mobileImage || slide.image}
-                    >
-                      <source src={slide.mobileVideo} type="video/mp4" />
-                    </video>
-                  ) : (
-                    <img
-                      src={slide.mobileImage || slide.image}
-                      alt={slide.title}
-                      className="w-full h-full object-cover"
-                    />
-                  )
-                ) : (slide as any).desktopVideo ? (
+                {slide.mobileVideo ? (
                   <video
                     autoPlay
                     muted
                     loop
                     playsInline
                     className="w-full h-full object-cover"
-                    poster={slide.image}
+                    poster={slide.mobileImage || slide.image}
                   >
-                    <source src={(slide as any).desktopVideo} type="video/mp4" />
+                    <source src={slide.mobileVideo} type="video/mp4" />
                   </video>
                 ) : (
                   <img
-                    src={slide.image}
+                    src={slide.mobileImage || slide.image}
                     alt={slide.title}
                     className="w-full h-full object-cover"
                   />

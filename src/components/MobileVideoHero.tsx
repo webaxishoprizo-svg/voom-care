@@ -39,7 +39,7 @@ const MobileVideoHero = () => {
 
 
   return (
-    <section className="relative h-screen w-full overflow-hidden lg:hidden bg-black">
+    <section className="relative h-screen w-full overflow-hidden bg-black">
       {/* Background Video */}
       <video
         key={videoSrc}
