@@ -19,6 +19,7 @@ export interface Product {
   tags: string[];
   discount?: number;
   availableForSale?: boolean;
+  inventoryQuantity?: number;
   details?: ProductDetails;
   source?: "shopify";
   heroImage?: string;

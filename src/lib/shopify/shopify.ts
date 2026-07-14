@@ -43,6 +43,7 @@ interface ShopifyProductNode {
   handle: string;
   description: string;
   availableForSale: boolean;
+  totalInventory?: number;
   tags: string[];
   images: {
     edges: Array<{ node: ShopifyImageNode }>;
@@ -167,8 +168,9 @@ const PRODUCT_FIELDS = `
   handle
   description
   availableForSale
+  totalInventory
   tags
-  images(first: 6) {
+  images(first: 250) {
     edges {
       node {
         url(transform: { maxWidth: 800, preferredContentType: WEBP })
@@ -382,6 +384,7 @@ function mapProduct(node: ShopifyProductNode): Product {
     tags: node.tags,
     discount: calculateDiscount(price, originalPrice),
     availableForSale: node.availableForSale ?? variant?.availableForSale ?? true,
+    inventoryQuantity: node.totalInventory ?? 0,
     details: {
       composition: parseMetafieldText(metafields.composition?.value),
       howToUse: parseMetafieldText(metafields.how_to_use?.value),

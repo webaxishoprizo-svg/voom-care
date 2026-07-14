@@ -227,10 +227,13 @@ const SingleProductFeatured = ({ product }: { product: Product }) => {
               <div className="space-y-1.5 max-w-xs pt-2">
                 <div className="flex justify-between text-[10px] font-semibold uppercase tracking-widest">
                   <span className="text-primary font-bold animate-pulse">Low Stock Warning</span>
-                  <span className="text-muted-foreground">Only 14 bundles left</span>
+                  <span className="text-muted-foreground">Only {product.inventoryQuantity ?? 14} bundles left</span>
                 </div>
                 <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
-                  <div className="w-[12%] h-full bg-primary rounded-full" />
+                  <div 
+                    className="h-full bg-primary rounded-full transition-all duration-1000" 
+                    style={{ width: `${Math.min(100, Math.max(5, product.inventoryQuantity ?? 14))}%` }} 
+                  />
                 </div>
               </div>
             </div>

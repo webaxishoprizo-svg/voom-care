@@ -244,14 +244,15 @@ const ProductDetail = () => {
             className="flex flex-col gap-4"
           >
             <div className="relative aspect-square rounded-2xl overflow-hidden bg-card border border-border group">
-              <div className="overflow-hidden h-full w-full" ref={emblaRef}>
+              <div className="overflow-hidden h-full w-full cursor-grab active:cursor-grabbing" ref={emblaRef}>
                 <div className="flex h-full w-full">
                   {allImages.map((img, idx) => (
                     <div key={idx} className="flex-[0_0_100%] min-w-0 h-full relative">
                       <img
                         src={img}
                         alt={`${product.name} - ${idx + 1}`}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover select-none"
+                        draggable={false}
                       />
                     </div>
                   ))}
@@ -279,12 +280,12 @@ const ProductDetail = () => {
             </div>
 
             {allImages.length > 1 && (
-              <div className="hidden md:grid grid-cols-4 gap-3">
+              <div className="hidden md:flex gap-3 overflow-x-auto pb-2 scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
                 {allImages.map((img, idx) => (
                   <button
                     key={idx}
                     onClick={() => scrollTo(idx)}
-                    className={`aspect-square rounded-xl overflow-hidden border-2 transition-all ${idx === selectedIndex
+                    className={`flex-[0_0_100px] aspect-square rounded-xl overflow-hidden border-2 transition-all ${idx === selectedIndex
                       ? "border-primary opacity-100"
                       : "border-transparent opacity-40 hover:opacity-100"
                       }`}
