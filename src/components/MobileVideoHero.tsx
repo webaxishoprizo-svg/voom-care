@@ -50,7 +50,7 @@ const MobileVideoHero = () => {
         preload="metadata"
         poster={posterSrc}
         className="absolute inset-0 w-full h-full object-cover opacity-80"
-        style={{ transform: "translateZ(0)" }}
+        style={{ transform: "translateZ(0) scale(1.25)", objectPosition: "45% center" }}
       >
         <source src={videoSrc} type="video/mp4" />
       </video>
@@ -66,8 +66,8 @@ const MobileVideoHero = () => {
           initial={{ opacity: 0, scale: 0.9, y: 10, filter: "blur(10px)" }}
           animate={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
           exit={{ opacity: 0, scale: 1.1, y: -10, filter: "blur(10px)" }}
-          transition={{ 
-            duration: 0.8, 
+          transition={{
+            duration: 0.8,
             ease: [0.16, 1, 0.3, 1] // Custom ease for premium feel
           }}
           className={`absolute p-6 z-20 pointer-events-none ${positions[index]}`}
@@ -75,7 +75,7 @@ const MobileVideoHero = () => {
           <div className="relative">
             {/* Background Blur Glow */}
             <div className="absolute -inset-4 bg-primary/10 blur-2xl rounded-full opacity-50" />
-            
+
             <h2 className="relative font-display  text-[3rem] md:text-[4rem] text-white leading-tight tracking-tighter drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
               {phrases[index].split(" ").map((word, i) => (
                 <span key={i} className="block first:ml-0 last:ml-8">
@@ -83,8 +83,8 @@ const MobileVideoHero = () => {
                 </span>
               ))}
             </h2>
-            
-            <motion.div 
+
+            <motion.div
               initial={{ width: 0 }}
               animate={{ width: "100%" }}
               transition={{ delay: 0.4, duration: 1 }}
@@ -96,7 +96,7 @@ const MobileVideoHero = () => {
 
       {/* Bottom Branding / Scroll Indicator */}
       <div className="absolute bottom-10 left-0 right-0 flex flex-col items-center gap-4 z-20 px-6">
-        <motion.p 
+        <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1 }}

@@ -57,7 +57,7 @@ const HeroCarousel = () => {
                     muted
                     loop
                     playsInline
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover scale-110 origin-center"
                     poster={slide.mobileImage || slide.image}
                   >
                     <source src={slide.mobileVideo} type="video/mp4" />
