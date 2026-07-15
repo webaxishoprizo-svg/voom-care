@@ -49,7 +49,7 @@ const PrivacyPolicy = () => {
           <div className="bg-card/40 backdrop-blur-md border border-white/5 rounded-[2.5rem] p-8 md:p-16 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)]">
 
             <div className="prose prose-invert prose-sm md:prose-base max-w-none space-y-16">
-              
+
               <div className="space-y-4">
                 <p className="text-muted-foreground leading-relaxed text-lg font-light ">
                   VOOM ("we," "us," or "our") is deeply committed to protecting your personal information and respecting your privacy. We operate this storefront to provide a curated shopping experience, powered by a headless architecture integrating with Shopify. This Privacy Policy outlines our comprehensive protocols for data collection, usage, and security, ensuring full compliance with the Information Technology Act, 2000, the Digital Personal Data Protection Act (DPDP) of India, and global best practices.
@@ -200,11 +200,11 @@ const PrivacyPolicy = () => {
                   <p className="text-xs text-muted-foreground/60 max-w-sm mx-auto font-light ">To exercise any of your rights, or for inquiries regarding this privacy policy, please contact our Grievance Officer.</p>
                 </div>
                 <div className="inline-flex flex-col gap-3">
-                  <a href="mailto:info.frenzogp@gmail.com" className="text-primary font-medium hover:underline text-lg">info.frenzogp@gmail.com</a>
+                  <a href="mailto:support@voomcare.com" className="text-primary font-medium hover:underline text-lg">support@voomcare.com</a>
                   <a href="tel:+919187331513" className="text-foreground/80 hover:text-foreground text-sm">+91 91 8733 1513</a>
                   <p className="text-xs text-muted-foreground/60 max-w-sm mx-auto mt-2">
-                    R SQUARE - COMMERCIAL BUILDING<br/>
-                    National Highway 66, Voom<br/>
+                    R SQUARE - COMMERCIAL BUILDING<br />
+                    National Highway 66, Voom<br />
                     673021 Kozhikode KL, India
                   </p>
                   <span className="text-[10px] text-muted-foreground/40 font-bold uppercase tracking-[0.3em] font-display mt-4">Data Protection Office</span>

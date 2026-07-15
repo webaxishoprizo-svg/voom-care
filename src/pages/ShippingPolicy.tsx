@@ -158,7 +158,7 @@ const ShippingPolicy = () => {
                   <p className="text-xs text-muted-foreground/60 max-w-sm mx-auto font-light ">Managing the flow of professional care products.</p>
                 </div>
                 <div className="inline-flex flex-col gap-2">
-                  <a href="mailto:info.frenzogp@gmail.com" className="text-primary font-medium hover:underline text-lg">info.frenzogp@gmail.com</a>
+                  <a href="mailto:support@voomcare.com" className="text-primary font-medium hover:underline text-lg">support@voomcare.com</a>
                   <span className="text-[10px] text-muted-foreground/40 font-bold uppercase tracking-[0.3em] font-display">Logistics Division</span>
                 </div>
               </div>

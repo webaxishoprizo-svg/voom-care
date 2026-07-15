@@ -139,7 +139,7 @@ const RefundPolicy = () => {
                   </p>
                 </div>
                 <div className="inline-flex flex-col gap-2">
-                  <a href="mailto:info.frenzogp@gmail.com" className="text-primary font-medium hover:underline text-lg">info.frenzogp@gmail.com</a>
+                  <a href="mailto:returns@voomcare.com" className="text-primary font-medium hover:underline text-lg">returns@voomcare.com</a>
                   <span className="text-[10px] text-muted-foreground/40 font-bold uppercase tracking-[0.3em] font-display">Compliance Office</span>
                 </div>
               </div>

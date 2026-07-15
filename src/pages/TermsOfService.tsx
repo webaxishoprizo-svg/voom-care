@@ -47,9 +47,9 @@ const TermsOfService = () => {
       <section className="pb-24 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="bg-card/40 backdrop-blur-md border border-white/5 rounded-[2.5rem] p-8 md:p-16 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)]">
-            
+
             <div className="prose prose-invert prose-sm md:prose-base max-w-none space-y-16">
-              
+
               <div className="space-y-4">
                 <p className="text-muted-foreground leading-relaxed text-lg font-light  text-center">
                   By accessing <span className="text-foreground font-medium underline underline-offset-4 decoration-primary/30">voomcare.com</span>, you entering into a legally binding agreement with VOOM. Failure to comply with these terms may result in immediate suspension of access and legal action.
@@ -173,7 +173,7 @@ const TermsOfService = () => {
                   <p className="text-xs text-muted-foreground/60 max-w-sm mx-auto font-light ">Strict adherence to these terms is mandatory for all transactions.</p>
                 </div>
                 <div className="inline-flex flex-col gap-2">
-                  <a href="mailto:info.frenzogp@gmail.com" className="text-primary font-medium hover:underline text-lg">info.frenzogp@gmail.com</a>
+                  <a href="mailto:support@voomcare.com" className="text-primary font-medium hover:underline text-lg">support@voomcare.com</a>
                   <span className="text-[10px] text-muted-foreground/40 font-bold uppercase tracking-[0.3em] font-display">Legal Department</span>
                 </div>
               </div>

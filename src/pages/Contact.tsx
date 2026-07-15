@@ -14,7 +14,7 @@ const infoCards = [
   {
     icon: Mail,
     label: "EMAIL",
-    value: "info.frenzogp@gmail.com",
+    value: "support@voomcare.com",
   },
   {
     icon: Phone,
@@ -97,7 +97,7 @@ const Contact = () => {
       name: "VOOM Care — Frenzo Group",
       image: "https://voomcare.com/og-image.jpg",
       url: "https://voomcare.com",
-      email: "info.frenzogp@gmail.com",
+      email: "support@voomcare.com",
       telephone: "+91-9187331513",
       priceRange: "₹₹",
       address: {
@@ -112,7 +112,7 @@ const Contact = () => {
       openingHoursSpecification: [
         {
           "@type": "OpeningHoursSpecification",
-          dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+          dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
           opens: "09:00",
           closes: "19:00",
         },
@@ -126,7 +126,7 @@ const Contact = () => {
     <main className="min-h-screen bg-background text-foreground">
       <SEO
         title="Contact Us | VOOM Premium Car Care"
-        description="Contact VOOM Care in Kozhikode, Kerala. Email info.frenzogp@gmail.com or call +91 91873 31513, Mon–Sat 9 AM–7 PM. We help with orders, detailing tips, and product support across India."
+        description="Contact VOOM Care in Kozhikode, Kerala. Email support@voomcare.com or call +91 91873 31513, Mon–Sat 9 AM–7 PM. We help with orders, detailing tips, and product support across India."
         keywords="contact VOOM, VOOM Care Kozhikode, car care support Kerala, car shampoo help India, detailing products contact"
         canonical="/contact"
         schema={contactSchema}
