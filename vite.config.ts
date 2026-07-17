@@ -160,14 +160,24 @@ export default defineConfig(({ mode }) => {
                        res.end(JSON.stringify({ error: `No recent orders found for this ${isEmail ? 'email' : 'phone number'}.` }));
                        return;
                     }
-                    const foundAwb = matchingOrder.awb_code || matchingOrder.shipments?.[0]?.awb || matchingOrder.shipments?.[0]?.awb_code;
+                    let targetAwb = matchingOrder.awb_code || matchingOrder.shipments?.[0]?.awb || matchingOrder.shipments?.[0]?.awb_code;
                     
-                    if (!foundAwb) {
+                    if (!targetAwb && matchingOrder.id) {
+                        const detailRes = await fetch(`https://apiv2.shiprocket.in/v1/external/orders/show/${matchingOrder.id}`, {
+                            headers: { Authorization: `Bearer ${authData.token}` }
+                        });
+                        if (detailRes.ok) {
+                            const detailData: any = await detailRes.json();
+                            const detailedOrder = detailData.data;
+                            targetAwb = detailedOrder?.awb_code || detailedOrder?.shipments?.[0]?.awb || detailedOrder?.shipments?.[0]?.awb_code;
+                        }
+                    }
+                    
+                    if (!targetAwb) {
                        res.statusCode = 404;
                        res.end(JSON.stringify({ error: "Your order is being processed and hasn't been shipped yet." }));
                        return;
                     }
-                    targetAwb = foundAwb;
 
                     const fallbackTrackRes = await fetch(`https://apiv2.shiprocket.in/v1/external/courier/track/awb/${targetAwb}`, {
                       headers: { Authorization: `Bearer ${authData.token}` }
