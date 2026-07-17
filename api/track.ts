@@ -26,7 +26,8 @@ async function getShiprocketToken(): Promise<string> {
   });
 
   if (!response.ok) {
-    throw new Error("Failed to authenticate with Shiprocket API.");
+    const errText = await response.text();
+    throw new Error(`Failed to authenticate with Shiprocket API. Response: ${response.status} ${errText}`);
   }
 
   const data = await response.json();
