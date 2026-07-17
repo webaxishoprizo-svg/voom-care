@@ -14,9 +14,7 @@ import { useHybridProducts } from "@/lib/shopify/hooks";
 import { formatCurrency } from "@/lib/utils";
 
 // --- No Mock Data ---
-
-];
-
+// --- No Mock Data ---
 export default function TrackOrder() {
   const [searchParams] = useSearchParams();
   const [orderId, setOrderId] = useState(searchParams.get("id") || "");
@@ -277,9 +275,9 @@ export default function TrackOrder() {
                   {recommendedProducts.map((prod, idx) => (
                     <div key={prod.id || idx} className="min-w-[140px] max-w-[140px] bg-white/[0.02] border border-white/[0.08] rounded-2xl p-3 flex flex-col">
                       <div className="w-full aspect-square bg-white/[0.02] rounded-xl mb-3 flex items-center justify-center p-2">
-                        <img src={prod.featuredImage || prod.image} alt={prod.title || prod.name} className="w-full h-full object-contain mix-blend-screen" />
+                        <img src={prod.image} alt={prod.name} className="w-full h-full object-contain mix-blend-screen" />
                       </div>
-                      <p className="text-xs font-medium mb-1 line-clamp-1">{prod.title || prod.name}</p>
+                      <p className="text-xs font-medium mb-1 line-clamp-1">{prod.name}</p>
                       <div className="flex items-center justify-between mt-auto">
                         <span className="text-xs font-semibold">{formatCurrency(prod.price)}</span>
                         <button className="w-6 h-6 bg-white rounded-full flex items-center justify-center hover:bg-[#E5E5E5]">
