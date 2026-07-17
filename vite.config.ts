@@ -132,7 +132,7 @@ export default defineConfig(({ mode }) => {
                         headers: { Authorization: `Bearer ${authData.token}` }
                     });
                     if (initialTrackRes.ok) {
-                        const tempData = await initialTrackRes.json();
+                        const tempData: any = await initialTrackRes.json();
                         if (!(tempData.tracking_data && tempData.tracking_data.error)) {
                             data = tempData;
                             trackSuccess = true;
@@ -172,7 +172,7 @@ export default defineConfig(({ mode }) => {
                     });
                     
                     if (fallbackTrackRes.ok) {
-                        const fallbackData = await fallbackTrackRes.json();
+                        const fallbackData: any = await fallbackTrackRes.json();
                         if (fallbackData.tracking_data && fallbackData.tracking_data.error) {
                             res.statusCode = 404;
                             res.end(JSON.stringify({ error: fallbackData.tracking_data.error }));

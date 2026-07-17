@@ -76,7 +76,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             headers: { Authorization: `Bearer ${token}` }
         });
         if (initialTrackRes.ok) {
-            const tempData = await initialTrackRes.json();
+            const tempData: any = await initialTrackRes.json();
             if (!(tempData.tracking_data && tempData.tracking_data.error)) {
                 data = tempData;
                 trackSuccess = true;
@@ -114,7 +114,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         });
         
         if (fallbackTrackRes.ok) {
-            const fallbackData = await fallbackTrackRes.json();
+            const fallbackData: any = await fallbackTrackRes.json();
             if (fallbackData.tracking_data && fallbackData.tracking_data.error) {
                 return res.status(404).json({ error: fallbackData.tracking_data.error });
             }
