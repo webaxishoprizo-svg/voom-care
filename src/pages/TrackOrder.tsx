@@ -87,12 +87,13 @@ export default function TrackOrder() {
             required
             className="flex-1 bg-white/[0.03] border-white/[0.08] h-12 text-sm focus:border-white/30 text-white rounded-xl placeholder:text-[#A8A8A8]"
           />
-          <Button 
+          <button 
+            type="submit"
             disabled={isSearching}
-            className="h-12 px-6 rounded-xl bg-white text-black hover:bg-[#E5E5E5] font-semibold text-sm transition-all"
+            className="h-12 px-6 rounded-xl bg-white text-black hover:bg-[#E5E5E5] font-semibold text-sm transition-all disabled:opacity-50 flex items-center justify-center"
           >
             {isSearching ? <RefreshCcw className="w-4 h-4 animate-spin" /> : "Track Order"}
-          </Button>
+          </button>
         </form>
 
         <AnimatePresence mode="wait">
