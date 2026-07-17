@@ -160,12 +160,14 @@ export default defineConfig(({ mode }) => {
                        res.end(JSON.stringify({ error: `No recent orders found for this ${isEmail ? 'email' : 'phone number'}.` }));
                        return;
                     }
-                    if (!matchingOrder.awb_code) {
+                    const foundAwb = matchingOrder.awb_code || matchingOrder.shipments?.[0]?.awb || matchingOrder.shipments?.[0]?.awb_code;
+                    
+                    if (!foundAwb) {
                        res.statusCode = 404;
                        res.end(JSON.stringify({ error: "Your order is being processed and hasn't been shipped yet." }));
                        return;
                     }
-                    targetAwb = matchingOrder.awb_code;
+                    targetAwb = foundAwb;
 
                     const fallbackTrackRes = await fetch(`https://apiv2.shiprocket.in/v1/external/courier/track/awb/${targetAwb}`, {
                       headers: { Authorization: `Bearer ${authData.token}` }

@@ -103,10 +103,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         if (!matchingOrder) {
            return res.status(404).json({ error: `No recent orders found for this ${isEmail ? 'email' : 'phone number'}.` });
         }
-        if (!matchingOrder.awb_code) {
+        const foundAwb = matchingOrder.awb_code || matchingOrder.shipments?.[0]?.awb || matchingOrder.shipments?.[0]?.awb_code;
+        
+        if (!foundAwb) {
            return res.status(404).json({ error: "Your order is being processed and hasn't been shipped yet." });
         }
-        targetAwb = matchingOrder.awb_code;
+        targetAwb = foundAwb;
 
         // Track the newly found AWB
         const fallbackTrackRes = await fetch(`https://apiv2.shiprocket.in/v1/external/courier/track/awb/${targetAwb}`, {
