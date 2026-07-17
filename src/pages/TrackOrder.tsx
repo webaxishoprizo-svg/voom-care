@@ -7,7 +7,7 @@ import {
   ExternalLink, Package, Home, HeadphonesIcon, User
 } from "lucide-react";
 import { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import SEO from "@/components/SEO";
 import { fetchTrackingDetails, TrackingDetails } from "@/services/tracking";
 import { useHybridProducts } from "@/lib/shopify/hooks";
@@ -18,6 +18,7 @@ import Footer from "@/components/Footer";
 // --- No Mock Data ---
 // --- No Mock Data ---
 export default function TrackOrder() {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [orderId, setOrderId] = useState(searchParams.get("id") || "");
   const [isSearching, setIsSearching] = useState(false);
@@ -277,28 +278,55 @@ export default function TrackOrder() {
 
 
               {/* Recommended Products */}
-              <div className="pt-2">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-sm font-semibold">You May Also Like</h3>
-                  <button className="text-[10px] text-[#A8A8A8] hover:text-white transition-colors">View All</button>
+              {recommendedProducts.length > 0 && (
+                <div className="pt-6 border-t border-white/[0.08] mt-6">
+                  <p className="text-[10px] tracking-[0.3em] uppercase text-[#A8A8A8] text-center mb-1">
+                    You May Also Like
+                  </p>
+                  <h2 className="font-display text-2xl text-foreground text-center mb-6">
+                    Recommended
+                  </h2>
+                  <div className="grid grid-cols-2 gap-4">
+                    {recommendedProducts.map((prod, index) => (
+                      <motion.div
+                        key={prod.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: index * 0.1 }}
+                        onClick={() => {
+                          navigate(`/product/${prod.id}`);
+                          window.scrollTo(0, 0);
+                        }}
+                        className="group cursor-pointer bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/30 transition-all flex flex-col"
+                      >
+                        <div className="aspect-square overflow-hidden bg-white/[0.02]">
+                          <img
+                            src={prod.image}
+                            alt={prod.name}
+                            className="w-full h-full object-cover mix-blend-screen group-hover:scale-105 transition-transform duration-500"
+                          />
+                        </div>
+                        <div className="p-3 md:p-4 flex flex-col flex-1">
+                          <h3 className="font-display text-sm md:text-base text-foreground line-clamp-2">
+                            {prod.name}
+                          </h3>
+                          <div className="flex items-center gap-2 mt-auto pt-2">
+                            <span className="text-primary font-semibold text-sm">
+                              {formatCurrency(prod.price, prod.currencyCode)}
+                            </span>
+                            {prod.originalPrice && (
+                              <span className="text-muted-foreground text-[10px] md:text-xs line-through">
+                                {formatCurrency(prod.originalPrice, prod.currencyCode)}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
                 </div>
-                <div className="flex gap-3 overflow-x-auto hide-scrollbar pb-2">
-                  {recommendedProducts.map((prod, idx) => (
-                    <div key={prod.id || idx} className="min-w-[140px] max-w-[140px] bg-white/[0.02] border border-white/[0.08] rounded-2xl p-3 flex flex-col">
-                      <div className="w-full aspect-square bg-white/[0.02] rounded-xl mb-3 flex items-center justify-center p-2">
-                        <img src={prod.image} alt={prod.name} className="w-full h-full object-contain mix-blend-screen" />
-                      </div>
-                      <p className="text-xs font-medium mb-1 line-clamp-1">{prod.name}</p>
-                      <div className="flex items-center justify-between mt-auto">
-                        <span className="text-xs font-semibold">{formatCurrency(prod.price)}</span>
-                        <button className="w-6 h-6 bg-white rounded-full flex items-center justify-center hover:bg-[#E5E5E5]">
-                          <ShoppingCart className="w-3 h-3 text-black" />
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              )}
 
               {/* Review Section */}
               <div className="bg-white/[0.02] border border-white/[0.08] rounded-[20px] p-5 flex items-center justify-between">
