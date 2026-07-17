@@ -55,6 +55,7 @@ export default function TrackOrder() {
   const [trackingData, setTrackingData] = useState<TrackingDetails | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [reviewFormOpen, setReviewFormOpen] = useState(false);
+  const [showDetailedTracking, setShowDetailedTracking] = useState(false);
 
   // Fetch real products for recommendations
   const catalogQuery = useHybridProducts();
@@ -229,6 +230,58 @@ export default function TrackOrder() {
                     })
                   )}
                 </div>
+
+                {/* Flipkart Style Detailed Tracking Expansion */}
+                {trackingData.activities.length > 0 && (
+                  <div className="mt-4 pt-4 border-t border-white/[0.08]">
+                    <button 
+                      onClick={() => setShowDetailedTracking(!showDetailedTracking)}
+                      className="w-full flex items-center justify-center gap-1.5 text-xs text-[#22C55E] font-medium hover:text-[#22C55E]/80 transition-colors"
+                    >
+                      {showDetailedTracking ? 'Hide Details' : 'View Detailed Tracking'}
+                      <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${showDetailedTracking ? 'rotate-180' : ''}`} />
+                    </button>
+                    
+                    <AnimatePresence>
+                      {showDetailedTracking && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="pt-6 pb-2 px-1">
+                            {trackingData.activities.map((activity, idx, arr) => (
+                              <div key={idx} className="flex gap-4 relative mb-6 last:mb-0">
+                                {/* Vertical Connecting Line */}
+                                {idx !== arr.length - 1 && (
+                                  <div className="absolute top-[14px] bottom-[-24px] left-[6px] w-[2px] bg-[#22C55E]" />
+                                )}
+                                {/* Dot */}
+                                <div className="relative z-10 mt-1 shrink-0">
+                                  <div className="w-3.5 h-3.5 rounded-full bg-[#22C55E] ring-4 ring-[#151515]" />
+                                </div>
+                                {/* Content */}
+                                <div>
+                                  <p className="text-xs font-semibold text-white">{activity.activity}</p>
+                                  {activity.location && (
+                                    <p className="text-[10px] text-[#A8A8A8] mt-0.5">{activity.location}</p>
+                                  )}
+                                  <p className="text-[10px] text-[#A8A8A8] mt-0.5">
+                                    {new Date(activity.date).toLocaleString("en-IN", { 
+                                      month: 'short', day: 'numeric', year: 'numeric', 
+                                      hour: 'numeric', minute: '2-digit', hour12: true 
+                                    })}
+                                  </p>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                )}
               </div>
 
               {/* Live Tracking Map Card */}
