@@ -124,8 +124,11 @@ export default function TrackOrder() {
                   </div>
                   <div className="text-right">
                     <p className="text-[#A8A8A8] text-xs mb-0.5">Estimated Delivery</p>
-                    <p className="font-semibold text-sm">{trackingData.expectedDeliveryDate.split(" ")[0] || "Calculating"}</p>
-                    <p className="text-[#22C55E] text-xs font-medium">Tomorrow</p>
+                    <p className="font-semibold text-sm">
+                      {trackingData.expectedDeliveryDate && trackingData.expectedDeliveryDate !== "Calculating..." 
+                        ? new Date(trackingData.expectedDeliveryDate).toLocaleDateString("en-IN", { day: 'numeric', month: 'short', year: 'numeric' })
+                        : "Pending"}
+                    </p>
                   </div>
                 </div>
 
@@ -153,29 +156,36 @@ export default function TrackOrder() {
 
               {/* Progress Timeline (Horizontal) */}
               <div className="bg-white/[0.02] border border-white/[0.08] rounded-[20px] p-6 overflow-x-auto hide-scrollbar">
-                <div className="flex items-center min-w-[500px] justify-between relative">
+                <div className="flex items-center min-w-min gap-12 justify-between relative px-2">
                   {/* Background Line */}
                   <div className="absolute top-4 left-4 right-4 h-[2px] bg-white/[0.08] -z-10" />
                   
                   {/* Progress Line */}
-                  <div className="absolute top-4 left-4 h-[2px] bg-white w-3/4 -z-10" />
+                  <div className="absolute top-4 left-4 h-[2px] bg-white -z-10" style={{ width: trackingData.activities.length > 1 ? '100%' : '0%' }} />
 
                   {/* Steps */}
-                  {["Order Confirmed", "Packed", "Shipped", "In Transit", "Delivered"].map((step, idx) => {
-                    const isCompleted = idx < 3;
-                    const isCurrent = idx === 3;
-                    return (
-                      <div key={step} className="flex flex-col items-center gap-2">
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center border-2 ${isCompleted ? 'bg-white border-white text-black' : isCurrent ? 'bg-[#0D0D0D] border-white text-white' : 'bg-[#0D0D0D] border-white/[0.15] text-[#A8A8A8]'}`}>
-                           {isCompleted ? <CheckCircle2 className="w-4 h-4" /> : isCurrent ? <Truck className="w-4 h-4" /> : <div className="w-2 h-2 rounded-full bg-white/[0.15]" />}
+                  {trackingData.activities.length === 0 ? (
+                     <p className="text-xs text-muted-foreground">No tracking updates yet.</p>
+                  ) : (
+                    [...trackingData.activities].reverse().map((activity, idx, arr) => {
+                      const isCurrent = idx === arr.length - 1;
+                      const isCompleted = idx < arr.length - 1;
+                      
+                      return (
+                        <div key={idx} className="flex flex-col items-center gap-2 min-w-[80px]">
+                          <div className={`w-8 h-8 rounded-full flex items-center justify-center border-2 ${isCompleted ? 'bg-white border-white text-black' : isCurrent ? 'bg-[#0D0D0D] border-white text-white' : 'bg-[#0D0D0D] border-white/[0.15] text-[#A8A8A8]'}`}>
+                             {isCompleted ? <CheckCircle2 className="w-4 h-4" /> : <Truck className="w-4 h-4" />}
+                          </div>
+                          <div className="text-center">
+                            <p className={`text-[10px] font-semibold ${isCompleted || isCurrent ? 'text-white' : 'text-[#A8A8A8]'} line-clamp-2 leading-tight px-1`}>{activity.activity}</p>
+                            <p className="text-[9px] text-[#A8A8A8] mt-0.5 whitespace-nowrap">
+                              {new Date(activity.date).toLocaleDateString("en-IN", { day: 'numeric', month: 'short' })}
+                            </p>
+                          </div>
                         </div>
-                        <div className="text-center">
-                          <p className={`text-[10px] font-semibold ${isCompleted || isCurrent ? 'text-white' : 'text-[#A8A8A8]'}`}>{step}</p>
-                          <p className="text-[9px] text-[#A8A8A8] mt-0.5">{isCompleted ? '13 Jul' : '-'}</p>
-                        </div>
-                      </div>
-                    )
-                  })}
+                      )
+                    })
+                  )}
                 </div>
               </div>
 
