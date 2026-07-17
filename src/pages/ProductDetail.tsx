@@ -416,17 +416,17 @@ const ProductDetail = () => {
 
         {/* Laptop UI: Detail cards moved below the product grid */}
         {detailCards.length > 0 && (
-          <div className="max-w-6xl mx-auto hidden md:grid md:grid-cols-3 gap-8 mt-16">
+          <div className="max-w-6xl mx-auto hidden md:grid md:grid-cols-3 gap-6 mt-12">
             {detailCards.map((card) => (
               <div
                 key={card.title}
-                className="bg-card border border-border rounded-2xl p-8 flex flex-col items-center text-center hover:border-primary/30 transition-colors"
+                className="bg-card border border-border rounded-2xl p-6 flex flex-col items-center text-center hover:border-primary/30 transition-colors"
               >
-                <div className="w-16 h-16 rounded-full bg-primary/5 flex items-center justify-center mb-6">
-                  <card.icon className="w-8 h-8 text-primary" />
+                <div className="w-12 h-12 rounded-full bg-primary/5 flex items-center justify-center mb-4">
+                  <card.icon className="w-6 h-6 text-primary" />
                 </div>
-                <h3 className="text-lg font-bold text-foreground mb-4">{card.title}</h3>
-                <p className="text-sm text-muted-foreground whitespace-pre-line leading-relaxed">
+                <h3 className="text-base font-bold text-foreground mb-3">{card.title}</h3>
+                <p className="text-[13px] text-muted-foreground whitespace-pre-line leading-relaxed">
                   {card.content}
                 </p>
               </div>
