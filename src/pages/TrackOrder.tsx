@@ -12,6 +12,8 @@ import SEO from "@/components/SEO";
 import { fetchTrackingDetails, TrackingDetails } from "@/services/tracking";
 import { useHybridProducts } from "@/lib/shopify/hooks";
 import { formatCurrency } from "@/lib/utils";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 // --- No Mock Data ---
 // --- No Mock Data ---
@@ -54,23 +56,16 @@ export default function TrackOrder() {
   };
 
   return (
-    <main className="min-h-screen bg-[#0D0D0D] text-white selection:bg-white/20 pb-24 font-sans">
+    <div className="min-h-screen bg-background text-foreground selection:bg-white/20 font-sans flex flex-col">
       <SEO
         title="Track Your Order | VOOM Premium Car Care"
         description="Track your VOOM Care order in real-time."
         canonical="/track-order"
       />
 
-      {/* Minimal Header */}
-      <header className="flex items-center justify-between px-6 py-4 border-b border-white/[0.08] sticky top-0 bg-[#0D0D0D]/80 backdrop-blur-md z-50">
-        <div className="w-8" /> {/* Spacer */}
-        <img src="https://voomcare.com/cdn/shop/files/VOOM_LOGO_Design_White_6c0032e2-cb9f-4318-ae38-3ddf2eb89b2f.png" alt="VOOM" className="h-4 object-contain" />
-        <button className="w-8 h-8 flex items-center justify-end">
-          <ShoppingCart className="w-5 h-5 text-white" />
-        </button>
-      </header>
+      <Navbar />
       
-      <div className="px-4 py-8 max-w-[480px] mx-auto space-y-6">
+      <main className="flex-1 px-4 py-12 pt-28 max-w-[480px] w-full mx-auto space-y-6">
         
         {/* Title Section */}
         <div>
@@ -311,33 +306,15 @@ export default function TrackOrder() {
              </div>
           )}
         </AnimatePresence>
-      </div>
+      </main>
 
-      {/* Bottom Fixed Navigation (Mobile) */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-[#0D0D0D]/90 backdrop-blur-xl border-t border-white/[0.08] pb-safe pt-2 px-6 flex justify-between items-center z-50 md:hidden">
-        <button className="flex flex-col items-center gap-1 p-2 text-[#A8A8A8] hover:text-white transition-colors">
-          <Home className="w-5 h-5" />
-          <span className="text-[9px] font-medium">Home</span>
-        </button>
-        <button className="flex flex-col items-center gap-1 p-2 text-white">
-          <Package className="w-5 h-5" />
-          <span className="text-[9px] font-medium">Orders</span>
-        </button>
-        <button className="flex flex-col items-center gap-1 p-2 text-[#A8A8A8] hover:text-white transition-colors">
-          <HeadphonesIcon className="w-5 h-5" />
-          <span className="text-[9px] font-medium">Support</span>
-        </button>
-        <button className="flex flex-col items-center gap-1 p-2 text-[#A8A8A8] hover:text-white transition-colors">
-          <User className="w-5 h-5" />
-          <span className="text-[9px] font-medium">Account</span>
-        </button>
-      </nav>
+      <Footer />
       
       {/* Hide scrollbar styles */}
       <style>{`
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
-    </main>
+    </div>
   );
 }
