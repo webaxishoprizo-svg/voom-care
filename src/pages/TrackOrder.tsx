@@ -119,7 +119,7 @@ export default function TrackOrder() {
         {/* Search Card */}
         <form onSubmit={handleTrack} className="flex gap-2">
           <Input
-            placeholder="Tracking ID / Email / Phone"
+            placeholder="Tracking ID / Email"
             value={orderId}
             onChange={(e) => setOrderId(e.target.value)}
             required
