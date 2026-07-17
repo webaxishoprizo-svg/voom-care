@@ -396,7 +396,7 @@ const ProductDetail = () => {
             </div>
 
             {detailCards.length > 0 && (
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:hidden mt-6">
                 {detailCards.map((card) => (
                   <div
                     key={card.title}
@@ -413,6 +413,26 @@ const ProductDetail = () => {
             )}
           </motion.div>
         </div>
+
+        {/* Laptop UI: Detail cards moved below the product grid */}
+        {detailCards.length > 0 && (
+          <div className="max-w-6xl mx-auto hidden md:grid md:grid-cols-3 gap-8 mt-16">
+            {detailCards.map((card) => (
+              <div
+                key={card.title}
+                className="bg-card border border-border rounded-2xl p-8 flex flex-col items-center text-center hover:border-primary/30 transition-colors"
+              >
+                <div className="w-16 h-16 rounded-full bg-primary/5 flex items-center justify-center mb-6">
+                  <card.icon className="w-8 h-8 text-primary" />
+                </div>
+                <h3 className="text-lg font-bold text-foreground mb-4">{card.title}</h3>
+                <p className="text-sm text-muted-foreground whitespace-pre-line leading-relaxed">
+                  {card.content}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
       </section>
 
       <ReviewSection
