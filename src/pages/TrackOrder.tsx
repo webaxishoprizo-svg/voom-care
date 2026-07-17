@@ -10,6 +10,8 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import SEO from "@/components/SEO";
 import { fetchTrackingDetails, TrackingDetails } from "@/services/tracking";
+import { useHybridProducts } from "@/lib/shopify/hooks";
+import { formatCurrency } from "@/lib/utils";
 
 // --- Mock Data for UI Completeness ---
 const FAQ_ITEMS = [
@@ -19,10 +21,6 @@ const FAQ_ITEMS = [
   { q: "How do I contact support?", a: "You can reach us via WhatsApp, phone, or email using the buttons above." },
 ];
 
-const RECOMMENDED_PRODUCTS = [
-  { name: "Tyre Polish", price: "₹149", image: "https://voomcare.com/cdn/shop/files/tyre_1.png" },
-  { name: "Car Shampoo", price: "₹149", image: "https://voomcare.com/cdn/shop/files/shampoo.png" },
-  { name: "Dash Cleaner", price: "₹149", image: "https://voomcare.com/cdn/shop/files/dash.png" },
 ];
 
 export default function TrackOrder() {
@@ -32,6 +30,13 @@ export default function TrackOrder() {
   const [trackingData, setTrackingData] = useState<TrackingDetails | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
+
+  // Fetch real products for recommendations
+  const catalogQuery = useHybridProducts();
+  const catalog = catalogQuery.data || [];
+  const recommendedProducts = catalog
+    .filter((item) => item.price > 0)
+    .slice(0, 5);
 
   const performSearch = async (idToSearch: string) => {
     if (!idToSearch) return;
@@ -353,14 +358,14 @@ export default function TrackOrder() {
                   <button className="text-[10px] text-[#A8A8A8] hover:text-white transition-colors">View All</button>
                 </div>
                 <div className="flex gap-3 overflow-x-auto hide-scrollbar pb-2">
-                  {RECOMMENDED_PRODUCTS.map((prod, idx) => (
-                    <div key={idx} className="min-w-[140px] bg-white/[0.02] border border-white/[0.08] rounded-2xl p-3 flex flex-col">
-                      <div className="w-full aspect-square bg-[#111] rounded-xl mb-3 flex items-center justify-center p-2">
-                        <img src={prod.image} alt={prod.name} className="w-full h-full object-contain mix-blend-screen" />
+                  {recommendedProducts.map((prod, idx) => (
+                    <div key={prod.id || idx} className="min-w-[140px] max-w-[140px] bg-white/[0.02] border border-white/[0.08] rounded-2xl p-3 flex flex-col">
+                      <div className="w-full aspect-square bg-white/[0.02] rounded-xl mb-3 flex items-center justify-center p-2">
+                        <img src={prod.featuredImage || prod.image} alt={prod.title || prod.name} className="w-full h-full object-contain mix-blend-screen" />
                       </div>
-                      <p className="text-xs font-medium mb-1 line-clamp-1">{prod.name}</p>
+                      <p className="text-xs font-medium mb-1 line-clamp-1">{prod.title || prod.name}</p>
                       <div className="flex items-center justify-between mt-auto">
-                        <span className="text-xs font-semibold">{prod.price}</span>
+                        <span className="text-xs font-semibold">{formatCurrency(prod.price)}</span>
                         <button className="w-6 h-6 bg-white rounded-full flex items-center justify-center hover:bg-[#E5E5E5]">
                           <ShoppingCart className="w-3 h-3 text-black" />
                         </button>
