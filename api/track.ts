@@ -62,11 +62,30 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const token = await getShiprocketToken();
 
-    let targetAwb = awb;
-    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(awb);
-    const isPhone = /^\+?[0-9]{10,15}$/.test(awb.replace(/[\s-]/g, ''));
+    const cleanAwb = awb.trim();
+    let targetAwb = cleanAwb;
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanAwb);
+    const isPhone = /^\+?[0-9]{10,15}$/.test(cleanAwb.replace(/[\s-]/g, ''));
 
-    if (isEmail || isPhone) {
+    let data: any = null;
+    let trackSuccess = false;
+
+    // Try tracking directly if it's not explicitly an email
+    if (!isEmail) {
+        const initialTrackRes = await fetch(`https://apiv2.shiprocket.in/v1/external/courier/track/awb/${cleanAwb}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        if (initialTrackRes.ok) {
+            const tempData = await initialTrackRes.json();
+            if (!(tempData.tracking_data && tempData.tracking_data.error)) {
+                data = tempData;
+                trackSuccess = true;
+            }
+        }
+    }
+
+    // If direct tracking failed (or it's an email), try order search
+    if (!trackSuccess && (isEmail || isPhone)) {
         const ordersRes = await fetch(`https://apiv2.shiprocket.in/v1/external/orders?per_page=100`, {
           headers: { Authorization: `Bearer ${token}` }
         });
@@ -77,8 +96,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const matchingOrder = orders.find((o: any) => {
            const oEmail = o.customer_email || o.billing_email || "";
            const oPhone = o.customer_phone || o.billing_phone || "";
-           return (isEmail && oEmail.toLowerCase() === awb.toLowerCase()) || 
-                  (isPhone && oPhone.replace(/[\s-]/g, '').includes(awb.replace(/[\s-]/g, '')));
+           return (isEmail && oEmail.toLowerCase() === cleanAwb.toLowerCase()) || 
+                  (isPhone && oPhone.replace(/[\s-]/g, '').includes(cleanAwb.replace(/[\s-]/g, '')));
         });
         
         if (!matchingOrder) {
@@ -88,28 +107,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
            return res.status(404).json({ error: "Your order is being processed and hasn't been shipped yet." });
         }
         targetAwb = matchingOrder.awb_code;
+
+        // Track the newly found AWB
+        const fallbackTrackRes = await fetch(`https://apiv2.shiprocket.in/v1/external/courier/track/awb/${targetAwb}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        
+        if (fallbackTrackRes.ok) {
+            const fallbackData = await fallbackTrackRes.json();
+            if (fallbackData.tracking_data && fallbackData.tracking_data.error) {
+                return res.status(404).json({ error: fallbackData.tracking_data.error });
+            }
+            data = fallbackData;
+            trackSuccess = true;
+        }
     }
 
-    const trackResponse = await fetch(`https://apiv2.shiprocket.in/v1/external/courier/track/awb/${targetAwb}`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (!trackResponse.ok) {
-      if (trackResponse.status === 404) {
-         return res.status(404).json({ error: "Tracking ID not found." });
-      }
-      throw new Error(`Shiprocket tracking API failed with status: ${trackResponse.status}`);
-    }
-
-    const data = await trackResponse.json();
-
-    // The tracking API might return data in different formats based on tracking status.
-    // Usually it's in data.tracking_data
-    if (data.tracking_data && data.tracking_data.error) {
-       return res.status(404).json({ error: data.tracking_data.error });
+    if (!trackSuccess || !data) {
+        return res.status(404).json({ error: "Tracking ID not found." });
     }
 
     const shipmentTrack = data.tracking_data?.shipment_track?.[0];

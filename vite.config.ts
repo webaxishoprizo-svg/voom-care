@@ -119,11 +119,28 @@ export default defineConfig(({ mode }) => {
                 if (!authRes.ok) throw new Error("Auth failed");
                 const authData: any = await authRes.json();
                 
-                let targetAwb = awb;
-                const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(awb);
-                const isPhone = /^\+?[0-9]{10,15}$/.test(awb.replace(/[\s-]/g, ''));
+                const cleanAwb = awb.trim();
+                let targetAwb = cleanAwb;
+                const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanAwb);
+                const isPhone = /^\+?[0-9]{10,15}$/.test(cleanAwb.replace(/[\s-]/g, ''));
             
-                if (isEmail || isPhone) {
+                let data: any = null;
+                let trackSuccess = false;
+
+                if (!isEmail) {
+                    const initialTrackRes = await fetch(`https://apiv2.shiprocket.in/v1/external/courier/track/awb/${cleanAwb}`, {
+                        headers: { Authorization: `Bearer ${authData.token}` }
+                    });
+                    if (initialTrackRes.ok) {
+                        const tempData = await initialTrackRes.json();
+                        if (!(tempData.tracking_data && tempData.tracking_data.error)) {
+                            data = tempData;
+                            trackSuccess = true;
+                        }
+                    }
+                }
+
+                if (!trackSuccess && (isEmail || isPhone)) {
                     const ordersRes = await fetch(`https://apiv2.shiprocket.in/v1/external/orders?per_page=100`, {
                       headers: { Authorization: `Bearer ${authData.token}` }
                     });
@@ -134,8 +151,8 @@ export default defineConfig(({ mode }) => {
                     const matchingOrder = orders.find((o: any) => {
                        const oEmail = o.customer_email || o.billing_email || "";
                        const oPhone = o.customer_phone || o.billing_phone || "";
-                       return (isEmail && oEmail.toLowerCase() === awb.toLowerCase()) || 
-                              (isPhone && oPhone.replace(/[\s-]/g, '').includes(awb.replace(/[\s-]/g, '')));
+                       return (isEmail && oEmail.toLowerCase() === cleanAwb.toLowerCase()) || 
+                              (isPhone && oPhone.replace(/[\s-]/g, '').includes(cleanAwb.replace(/[\s-]/g, '')));
                     });
                     
                     if (!matchingOrder) {
@@ -149,26 +166,27 @@ export default defineConfig(({ mode }) => {
                        return;
                     }
                     targetAwb = matchingOrder.awb_code;
-                }
 
-                const trackRes = await fetch(`https://apiv2.shiprocket.in/v1/external/courier/track/awb/${targetAwb}`, {
-                  headers: { Authorization: `Bearer ${authData.token}` }
-                });
-                
-                if (!trackRes.ok) {
-                   if (trackRes.status === 404) {
-                     res.statusCode = 404;
-                     res.end(JSON.stringify({ error: "Tracking ID not found." }));
-                     return;
-                   }
-                   throw new Error("Track failed");
+                    const fallbackTrackRes = await fetch(`https://apiv2.shiprocket.in/v1/external/courier/track/awb/${targetAwb}`, {
+                      headers: { Authorization: `Bearer ${authData.token}` }
+                    });
+                    
+                    if (fallbackTrackRes.ok) {
+                        const fallbackData = await fallbackTrackRes.json();
+                        if (fallbackData.tracking_data && fallbackData.tracking_data.error) {
+                            res.statusCode = 404;
+                            res.end(JSON.stringify({ error: fallbackData.tracking_data.error }));
+                            return;
+                        }
+                        data = fallbackData;
+                        trackSuccess = true;
+                    }
                 }
                 
-                const data: any = await trackRes.json();
-                if (data.tracking_data && data.tracking_data.error) {
-                   res.statusCode = 404;
-                   res.end(JSON.stringify({ error: data.tracking_data.error }));
-                   return;
+                if (!trackSuccess || !data) {
+                    res.statusCode = 404;
+                    res.end(JSON.stringify({ error: "Tracking ID not found." }));
+                    return;
                 }
                 
                 const shipmentTrack = data.tracking_data?.shipment_track?.[0];
