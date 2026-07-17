@@ -246,16 +246,21 @@ export default function TrackOrder() {
                   <h3 className="text-sm font-semibold">Need Help?</h3>
                   <p className="text-[#A8A8A8] text-xs">We're here for you.</p>
                 </div>
-                <div className="grid grid-cols-3 gap-2">
-                  <button className="flex items-center justify-center gap-2 bg-white/[0.03] border border-white/[0.08] py-2.5 rounded-xl hover:bg-white/[0.08] transition-colors text-xs font-medium">
+                <div className="grid grid-cols-2 gap-2">
+                  <a 
+                    href={`https://wa.me/919187331513?text=Hi%20VOOM%20Care,%20I%20need%20help%20with%20my%20order%20${trackingData.orderId}`} 
+                    target="_blank" 
+                    rel="noreferrer" 
+                    className="flex items-center justify-center gap-2 bg-white/[0.03] border border-white/[0.08] py-2.5 rounded-xl hover:bg-white/[0.08] transition-colors text-xs font-medium text-white"
+                  >
                      <MessageCircle className="w-4 h-4" /> WhatsApp
-                  </button>
-                  <button className="flex items-center justify-center gap-2 bg-white/[0.03] border border-white/[0.08] py-2.5 rounded-xl hover:bg-white/[0.08] transition-colors text-xs font-medium">
-                     <Phone className="w-4 h-4" /> Call
-                  </button>
-                  <button className="flex items-center justify-center gap-2 bg-white/[0.03] border border-white/[0.08] py-2.5 rounded-xl hover:bg-white/[0.08] transition-colors text-xs font-medium">
+                  </a>
+                  <a 
+                    href={`mailto:support@voomcare.com?subject=Help%20with%20Order%20${trackingData.orderId}`} 
+                    className="flex items-center justify-center gap-2 bg-white/[0.03] border border-white/[0.08] py-2.5 rounded-xl hover:bg-white/[0.08] transition-colors text-xs font-medium text-white"
+                  >
                      <Mail className="w-4 h-4" /> Email
-                  </button>
+                  </a>
                 </div>
               </div>
 
