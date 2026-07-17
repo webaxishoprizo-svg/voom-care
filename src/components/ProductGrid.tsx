@@ -67,11 +67,10 @@ const ProductCard = ({ product, index, x, itemWidth, productsCount }: {
         )}
 
         <button
-          className={`absolute top-4 right-4 z-10 w-9 h-9 rounded-md backdrop-blur-sm flex items-center justify-center transition-all ${
-            isInWishlist(product.id)
+          className={`absolute top-4 right-4 z-10 w-9 h-9 rounded-md backdrop-blur-sm flex items-center justify-center transition-all ${isInWishlist(product.id)
               ? "bg-primary/20 text-primary opacity-100"
               : "bg-background/40 text-foreground/70 hover:text-foreground hover:bg-background/60 opacity-0 group-hover:opacity-100"
-          }`}
+            }`}
           onClick={(e) => {
             e.stopPropagation();
             toggleWishlist(product);
@@ -131,11 +130,11 @@ const SingleProductFeatured = ({ product }: { product: Product }) => {
       const midnight = new Date();
       midnight.setHours(24, 0, 0, 0);
       const diff = midnight.getTime() - now.getTime();
-      
+
       const hours = Math.max(0, Math.floor(diff / (1000 * 60 * 60)));
       const minutes = Math.max(0, Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)));
       const seconds = Math.max(0, Math.floor((diff % (1000 * 60)) / 1000));
-      
+
       setTimeLeft({ hours, minutes, seconds });
     }, 1000);
     return () => clearInterval(interval);
@@ -217,7 +216,7 @@ const SingleProductFeatured = ({ product }: { product: Product }) => {
               <h3 className="font-display text-4xl lg:text-6xl text-foreground  tracking-tight leading-[1.1]">
                 {product.name}
               </h3>
-              
+
               <p className="text-muted-foreground text-sm lg:text-base leading-relaxed max-w-sm">
                 <span className="md:hidden">Professional kit for a perfect showroom finish.</span>
                 <span className="hidden md:inline">The ultimate comprehensive car care kit. Professional formulas combined for a perfect, long-lasting showroom finish.</span>
@@ -230,9 +229,9 @@ const SingleProductFeatured = ({ product }: { product: Product }) => {
                   <span className="text-muted-foreground">Only {product.inventoryQuantity ?? 14} bundles left</span>
                 </div>
                 <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
-                  <div 
-                    className="h-full bg-primary rounded-full transition-all duration-1000" 
-                    style={{ width: `${Math.min(100, Math.max(5, product.inventoryQuantity ?? 14))}%` }} 
+                  <div
+                    className="h-full bg-primary rounded-full transition-all duration-1000"
+                    style={{ width: `${Math.min(100, Math.max(5, product.inventoryQuantity ?? 14))}%` }}
                   />
                 </div>
               </div>
@@ -272,7 +271,7 @@ const SingleProductFeatured = ({ product }: { product: Product }) => {
                   <span className="w-1 h-1 bg-white/20 rounded-full" />
                   <span>Visa / Mastercard</span>
                   <span className="w-1 h-1 bg-white/20 rounded-full" />
-                  <span>COD Available</span>
+                  <span>All india delivery</span>
                 </div>
               </div>
             ) : (

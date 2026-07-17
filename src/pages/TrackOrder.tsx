@@ -5,31 +5,43 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { motion, AnimatePresence } from "framer-motion";
 import { Package, Truck, CheckCircle2, Search, MapPin, Clock, ArrowRight, MessageSquare, Phone } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import SEO from "@/components/SEO";
-
-const trackingSteps = [
-  { status: "Order Confirmed", date: "May 01, 2026", time: "10:30 AM", desc: "Your order has been received and is being processed.", completed: true, current: false },
-  { status: "Processing", date: "May 02, 2026", time: "02:15 PM", desc: "Quality check and premium packaging in progress.", completed: true, current: true },
-  { status: "Shipped", date: "Pending", time: "-", desc: "Your package will be handed over to our courier partner shortly.", completed: false, current: false },
-  { status: "Out for Delivery", date: "Pending", time: "-", desc: "The courier is on the way to your location.", completed: false, current: false },
-  { status: "Delivered", date: "Pending", time: "-", desc: "Successfully delivered to your doorstep.", completed: false, current: false },
-];
+import { fetchTrackingDetails, TrackingDetails } from "@/services/tracking";
 
 const TrackOrder = () => {
-  const [orderId, setOrderId] = useState("");
+  const [searchParams] = useSearchParams();
+  const [orderId, setOrderId] = useState(searchParams.get("id") || "");
   const [isSearching, setIsSearching] = useState(false);
-  const [showResult, setShowResult] = useState(false);
+  const [trackingData, setTrackingData] = useState<TrackingDetails | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const performSearch = async (idToSearch: string) => {
+    if (!idToSearch) return;
+    setIsSearching(true);
+    setError(null);
+    setTrackingData(null);
+    try {
+      const data = await fetchTrackingDetails(idToSearch);
+      setTrackingData(data);
+    } catch (err: any) {
+      setError(err.message || "Failed to locate tracking details.");
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  useEffect(() => {
+    const id = searchParams.get("id");
+    if (id) {
+      performSearch(id);
+    }
+  }, [searchParams]);
 
   const handleTrack = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!orderId) return;
-    setIsSearching(true);
-    // Mocking search delay
-    setTimeout(() => {
-      setIsSearching(false);
-      setShowResult(true);
-    }, 1200);
+    performSearch(orderId);
   };
 
   return (
@@ -88,7 +100,8 @@ const TrackOrder = () => {
                   </div>
                   <Button 
                     disabled={isSearching}
-                    className="h-14 px-10 rounded-2xl bg-white text-black hover:bg-white/90 font-bold tracking-widest uppercase text-[11px] transition-all shadow-lg active:scale-[0.98] disabled:opacity-50"
+                    variant="ghost"
+                    className="h-14 px-10 rounded-2xl bg-white text-black hover:bg-white/90 hover:text-black font-bold tracking-widest uppercase text-[11px] transition-all shadow-lg active:scale-[0.98] disabled:opacity-50"
                   >
                     {isSearching ? (
                       <div className="flex items-center gap-2">
@@ -111,7 +124,46 @@ const TrackOrder = () => {
 
             {/* Results Section */}
             <AnimatePresence mode="wait">
-              {showResult ? (
+              {isSearching ? (
+                <motion.div
+                  key="loading"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="space-y-8"
+                >
+                  <div className="grid md:grid-cols-3 gap-4">
+                    {[1, 2, 3].map((i) => (
+                      <div key={i} className="bg-white/[0.03] border border-white/10 rounded-2xl p-6 h-[90px] animate-pulse" />
+                    ))}
+                  </div>
+                  <div className="bg-white/[0.02] border border-white/5 rounded-[32px] overflow-hidden min-h-[400px] flex items-center justify-center p-10">
+                    <div className="w-full space-y-8 relative">
+                       <div className="absolute left-[19px] top-5 bottom-5 w-px bg-white/10" />
+                      {[1, 2, 3, 4].map((i) => (
+                        <div key={i} className="flex gap-6 relative z-10">
+                          <div className="w-10 h-10 rounded-full bg-white/10 animate-pulse shrink-0" />
+                          <div className="space-y-3 flex-1 pt-2">
+                            <div className="h-4 bg-white/10 rounded w-1/3 animate-pulse" />
+                            <div className="h-3 bg-white/5 rounded w-1/2 animate-pulse" />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              ) : error ? (
+                <motion.div
+                  key="error"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
+                  className="bg-red-500/10 border border-red-500/20 rounded-3xl p-10 text-center"
+                >
+                  <p className="text-red-400 font-semibold mb-2">Tracking Failed</p>
+                  <p className="text-red-400/80 text-sm">{error}</p>
+                </motion.div>
+              ) : trackingData ? (
                 <motion.div
                   key="results"
                   initial={{ opacity: 0, y: 20 }}
@@ -123,17 +175,22 @@ const TrackOrder = () => {
                   <div className="grid md:grid-cols-3 gap-4">
                     <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-6">
                       <p className="text-[10px] font-bold tracking-widest text-white/40 uppercase mb-2">Order ID</p>
-                      <p className="text-lg font-semibold text-white">{orderId.startsWith('#') ? orderId : `#${orderId}`}</p>
+                      <p className="text-lg font-semibold text-white">{trackingData.orderId}</p>
                     </div>
                     <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-6">
                       <p className="text-[10px] font-bold tracking-widest text-white/40 uppercase mb-2">Expected By</p>
-                      <p className="text-lg font-semibold text-white">May 06, 2026</p>
+                      <p className="text-lg font-semibold text-white">{trackingData.expectedDeliveryDate}</p>
                     </div>
-                    <div className="bg-primary/10 border border-primary/20 rounded-2xl p-6">
-                      <p className="text-[10px] font-bold tracking-widest text-primary uppercase mb-2">Current Status</p>
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                        <p className="text-lg font-semibold text-primary">In Processing</p>
+                    <div className="bg-primary/10 border border-primary/20 rounded-2xl p-6 relative overflow-hidden">
+                      {trackingData.currentStatus === "Delivered" ? (
+                        <div className="absolute inset-0 bg-green-500/20" />
+                      ) : null}
+                      <p className="text-[10px] font-bold tracking-widest text-primary uppercase mb-2 relative z-10">Current Status</p>
+                      <div className="flex items-center gap-2 relative z-10">
+                        {trackingData.currentStatus !== "Delivered" && (
+                          <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                        )}
+                        <p className="text-lg font-semibold text-primary">{trackingData.currentStatus}</p>
                       </div>
                     </div>
                   </div>
@@ -144,7 +201,7 @@ const TrackOrder = () => {
                       <h3 className="font-display text-2xl text-white ">Journey Timeline</h3>
                       <div className="flex items-center gap-2 text-white/40 text-xs">
                         <MapPin className="w-3.5 h-3.5" />
-                        <span>Kochi Hub, Kerala</span>
+                        <span>{trackingData.origin}</span>
                       </div>
                     </div>
                     
@@ -153,38 +210,44 @@ const TrackOrder = () => {
                         {/* Vertical Line */}
                         <div className="absolute left-5 top-5 bottom-5 w-px bg-white/10" />
                         
-                        {trackingSteps.map((step, idx) => (
+                        {trackingData.activities.map((step, idx) => (
                           <div key={idx} className="relative pl-14 pb-12 last:pb-0 group">
                             {/* Marker */}
                             <div className={`absolute left-0 top-1.5 w-10 h-10 rounded-full flex items-center justify-center z-10 transition-all duration-500 ${
-                              step.completed 
+                              step.status === 'completed' 
                                 ? 'bg-primary shadow-[0_0_20px_rgba(255,255,255,0.2)]' 
-                                : step.current 
+                                : step.status === 'current' 
                                   ? 'bg-background border-2 border-primary' 
                                   : 'bg-background border-2 border-white/10'
                             }`}>
-                              {step.completed ? (
+                              {step.status === 'completed' ? (
                                 <CheckCircle2 className="w-5 h-5 text-black" />
                               ) : (
-                                <div className={`w-2.5 h-2.5 rounded-full ${step.current ? 'bg-primary animate-pulse' : 'bg-white/10'}`} />
+                                <div className={`w-2.5 h-2.5 rounded-full ${step.status === 'current' ? 'bg-primary animate-pulse' : 'bg-white/10'}`} />
                               )}
                             </div>
 
                             {/* Content */}
                             <div className="flex flex-col md:flex-row md:items-start justify-between gap-2">
                               <div>
-                                <h4 className={`text-lg font-semibold transition-colors duration-500 ${step.completed || step.current ? 'text-white' : 'text-white/30'}`}>
-                                  {step.status}
+                                <h4 className={`text-lg font-semibold transition-colors duration-500 ${step.status === 'completed' || step.status === 'current' ? 'text-white' : 'text-white/30'}`}>
+                                  {step.activity}
                                 </h4>
-                                <p className={`text-sm mt-1 max-w-md leading-relaxed transition-colors duration-500 ${step.completed || step.current ? 'text-white/60' : 'text-white/20'}`}>
-                                  {step.desc}
+                                <p className={`text-sm mt-1 max-w-md leading-relaxed transition-colors duration-500 ${step.status === 'completed' || step.status === 'current' ? 'text-white/60' : 'text-white/20'}`}>
+                                  {step.location}
                                 </p>
                               </div>
                               <div className="shrink-0 text-right md:pt-1">
-                                <p className={`text-xs font-bold tracking-tighter ${step.completed || step.current ? 'text-primary' : 'text-white/20'}`}>
-                                  {step.date}
-                                </p>
-                                <p className="text-[10px] text-white/30 font-medium uppercase mt-0.5">{step.time}</p>
+                                {step.date ? (
+                                  <>
+                                    <p className={`text-xs font-bold tracking-tighter ${step.status === 'completed' || step.status === 'current' ? 'text-primary' : 'text-white/20'}`}>
+                                      {step.date.split(" ")[0]}
+                                    </p>
+                                    <p className="text-[10px] text-white/30 font-medium uppercase mt-0.5">{step.date.split(" ")[1]}</p>
+                                  </>
+                                ) : (
+                                  <p className="text-xs font-bold tracking-tighter text-white/20">Pending</p>
+                                )}
                               </div>
                             </div>
                           </div>

@@ -125,7 +125,7 @@ const ProductDetail = () => {
   const detailCards = [
     {
       icon: Leaf,
-      title: "Product Composition",
+      title: "Why Choose VOOM",
       content: product.details?.composition,
     },
     {
@@ -415,9 +415,9 @@ const ProductDetail = () => {
         </div>
       </section>
 
-      <ReviewSection 
-        productId={product.shopifyId || product.id} 
-        customerId={(getAccessToken() || customerAccessToken) || undefined} 
+      <ReviewSection
+        productId={product.shopifyId || product.id}
+        customerId={(getAccessToken() || customerAccessToken) || undefined}
         canWriteReview={isAuthenticated}
       />
 
