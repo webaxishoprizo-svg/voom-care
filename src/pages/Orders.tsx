@@ -180,16 +180,14 @@ const Orders = () => {
                     {tracking && tracking.length > 0 && (
                       <div className="flex flex-wrap gap-2">
                         {tracking.map((t, i) =>
-                          t.url ? (
-                            <a
+                          t.number ? (
+                            <Link
                               key={i}
-                              href={t.url}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="text-xs underline underline-offset-4 text-primary"
+                              to={`/track-order?id=${t.number}`}
+                              className="text-xs font-semibold bg-white text-black px-4 py-2 rounded-full hover:bg-[#E5E5E5] transition-colors flex items-center gap-1.5"
                             >
-                              Track {t.company || ""} {t.number || ""}
-                            </a>
+                              Track Order {t.company ? `(${t.company})` : ""}
+                            </Link>
                           ) : null,
                         )}
                       </div>
