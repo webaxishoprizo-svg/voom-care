@@ -14,6 +14,7 @@ import { useHybridProducts } from "@/lib/shopify/hooks";
 import { formatCurrency } from "@/lib/utils";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import BrandReviewForm from "@/components/reviews/BrandReviewForm";
 
 // --- No Mock Data ---
 // --- No Mock Data ---
@@ -24,6 +25,7 @@ export default function TrackOrder() {
   const [isSearching, setIsSearching] = useState(false);
   const [trackingData, setTrackingData] = useState<TrackingDetails | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [reviewFormOpen, setReviewFormOpen] = useState(false);
 
   // Fetch real products for recommendations
   const catalogQuery = useHybridProducts();
@@ -359,10 +361,10 @@ export default function TrackOrder() {
               {/* Review Section */}
               <div className="bg-white/[0.02] border border-white/[0.08] rounded-[20px] p-5 flex items-center justify-between">
                 <div>
-                  <h3 className="text-sm font-semibold mb-1">Rate Your Experience</h3>
-                  <p className="text-[#A8A8A8] text-[10px]">Your feedback helps us improve.</p>
+                  <h3 className="text-sm font-semibold mb-1">Love VOOM? Rate us!</h3>
+                  <p className="text-[#A8A8A8] text-[10px]">Your feedback builds our brand.</p>
                 </div>
-                <div className="flex gap-1">
+                <div className="flex gap-1" onClick={() => setReviewFormOpen(true)}>
                   {[1,2,3,4,5].map(star => (
                     <Star key={star} className="w-5 h-5 text-white/[0.15] hover:text-[#F59E0B] cursor-pointer transition-colors" />
                   ))}
@@ -377,6 +379,8 @@ export default function TrackOrder() {
              </div>
           )}
         </AnimatePresence>
+        
+        <BrandReviewForm open={reviewFormOpen} onOpenChange={setReviewFormOpen} />
       </main>
 
       <Footer />
