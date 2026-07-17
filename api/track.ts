@@ -62,7 +62,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const token = await getShiprocketToken();
 
-    const cleanAwb = awb.trim();
+    const cleanAwb = awb.replace(/\s+/g, '');
     let targetAwb = cleanAwb;
     const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanAwb);
     const isPhone = /^\+?[0-9]{10,15}$/.test(cleanAwb.replace(/[\s-]/g, ''));
