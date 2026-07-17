@@ -91,6 +91,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(404).json({ error: "No tracking data available for this ID." });
     }
 
+    let orderDetails = null;
+    if (shipmentTrack.order_id) {
+       try {
+          const detailRes = await fetch(`https://apiv2.shiprocket.in/v1/external/orders/show/${shipmentTrack.order_id}`, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          if (detailRes.ok) {
+             const detailData = await detailRes.json();
+             orderDetails = detailData.data;
+          }
+       } catch (e) {
+          console.error("Failed to fetch order details", e);
+       }
+    }
+
     // Map Shiprocket response to our frontend TrackingDetails interface
     const formattedData = {
       orderId: shipmentTrack.awb_code || awb,
@@ -103,7 +118,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         activity: activity.activity,
         location: activity.location,
         status: index === 0 ? "current" : "completed" // Assuming activities are sorted descending
-      }))
+      })),
+      products: orderDetails?.products?.map((p: any) => ({
+         name: p.name, price: p.price, quantity: p.quantity, sku: p.sku
+      })) || undefined,
+      deliveryDetails: orderDetails ? {
+         recipient: orderDetails.customer_name || "",
+         phone: orderDetails.customer_phone || "",
+         address: `${orderDetails.billing_address || ""}, ${orderDetails.billing_city || ""}, ${orderDetails.billing_state || ""} - ${orderDetails.billing_pincode || ""}`.replace(/^, | , | - $/g, ''),
+         paymentMethod: orderDetails.payment_method || ""
+      } : undefined
     };
 
     res.status(200).json(formattedData);

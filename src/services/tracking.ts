@@ -14,6 +14,13 @@ export interface TrackingDetails {
   origin: string;
   destination: string;
   activities: TrackingActivity[];
+  products?: { name: string; price: number; quantity: number; sku?: string }[];
+  deliveryDetails?: {
+    recipient: string;
+    phone: string;
+    address: string;
+    paymentMethod: string;
+  };
 }
 
 export const fetchTrackingDetails = async (trackingId: string): Promise<TrackingDetails> => {

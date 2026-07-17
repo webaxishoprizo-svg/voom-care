@@ -16,6 +16,35 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BrandReviewForm from "@/components/reviews/BrandReviewForm";
 
+const FAQItem = ({ q, a }: { q: string, a: string }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <div className="w-full">
+      <button 
+        onClick={() => setIsOpen(!isOpen)} 
+        className="w-full px-5 py-4 flex items-center justify-between text-left hover:bg-white/[0.02] transition-colors"
+      >
+        <span className="text-xs font-medium text-white/90">{q}</span>
+        <ChevronDown className={`w-3.5 h-3.5 text-white/50 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
+      </button>
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="overflow-hidden"
+          >
+            <div className="px-5 pb-4 text-[11px] text-[#A8A8A8] leading-relaxed">
+              {a}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
 // --- No Mock Data ---
 // --- No Mock Data ---
 export default function TrackOrder() {
@@ -279,6 +308,59 @@ export default function TrackOrder() {
                 </div>
               </div>
 
+              {/* Buy Again (Products) */}
+              {trackingData.products && trackingData.products.length > 0 && (
+                <div className="bg-white/[0.02] border border-white/[0.08] rounded-[20px] p-4 space-y-4">
+                  {trackingData.products.map((prod, idx) => (
+                    <div key={idx} className="flex items-center gap-4">
+                       <div className="w-16 h-16 bg-white/[0.03] border border-white/[0.05] rounded-xl flex items-center justify-center p-2 shrink-0">
+                         {prod.sku ? <Package className="w-6 h-6 text-white/40" /> : <Package className="w-6 h-6 text-white/40" />}
+                       </div>
+                       <div className="flex-1 min-w-0">
+                         <h3 className="font-semibold text-xs text-white truncate">{prod.name}</h3>
+                         <p className="text-[10px] text-[#A8A8A8] mt-1">Qty: {prod.quantity}</p>
+                       </div>
+                       <div className="text-right flex flex-col items-end gap-2 shrink-0">
+                         <span className="font-semibold text-xs">₹{prod.price}</span>
+                         <button className="bg-white text-black px-4 py-1.5 rounded-full text-[10px] font-bold hover:bg-[#E5E5E5] transition-colors">
+                           Buy Again
+                         </button>
+                       </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Delivery Details */}
+              {trackingData.deliveryDetails && (
+                <div className="bg-white/[0.02] border border-white/[0.08] rounded-[20px] p-5">
+                   <div className="flex items-center justify-between mb-4">
+                     <h3 className="text-sm font-semibold">Delivery Details</h3>
+                     <Edit2 className="w-3.5 h-3.5 text-[#A8A8A8] cursor-pointer hover:text-white transition-colors" />
+                   </div>
+                   <div className="grid grid-cols-2 gap-y-5 gap-x-4 text-xs">
+                     <div>
+                       <p className="text-[#A8A8A8] text-[10px] mb-1">Recipient</p>
+                       <p className="font-medium">{trackingData.deliveryDetails.recipient}</p>
+                     </div>
+                     <div>
+                       <p className="text-[#A8A8A8] text-[10px] mb-1">Address</p>
+                       <p className="font-medium text-[11px] leading-tight">{trackingData.deliveryDetails.address}</p>
+                     </div>
+                     <div>
+                       <p className="text-[#A8A8A8] text-[10px] mb-1">Phone</p>
+                       <p className="font-medium">{trackingData.deliveryDetails.phone}</p>
+                     </div>
+                     <div>
+                       <p className="text-[#A8A8A8] text-[10px] mb-1">Payment Method</p>
+                       <p className="font-medium flex items-center gap-1 mt-0.5">
+                         <span className="bg-white/10 px-2 py-0.5 rounded-md text-[10px] uppercase tracking-wider">{trackingData.deliveryDetails.paymentMethod}</span>
+                       </p>
+                     </div>
+                   </div>
+                </div>
+              )}
+
 
 
               {/* Need Help? */}
@@ -298,10 +380,21 @@ export default function TrackOrder() {
                   </a>
                   <a 
                     href={`mailto:support@voomcare.com?subject=Help%20with%20Order%20${trackingData.orderId}`} 
-                    className="flex items-center justify-center gap-2 bg-white/[0.03] border border-white/[0.08] py-2.5 rounded-xl hover:bg-white/[0.08] transition-colors text-xs font-medium text-white"
+                    className="flex items-center justify-center gap-2 bg-white/[0.03] border border-white/[0.08] py-2.5 rounded-xl hover:bg-white/[0.08] transition-colors text-xs font-medium text-white flex-1"
                   >
-                     <Mail className="w-4 h-4" /> Email
+                     <Mail className="w-4 h-4" /> Email Support
                   </a>
+                </div>
+              </div>
+
+              {/* Frequently Asked Questions */}
+              <div className="pt-2">
+                <h3 className="text-sm font-semibold mb-3 px-1">Frequently Asked Questions</h3>
+                <div className="bg-white/[0.02] border border-white/[0.08] rounded-[20px] overflow-hidden divide-y divide-white/[0.08]">
+                  <FAQItem q="Where is my order?" a="You can track the live status of your order directly on this page using your tracking ID or order number." />
+                  <FAQItem q="How long does delivery take?" a="Standard delivery usually takes 3-5 business days depending on your location." />
+                  <FAQItem q="Can I change my delivery address?" a="Address changes are only possible before the order is shipped. Contact support immediately." />
+                  <FAQItem q="How do I contact support?" a="You can tap the WhatsApp or Email buttons above to instantly reach our support team." />
                 </div>
               </div>
 
