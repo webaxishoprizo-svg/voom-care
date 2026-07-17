@@ -364,23 +364,45 @@ export default function TrackOrder() {
               {/* Buy Again (Products) */}
               {trackingData.products && trackingData.products.length > 0 && (
                 <div className="bg-white/[0.02] border border-white/[0.08] rounded-[20px] p-4 space-y-4">
-                  {trackingData.products.map((prod, idx) => (
-                    <div key={idx} className="flex items-center gap-4">
-                       <div className="w-16 h-16 bg-white/[0.03] border border-white/[0.05] rounded-xl flex items-center justify-center p-2 shrink-0">
-                         {prod.sku ? <Package className="w-6 h-6 text-white/40" /> : <Package className="w-6 h-6 text-white/40" />}
-                       </div>
-                       <div className="flex-1 min-w-0">
-                         <h3 className="font-semibold text-xs text-white truncate">{prod.name}</h3>
-                         <p className="text-[10px] text-[#A8A8A8] mt-1">Qty: {prod.quantity}</p>
-                       </div>
-                       <div className="text-right flex flex-col items-end gap-2 shrink-0">
-                         <span className="font-semibold text-xs">₹{prod.price}</span>
-                         <button className="bg-white text-black px-4 py-1.5 rounded-full text-[10px] font-bold hover:bg-[#E5E5E5] transition-colors">
-                           Buy Again
-                         </button>
-                       </div>
-                    </div>
-                  ))}
+                  {trackingData.products.map((prod, idx) => {
+                    // Try to find the real product from Shopify catalog
+                    const storeProduct = catalog.find(p => 
+                      p.name.toLowerCase() === prod.name.toLowerCase() || 
+                      prod.name.toLowerCase().includes(p.name.toLowerCase())
+                    );
+
+                    return (
+                      <div key={idx} className="flex items-center gap-4">
+                         <div className="w-16 h-16 bg-white/[0.03] border border-white/[0.05] rounded-xl overflow-hidden flex items-center justify-center shrink-0">
+                           {storeProduct?.image ? (
+                             <img src={storeProduct.image} alt={prod.name} className="w-full h-full object-cover mix-blend-screen" />
+                           ) : (
+                             <Package className="w-6 h-6 text-white/40" />
+                           )}
+                         </div>
+                         <div className="flex-1 min-w-0">
+                           <h3 className="font-semibold text-xs text-white truncate">{storeProduct ? storeProduct.name : prod.name}</h3>
+                           <p className="text-[10px] text-[#A8A8A8] mt-1">Qty: {prod.quantity}</p>
+                         </div>
+                         <div className="text-right flex flex-col items-end gap-2 shrink-0">
+                           <span className="font-semibold text-xs">
+                             {storeProduct ? formatCurrency(storeProduct.price, storeProduct.currencyCode) : `₹${prod.price}`}
+                           </span>
+                           <button 
+                             onClick={() => {
+                               if (storeProduct) {
+                                 navigate(`/product/${storeProduct.id}`);
+                                 window.scrollTo(0, 0);
+                               }
+                             }}
+                             className="bg-white text-black px-4 py-1.5 rounded-full text-[10px] font-bold hover:bg-[#E5E5E5] transition-colors"
+                           >
+                             Buy Again
+                           </button>
+                         </div>
+                      </div>
+                    );
+                  })}
                 </div>
               )}
 
