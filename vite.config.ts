@@ -128,7 +128,7 @@ export default defineConfig(({ mode }) => {
                       headers: { Authorization: `Bearer ${authData.token}` }
                     });
                     if (!ordersRes.ok) throw new Error("Failed to fetch orders for search.");
-                    const ordersData = await ordersRes.json();
+                    const ordersData: any = await ordersRes.json();
                     const orders = ordersData.data || [];
                     
                     const matchingOrder = orders.find((o: any) => {
