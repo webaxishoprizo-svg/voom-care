@@ -382,7 +382,12 @@ export default function TrackOrder() {
                          </div>
                          <div className="flex-1 min-w-0">
                            <h3 className="font-semibold text-xs text-white truncate">{storeProduct ? storeProduct.name : prod.name}</h3>
-                           <p className="text-[10px] text-[#A8A8A8] mt-1">Qty: {prod.quantity}</p>
+                           {storeProduct?.description && (
+                             <p className="text-[10px] text-[#A8A8A8] mt-0.5 truncate">
+                               {storeProduct.description.replace(/<[^>]*>?/gm, '')}
+                             </p>
+                           )}
+                           <p className="text-[10px] text-[#A8A8A8] mt-0.5">Qty: {prod.quantity}</p>
                          </div>
                          <div className="text-right flex flex-col items-end gap-2 shrink-0">
                            <span className="font-semibold text-xs">
