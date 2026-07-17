@@ -82,7 +82,7 @@ const ProductDetail = () => {
   const catalog = catalogQuery.data || [];
   const recommended = catalog.filter((item) =>
     item.id !== product?.id &&
-    !(item.price === 0 && !item.availableForSale)
+    item.price > 0
   ).slice(0, 3);
 
   const { data: compoInnerProducts } = useCollectionProducts("what-is-insice-the-compo");
