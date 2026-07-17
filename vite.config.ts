@@ -8,7 +8,6 @@ export default defineConfig(({ mode }) => {
 
   return {
     server: {
-      host: "::",
       port: 8082,
       hmr: {
         overlay: false,
@@ -95,6 +94,81 @@ export default defineConfig(({ mode }) => {
               res.statusCode = 200;
               res.setHeader("Content-Type", "application/json");
               res.end(JSON.stringify({ reviews: [], stats: { averageRating: 5.0, totalReviews: 15 }, pagination: { page: 1, pages: 1 } }));
+              return;
+            }
+
+            // Shiprocket Tracking API (Local Dev Proxy)
+            if (req.url?.startsWith("/api/track") && req.method === "GET") {
+              const awb = url?.searchParams.get("id");
+              if (!awb) {
+                res.statusCode = 400;
+                res.end(JSON.stringify({ error: "Missing tracking ID" }));
+                return;
+              }
+              try {
+                // Note: For local dev, we fetch token here. In production, api/track.ts handles it.
+                const email = env.SHIPROCKET_API_EMAIL || "shipping@voomcare.com";
+                const password = env.SHIPROCKET_API_PASSWORD || "1&fcOS&3PjEHYAi%Z8Gpjqm8maq8GL^A";
+                
+                const authRes = await fetch("https://apiv2.shiprocket.in/v1/external/auth/login", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ email, password }),
+                });
+                
+                if (!authRes.ok) throw new Error("Auth failed");
+                const authData: any = await authRes.json();
+                
+                const trackRes = await fetch(`https://apiv2.shiprocket.in/v1/external/courier/track/awb/${awb}`, {
+                  headers: { Authorization: `Bearer ${authData.token}` }
+                });
+                
+                if (!trackRes.ok) {
+                   if (trackRes.status === 404) {
+                     res.statusCode = 404;
+                     res.end(JSON.stringify({ error: "Tracking ID not found." }));
+                     return;
+                   }
+                   throw new Error("Track failed");
+                }
+                
+                const data: any = await trackRes.json();
+                if (data.tracking_data && data.tracking_data.error) {
+                   res.statusCode = 404;
+                   res.end(JSON.stringify({ error: data.tracking_data.error }));
+                   return;
+                }
+                
+                const shipmentTrack = data.tracking_data?.shipment_track?.[0];
+                const shipmentActivities = data.tracking_data?.shipment_track_activities || [];
+                
+                if (!shipmentTrack) {
+                   res.statusCode = 404;
+                   res.end(JSON.stringify({ error: "No tracking data available for this ID." }));
+                   return;
+                }
+                
+                const formattedData = {
+                  orderId: shipmentTrack.awb_code || awb,
+                  expectedDeliveryDate: shipmentTrack.expected_date || "Calculating...",
+                  origin: shipmentTrack.origin || "Origin",
+                  destination: shipmentTrack.destination || "Destination",
+                  currentStatus: shipmentTrack.current_status || "Pending",
+                  activities: shipmentActivities.map((activity: any, index: number) => ({
+                    date: activity.date,
+                    activity: activity.activity,
+                    location: activity.location,
+                    status: index === 0 ? "current" : "completed"
+                  }))
+                };
+                
+                res.statusCode = 200;
+                res.setHeader("Content-Type", "application/json");
+                res.end(JSON.stringify(formattedData));
+              } catch (e: any) {
+                res.statusCode = 500;
+                res.end(JSON.stringify({ error: "Local proxy error: " + e.message }));
+              }
               return;
             }
 
