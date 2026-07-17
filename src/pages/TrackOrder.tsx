@@ -13,13 +13,7 @@ import { fetchTrackingDetails, TrackingDetails } from "@/services/tracking";
 import { useHybridProducts } from "@/lib/shopify/hooks";
 import { formatCurrency } from "@/lib/utils";
 
-// --- Mock Data for UI Completeness ---
-const FAQ_ITEMS = [
-  { q: "Where is my order?", a: "Your order is currently in transit. Check the live tracking map above for real-time updates." },
-  { q: "How long does delivery take?", a: "Standard delivery takes 3-5 business days depending on your location." },
-  { q: "Can I change my delivery address?", a: "Address changes can only be made before the order is packed. Please contact support." },
-  { q: "How do I contact support?", a: "You can reach us via WhatsApp, phone, or email using the buttons above." },
-];
+// --- No Mock Data ---
 
 ];
 
@@ -29,7 +23,6 @@ export default function TrackOrder() {
   const [isSearching, setIsSearching] = useState(false);
   const [trackingData, setTrackingData] = useState<TrackingDetails | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
 
   // Fetch real products for recommendations
   const catalogQuery = useHybridProducts();
@@ -244,70 +237,14 @@ export default function TrackOrder() {
                   </div>
                 </div>
                 
-                <div className="px-5 pb-5 pt-2 flex items-center justify-between border-t border-white/[0.08]">
-                   <div className="flex gap-6">
-                    <div>
-                      <p className="text-[#A8A8A8] text-[10px] mb-0.5">Distance Remaining</p>
-                      <p className="text-xs font-semibold">86 km</p>
-                    </div>
-                    <div>
-                      <p className="text-[#A8A8A8] text-[10px] mb-0.5">Estimated Arrival</p>
-                      <p className="text-xs font-semibold">18 Jul 2026 • 11:00 AM</p>
-                    </div>
-                   </div>
-                   <button className="flex items-center gap-1.5 border border-white/[0.15] px-3 py-1.5 rounded-lg hover:bg-white/[0.05] transition-colors text-xs font-medium">
+                <div className="px-5 pb-5 pt-2 flex justify-end border-t border-white/[0.08]">
+                   <button className="flex items-center gap-1.5 border border-white/[0.15] px-3 py-1.5 rounded-lg hover:bg-white/[0.05] transition-colors text-xs font-medium mt-2">
                      Open in Maps <ExternalLink className="w-3 h-3" />
                    </button>
                 </div>
               </div>
 
-              {/* Product Card */}
-              <div className="bg-white/[0.02] border border-white/[0.08] rounded-[20px] p-4 flex items-center gap-4">
-                <div className="w-20 h-20 bg-white/[0.02] rounded-xl overflow-hidden border border-white/[0.05] flex items-center justify-center">
-                  <img src="https://voomcare.com/cdn/shop/files/Combo_VOOM_Black_Background.png" alt="Combo VOOM" className="w-full h-full object-cover opacity-80" />
-                </div>
-                <div className="flex-1">
-                  <div className="flex justify-between items-start mb-1">
-                    <h3 className="font-semibold text-sm">Combo VOOM</h3>
-                    <span className="font-semibold text-sm">₹349</span>
-                  </div>
-                  <p className="text-[10px] text-[#A8A8A8] mb-2 line-clamp-1">Car Shampoo • Tyre Polish • Dash Cleaner</p>
-                  <p className="text-[10px] text-white">Qty: 1</p>
-                </div>
-                <button className="bg-white text-black px-4 py-2 rounded-lg text-xs font-semibold hover:bg-[#E5E5E5] transition-colors">
-                  Buy Again
-                </button>
-              </div>
 
-              {/* Delivery Details */}
-              <div className="bg-white/[0.02] border border-white/[0.08] rounded-[20px] p-6 relative">
-                <button className="absolute top-6 right-6 text-[#A8A8A8] hover:text-white transition-colors">
-                  <Edit2 className="w-4 h-4" />
-                </button>
-                <h3 className="text-sm font-semibold mb-5">Delivery Details</h3>
-                
-                <div className="grid grid-cols-2 gap-y-5 gap-x-4">
-                  <div>
-                    <p className="text-[#A8A8A8] text-[10px] mb-1">Recipient</p>
-                    <p className="text-xs font-medium">Mubashir CH</p>
-                  </div>
-                  <div>
-                    <p className="text-[#A8A8A8] text-[10px] mb-1">Address</p>
-                    <p className="text-xs font-medium leading-tight">Kanhangad, Kasaragod,<br/>Kerala - 671315</p>
-                  </div>
-                  <div>
-                    <p className="text-[#A8A8A8] text-[10px] mb-1">Phone</p>
-                    <p className="text-xs font-medium">+91 6238 123 456</p>
-                  </div>
-                  <div>
-                    <p className="text-[#A8A8A8] text-[10px] mb-1">Payment Method</p>
-                    <div className="flex items-center gap-1.5">
-                      <span className="bg-white text-black text-[9px] font-bold px-1.5 py-0.5 rounded-sm">COD</span>
-                      <span className="text-xs font-medium">Cash on Delivery</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
               {/* Need Help? */}
               <div className="bg-white/[0.02] border border-white/[0.08] rounded-[20px] p-5">
@@ -328,28 +265,7 @@ export default function TrackOrder() {
                 </div>
               </div>
 
-              {/* FAQ Accordion */}
-              <div className="bg-white/[0.02] border border-white/[0.08] rounded-[20px] overflow-hidden">
-                <div className="p-5 pb-2">
-                  <h3 className="text-sm font-semibold">Frequently Asked Questions</h3>
-                </div>
-                {FAQ_ITEMS.map((faq, idx) => (
-                  <div key={idx} className="border-t border-white/[0.05]">
-                    <button 
-                      onClick={() => setExpandedFaq(expandedFaq === idx ? null : idx)}
-                      className="w-full flex items-center justify-between p-5 text-left hover:bg-white/[0.02] transition-colors"
-                    >
-                      <span className="text-xs font-medium text-[#A8A8A8]">{faq.q}</span>
-                      <ChevronDown className={`w-4 h-4 text-[#A8A8A8] transition-transform ${expandedFaq === idx ? 'rotate-180' : ''}`} />
-                    </button>
-                    {expandedFaq === idx && (
-                      <div className="px-5 pb-5 text-xs text-white/60 leading-relaxed">
-                        {faq.a}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
+
 
               {/* Recommended Products */}
               <div className="pt-2">
