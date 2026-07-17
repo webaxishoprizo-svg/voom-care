@@ -119,7 +119,39 @@ export default defineConfig(({ mode }) => {
                 if (!authRes.ok) throw new Error("Auth failed");
                 const authData: any = await authRes.json();
                 
-                const trackRes = await fetch(`https://apiv2.shiprocket.in/v1/external/courier/track/awb/${awb}`, {
+                let targetAwb = awb;
+                const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(awb);
+                const isPhone = /^\+?[0-9]{10,15}$/.test(awb.replace(/[\s-]/g, ''));
+            
+                if (isEmail || isPhone) {
+                    const ordersRes = await fetch(`https://apiv2.shiprocket.in/v1/external/orders?per_page=100`, {
+                      headers: { Authorization: `Bearer ${authData.token}` }
+                    });
+                    if (!ordersRes.ok) throw new Error("Failed to fetch orders for search.");
+                    const ordersData = await ordersRes.json();
+                    const orders = ordersData.data || [];
+                    
+                    const matchingOrder = orders.find((o: any) => {
+                       const oEmail = o.customer_email || o.billing_email || "";
+                       const oPhone = o.customer_phone || o.billing_phone || "";
+                       return (isEmail && oEmail.toLowerCase() === awb.toLowerCase()) || 
+                              (isPhone && oPhone.replace(/[\s-]/g, '').includes(awb.replace(/[\s-]/g, '')));
+                    });
+                    
+                    if (!matchingOrder) {
+                       res.statusCode = 404;
+                       res.end(JSON.stringify({ error: `No recent orders found for this ${isEmail ? 'email' : 'phone number'}.` }));
+                       return;
+                    }
+                    if (!matchingOrder.awb_code) {
+                       res.statusCode = 404;
+                       res.end(JSON.stringify({ error: "Your order is being processed and hasn't been shipped yet." }));
+                       return;
+                    }
+                    targetAwb = matchingOrder.awb_code;
+                }
+
+                const trackRes = await fetch(`https://apiv2.shiprocket.in/v1/external/courier/track/awb/${targetAwb}`, {
                   headers: { Authorization: `Bearer ${authData.token}` }
                 });
                 
@@ -149,7 +181,7 @@ export default defineConfig(({ mode }) => {
                 }
                 
                 const formattedData = {
-                  orderId: shipmentTrack.awb_code || awb,
+                  orderId: shipmentTrack.awb_code || targetAwb,
                   expectedDeliveryDate: shipmentTrack.expected_date || "Calculating...",
                   origin: shipmentTrack.origin || "Origin",
                   destination: shipmentTrack.destination || "Destination",

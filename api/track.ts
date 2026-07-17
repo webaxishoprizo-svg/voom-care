@@ -62,7 +62,35 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const token = await getShiprocketToken();
 
-    const trackResponse = await fetch(`https://apiv2.shiprocket.in/v1/external/courier/track/awb/${awb}`, {
+    let targetAwb = awb;
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(awb);
+    const isPhone = /^\+?[0-9]{10,15}$/.test(awb.replace(/[\s-]/g, ''));
+
+    if (isEmail || isPhone) {
+        const ordersRes = await fetch(`https://apiv2.shiprocket.in/v1/external/orders?per_page=100`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        if (!ordersRes.ok) throw new Error("Failed to fetch orders for search.");
+        const ordersData = await ordersRes.json();
+        const orders = ordersData.data || [];
+        
+        const matchingOrder = orders.find((o: any) => {
+           const oEmail = o.customer_email || o.billing_email || "";
+           const oPhone = o.customer_phone || o.billing_phone || "";
+           return (isEmail && oEmail.toLowerCase() === awb.toLowerCase()) || 
+                  (isPhone && oPhone.replace(/[\s-]/g, '').includes(awb.replace(/[\s-]/g, '')));
+        });
+        
+        if (!matchingOrder) {
+           return res.status(404).json({ error: `No recent orders found for this ${isEmail ? 'email' : 'phone number'}.` });
+        }
+        if (!matchingOrder.awb_code) {
+           return res.status(404).json({ error: "Your order is being processed and hasn't been shipped yet." });
+        }
+        targetAwb = matchingOrder.awb_code;
+    }
+
+    const trackResponse = await fetch(`https://apiv2.shiprocket.in/v1/external/courier/track/awb/${targetAwb}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -108,7 +136,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // Map Shiprocket response to our frontend TrackingDetails interface
     const formattedData = {
-      orderId: shipmentTrack.awb_code || awb,
+      orderId: shipmentTrack.awb_code || targetAwb,
       expectedDeliveryDate: shipmentTrack.expected_date || "Calculating...",
       origin: shipmentTrack.origin || "Origin",
       destination: shipmentTrack.destination || "Destination",
