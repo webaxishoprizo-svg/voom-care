@@ -40,10 +40,20 @@ export default function TrackOrder() {
       const data = await fetchTrackingDetails(idToSearch);
       setTrackingData(data);
     } catch (err: any) {
-      setError(err.message || "Failed to locate tracking details.");
+      setError(err.message || "Could not find tracking details");
     } finally {
       setIsSearching(false);
     }
+  };
+
+  const getProgressPercentage = () => {
+    if (!trackingData) return 0;
+    const status = trackingData.currentStatus?.toLowerCase() || "";
+    if (status.includes("delivered") || status.includes("success")) return 100;
+    if (status.includes("out for delivery")) return 90;
+    if (status.includes("transit") || status.includes("shipped")) return 60;
+    if (status.includes("picked") || status.includes("packed")) return 30;
+    return 10; // default for confirmed
   };
 
   useEffect(() => {
@@ -209,16 +219,29 @@ export default function TrackOrder() {
                       {/* Dotted Route */}
                       <div className="absolute top-1/2 left-0 right-0 border-t border-dashed border-white/30 -translate-y-1/2" />
                       
+                      {/* Filled Route Progress */}
+                      <motion.div 
+                        initial={{ width: 0 }}
+                        animate={{ width: `${getProgressPercentage()}%` }}
+                        transition={{ duration: 2, ease: "easeOut", delay: 0.2 }}
+                        className="absolute top-1/2 left-0 h-[2px] bg-primary -translate-y-1/2 z-0" 
+                      />
+                      
                       <div className="flex justify-between items-center relative z-10">
                         {/* Origin Point */}
-                        <div className="w-3 h-3 rounded-full bg-white" />
+                        <div className="w-3 h-3 rounded-full bg-primary ring-4 ring-[#1A1A1A]" />
                         
-                        {/* Moving Truck (50% position) */}
-                        <div className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 top-1/2">
-                          <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-lg">
+                        {/* Moving Truck */}
+                        <motion.div 
+                          initial={{ left: 0 }}
+                          animate={{ left: `${getProgressPercentage()}%` }}
+                          transition={{ duration: 2, ease: "easeOut", delay: 0.2 }}
+                          className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2"
+                        >
+                          <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-[0_0_15px_rgba(255,255,255,0.3)] ring-4 ring-[#1A1A1A]">
                             <Truck className="w-4 h-4 text-black" />
                           </div>
-                        </div>
+                        </motion.div>
 
                         {/* Destination Point */}
                         <div className="w-4 h-4 rounded-full border-2 border-white bg-[#0D0D0D] flex items-center justify-center">
@@ -243,9 +266,14 @@ export default function TrackOrder() {
                 </div>
                 
                 <div className="px-5 pb-5 pt-2 flex justify-end border-t border-white/[0.08]">
-                   <button className="flex items-center gap-1.5 border border-white/[0.15] px-3 py-1.5 rounded-lg hover:bg-white/[0.05] transition-colors text-xs font-medium mt-2">
+                   <a 
+                     href={`https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(trackingData.origin || "")}&destination=${encodeURIComponent(trackingData.destination || "")}`}
+                     target="_blank"
+                     rel="noreferrer"
+                     className="flex items-center gap-1.5 border border-white/[0.15] px-3 py-1.5 rounded-lg hover:bg-white/[0.05] transition-colors text-xs font-medium mt-2"
+                   >
                      Open in Maps <ExternalLink className="w-3 h-3" />
-                   </button>
+                   </a>
                 </div>
               </div>
 
