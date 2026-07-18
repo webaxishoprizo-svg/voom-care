@@ -15,6 +15,8 @@ import { formatCurrency } from "@/lib/utils";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BrandReviewForm from "@/components/reviews/BrandReviewForm";
+import { useCustomerAuth } from "@/context/CustomerAuthContext";
+import { fetchCustomerProfile } from "@/lib/shopify/customer-queries";
 
 const FAQItem = ({ q, a }: { q: string, a: string }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -57,6 +59,8 @@ export default function TrackOrder() {
   const [reviewFormOpen, setReviewFormOpen] = useState(false);
   const [showDetailedTracking, setShowDetailedTracking] = useState(false);
 
+  const { isAuthenticated } = useCustomerAuth();
+
   // Fetch real products for recommendations
   const catalogQuery = useHybridProducts();
   const catalog = catalogQuery.data || [];
@@ -90,8 +94,23 @@ export default function TrackOrder() {
 
   useEffect(() => {
     const id = searchParams.get("id");
-    if (id) performSearch(id);
-  }, [searchParams]);
+    if (id) {
+      performSearch(id);
+    } else if (isAuthenticated) {
+      const fetchProfileAndTrack = async () => {
+        try {
+          const profile = await fetchCustomerProfile();
+          if (profile?.emailAddress?.emailAddress) {
+            setOrderId(profile.emailAddress.emailAddress);
+            performSearch(profile.emailAddress.emailAddress);
+          }
+        } catch (err) {
+          console.error("Failed to fetch customer profile for tracking", err);
+        }
+      };
+      fetchProfileAndTrack();
+    }
+  }, [searchParams, isAuthenticated]);
 
   const handleTrack = (e: React.FormEvent) => {
     e.preventDefault();
@@ -117,22 +136,24 @@ export default function TrackOrder() {
         </div>
 
         {/* Search Card */}
-        <form onSubmit={handleTrack} className="flex gap-2">
-          <Input
-            placeholder="Tracking ID / Email"
-            value={orderId}
-            onChange={(e) => setOrderId(e.target.value)}
-            required
-            className="flex-1 bg-white/[0.03] border-white/[0.08] h-12 text-sm focus:border-white/30 text-white rounded-xl placeholder:text-[#A8A8A8]"
-          />
-          <button
-            type="submit"
-            disabled={isSearching}
-            className="h-12 px-6 rounded-xl bg-white text-black hover:bg-[#E5E5E5] font-semibold text-sm transition-all disabled:opacity-50 flex items-center justify-center"
-          >
-            {isSearching ? <RefreshCcw className="w-4 h-4 animate-spin" /> : "Track Order"}
-          </button>
-        </form>
+        {!isAuthenticated && (
+          <form onSubmit={handleTrack} className="flex gap-2">
+            <Input
+              placeholder="Tracking ID / Email"
+              value={orderId}
+              onChange={(e) => setOrderId(e.target.value)}
+              required
+              className="flex-1 bg-white/[0.03] border-white/[0.08] h-12 text-sm focus:border-white/30 text-white rounded-xl placeholder:text-[#A8A8A8]"
+            />
+            <button
+              type="submit"
+              disabled={isSearching}
+              className="h-12 px-6 rounded-xl bg-white text-black hover:bg-[#E5E5E5] font-semibold text-sm transition-all disabled:opacity-50 flex items-center justify-center"
+            >
+              {isSearching ? <RefreshCcw className="w-4 h-4 animate-spin" /> : "Track Order"}
+            </button>
+          </form>
+        )}
 
         <AnimatePresence mode="wait">
           {error ? (

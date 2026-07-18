@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { motion, useAnimation, useMotionValue, useTransform, MotionValue } from "framer-motion";
-import { Bookmark, ArrowRight, ShoppingBag, ChevronLeft, ChevronRight, Star } from "lucide-react";
+import { Bookmark, ArrowRight, ShoppingBag, ChevronLeft, ChevronRight, Star, Droplets, CircleDashed, Gauge } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "@/hooks/use-cart";
 import { useWishlist } from "@/hooks/use-wishlist";
@@ -68,8 +68,8 @@ const ProductCard = ({ product, index, x, itemWidth, productsCount }: {
 
         <button
           className={`absolute top-4 right-4 z-10 w-9 h-9 rounded-md backdrop-blur-sm flex items-center justify-center transition-all ${isInWishlist(product.id)
-              ? "bg-primary/20 text-primary opacity-100"
-              : "bg-background/40 text-foreground/70 hover:text-foreground hover:bg-background/60 opacity-0 group-hover:opacity-100"
+            ? "bg-primary/20 text-primary opacity-100"
+            : "bg-background/40 text-foreground/70 hover:text-foreground hover:bg-background/60 opacity-0 group-hover:opacity-100"
             }`}
           onClick={(e) => {
             e.stopPropagation();
@@ -122,36 +122,19 @@ const ProductCard = ({ product, index, x, itemWidth, productsCount }: {
 const SingleProductFeatured = ({ product }: { product: Product }) => {
   const navigate = useNavigate();
   const { addItem } = useCart();
-  const [timeLeft, setTimeLeft] = useState({ hours: 4, minutes: 12, seconds: 30 });
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const now = new Date();
-      const midnight = new Date();
-      midnight.setHours(24, 0, 0, 0);
-      const diff = midnight.getTime() - now.getTime();
-
-      const hours = Math.max(0, Math.floor(diff / (1000 * 60 * 60)));
-      const minutes = Math.max(0, Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)));
-      const seconds = Math.max(0, Math.floor((diff % (1000 * 60)) / 1000));
-
-      setTimeLeft({ hours, minutes, seconds });
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
 
   return (
-    <div className="max-w-5xl mx-auto px-4">
+    <div className="max-w-4xl mx-auto px-4">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         className="relative group rounded-md overflow-hidden glass-card p-1 lg:p-2 border border-white/5 bg-[#0a0a0a]"
       >
-        <div className="grid lg:grid-cols-2 items-center gap-8 lg:gap-0">
+        <div className="grid lg:grid-cols-[1.15fr_1fr] items-stretch gap-0">
           {/* Image Section */}
           <div
-            className="aspect-square lg:aspect-[4/5] relative rounded-sm overflow-hidden cursor-pointer group"
+            className="aspect-square lg:aspect-auto lg:h-full relative rounded-sm overflow-hidden cursor-pointer group"
             onClick={() => navigate(`/product/${product.id}`)}
           >
             <img
@@ -162,35 +145,32 @@ const SingleProductFeatured = ({ product }: { product: Product }) => {
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
             {product.discount && (
-              <div className="absolute top-6 left-6 z-10 px-4 py-1.5 rounded-md bg-primary text-primary-foreground text-[10px] font-semibold tracking-[0.2em] uppercase shadow-xl">
-                Exclusive {product.discount}% Off
+              <div className="absolute top-4 left-4 z-10 px-2.5 py-1 rounded-md bg-red-950/40 border border-red-900/50 text-red-500 text-[11px] font-semibold tracking-wider">
+                {product.discount}% OFF
               </div>
             )}
 
             {product.price > 0 && (
               <>
-                <div className="absolute bottom-4 left-4 z-20 md:hidden flex flex-col items-start">
+                <div className="absolute bottom-4 left-4 right-4 z-20 md:hidden flex items-center justify-between">
                   <div className="flex items-baseline gap-2">
-                    <span className="font-sans text-2xl text-foreground font-semibold tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
+                    <span className="font-sans text-2xl text-white font-bold tracking-tight">
                       {formatCurrency(product.price, product.currencyCode)}
                     </span>
                     {product.originalPrice && (
-                      <span className="text-white/60 line-through text-sm drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
+                      <span className="text-white/50 line-through text-sm font-medium">
                         {formatCurrency(product.originalPrice, product.currencyCode)}
                       </span>
                     )}
                   </div>
-                </div>
-
-                <div className="absolute bottom-4 right-4 z-20 md:hidden">
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       void addItem(product);
                     }}
-                    className="w-12 h-12 rounded-md bg-primary text-primary-foreground flex items-center justify-center shadow-lg active:scale-95"
+                    className="w-10 h-10 rounded-md bg-primary text-primary-foreground flex items-center justify-center shadow-lg active:scale-95 flex-shrink-0"
                   >
-                    <ShoppingBag className="w-6 h-6" />
+                    <ShoppingBag className="w-5 h-5" />
                   </button>
                 </div>
               </>
@@ -198,87 +178,92 @@ const SingleProductFeatured = ({ product }: { product: Product }) => {
           </div>
 
           {/* Content Section */}
-          <div className="p-8 lg:p-16 space-y-6">
-            <div className="space-y-4">
-              <div className="flex flex-wrap items-center gap-3">
-                <span className="inline-flex items-center gap-1 text-muted-foreground text-[10px] uppercase tracking-widest bg-white/5 border border-white/10 rounded-full px-2.5 py-0.5">
-                  <Star className="w-3 h-3 fill-primary text-primary" />
-                  Showroom Grade
-                </span>
-
-                {/* Real-time Countdown Timer */}
-                <span className="inline-flex items-center gap-1.5 text-red-400 text-[10px] uppercase tracking-wider bg-red-500/10 border border-red-500/20 rounded-full px-2.5 py-0.5 font-mono">
-                  <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse" />
-                  Ends in: {timeLeft.hours.toString().padStart(2, '0')}:{timeLeft.minutes.toString().padStart(2, '0')}:{timeLeft.seconds.toString().padStart(2, '0')}
-                </span>
+          <div className="px-4 pt-1 pb-5 lg:p-8 space-y-4">
+            <div className="hidden md:flex items-center gap-3">
+              <div className="flex gap-1">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-3.5 h-3.5 fill-white text-white" />
+                ))}
               </div>
-
-              <h3 className="font-display text-4xl lg:text-6xl text-foreground  tracking-tight leading-[1.1]">
-                {product.name}
-              </h3>
-
-              <p className="text-muted-foreground text-sm lg:text-base leading-relaxed max-w-sm">
-                <span className="md:hidden">Professional kit for a perfect showroom finish.</span>
-                <span className="hidden md:inline">The ultimate comprehensive car care kit. Professional formulas combined for a perfect, long-lasting showroom finish.</span>
-              </p>
-
-              {/* Stock Urgency Progress Bar */}
-              <div className="space-y-1.5 max-w-xs pt-2">
-                <div className="flex justify-between text-[10px] font-semibold uppercase tracking-widest">
-                  <span className="text-primary font-bold animate-pulse">Low Stock Warning</span>
-                  <span className="text-muted-foreground">Only {product.inventoryQuantity ?? 14} bundles left</span>
-                </div>
-                <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-primary rounded-full transition-all duration-1000"
-                    style={{ width: `${Math.min(100, Math.max(5, product.inventoryQuantity ?? 14))}%` }}
-                  />
-                </div>
-              </div>
+              <span className="text-muted-foreground text-xs font-medium">4.9 Rating</span>
             </div>
 
-            {product.price > 0 ? (
-              <div className="space-y-4">
-                <div className="hidden md:flex items-baseline gap-4 pt-2">
-                  <span className="text-3xl lg:text-5xl font-semibold tracking-tight text-foreground">
+            <div className="space-y-1">
+              <h3 className="font-display text-3xl lg:text-4xl text-foreground font-bold tracking-tight uppercase">
+                COMBO VOOM
+              </h3>
+              <p className="text-muted-foreground text-sm">
+                Professional Car Care Kit
+              </p>
+            </div>
+
+            {product.price > 0 && (
+              <div className="hidden md:block space-y-3 pt-2">
+                <div className="flex flex-wrap items-baseline gap-3">
+                  <span className="text-3xl lg:text-4xl font-bold tracking-tight text-foreground">
                     {formatCurrency(product.price, product.currencyCode)}
                   </span>
                   {product.originalPrice && (
-                    <span className="text-muted-foreground line-through text-lg">
+                    <span className="text-muted-foreground line-through text-xl">
                       {formatCurrency(product.originalPrice, product.currencyCode)}
                     </span>
                   )}
                 </div>
+                {product.originalPrice && product.originalPrice > product.price && (
+                  <div>
+                    <span className="inline-block px-2.5 py-1 bg-red-950/40 border border-red-900/50 text-red-500 text-[11px] font-bold tracking-wider rounded">
+                      SAVE {formatCurrency(product.originalPrice - product.price, product.currencyCode)}
+                    </span>
+                  </div>
+                )}
+              </div>
+            )}
 
-                <div className="hidden md:flex flex-col sm:flex-row items-center gap-4 pt-2">
-                  <button
-                    onClick={() => addItem(product)}
-                    className="w-full sm:w-auto h-12 px-10 rounded-md bg-primary text-primary-foreground font-semibold tracking-[0.2em] uppercase text-[11px] hover:bg-primary/90 transition-all shadow-lg active:scale-95"
-                  >
-                    Add to Bag
-                  </button>
-                  <button
-                    onClick={() => navigate(`/product/${product.id}`)}
-                    className="w-full sm:w-auto h-12 px-8 rounded-md border border-white/10 hover:bg-white/5 text-foreground/80 hover:text-foreground font-semibold tracking-[0.2em] uppercase text-[10px] transition-all"
-                  >
-                    View Details
-                  </button>
+            <p className="text-foreground/90 text-sm leading-relaxed pt-1">
+              Everything you need for a clean, shiny and protected car.
+            </p>
+
+            <div className="hidden md:block space-y-4 pt-2">
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center bg-transparent flex-shrink-0">
+                  <Droplets className="w-4 h-4 text-white/80 stroke-[1.5]" />
                 </div>
-
-                {/* Trust Badges */}
-                <div className="flex items-center gap-3 text-muted-foreground/60 text-[9px] uppercase tracking-[0.15em] font-semibold pt-2">
-                  <span>UPI Payment</span>
-                  <span className="w-1 h-1 bg-white/20 rounded-full" />
-                  <span>Visa / Mastercard</span>
-                  <span className="w-1 h-1 bg-white/20 rounded-full" />
-                  <span>All india delivery</span>
+                <div className="space-y-0.5">
+                  <h4 className="text-foreground font-semibold text-sm tracking-wide">Car Shampoo</h4>
+                  <p className="text-muted-foreground text-xs hidden md:block">Rich foam, deep clean</p>
                 </div>
               </div>
-            ) : (
-              <div className="pt-4">
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center bg-transparent flex-shrink-0">
+                  <CircleDashed className="w-4 h-4 text-white/80 stroke-[1.5]" />
+                </div>
+                <div className="space-y-0.5">
+                  <h4 className="text-foreground font-semibold text-sm tracking-wide">Tyre Polish</h4>
+                  <p className="text-muted-foreground text-xs hidden md:block">Long lasting shine & protection</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center bg-transparent flex-shrink-0">
+                  <Gauge className="w-4 h-4 text-white/80 stroke-[1.5]" />
+                </div>
+                <div className="space-y-0.5">
+                  <h4 className="text-foreground font-semibold text-sm tracking-wide">Dashboard Cleaner</h4>
+                  <p className="text-muted-foreground text-xs hidden md:block">Cleans, protects & refreshes</p>
+                </div>
+              </div>
+            </div>
+
+            {product.price > 0 && (
+              <div className="pt-4 hidden md:flex flex-col sm:flex-row items-center gap-3">
+                <button
+                  onClick={() => addItem(product)}
+                  className="w-full sm:w-auto h-10 px-8 rounded-md bg-primary text-primary-foreground font-semibold tracking-[0.2em] uppercase text-[10px] hover:bg-primary/90 transition-all shadow-lg active:scale-95"
+                >
+                  Add to Bag
+                </button>
                 <button
                   onClick={() => navigate(`/product/${product.id}`)}
-                  className="w-full sm:w-auto h-12 px-8 rounded-md border border-white/10 hover:bg-white/5 text-foreground/80 hover:text-foreground font-semibold tracking-[0.2em] uppercase text-[10px] transition-all"
+                  className="w-full sm:w-auto h-10 px-6 rounded-md border border-white/10 hover:bg-white/5 text-foreground/80 hover:text-foreground font-semibold tracking-[0.2em] uppercase text-[9px] transition-all"
                 >
                   View Details
                 </button>
