@@ -60,9 +60,10 @@ const SEO = ({
 }: SEOProps) => {
   const baseTitle = "VOOM® | Premium Car Care";
   const fullTitle = title ? (title.includes("VOOM") ? title : `${title} | VOOM® Official`) : baseTitle;
+  const defaultKeywords = "voom, voomcare, car care, voom car products, car shampoo, tire polish, dash clean, car product, premium car detailing";
   const desc =
     description ||
-    "VOOM® by Frenzo Group — India's premium car care brand. Professional-grade car shampoo, ceramic coatings, and detailing formulas. Shine Beyond Ordinary.";
+    "VOOM® by Frenzo Group — India's premium car care brand. Discover professional-grade voom car products including car shampoo, tire polish, and dash clean. Shine Beyond Ordinary.";
   const image = ogImage || DEFAULT_OG;
   const url = canonical
     ? canonical.startsWith("http")
@@ -76,7 +77,7 @@ const SEO = ({
     document.title = fullTitle;
 
     upsertMeta("name", "description", desc);
-    if (keywords) upsertMeta("name", "keywords", keywords);
+    upsertMeta("name", "keywords", keywords || defaultKeywords);
     if (author) upsertMeta("name", "author", author);
     upsertMeta("name", "robots", noIndex ? "noindex, nofollow" : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1");
 

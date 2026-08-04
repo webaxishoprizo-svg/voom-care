@@ -50,7 +50,7 @@ const MobileVideoHero = () => {
         preload="metadata"
         poster={posterSrc}
         className="absolute inset-0 w-full h-full object-cover opacity-80"
-        style={{ transform: "translateZ(0) scale(1.25)", objectPosition: "45% center" }}
+        style={{ transform: "translateZ(0)", objectPosition: "45% center" }}
       >
         <source src={videoSrc} type="video/mp4" />
       </video>

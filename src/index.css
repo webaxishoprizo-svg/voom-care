@@ -73,6 +73,8 @@
     width: 100%;
     position: relative;
     overscroll-behavior-y: none;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
   }
 
   body {
@@ -97,6 +99,15 @@
     letter-spacing: -0.015em;
     line-height: 1.15;
     font-weight: 700;
+  }
+
+  /* Hide default play button on autoplay videos for iOS/Safari */
+  video:not([controls])::-webkit-media-controls {
+    display: none !important;
+  }
+  
+  video:not([controls])::-webkit-media-controls-start-playback-button {
+    display: none !important;
   }
 
   p { letter-spacing: -0.003em; }
